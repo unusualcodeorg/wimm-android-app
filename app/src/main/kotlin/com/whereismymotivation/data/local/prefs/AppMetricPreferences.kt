@@ -95,8 +95,8 @@ class AppMetricPreferences @Inject constructor(private val prefs: SharedPreferen
     fun getLastRatedAppVersion(): Int =
         prefs.getInt(LAST_RATED_APP_VERSION, 0)
 
-    fun setCurrentAppVersion(appVersion: Int) =
-        prefs.edit().putInt(CURRENT_APP_VERSION, appVersion).apply()
+    fun setCurrentAppVersion(appVersion: Long) =
+        prefs.edit().putLong(CURRENT_APP_VERSION, appVersion).apply()
 
     fun getCurrentAppVersion(): Long =
         prefs.getLong(CURRENT_APP_VERSION, 0)
