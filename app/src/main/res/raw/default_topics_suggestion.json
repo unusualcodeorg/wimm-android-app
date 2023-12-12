@@ -1,0 +1,18 @@
+[
+  {
+    "_id": "5d30876adad6434f0f20e1b8",
+    "name": "God",
+    "thumbnail": "http://chicksdownsouth.com/wp-content/uploads/2017/09/sky.jpg",
+    "title": "This is title",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "coverImgUrl": "https://cdn.pixabay.com/photo/2017/09/12/11/56/universe-2742113_1280.jpg"
+  },
+  {
+    "_id": "5d308797dad6434f0f20e1b9",
+    "name": "Spirituality",
+    "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDh7wvX_TsfQFUyvQ0mZX3Svc0CngN6h1zogggxVcZ_xJRESS0",
+    "title": "This is title",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "coverImgUrl": "https://cdn.pixabay.com/photo/2017/09/12/11/56/universe-2742113_1280.jpg"
+  }
+]

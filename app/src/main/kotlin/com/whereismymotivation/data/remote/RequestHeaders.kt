@@ -10,7 +10,6 @@ import javax.inject.Inject
 
 class RequestHeaders @Inject constructor(
     @ApiKeyInfo val apiKey: String,
-    @UserInfo val userIdFetcher: ResultFetcher<String>,
     @AccessTokenInfo val accessTokenFetcher: ResultFetcher<String>,
     @DeviceIdInfo val deviceIdFetcher: ResultFetcher<String>,
     @AppVersionCodeInfo val appVersionCodeFetcher: ResultFetcher<Long>,

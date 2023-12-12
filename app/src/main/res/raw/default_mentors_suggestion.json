@@ -1,0 +1,21 @@
+[
+  {
+    "_id": "5d307a42e0ad21455efab6e0",
+    "score": 0,
+    "name": "Sadhguru",
+    "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Sadhguru-Jaggi-Vasudev.jpg/440px-Sadhguru-Jaggi-Vasudev.jpg",
+    "occupation": "Spiritual Guru",
+    "title": "This is test title",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "coverImgUrl": "https://cdn.pixabay.com/photo/2017/09/12/11/56/universe-2742113_1280.jpg"
+  },
+  {
+    "_id": "5d3080214ed2064a4077d3cf",
+    "name": "Osho",
+    "thumbnail": "https://upload.wikimedia.org/wikipedia/en/c/cb/Osho.jpg",
+    "title": "This is test title",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "coverImgUrl": "https://cdn.pixabay.com/photo/2017/09/12/11/56/universe-2742113_1280.jpg",
+    "occupation": "Spirituality Guru"
+  }
+]
