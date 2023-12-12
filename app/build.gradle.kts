@@ -3,6 +3,8 @@ plugins {
     id("org.jetbrains.kotlin.android")
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
+    id("kotlin-parcelize")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -23,14 +25,22 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "BASE_URL", "\"http://192.168.0.103:3001/v1/\"")
+            buildConfigField("String", "API_KEY", "\"KHTLL24C5AWEB\"")
+        }
         release {
-            isMinifyEnabled = false
+            isDebuggable = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
+            buildConfigField("String", "BASE_URL", "\"http://192.168.0.103:3001/v1/\"")
+            buildConfigField("String", "API_KEY", "\"KHTLL24C5AWEB\"")
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -40,6 +50,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.6"
@@ -62,9 +73,38 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
 
+    // Coroutine
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
+    // Log
+    implementation("com.jakewharton.timber:timber:5.0.1")
+
+    // Network
+    val retrofit2Version = "2.9.0"
+    implementation("com.squareup.retrofit2:retrofit:$retrofit2Version")
+    implementation("com.squareup.retrofit2:converter-moshi:${retrofit2Version}")
+
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.11.0"))
+    implementation("com.squareup.okhttp3:okhttp")
+    implementation("com.squareup.okhttp3:logging-interceptor")
+
+    // JSON
+    val moshi = "1.14.0"
+    implementation("com.squareup.moshi:moshi:$moshi")
+    ksp("com.squareup.moshi:moshi-kotlin-codegen:$moshi")
+
+    // Database
+    val roomVersion = "2.6.1"
+    implementation("androidx.room:room-runtime:$roomVersion")
+    annotationProcessor("androidx.room:room-compiler:$roomVersion")
+    ksp("androidx.room:room-compiler:$roomVersion")
+
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation("androidx.room:room-ktx:$roomVersion")
+
+    // Dependency Management
     implementation("com.google.dagger:hilt-android:2.48.1")
-    kapt("com.google.dagger:hilt-android-compiler:2.46.1")
+    kapt("com.google.dagger:hilt-android-compiler:2.48.1")
 
     testImplementation("junit:junit:4.13.2")
 
