@@ -40,7 +40,7 @@ object ContentUtils {
                 String.NULL(),
                 thumbnail ?: String.NULL(),
                 extra,
-                User(String.NULL(), null, null, null, null)
+                User(String.NULL(), null, String.NULL(), null, null, null)
             )
         }
 
@@ -53,7 +53,7 @@ object ContentUtils {
                 secondary ?: String.NULL(),
                 tertiary ?: String.NULL(),
                 extra ?: String.NULL(),
-                User(String.NULL(), null, null, null, null)
+                User(String.NULL(), null, String.NULL(), null, null, null)
             )
         }
 
@@ -74,7 +74,7 @@ object ContentUtils {
             subtitle,
             thumbnail,
             extra,
-            User(String.NULL(), null, null, null, null)
+            User(String.NULL(), null, String.NULL(), null, null, null)
         )
     }
 }

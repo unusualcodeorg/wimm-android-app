@@ -102,6 +102,8 @@ dependencies {
     implementation("com.google.firebase:firebase-messaging")
     implementation("com.google.firebase:firebase-crashlytics")
     implementation("com.google.firebase:firebase-config")
+    implementation("com.google.firebase:firebase-crashlytics-buildtools:2.9.9")
+
 
     // JSON
     val moshi = "1.14.0"

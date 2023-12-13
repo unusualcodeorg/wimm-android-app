@@ -15,6 +15,9 @@ data class User(
     @Json(name = "name")
     val name: String?,
 
+    @Json(name = "email")
+    val email: String,
+
     @Json(name = "profilePicUrl")
     val profilePicUrl: String?,
 

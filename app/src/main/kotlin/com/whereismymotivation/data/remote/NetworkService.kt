@@ -17,7 +17,7 @@ interface NetworkService {
 
     @POST(Endpoints.LOGIN_DEVICE)
     @Headers(RequestHeaders.Key.AUTH_PUBLIC)
-    suspend fun doDeviceLoginCall(@Body request: DeviceLoginRequest): ApiDataResponse<Token>
+    suspend fun doBasicLoginCall(@Body request: BasicLoginRequest): ApiDataResponse<Auth>
 
     @POST(Endpoints.LOGIN_FACEBOOK)
     @Headers(RequestHeaders.Key.AUTH_PUBLIC)
