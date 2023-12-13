@@ -16,7 +16,7 @@ import javax.inject.Singleton
         Journal::class
     ],
     exportSchema = false,
-    version = 2
+    version = 1
 )
 @TypeConverters(Converter::class)
 abstract class DatabaseService : RoomDatabase() {
