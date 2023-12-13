@@ -14,9 +14,13 @@ class JournalRepository @Inject constructor(
     private val networkService: NetworkService
 ) {
 
-    fun fetchJournals(userId: String, pageNumber: Int, pageItemCount: Int) =
-        databaseService.journalDao()
-            .getPaginated(userId, (pageNumber - 1) * pageItemCount, pageItemCount)
+    fun fetchJournals(userId: String, pageNumber: Int, pageItemCount: Int): Flow<List<Journal>> =
+        flow {
+            emit(
+                databaseService.journalDao()
+                    .getPaginated(userId, (pageNumber - 1) * pageItemCount, pageItemCount)
+            )
+        }
 
     fun saveJournal(journal: Journal): Flow<Long> = flow {
         emit(databaseService.journalDao().insert(journal))
@@ -30,8 +34,9 @@ class JournalRepository @Inject constructor(
         emit(networkService.doJournalStorageCall(JournalsRequest(journals)))
     }.map { it.message }
 
-    fun fetchUnSyncJournals(userId: String) =
-        databaseService.journalDao().getAllUnSync(userId)
+    fun fetchUnSyncJournals(userId: String): Flow<List<Journal>> = flow {
+        emit(databaseService.journalDao().getAllUnSync(userId))
+    }
 
     fun markedSynced(journals: List<Journal>): Flow<Int> = flow {
         emit(databaseService.journalDao().setAsSynced(journals.map { it.id }))

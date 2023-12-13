@@ -1,6 +1,7 @@
 package com.whereismymotivation.data.repository
 
 import com.whereismymotivation.data.local.db.DatabaseService
+import com.whereismymotivation.data.local.db.entity.Journal
 import com.whereismymotivation.data.local.db.entity.Mood
 import com.whereismymotivation.data.remote.NetworkService
 import com.whereismymotivation.data.remote.request.MoodsRequest
@@ -14,11 +15,13 @@ class MoodRepository @Inject constructor(
     private val databaseService: DatabaseService
 ) {
 
-    fun fetchMoods(userId: String) =
-        databaseService.moodDao().getAll(userId)
+    fun fetchMoods(userId: String): Flow<List<Mood>> = flow {
+        emit(databaseService.moodDao().getAll(userId))
+    }
 
-    fun fetchUnSyncMoods(userId: String) =
-        databaseService.moodDao().getAllUnSync(userId)
+    fun fetchUnSyncMoods(userId: String): Flow<List<Mood>> = flow {
+        emit(databaseService.moodDao().getAllUnSync(userId))
+    }
 
     fun saveMood(mood: Mood): Flow<Long> = flow {
         emit(databaseService.moodDao().insert(mood))

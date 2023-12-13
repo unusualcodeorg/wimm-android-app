@@ -53,3 +53,15 @@ annotation class Staggered3Horizontal
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
 annotation class StaggeredVertical
+
+@Qualifier
+@Retention(AnnotationRetention.RUNTIME)
+annotation class ScopeIO
+
+@Qualifier
+@Retention(AnnotationRetention.RUNTIME)
+annotation class ScopeDefault
+
+@Qualifier
+@Retention(AnnotationRetention.RUNTIME)
+annotation class ScopeMain

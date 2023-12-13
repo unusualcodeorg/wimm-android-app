@@ -8,10 +8,10 @@ import com.whereismymotivation.analytics.Tracker
 import com.whereismymotivation.data.repository.JournalRepository
 import com.whereismymotivation.data.repository.MoodRepository
 import com.whereismymotivation.data.repository.UserRepository
+import com.whereismymotivation.utils.coroutine.Dispatcher
 import com.whereismymotivation.utils.log.Logger
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.catch
@@ -26,9 +26,10 @@ class MoodAndJournalSyncWorker @AssistedInject constructor(
     private val journalRepository: JournalRepository,
     private val moodRepository: MoodRepository,
     private val tracker: Tracker,
+    private val dispatcher: Dispatcher
 ) : CoroutineWorker(context, workerParams) {
 
-    override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
+    override suspend fun doWork(): Result = withContext(dispatcher.io()) {
         val user = userRepository.getCurrentUser() ?: return@withContext Result.failure()
 
         awaitAll(async {

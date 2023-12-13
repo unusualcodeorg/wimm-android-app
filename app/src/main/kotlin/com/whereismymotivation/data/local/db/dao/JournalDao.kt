@@ -5,7 +5,6 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.whereismymotivation.data.local.db.entity.Journal
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface JournalDao {
@@ -19,13 +18,13 @@ interface JournalDao {
     // emits a long, which is the new rowId for the inserted item
 
     @Query("SELECT * FROM journals WHERE createdBy = :userId ORDER BY createdAt DESC")
-    fun getAll(userId: String): Flow<List<Journal>>
+    fun getAll(userId: String): List<Journal>
 
     @Query("SELECT * FROM journals WHERE createdBy = :userId ORDER BY createdAt DESC LIMIT :limit OFFSET :offset")
-    fun getPaginated(userId: String, offset: Int, limit: Int): Flow<List<Journal>>
+    fun getPaginated(userId: String, offset: Int, limit: Int): List<Journal>
 
     @Query("SELECT * FROM journals WHERE createdBy = :userId AND synced = 0 ORDER BY createdAt DESC")
-    fun getAllUnSync(userId: String): Flow<List<Journal>>
+    fun getAllUnSync(userId: String): List<Journal>
 
     @Query("UPDATE journals SET synced = 1 WHERE id IN (:ids)")
     suspend fun setAsSynced(ids: List<Long>): Int

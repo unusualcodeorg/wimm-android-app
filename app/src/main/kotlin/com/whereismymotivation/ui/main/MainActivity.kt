@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.whereismymotivation.ui.theme.WhereIsMyMotivationTheme
+import com.whereismymotivation.ui.theme.AppTheme
 import com.whereismymotivation.utils.log.Logger
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
         Logger.d(MainViewModel.TAG, "onCreate")
         super.onCreate(savedInstanceState)
         setContent {
-            WhereIsMyMotivationTheme {
+            AppTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -79,7 +79,7 @@ fun Message(viewModel: MainViewModel, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    WhereIsMyMotivationTheme {
+    AppTheme {
         Greeting("Android")
     }
 }

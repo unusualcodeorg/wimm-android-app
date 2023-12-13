@@ -67,6 +67,11 @@ android {
 dependencies {
 
     implementation("androidx.core:core-ktx:1.12.0")
+    implementation ("androidx.constraintlayout:constraintlayout-compose:1.0.1")
+
+    // Material Design 3
+    val material3 = "1.1.2"
+    implementation("androidx.compose.material3:material3:$material3")
 
     // lifecycle
     val lifecycleVersion = "2.6.2"
@@ -127,6 +132,11 @@ dependencies {
     kapt("com.google.dagger:hilt-android-compiler:$hilt")
     implementation("androidx.hilt:hilt-work:$hiltKtx")
     kapt("androidx.hilt:hilt-compiler:$hiltKtx")
+
+    // Image
+    val coil = "2.5.0"
+    implementation("io.coil-kt:coil:$coil")
+    implementation("io.coil-kt:coil-compose:$coil")
 
     testImplementation("junit:junit:4.13.2")
 
