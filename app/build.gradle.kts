@@ -89,9 +89,9 @@ dependencies {
     implementation("com.jakewharton.timber:timber:5.0.1")
 
     // Network
-    val retrofit2Version = "2.9.0"
-    implementation("com.squareup.retrofit2:retrofit:$retrofit2Version")
-    implementation("com.squareup.retrofit2:converter-moshi:${retrofit2Version}")
+    val retrofit2 = "2.9.0"
+    implementation("com.squareup.retrofit2:retrofit:$retrofit2")
+    implementation("com.squareup.retrofit2:converter-moshi:${retrofit2}")
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.11.0"))
     implementation("com.squareup.okhttp3:okhttp")
     implementation("com.squareup.okhttp3:logging-interceptor")
@@ -104,6 +104,9 @@ dependencies {
     implementation("com.google.firebase:firebase-config")
     implementation("com.google.firebase:firebase-crashlytics-buildtools:2.9.9")
 
+    // Work
+    val work = "2.9.0"
+    implementation("androidx.work:work-runtime-ktx:$work")
 
     // JSON
     val moshi = "1.14.0"
@@ -111,15 +114,19 @@ dependencies {
     ksp("com.squareup.moshi:moshi-kotlin-codegen:$moshi")
 
     // Database
-    val roomVersion = "2.6.1"
-    implementation("androidx.room:room-runtime:$roomVersion")
-    annotationProcessor("androidx.room:room-compiler:$roomVersion")
-    ksp("androidx.room:room-compiler:$roomVersion")
-    implementation("androidx.room:room-ktx:$roomVersion")
+    val room = "2.6.1"
+    implementation("androidx.room:room-runtime:$room")
+    annotationProcessor("androidx.room:room-compiler:$room")
+    ksp("androidx.room:room-compiler:$room")
+    implementation("androidx.room:room-ktx:$room")
 
     // Dependency Management
-    implementation("com.google.dagger:hilt-android:2.48.1")
-    kapt("com.google.dagger:hilt-android-compiler:2.48.1")
+    val hilt = "2.48.1"
+    val hiltKtx = "1.1.0"
+    implementation("com.google.dagger:hilt-android:$hilt")
+    kapt("com.google.dagger:hilt-android-compiler:$hilt")
+    implementation("androidx.hilt:hilt-work:$hiltKtx")
+    kapt("androidx.hilt:hilt-compiler:$hiltKtx")
 
     testImplementation("junit:junit:4.13.2")
 

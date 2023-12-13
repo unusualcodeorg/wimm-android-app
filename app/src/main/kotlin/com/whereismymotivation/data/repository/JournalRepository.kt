@@ -2,7 +2,6 @@ package com.whereismymotivation.data.repository
 
 import com.whereismymotivation.data.local.db.DatabaseService
 import com.whereismymotivation.data.local.db.entity.Journal
-import com.whereismymotivation.data.local.db.entity.Mood
 import com.whereismymotivation.data.remote.NetworkService
 import com.whereismymotivation.data.remote.request.JournalsRequest
 import kotlinx.coroutines.flow.Flow
@@ -34,7 +33,7 @@ class JournalRepository @Inject constructor(
     fun fetchUnSyncJournals(userId: String) =
         databaseService.journalDao().getAllUnSync(userId)
 
-    fun markedSynced(journals: List<Mood>): Flow<Int> = flow {
+    fun markedSynced(journals: List<Journal>): Flow<Int> = flow {
         emit(databaseService.journalDao().setAsSynced(journals.map { it.id }))
     }
 }
