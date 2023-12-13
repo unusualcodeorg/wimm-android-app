@@ -84,7 +84,7 @@ class NotificationBuilder @Inject constructor(
                 NOTIFICATION_TYPE_TEXT_AND_IMAGE ->
                     downloadAndShowImageNotification(
                         data,
-                        showTextAndImageNotification
+                        ::showTextAndImageNotification
                     )
 
                 NOTIFICATION_TYPE_IMAGE ->
@@ -183,45 +183,44 @@ class NotificationBuilder @Inject constructor(
         }
     }
 
-    private val showTextAndImageNotification =
-        fun(
-            data: Map<String, String>,
-            image: Bitmap,
-        ) {
-            try {
+    private fun showTextAndImageNotification(
+        data: Map<String, String>,
+        image: Bitmap,
+    ) {
+        try {
 
-                val intentOpen = getAppOpenPendingIntent(NOTIFICATION_TYPE_TEXT_AND_IMAGE)
-                val intentClose =
-                    getAppClosePendingIntent(NOTIFICATION_TYPE_TEXT_AND_IMAGE)
+            val intentOpen = getAppOpenPendingIntent(NOTIFICATION_TYPE_TEXT_AND_IMAGE)
+            val intentClose =
+                getAppClosePendingIntent(NOTIFICATION_TYPE_TEXT_AND_IMAGE)
 
-                val notificationBuilder =
-                    NotificationCompat.Builder(context, Constants.NOTIFICATION_DEFAULT_CHANNEL_ID)
-                        .setSmallIcon(R.drawable.ic_wimm_notification)
-                        .setLargeIcon(
-                            (ContextCompat
-                                .getDrawable(context, R.drawable.wimm_logo) as BitmapDrawable)
-                                .bitmap
-                        )
-                        .setTicker(getString(data, "ticker", ""))
-                        .setContentTitle(getString(data, "title", ""))
-                        .setContentText(getString(data, "subtitle", ""))
-                        .setDefaults(Notification.DEFAULT_ALL)
-                        .setColor(ContextCompat.getColor(context, R.color.colorAccent))
-                        .setAutoCancel(true)
-                        .setStyle(NotificationCompat.BigPictureStyle().bigPicture(image))
-                        .setSound(getDefaultSoundUri())
-                        .setContentIntent(intentOpen)
-                        .addAction(R.drawable.ic_clear, "CLOSE", intentClose)
-                        .addAction(R.drawable.ic_touch_app, "SHOW ME", intentOpen)
+            val notificationBuilder =
+                NotificationCompat.Builder(context, Constants.NOTIFICATION_DEFAULT_CHANNEL_ID)
+                    .setSmallIcon(R.drawable.ic_wimm_notification)
+                    .setLargeIcon(
+                        (ContextCompat
+                            .getDrawable(context, R.drawable.wimm_logo) as BitmapDrawable)
+                            .bitmap
+                    )
+                    .setTicker(getString(data, "ticker", ""))
+                    .setContentTitle(getString(data, "title", ""))
+                    .setContentText(getString(data, "subtitle", ""))
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .setColor(ContextCompat.getColor(context, R.color.colorAccent))
+                    .setAutoCancel(true)
+                    .setStyle(NotificationCompat.BigPictureStyle().bigPicture(image))
+                    .setSound(getDefaultSoundUri())
+                    .setContentIntent(intentOpen)
+                    .addAction(R.drawable.ic_clear, "CLOSE", intentClose)
+                    .addAction(R.drawable.ic_touch_app, "SHOW ME", intentOpen)
 
-                (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
-                    .notify(NOTIFICATION_TYPE_IMAGE_ID, notificationBuilder.build())
+            (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
+                .notify(NOTIFICATION_TYPE_IMAGE_ID, notificationBuilder.build())
 
-                tracker.trackServerNotificationShown()
-            } catch (e: Exception) {
-                Logger.record(e)
-            }
+            tracker.trackServerNotificationShown()
+        } catch (e: Exception) {
+            Logger.record(e)
         }
+    }
 
     private fun showImageNotification(data: Map<String, String>, image: Bitmap) {
         try {
@@ -360,7 +359,6 @@ class NotificationBuilder @Inject constructor(
         }
     }
 
-    @SuppressLint("CheckResult")
     private fun downloadAndShowImageNotification(
         data: Map<String, String>,
         handler: (data: Map<String, String>, image: Bitmap) -> Unit

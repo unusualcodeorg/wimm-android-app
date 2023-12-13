@@ -1,7 +1,5 @@
 package com.whereismymotivation.di
 
-import com.whereismymotivation.data.local.prefs.UserPreferences
-import com.whereismymotivation.utils.common.ResultFetcher
 import com.whereismymotivation.utils.coroutine.Dispatcher
 import dagger.Module
 import dagger.Provides
@@ -16,7 +14,7 @@ import kotlinx.coroutines.MainScope
 object ServiceModule {
 
     @Provides
-    @ScopeMain
+    @ScopeDefault
     @ServiceScoped
     fun provideDefaultCoroutineScope(dispatcher: Dispatcher) = CoroutineScope(dispatcher.default())
 
