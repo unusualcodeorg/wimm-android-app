@@ -392,7 +392,7 @@ class NotificationBuilder @Inject constructor(
                 putExtra(NOTIFICATION_TYPE, notificationType)
                 putExtra(NOTIFICATION_ACTION, ACTION_APP_LAUNCH)
             },
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_IMMUTABLE,
         )
 
 
@@ -406,7 +406,7 @@ class NotificationBuilder @Inject constructor(
                 putExtra(NOTIFICATION_TYPE, notificationType)
                 putExtra(NOTIFICATION_ACTION, ACTION_CLOSE)
             },
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_IMMUTABLE
         )
 
     private fun getContentViewPendingIntent(content: Content): PendingIntent =
@@ -418,7 +418,7 @@ class NotificationBuilder @Inject constructor(
                 putExtra(NOTIFICATION_DATA_CONTENT, content)
                 putExtra(NOTIFICATION_ACTION, ACTION_CONTENT_VIEW)
             },
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_IMMUTABLE
         )
 
     private fun getContentShareWhatsAppPendingIntent(
@@ -432,7 +432,7 @@ class NotificationBuilder @Inject constructor(
                 putExtra(NOTIFICATION_DATA_CONTENT, content)
                 putExtra(NOTIFICATION_ACTION, ACTION_CONTENT_SHARE_WHATSAPP)
             },
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_IMMUTABLE
         )
 
     private fun getContentShareOthersPendingIntent(
@@ -446,7 +446,7 @@ class NotificationBuilder @Inject constructor(
                 putExtra(NOTIFICATION_DATA_CONTENT, content)
                 putExtra(NOTIFICATION_ACTION, ACTION_CONTENT_SHARE_OTHERS)
             },
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_IMMUTABLE
         )
 
     private fun getMoodPendingIntent(): PendingIntent =
@@ -457,7 +457,7 @@ class NotificationBuilder @Inject constructor(
                 putExtra(NOTIFICATION_TYPE, NOTIFICATION_TYPE_MOOD)
                 putExtra(NOTIFICATION_ACTION, ACTION_MOOD_RECORD)
             },
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_IMMUTABLE
         )
 
     private fun getJournalPendingIntent(): PendingIntent =
@@ -468,7 +468,7 @@ class NotificationBuilder @Inject constructor(
                 putExtra(NOTIFICATION_TYPE, NOTIFICATION_TYPE_MOOD)
                 putExtra(NOTIFICATION_ACTION, ACTION_JOURNAL_RECORD)
             },
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_IMMUTABLE
         )
 
     private fun getString(data: Map<String, String>, tag: String, default: String?): String? =
