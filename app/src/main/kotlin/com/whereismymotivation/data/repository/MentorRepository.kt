@@ -23,9 +23,7 @@ class MentorRepository @Inject constructor(
         pageNumber: Int,
         pageItemCount: Int
     ): Flow<List<Content>> = flow {
-        emit(
-            networkService.doMentorContentListCall(mentorId, pageNumber, pageItemCount)
-        )
+        emit(networkService.doMentorContentListCall(mentorId, pageNumber, pageItemCount))
     }.map { it.data }
 
     fun fetchMentorDetails(mentorId: String): Flow<Mentor> = flow {

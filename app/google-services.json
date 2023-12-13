@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "203376103845",
+    "project_id": "whereismymotivation-ba34a",
+    "storage_bucket": "whereismymotivation-ba34a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:203376103845:android:6eed200b86adc376c6d84c",
+        "android_client_info": {
+          "package_name": "com.whereismymotivation"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHCaSKtW1iB8wuA32ey05cyYAKRMPN23E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,5 +1,7 @@
 package com.whereismymotivation.utils.log
 
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.ktx.Firebase
 import com.whereismymotivation.BuildConfig
 import timber.log.Timber
 
@@ -32,5 +34,7 @@ object Logger {
 
     fun e(tag: String, throwable: Throwable, s: String, vararg params: Any) =
         Timber.tag(tag).e(throwable, s, params)
+
+    fun record(e: Throwable) = Firebase.crashlytics.recordException(e)
 
 }

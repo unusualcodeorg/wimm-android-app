@@ -45,14 +45,6 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    @UserInfo
-    fun provideUserId(userPreferences: UserPreferences): ResultFetcher<String> =
-        object : ResultFetcher<String> {
-            override fun fetch(): String? = userPreferences.getUserId()
-        }
-
-    @Provides
-    @Singleton
     @AccessTokenInfo
     fun provideAccessToken(userPreferences: UserPreferences): ResultFetcher<String> =
         object : ResultFetcher<String> {
