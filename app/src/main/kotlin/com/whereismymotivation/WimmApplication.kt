@@ -15,10 +15,10 @@ import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
 @HiltAndroidApp
-class WimmApp : Application(), Configuration.Provider {
+class WimmApplication : Application(), Configuration.Provider {
 
     companion object {
-        val TAG = "WimmApp"
+        val TAG = "WimmApplication"
     }
 
     @Inject
