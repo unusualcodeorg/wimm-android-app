@@ -17,7 +17,7 @@
     </style>
 
     <style name="AppTheme.Body1" parent="AppTheme">
-        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:fontFamily">@font/rubik_regular</item>
         <item name="android:textColor">@color/black</item>
     </style>
 </resources>
