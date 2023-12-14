@@ -14,6 +14,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
+import com.whereismymotivation.ui.main.MainTab
+import com.whereismymotivation.ui.main.main
 
 /**
  * Destinations used in the ([WimmApp]).
@@ -21,8 +23,8 @@ import androidx.navigation.navigation
 object MainDestinations {
     const val LOGIN_ROUTE = "login"
     const val MAIN_ROUTE = "main"
-    const val MENTOR_DETAIL_ROUTE = "mentor"
-    const val TOPIC_DETAIL_ROUTE = "topic"
+    const val MENTOR_DETAIL_ROUTE = "mentor_details"
+    const val TOPIC_DETAIL_ROUTE = "topic_details"
 }
 
 @Composable
@@ -31,11 +33,7 @@ fun NavGraph(
     finishActivity: () -> Unit = {},
     navController: NavHostController = rememberNavController(),
     startDestination: String = MainDestinations.MAIN_ROUTE,
-    showLogin: Boolean = true
 ) {
-    val loggedIn = remember(showLogin) {
-        mutableStateOf(!showLogin)
-    }
 
     val actions = remember(navController) { MainActions(navController) }
 
@@ -43,47 +41,14 @@ fun NavGraph(
         navController = navController,
         startDestination = startDestination
     ) {
-        composable(MainDestinations.LOGIN_ROUTE) {
-            // Intercept back in Login: make it finish the activity
-            BackHandler {
-                finishActivity()
-            }
-
-//            Login(
-//                onboardingComplete = {
-//                    // Set the flag so that onboarding is not shown next time.
-//                    loggedIn.value = true
-//                    actions.onboardingComplete()
-//                }
-//            )
+        navigation(
+            route = MainDestinations.MAIN_ROUTE,
+            startDestination = MainTab.HOME.route
+        ) {
+            main(
+                modifier = modifier
+            )
         }
-//        navigation(
-//            route = MainDestinations.COURSES_ROUTE,
-//            startDestination = CourseTabs.FEATURED.route
-//        ) {
-//            courses(
-//                onCourseSelected = actions.openCourse,
-//                onboardingComplete = onboardingComplete,
-//                navController = navController,
-//                modifier = modifier
-//            )
-//        }
-//        composable(
-//            "${MainDestinations.COURSE_DETAIL_ROUTE}/{$COURSE_DETAIL_ID_KEY}",
-//            arguments = listOf(
-//                navArgument(COURSE_DETAIL_ID_KEY) { type = NavType.LongType }
-//            )
-//        ) { backStackEntry: NavBackStackEntry ->
-//            val arguments = requireNotNull(backStackEntry.arguments)
-//            val currentCourseId = arguments.getLong(COURSE_DETAIL_ID_KEY)
-//            CourseDetails(
-//                courseId = currentCourseId,
-//                selectCourse = { newCourseId ->
-//                    actions.relatedCourse(newCourseId, backStackEntry)
-//                },
-//                upPress = { actions.upPress(backStackEntry) }
-//            )
-//        }
     }
 }
 
@@ -91,33 +56,7 @@ fun NavGraph(
  * Models the navigation actions in the app.
  */
 class MainActions(navController: NavHostController) {
-    val onboardingComplete: () -> Unit = {
-        navController.popBackStack()
-    }
 
-//    // Used from COURSES_ROUTE
-//    val openCourse = { newCourseId: Long, from: NavBackStackEntry ->
-//        // In order to discard duplicated navigation events, we check the Lifecycle
-//        if (from.lifecycleIsResumed()) {
-//            navController.navigate("${MainDestinations.COURSE_DETAIL_ROUTE}/$newCourseId")
-//        }
-//    }
-//
-//    // Used from COURSE_DETAIL_ROUTE
-//    val relatedCourse = { newCourseId: Long, from: NavBackStackEntry ->
-//        // In order to discard duplicated navigation events, we check the Lifecycle
-//        if (from.lifecycleIsResumed()) {
-//            navController.navigate("${MainDestinations.COURSE_DETAIL_ROUTE}/$newCourseId")
-//        }
-//    }
-//
-//    // Used from COURSE_DETAIL_ROUTE
-//    val upPress: (from: NavBackStackEntry) -> Unit = { from ->
-//        // In order to discard duplicated navigation events, we check the Lifecycle
-//        if (from.lifecycleIsResumed()) {
-//            navController.navigateUp()
-//        }
-//    }
 }
 
 /**

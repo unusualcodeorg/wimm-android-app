@@ -60,7 +60,6 @@ fun WimmBottomNavigation(navController: NavController, tabs: Array<MainTab>) {
             tabs.forEach { tab ->
                 NavigationBarItem(
                     icon = { Icon(painterResource(tab.icon), contentDescription = null) },
-                    label = { Text(stringResource(tab.title).uppercase(Locale.getDefault())) },
                     selected = currentRoute == tab.route,
                     onClick = {
                         if (tab.route != currentRoute) {
