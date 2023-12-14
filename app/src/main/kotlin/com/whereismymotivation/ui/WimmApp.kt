@@ -10,20 +10,17 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.whereismymotivation.ui.main.MainTab
 import com.whereismymotivation.ui.theme.AppTheme
-import java.util.Locale
 
 @Composable
 fun WimmApp(finishActivity: () -> Unit) {
@@ -58,9 +55,15 @@ fun WimmBottomNavigation(navController: NavController, tabs: Array<MainTab>) {
             )
         ) {
             tabs.forEach { tab ->
+                val selected = currentRoute == tab.route
                 NavigationBarItem(
-                    icon = { Icon(painterResource(tab.icon), contentDescription = null) },
-                    selected = currentRoute == tab.route,
+                    icon = {
+                        Icon(
+                            painterResource(if (selected) tab.selectedIcon else tab.unselectedIcon),
+                            contentDescription = null
+                        )
+                    },
+                    selected = selected,
                     onClick = {
                         if (tab.route != currentRoute) {
                             navController.navigate(tab.route) {

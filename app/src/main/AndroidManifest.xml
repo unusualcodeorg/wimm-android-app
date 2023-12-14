@@ -24,7 +24,7 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
-            android:name=".WimmActivity"
+            android:name=".ui.WimmActivity"
             android:exported="true"
             android:theme="@style/AppTheme">
             <intent-filter>

@@ -1,4 +1,4 @@
-package com.whereismymotivation
+package com.whereismymotivation.ui
 
 import android.content.Context
 import android.content.Intent
@@ -8,7 +8,7 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.core.content.ContextCompat
-import com.whereismymotivation.ui.WimmApp
+import com.whereismymotivation.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
