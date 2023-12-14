@@ -1,4 +1,4 @@
-package com.whereismymotivation.ui.main
+package com.whereismymotivation.ui
 
 import android.Manifest
 import android.content.Context
@@ -7,7 +7,9 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,16 +24,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
+import com.whereismymotivation.R
+import com.whereismymotivation.ui.main.MainViewModel
 import com.whereismymotivation.ui.theme.AppTheme
 import com.whereismymotivation.utils.log.Logger
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class WimmActivity : ComponentActivity() {
 
     companion object {
 
-        const val TAG = "MainActivity"
+        const val TAG = "WimmActivity"
 
         private const val ACTION_SCREEN_NAVIGATION = "ACTION_SCREEN_NAVIGATION"
         private const val KEY_SCREEN_TO_GO = "KEY_SCREEN_TO_GO"
@@ -40,12 +44,12 @@ class MainActivity : ComponentActivity() {
         const val SCREEN_JOURNAL = "SCREEN_JOURNAL"
 
         fun getStartIntent(context: Context): Intent =
-            Intent(context, MainActivity::class.java).apply {
+            Intent(context, WimmActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
 
         fun getStartIntent(context: Context, screenToGo: String): Intent =
-            Intent(context, MainActivity::class.java).apply {
+            Intent(context, WimmActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 action = ACTION_SCREEN_NAVIGATION
                 putExtra(KEY_SCREEN_TO_GO, screenToGo)
@@ -55,7 +59,11 @@ class MainActivity : ComponentActivity() {
     private val mainViewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Logger.d(MainViewModel.TAG, "onCreate")
+        enableEdgeToEdge(
+            statusBarStyle = SystemBarStyle.dark(
+                ContextCompat.getColor(this, R.color.immersive_sys_ui)
+            )
+        )
         super.onCreate(savedInstanceState)
         setContent {
             AppTheme {
