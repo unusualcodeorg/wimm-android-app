@@ -4,7 +4,7 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import com.whereismymotivation.WimmApp
+import com.whereismymotivation.WimmApplication
 import com.whereismymotivation.utils.log.Logger
 import java.util.*
 
@@ -14,7 +14,7 @@ object AppAlarmManager {
     const val ACTION_DAILY_MOOD_RECORD = "ACTION_DAILY_MOOD_RECORD"
 
     fun setDailyMoodAlarm(context: Context) {
-        if (context is WimmApp) {
+        if (context is WimmApplication) {
             if (!context.appMetricRepository.isDailyMoodRecorderNotificationEnabled()) return
         }
 

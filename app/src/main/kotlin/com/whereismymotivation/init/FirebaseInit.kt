@@ -10,7 +10,7 @@ import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.whereismymotivation.R
-import com.whereismymotivation.WimmApp
+import com.whereismymotivation.WimmApplication
 import com.whereismymotivation.data.repository.UserRepository
 import com.whereismymotivation.utils.common.Constants
 import com.whereismymotivation.utils.log.Logger
@@ -28,14 +28,14 @@ fun getFcmToken() {
     FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
         if (!task.isSuccessful) {
             Logger.e(
-                WimmApp.TAG,
+                WimmApplication.TAG,
                 "Fetching FCM registration token failed",
                 task.exception.toString()
             )
             return@addOnCompleteListener
         }
         val token = task.result
-        Logger.d(WimmApp.TAG, token)
+        Logger.d(WimmApplication.TAG, token)
     }
 }
 
