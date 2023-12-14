@@ -88,18 +88,40 @@ fun MainAppBar() {
 
 enum class MainTab(
     @StringRes val title: Int,
-    @DrawableRes val icon: Int,
+    @DrawableRes val unselectedIcon: Int,
+    @DrawableRes val selectedIcon: Int,
     val route: String
 ) {
-    HOME(R.string.menu_home, R.drawable.ic_browse_unselected, MainTabDestinations.HOME_ROUTE),
+    HOME(
+        R.string.menu_home,
+        R.drawable.ic_browse_unselected,
+        R.drawable.ic_browse,
+        MainTabDestinations.HOME_ROUTE
+    ),
     MENTORS(
         R.string.menu_mentors,
         R.drawable.ic_mentor_unselected,
+        R.drawable.ic_mentor,
         MainTabDestinations.MENTORS_ROUTE
     ),
-    MY_BOX(R.string.menu_box, R.drawable.ic_box_unselected, MainTabDestinations.MY_BOX_ROUTE),
-    SEARCH(R.string.menu_search, R.drawable.ic_search_unselected, MainTabDestinations.SEARCH_ROUTE),
-    PROFILE(R.string.menu_me, R.drawable.ic_me_unselected, MainTabDestinations.PROFILE_ROUTE),
+    MY_BOX(
+        R.string.menu_box,
+        R.drawable.ic_box_unselected,
+        R.drawable.ic_box,
+        MainTabDestinations.MY_BOX_ROUTE
+    ),
+    SEARCH(
+        R.string.menu_search,
+        R.drawable.ic_search_unselected,
+        R.drawable.ic_search,
+        MainTabDestinations.SEARCH_ROUTE
+    ),
+    PROFILE(
+        R.string.menu_me,
+        R.drawable.ic_me_unselected,
+        R.drawable.ic_me_selected,
+        MainTabDestinations.PROFILE_ROUTE
+    ),
 }
 
 /**
