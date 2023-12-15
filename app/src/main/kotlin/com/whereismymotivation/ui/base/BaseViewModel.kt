@@ -14,7 +14,7 @@ open class BaseViewModel @Inject constructor(private val networkHelper: NetworkH
     ViewModel() {
 
     companion object {
-        const val TAG = "MainViewModel"
+        const val TAG = "HomeViewModel"
     }
 
     protected val _message = MutableStateFlow(Resource.unknown(""))

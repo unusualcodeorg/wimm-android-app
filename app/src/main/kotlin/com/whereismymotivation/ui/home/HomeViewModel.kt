@@ -1,4 +1,4 @@
-package com.whereismymotivation.ui.main
+package com.whereismymotivation.ui.home
 
 import androidx.lifecycle.viewModelScope
 import com.whereismymotivation.data.repository.MentorRepository
@@ -12,14 +12,14 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
+class HomeViewModel @Inject constructor(
     networkHelper: NetworkHelper,
     private val mentorRepository: MentorRepository
 ) :
     BaseViewModel(networkHelper) {
 
     companion object {
-        const val TAG = "BaseViewModel"
+        const val TAG = "HomeViewModel"
     }
 
     init {
