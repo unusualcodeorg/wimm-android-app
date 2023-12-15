@@ -12,7 +12,6 @@ import javax.inject.Inject
 import javax.net.ssl.HttpsURLConnection
 
 open class BaseViewModel @Inject constructor(
-    private val navigator: Navigator,
     private val networkHelper: NetworkHelper
 ) :
     ViewModel() {
