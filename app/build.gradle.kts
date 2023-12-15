@@ -135,6 +135,7 @@ dependencies {
     val hiltKtx = "1.1.0"
     implementation("com.google.dagger:hilt-android:$hilt")
     kapt("com.google.dagger:hilt-android-compiler:$hilt")
+    implementation("androidx.hilt:hilt-navigation-compose:$hiltKtx")
     implementation("androidx.hilt:hilt-work:$hiltKtx")
     kapt("androidx.hilt:hilt-compiler:$hiltKtx")
 
