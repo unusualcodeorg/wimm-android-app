@@ -31,6 +31,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.whereismymotivation.R
+import com.whereismymotivation.ui.Destination
 import com.whereismymotivation.ui.feed.Feed
 import com.whereismymotivation.ui.mentors.Mentors
 import com.whereismymotivation.ui.mybox.MyBox
@@ -40,28 +41,28 @@ import com.whereismymotivation.ui.search.Search
 fun NavGraphBuilder.home(
     modifier: Modifier = Modifier
 ) {
-    composable(HomeRoute.FEED) {
+    composable(Destination.Home.Feed.route) {
         Feed(
             modifier
         )
     }
-    composable(HomeRoute.MENTORS) {
+    composable(Destination.Home.Mentors.route) {
         Mentors(
             modifier
         )
     }
-    composable(HomeRoute.SEARCH) {
+    composable(Destination.Home.Search.route) {
         Search(
             modifier
         )
     }
-    composable(HomeRoute.PROFILE) {
+    composable(Destination.Home.Profile.route) {
         Profile(
             modifier
         )
     }
 
-    composable(HomeRoute.MY_BOX) {
+    composable(Destination.Home.MyBox.route) {
         MyBox(
             modifier
         )
@@ -101,7 +102,7 @@ fun HomeBottomBar(navController: NavController) {
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
-        ?: HomeRoute.FEED
+        ?: Destination.Home.Feed.route
 
     val routes = remember { HomeTab.entries.map { it.route } }
     if (currentRoute in routes) {
@@ -149,38 +150,30 @@ enum class HomeTab(
         R.string.menu_feed,
         R.drawable.ic_browse_unselected,
         R.drawable.ic_browse,
-        HomeRoute.FEED
+        Destination.Home.Feed.route
     ),
     MENTORS(
         R.string.menu_mentors,
         R.drawable.ic_mentor_unselected,
         R.drawable.ic_mentor,
-        HomeRoute.MENTORS
+        Destination.Home.Mentors.route
     ),
     MY_BOX(
         R.string.menu_box,
         R.drawable.ic_box_unselected,
         R.drawable.ic_box,
-        HomeRoute.MY_BOX
+        Destination.Home.MyBox.route
     ),
     SEARCH(
         R.string.menu_search,
         R.drawable.ic_search_unselected,
         R.drawable.ic_search,
-        HomeRoute.SEARCH
+        Destination.Home.MyBox.route
     ),
     PROFILE(
         R.string.menu_me,
         R.drawable.ic_me_unselected,
         R.drawable.ic_me_selected,
-        HomeRoute.PROFILE
+        Destination.Home.Profile.route
     ),
-}
-
-object HomeRoute {
-    const val FEED = "home/feed"
-    const val MENTORS = "home/mentors"
-    const val MY_BOX = "home/my_box"
-    const val SEARCH = "home/search"
-    const val PROFILE = "home/profile"
 }

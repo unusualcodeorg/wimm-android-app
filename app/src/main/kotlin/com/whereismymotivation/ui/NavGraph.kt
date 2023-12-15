@@ -1,31 +1,29 @@
 package com.whereismymotivation.ui
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
-import com.whereismymotivation.ui.home.HomeRoute
 import com.whereismymotivation.ui.home.home
-
-object RootRoute {
-    const val LOGIN = "login"
-    const val HOME = "home"
-    const val MENTOR_DETAIL = "mentor_details"
-    const val TOPIC_DETAIL = "topic_details"
-}
+import com.whereismymotivation.ui.splash.Splash
 
 @Composable
 fun NavGraph(
     modifier: Modifier = Modifier,
     finishActivity: () -> Unit = {},
     navController: NavHostController = rememberNavController(),
-    startDestination: String = RootRoute.HOME,
+    startDestination: String = Destination.Splash.route,
 ) {
+
+    val splashComplete = remember { mutableStateOf(false) }
 
     val actions = remember(navController) { MainActions(navController) }
 
@@ -33,9 +31,22 @@ fun NavGraph(
         navController = navController,
         startDestination = startDestination
     ) {
+        composable(Destination.Splash.route) {
+            // Intercept back in Onboarding: make it finish the activity
+            BackHandler {
+                finishActivity()
+            }
+
+            Splash(
+                splashComplete = {
+                    splashComplete.value = true
+                    actions.splashComplete()
+                }
+            )
+        }
         navigation(
-            route = RootRoute.HOME,
-            startDestination = HomeRoute.FEED
+            route = Destination.Home.route,
+            startDestination = Destination.Home.Feed.route
         ) {
             home(
                 modifier = modifier
@@ -45,7 +56,10 @@ fun NavGraph(
 }
 
 class MainActions(navController: NavHostController) {
-
+    val splashComplete: () -> Unit = {
+        navController.popBackStack()
+        navController.navigate(Destination.Home.route)
+    }
 }
 
 private fun NavBackStackEntry.lifecycleIsResumed() =
