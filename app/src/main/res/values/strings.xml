@@ -28,7 +28,7 @@
     <string name="no_connect_still" translatable="false">Sorry! Still there is no internet connection.</string>
 
     <!--menu-->
-    <string name="menu_home">Home</string>
+    <string name="menu_feed">Home</string>
     <string name="menu_mentors">Mentors</string>
     <string name="menu_search">Search</string>
     <string name="menu_me">Me</string>
