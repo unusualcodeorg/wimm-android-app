@@ -1,4 +1,4 @@
-package com.whereismymotivation.ui.splash
+package com.whereismymotivation.ui.login
 
 import androidx.lifecycle.viewModelScope
 import com.whereismymotivation.ui.base.BaseViewModel
@@ -12,13 +12,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SplashViewModel @Inject constructor(
+class LoginViewModel @Inject constructor(
     networkHelper: NetworkHelper,
     val navigator: Navigator,
 ) : BaseViewModel(networkHelper) {
 
     companion object {
-        const val TAG = "SplashViewModel"
+        const val TAG = "LoginViewModel"
     }
 
     init {
@@ -28,7 +28,7 @@ class SplashViewModel @Inject constructor(
     private fun runDelayed(millis: Long) {
         viewModelScope.launch {
             delay(millis)
-            navigator.navigateTo(NavTarget(Destination.Login, true))
+            navigator.navigateTo(NavTarget(Destination.Home, true))
         }
     }
 }
