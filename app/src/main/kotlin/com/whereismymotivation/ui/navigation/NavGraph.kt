@@ -1,6 +1,5 @@
 package com.whereismymotivation.ui.navigation
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -60,7 +59,7 @@ private fun NavigationHandler(
 ) {
     LaunchedEffect("navigation") {
         navigator.navigate.onEach {
-            if (it.popBacktrack) navController.popBackStack()
+            if (it.popBackstack) navController.popBackStack()
             navController.navigate(Destination.Home.route)
         }.launchIn(this)
 
