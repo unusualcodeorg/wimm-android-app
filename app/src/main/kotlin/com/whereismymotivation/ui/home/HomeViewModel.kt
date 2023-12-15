@@ -15,8 +15,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     networkHelper: NetworkHelper,
     private val mentorRepository: MentorRepository
-) :
-    BaseViewModel(networkHelper) {
+) : BaseViewModel(networkHelper) {
 
     companion object {
         const val TAG = "HomeViewModel"
