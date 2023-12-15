@@ -1,4 +1,4 @@
-package com.whereismymotivation.ui
+package com.whereismymotivation.ui.navigation
 
 import androidx.navigation.NamedNavArgument
 

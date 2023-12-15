@@ -10,7 +10,7 @@ import com.whereismymotivation.analytics.Tracker
 import com.whereismymotivation.data.model.Content
 import com.whereismymotivation.data.repository.RemoteConfigRepository
 import com.whereismymotivation.data.repository.UserRepository
-import com.whereismymotivation.ui.WimmActivity
+import com.whereismymotivation.ui.MainActivity
 import com.whereismymotivation.utils.log.Logger
 import com.whereismymotivation.utils.network.NetworkHelper
 import javax.inject.Inject
@@ -50,7 +50,7 @@ class NotificationCallbackService : IntentService("NotificationCallbackService")
                                 userRepository.getCurrentUser()?.let {
                                     TaskStackBuilder.create(applicationContext)
                                         .addNextIntent(
-                                            WimmActivity.getStartIntent(
+                                            MainActivity.getStartIntent(
                                                 applicationContext
                                             )
                                         )
@@ -92,9 +92,9 @@ class NotificationCallbackService : IntentService("NotificationCallbackService")
                             closeNotificationDrawer()
                             userRepository.getCurrentUser()?.let {
                                 applicationContext.startActivity(
-                                    WimmActivity.getStartIntent(
+                                    MainActivity.getStartIntent(
                                         applicationContext,
-                                        WimmActivity.SCREEN_MOOD
+                                        MainActivity.SCREEN_MOOD
                                     )
                                 )
                             }
@@ -105,9 +105,9 @@ class NotificationCallbackService : IntentService("NotificationCallbackService")
                             closeNotificationDrawer()
                             userRepository.getCurrentUser()?.let {
                                 applicationContext.startActivity(
-                                    WimmActivity.getStartIntent(
+                                    MainActivity.getStartIntent(
                                         applicationContext,
-                                        WimmActivity.SCREEN_JOURNAL
+                                        MainActivity.SCREEN_JOURNAL
                                     )
                                 )
                             }
@@ -153,7 +153,7 @@ class NotificationCallbackService : IntentService("NotificationCallbackService")
     }
 
     private fun launchApp() {
-        applicationContext.startActivity(WimmActivity.getStartIntent(applicationContext))
+        applicationContext.startActivity(MainActivity.getStartIntent(applicationContext))
 //        applicationContext.startActivity(SplashActivity.getRelaunchAppIntent(applicationContext))
     }
 

@@ -31,7 +31,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.whereismymotivation.R
-import com.whereismymotivation.ui.Destination
+import com.whereismymotivation.ui.navigation.Destination
 import com.whereismymotivation.ui.feed.Feed
 import com.whereismymotivation.ui.mentors.Mentors
 import com.whereismymotivation.ui.mybox.MyBox

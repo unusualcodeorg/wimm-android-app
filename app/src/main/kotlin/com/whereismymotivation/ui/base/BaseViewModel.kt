@@ -2,6 +2,7 @@ package com.whereismymotivation.ui.base
 
 import androidx.lifecycle.ViewModel
 import com.whereismymotivation.R
+import com.whereismymotivation.ui.navigation.Navigator
 import com.whereismymotivation.utils.common.Resource
 import com.whereismymotivation.utils.network.NetworkError
 import com.whereismymotivation.utils.network.NetworkHelper
@@ -10,7 +11,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 import javax.net.ssl.HttpsURLConnection
 
-open class BaseViewModel @Inject constructor(private val networkHelper: NetworkHelper) :
+open class BaseViewModel @Inject constructor(
+    private val navigator: Navigator,
+    private val networkHelper: NetworkHelper
+) :
     ViewModel() {
 
     companion object {

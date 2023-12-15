@@ -3,6 +3,7 @@ package com.whereismymotivation.ui.home
 import androidx.lifecycle.viewModelScope
 import com.whereismymotivation.data.repository.MentorRepository
 import com.whereismymotivation.ui.base.BaseViewModel
+import com.whereismymotivation.ui.navigation.Navigator
 import com.whereismymotivation.utils.common.Resource
 import com.whereismymotivation.utils.log.Logger
 import com.whereismymotivation.utils.network.NetworkHelper
@@ -13,9 +14,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
+    navigator: Navigator,
     networkHelper: NetworkHelper,
     private val mentorRepository: MentorRepository
-) : BaseViewModel(networkHelper) {
+) : BaseViewModel(navigator, networkHelper) {
 
     companion object {
         const val TAG = "HomeViewModel"

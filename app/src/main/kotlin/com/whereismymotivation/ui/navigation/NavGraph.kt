@@ -1,42 +1,44 @@
-package com.whereismymotivation.ui
+package com.whereismymotivation.ui.navigation
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.Lifecycle
-import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import com.whereismymotivation.ui.home.home
 import com.whereismymotivation.ui.splash.Splash
 import com.whereismymotivation.ui.splash.SplashViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @Composable
 fun NavGraph(
     modifier: Modifier = Modifier,
-    finishActivity: () -> Unit = {},
-    navController: NavHostController = rememberNavController(),
+    navController: NavHostController,
     startDestination: String = Destination.Splash.route,
+    navigator: Navigator,
+    finish: () -> Unit = {},
 ) {
-
-    val actions = remember(navController) { MainActions(navController) }
+    NavigationHandler(
+        navController = navController,
+        navigator = navigator,
+        finish = finish
+    )
 
     NavHost(
         navController = navController,
         startDestination = startDestination
     ) {
         composable(Destination.Splash.route) {
-            BackHandler { finishActivity() }
             val viewModel: SplashViewModel = hiltViewModel()
             Splash(
                 modifier = modifier,
                 viewModel = viewModel,
-                splashComplete = actions.splashComplete
             )
         }
         navigation(
@@ -50,12 +52,24 @@ fun NavGraph(
     }
 }
 
-class MainActions(navController: NavHostController) {
-    val splashComplete: () -> Unit = {
-        navController.popBackStack()
-        navController.navigate(Destination.Home.route)
+@Composable
+private fun NavigationHandler(
+    navController: NavController,
+    navigator: Navigator,
+    finish: () -> Unit
+) {
+    LaunchedEffect("navigation") {
+        navigator.navigate.onEach {
+            if (it.popBacktrack) navController.popBackStack()
+            navController.navigate(Destination.Home.route)
+        }.launchIn(this)
+
+        navigator.back.onEach {
+            navController.popBackStack()
+        }.launchIn(this)
+
+        navigator.end.onEach {
+            finish()
+        }.launchIn(this)
     }
 }
-
-private fun NavBackStackEntry.lifecycleIsResumed() =
-    this.lifecycle.currentState == Lifecycle.State.RESUMED

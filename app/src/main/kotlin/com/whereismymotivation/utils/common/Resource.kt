@@ -18,4 +18,12 @@ data class Resource<out T> private constructor(val status: Status, val data: T?)
         fun <T> fresh(data: T? = null): Resource<T> =
             Resource(Status.FRESH, data)
     }
+
+    enum class Status {
+        SUCCESS,
+        ERROR,
+        LOADING,
+        UNKNOWN,
+        FRESH
+    }
 }
