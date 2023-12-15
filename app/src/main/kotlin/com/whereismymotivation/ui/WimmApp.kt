@@ -6,10 +6,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.whereismymotivation.ui.home.HomeBottomBar
+import com.whereismymotivation.ui.navigation.NavGraph
+import com.whereismymotivation.ui.navigation.Navigator
 import com.whereismymotivation.ui.theme.AppTheme
 
 @Composable
-fun WimmApp(finishActivity: () -> Unit) {
+fun WimmApp(navigator: Navigator, finish: () -> Unit) {
     AppTheme {
         val navController = rememberNavController()
         Scaffold(
@@ -17,9 +19,10 @@ fun WimmApp(finishActivity: () -> Unit) {
             bottomBar = { HomeBottomBar(navController = navController) },
             content = { innerPaddingModifier ->
                 NavGraph(
-                    finishActivity = finishActivity,
                     navController = navController,
-                    modifier = Modifier.padding(innerPaddingModifier)
+                    modifier = Modifier.padding(innerPaddingModifier),
+                    navigator = navigator,
+                    finish = finish
                 )
             }
         )

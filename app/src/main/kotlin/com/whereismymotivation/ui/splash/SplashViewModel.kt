@@ -2,25 +2,24 @@ package com.whereismymotivation.ui.splash
 
 import androidx.lifecycle.viewModelScope
 import com.whereismymotivation.ui.base.BaseViewModel
+import com.whereismymotivation.ui.navigation.Destination
+import com.whereismymotivation.ui.navigation.NavTarget
+import com.whereismymotivation.ui.navigation.Navigator
 import com.whereismymotivation.utils.network.NetworkHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    networkHelper: NetworkHelper
-) : BaseViewModel(networkHelper) {
+    networkHelper: NetworkHelper,
+    val navigator: Navigator,
+) : BaseViewModel(navigator, networkHelper) {
 
     companion object {
         const val TAG = "SplashViewModel"
     }
-
-    private val _close = MutableStateFlow(false)
-    val close = _close.asStateFlow()
 
     init {
         runDelayed(5000)
@@ -29,7 +28,7 @@ class SplashViewModel @Inject constructor(
     private fun runDelayed(millis: Long) {
         viewModelScope.launch {
             delay(millis)
-            _close.value = true
+            navigator.navigateTo(NavTarget(Destination.Home, true))
         }
     }
 }
