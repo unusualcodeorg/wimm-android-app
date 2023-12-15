@@ -13,6 +13,7 @@ fun WimmApp(finishActivity: () -> Unit) {
     AppTheme {
         val navController = rememberNavController()
         Scaffold(
+            // it will render bottom bar only in the home route
             bottomBar = { HomeBottomBar(navController = navController) },
             content = { innerPaddingModifier ->
                 NavGraph(
