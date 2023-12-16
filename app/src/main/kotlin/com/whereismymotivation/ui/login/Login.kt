@@ -28,22 +28,44 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.whereismymotivation.R
 
 @Composable
 fun Login(modifier: Modifier = Modifier, viewModel: LoginViewModel) {
-    var email = viewModel.email.collectAsState().value
-    var password = viewModel.password.collectAsState().value
-    var emailError = viewModel.emailError.collectAsState().value
-    var passwordError = viewModel.passwordError.collectAsState().value
-
     BackHandler { viewModel.navigator.finish() }
+    LoginView(
+        modifier,
+        email = viewModel.email.collectAsState().value,
+        password = viewModel.password.collectAsState().value,
+        emailError = viewModel.emailError.collectAsState().value,
+        passwordError = viewModel.passwordError.collectAsState().value,
+        onEmailChange = { viewModel.onEmailChange(it) },
+        onPasswordChange = { viewModel.onPasswordChange(it) },
+        basicLogin = { viewModel.basicLogin() },
+    )
+}
+
+@Composable
+private fun LoginView(
+    modifier: Modifier = Modifier,
+    email: String,
+    password: String,
+    emailError: String,
+    passwordError: String,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    basicLogin: () -> Unit
+) {
 
     Box(
         modifier = modifier
             .fillMaxHeight()
             .fillMaxWidth()
+            .background(
+                color = MaterialTheme.colorScheme.background,
+            )
     ) {
         Column(
             modifier = Modifier
@@ -70,7 +92,7 @@ fun Login(modifier: Modifier = Modifier, viewModel: LoginViewModel) {
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),
                     value = email,
-                    onValueChange = { viewModel.onEmailChange(it) },
+                    onValueChange = onEmailChange,
                     label = { Text("Email") },
                     singleLine = true,
                     leadingIcon = {
@@ -100,7 +122,7 @@ fun Login(modifier: Modifier = Modifier, viewModel: LoginViewModel) {
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),
                     value = password,
-                    onValueChange = { viewModel.onPasswordChange(it) },
+                    onValueChange = onPasswordChange,
                     label = { Text("Password") },
                     singleLine = true,
                     leadingIcon = {
@@ -131,7 +153,7 @@ fun Login(modifier: Modifier = Modifier, viewModel: LoginViewModel) {
             ) {
                 Button(
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = { viewModel.basicLogin() },
+                    onClick = basicLogin,
                 ) {
                     Text(
                         modifier = Modifier.padding(8.dp),
@@ -142,5 +164,19 @@ fun Login(modifier: Modifier = Modifier, viewModel: LoginViewModel) {
             }
         }
     }
+}
 
+@Preview
+@Composable
+fun LoginViewPreview() {
+    LoginView(
+        email = "abc",
+        password = "",
+        emailError = "Imvalid Email",
+        passwordError = "",
+        onEmailChange = {},
+        onPasswordChange = {}
+    ) {
+
+    }
 }
