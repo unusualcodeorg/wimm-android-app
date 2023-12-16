@@ -37,7 +37,12 @@ class MainActivity : ComponentActivity() {
         )
         super.onCreate(savedInstanceState)
         setContent {
-            WimmApp(navigator, messenger) { finish() }
+            WimmApp(
+                navigator = navigator,
+                loader = loader,
+                messenger = messenger
+            )
+            { finish() }
         }
     }
 }

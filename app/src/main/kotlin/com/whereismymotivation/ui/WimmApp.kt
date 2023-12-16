@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
+import com.whereismymotivation.ui.common.progress.Loader
 import com.whereismymotivation.ui.common.snackbar.AppSnackbar
 import com.whereismymotivation.ui.common.snackbar.Messenger
 import com.whereismymotivation.ui.home.HomeBottomBar
@@ -15,7 +16,12 @@ import com.whereismymotivation.ui.navigation.Navigator
 import com.whereismymotivation.ui.theme.AppTheme
 
 @Composable
-fun WimmApp(navigator: Navigator, messenger: Messenger, finish: () -> Unit) {
+fun WimmApp(
+    navigator: Navigator,
+    loader: Loader,
+    messenger: Messenger,
+    finish: () -> Unit
+) {
     val snackbarHostState = remember { SnackbarHostState() }
     AppTheme {
         val navController = rememberNavController()
