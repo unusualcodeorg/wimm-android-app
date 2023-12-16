@@ -1,6 +1,9 @@
 package com.whereismymotivation.ui.theme
 
+import androidx.compose.material3.ColorScheme
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.compositeOver
 
 val md_theme_light_primary = Color(0xFF6451A5)
 val md_theme_light_onPrimary = Color(0xFFFFFFFF)
@@ -64,12 +67,24 @@ val md_theme_dark_surfaceTint = Color(0xFFCDBDFF)
 val md_theme_dark_outlineVariant = Color(0xFF48454E)
 val md_theme_dark_scrim = Color(0xFF000000)
 
-
 val seed = Color(0xFF6451A5)
 
-val white = Color(0xFFFFFFFF)
-val black = Color(0xFF000000)
-val success = Color(0xFF8DB333)
-val error = Color(0xFFFF4E7A)
-val warning = Color(0xFFFFA086)
-val info = Color(0xFF72A2FF)
+val ColorScheme.white: Color
+    get() = Color(0xFFFFFFFF)
+
+val ColorScheme.black: Color
+    get() = Color(0xFF000000)
+
+val ColorScheme.success: Color
+    get() = Color(0xFF8DB333)
+
+val ColorScheme.warning: Color
+    get() = Color(0xFFFFA086)
+
+val ColorScheme.info: Color
+    get() = Color(0xFF72A2FF)
+
+@Composable
+fun ColorScheme.compositedOnSurface(alpha: Float): Color {
+    return onSurface.copy(alpha = alpha).compositeOver(surface)
+}

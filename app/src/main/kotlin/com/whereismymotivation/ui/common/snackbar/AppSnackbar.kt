@@ -1,5 +1,6 @@
 package com.whereismymotivation.ui.common.snackbar
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -10,7 +11,6 @@ import com.whereismymotivation.ui.common.snackbar.Message.Type.INFO
 import com.whereismymotivation.ui.common.snackbar.Message.Type.SUCCESS
 import com.whereismymotivation.ui.common.snackbar.Message.Type.WARNING
 import com.whereismymotivation.ui.theme.black
-import com.whereismymotivation.ui.theme.error
 import com.whereismymotivation.ui.theme.info
 import com.whereismymotivation.ui.theme.success
 import com.whereismymotivation.ui.theme.warning
@@ -25,18 +25,18 @@ fun AppSnackbar(
     val messageType = messenger.messageType.collectAsState()
 
     val color = when (messageType.value) {
-        SUCCESS -> success
-        ERROR -> error
-        WARNING -> warning
-        INFO -> info
+        SUCCESS -> MaterialTheme.colorScheme.success
+        ERROR -> MaterialTheme.colorScheme.error
+        WARNING -> MaterialTheme.colorScheme.warning
+        INFO -> MaterialTheme.colorScheme.info
     }
 
     SnackbarHost(hostState = snackbarHostState) {
         Snackbar(
             snackbarData = it,
             containerColor = color,
-            contentColor = black,
-            actionColor = black
+            contentColor = MaterialTheme.colorScheme.black,
+            actionColor = MaterialTheme.colorScheme.black
         )
     }
 }
