@@ -15,7 +15,7 @@ class MentorRepository @Inject constructor(
 
     fun fetchSubscriptionMentorList(): Flow<List<Mentor>> =
         flow {
-            emit(networkService.doSubscriptionMentorListCall())
+            emit(networkService.subscriptionMentorList())
         }.map { it.data }
 
 
@@ -24,11 +24,11 @@ class MentorRepository @Inject constructor(
         pageNumber: Int,
         pageItemCount: Int
     ): Flow<List<Content>> = flow {
-        emit(networkService.doMentorContentListCall(mentorId, pageNumber, pageItemCount))
+        emit(networkService.mentorContentList(mentorId, pageNumber, pageItemCount))
     }.map { it.data }
 
     fun fetchMentorDetails(mentorId: String): Flow<Mentor> = flow {
         Logger.d("ALI MentorRepository", Thread.currentThread().name)
-        emit(networkService.doMentorDetailsCall(mentorId))
+        emit(networkService.mentorDetails(mentorId))
     }.map { it.data }
 }

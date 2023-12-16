@@ -1,7 +1,6 @@
 package com.whereismymotivation.data.repository
 
 import com.whereismymotivation.data.local.db.DatabaseService
-import com.whereismymotivation.data.local.db.entity.Journal
 import com.whereismymotivation.data.local.db.entity.Mood
 import com.whereismymotivation.data.remote.NetworkService
 import com.whereismymotivation.data.remote.request.MoodsRequest
@@ -28,7 +27,7 @@ class MoodRepository @Inject constructor(
     }
 
     fun sendMoods(moods: List<Mood>): Flow<String> = flow {
-        emit(networkService.doMoodStorageCall(MoodsRequest(moods)))
+        emit(networkService.moodStorage(MoodsRequest(moods)))
     }.map { it.message }
 
     fun markedSynced(moods: List<Mood>): Flow<Int> = flow {

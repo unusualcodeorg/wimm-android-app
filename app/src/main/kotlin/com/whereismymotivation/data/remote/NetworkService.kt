@@ -17,55 +17,55 @@ interface NetworkService {
 
     @POST(Endpoints.LOGIN_DEVICE)
     @Headers(RequestHeaders.Key.AUTH_PUBLIC)
-    suspend fun doBasicLoginCall(@Body request: BasicLoginRequest): ApiDataResponse<Auth>
+    suspend fun basicLogin(@Body request: BasicLoginRequest): ApiDataResponse<Auth>
 
     @POST(Endpoints.LOGIN_FACEBOOK)
     @Headers(RequestHeaders.Key.AUTH_PUBLIC)
-    suspend fun doFacebookLoginCall(@Body request: FacebookLoginRequest): ApiDataResponse<Auth>
+    suspend fun facebookLogin(@Body request: FacebookLoginRequest): ApiDataResponse<Auth>
 
     @POST(Endpoints.LOGIN_GOOGLE)
     @Headers(RequestHeaders.Key.AUTH_PUBLIC)
-    suspend fun doGoogleLoginCall(@Body request: GoogleLoginRequest): ApiDataResponse<Auth>
+    suspend fun googleLogin(@Body request: GoogleLoginRequest): ApiDataResponse<Auth>
 
     @POST(Endpoints.REFRESH_TOKEN)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    fun doRefreshTokenCall(@Body request: RefreshTokenRequest): Call<ApiDataResponse<Token>>
+    fun refreshToken(@Body request: RefreshTokenRequest): Call<ApiDataResponse<Token>>
 
     @DELETE(Endpoints.LOGOUT)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun doLogoutCall(): ApiGeneralResponse
+    suspend fun logout(): ApiGeneralResponse
 
     @POST(Endpoints.SUBSCRIPTION_SUBSCRIBE)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun doSubscriptionSubscribeCall(@Body request: SubscriptionModifyRequest): ApiGeneralResponse
+    suspend fun subscriptionSubscribe(@Body request: SubscriptionModifyRequest): ApiGeneralResponse
 
     @POST(Endpoints.SUBSCRIPTION_UNSUBSCRIBE)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun doSubscriptionUnsubscribeCall(@Body request: SubscriptionModifyRequest): ApiGeneralResponse
+    suspend fun subscriptionUnsubscribe(@Body request: SubscriptionModifyRequest): ApiGeneralResponse
 
     @GET(Endpoints.SUBSCRIPTION_MENTOR_LIST)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun doSubscriptionMentorListCall(): ApiDataResponse<List<Mentor>>
+    suspend fun subscriptionMentorList(): ApiDataResponse<List<Mentor>>
 
     @GET(Endpoints.SUBSCRIPTION_TOPIC_LIST)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun doSubscriptionTopicListCall(): ApiDataResponse<List<Topic>>
+    suspend fun subscriptionTopicList(): ApiDataResponse<List<Topic>>
 
     @GET(Endpoints.SUBSCRIPTION_INFO_MENTOR)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun doSubscriptionInfoMentorCall(@Path("id") mentorId: String): ApiDataResponse<SubscriptionInfo>
+    suspend fun subscriptionInfoMentor(@Path("id") mentorId: String): ApiDataResponse<SubscriptionInfo>
 
     @GET(Endpoints.SUBSCRIPTION_INFO_TOPIC)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun doSubscriptionInfoTopicCall(@Path("id") topicId: String): ApiDataResponse<SubscriptionInfo>
+    suspend fun subscriptionInfoTopic(@Path("id") topicId: String): ApiDataResponse<SubscriptionInfo>
 
     @GET(Endpoints.SIMILAR_CONTENT_LIST)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun doSimilarContentListCall(@Query("contentId") contentId: String): ApiDataResponse<List<Content>>
+    suspend fun similarContentList(@Query("contentId") contentId: String): ApiDataResponse<List<Content>>
 
     @GET(Endpoints.CONTENT_LIST)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun doContentListCall(
+    suspend fun contentList(
         @Query("pageNumber") pageNumber: Int,
         @Query("pageItemCount") pageItemCount: Int,
         @Query("empty") empty: Boolean
@@ -73,7 +73,7 @@ interface NetworkService {
 
     @GET(Endpoints.MENTOR_CONTENT_LIST)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun doMentorContentListCall(
+    suspend fun mentorContentList(
         @Path("id") mentorId: String,
         @Query("pageNumber") pageNumber: Int,
         @Query("pageItemCount") pageItemCount: Int
@@ -81,7 +81,7 @@ interface NetworkService {
 
     @GET(Endpoints.TOPIC_CONTENT_LIST)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun doTopicContentListCall(
+    suspend fun topicContentList(
         @Path("id") topicId: String,
         @Query("pageNumber") pageNumber: Int,
         @Query("pageItemCount") pageItemCount: Int
@@ -89,105 +89,105 @@ interface NetworkService {
 
     @GET(Endpoints.RECOMMENDED_MENTOR_LIST)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun doRecommendedMentorListCall(
+    suspend fun recommendedMentorList(
         @Query("pageNumber") pageNumber: Int, @Query("pageItemCount") pageItemCount: Int
     ): ApiDataResponse<List<Mentor>>
 
     @GET(Endpoints.RECOMMENDED_TOPIC_LIST)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun doRecommendedTopicListCall(
+    suspend fun recommendedTopicList(
         @Query("pageNumber") pageNumber: Int, @Query("pageItemCount") pageItemCount: Int
     ): ApiDataResponse<List<Topic>>
 
     @GET(Endpoints.MENTOR_DETAIL)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun doMentorDetailsCall(@Path("id") mentorId: String): ApiDataResponse<Mentor>
+    suspend fun mentorDetails(@Path("id") mentorId: String): ApiDataResponse<Mentor>
 
     @GET(Endpoints.TOPIC_DETAIL)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun doTopicDetailsCall(@Path("id") topicId: String): ApiDataResponse<Topic>
+    suspend fun topicDetails(@Path("id") topicId: String): ApiDataResponse<Topic>
 
     @GET(Endpoints.SEARCH)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun doSearchCall(@Query("query") query: String): ApiDataResponse<List<UniversalSearchResult>>
+    suspend fun search(@Query("query") query: String): ApiDataResponse<List<UniversalSearchResult>>
 
     @GET(Endpoints.SEARCH)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun doFilteredSearchCall(
+    suspend fun filteredSearch(
         @Query("query") query: String, @Query("filter") filter: String
     ): ApiDataResponse<List<UniversalSearchResult>>
 
     @POST(Endpoints.MESSAGE)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun doMessageCall(@Body request: MessageRequest): ApiGeneralResponse
+    suspend fun message(@Body request: MessageRequest): ApiGeneralResponse
 
     @PUT(Endpoints.PROFILE)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun doFirebaseTokenCall(@Body request: FirebaseTokenRequest): ApiGeneralResponse
+    suspend fun firebaseToken(@Body request: FirebaseTokenRequest): ApiGeneralResponse
 
     @GET(Endpoints.META_CONTENT)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun doMetaContentCall(@Query("url") url: String): ApiDataResponse<MetaContent>
+    suspend fun metaContent(@Query("url") url: String): ApiDataResponse<MetaContent>
 
     @GET(Endpoints.MY_BOX_CONTENT_LIST)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun doMyBoxContentListCall(
+    suspend fun myBoxContentList(
         @Query("pageNumber") pageNumber: Int, @Query("pageItemCount") pageItemCount: Int
     ): ApiDataResponse<List<Content>>
 
     @POST(Endpoints.CREATE_PRIVATE_CONTENT)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun doCreatePrivateContentCall(@Body request: MetaContent): ApiDataResponse<Content>
+    suspend fun createPrivateContent(@Body request: MetaContent): ApiDataResponse<Content>
 
     @DELETE(Endpoints.DELETE_PRIVATE_CONTENT)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun doRemovePrivateContentCall(@Path("id") contentId: String): ApiGeneralResponse
+    suspend fun removePrivateContent(@Path("id") contentId: String): ApiGeneralResponse
 
     @POST(Endpoints.BOOKMARK_CONTENT)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun doContentBookmarkCall(@Body request: ContentBookmarkRequest): ApiGeneralResponse
+    suspend fun contentBookmark(@Body request: ContentBookmarkRequest): ApiGeneralResponse
 
     @DELETE(Endpoints.REMOVE_CONTENT_BOOKMARK)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun doRemoveContentBookmarkCall(@Path("contentId") contentId: String): ApiGeneralResponse
+    suspend fun removeContentBookmark(@Path("contentId") contentId: String): ApiGeneralResponse
 
     @POST(Endpoints.SUBMIT_PRIVATE_CONTENT)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun doSubmitPrivateContentCall(@Body request: ContentSubmissionRequest): ApiGeneralResponse
+    suspend fun submitPrivateContent(@Body request: ContentSubmissionRequest): ApiGeneralResponse
 
     @POST(Endpoints.UNSUBMIT_PRIVATE_CONTENT)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun doUnsubmitPrivateContentCall(@Body request: ContentSubmissionRequest): ApiGeneralResponse
+    suspend fun unsubmitPrivateContent(@Body request: ContentSubmissionRequest): ApiGeneralResponse
 
     @POST(Endpoints.PUBLISH_GENERAL_CONTENT)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun doPublishGeneralContent(@Body request: ContentSubmissionRequest): ApiGeneralResponse
+    suspend fun publishGeneral(@Body request: ContentSubmissionRequest): ApiGeneralResponse
 
     @GET(Endpoints.CONTENT_DETAIL)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun doContentDetailsCall(@Path("id") contentId: String): ApiDataResponse<Content>
+    suspend fun contentDetails(@Path("id") contentId: String): ApiDataResponse<Content>
 
     @POST(Endpoints.CONTENT_MARK_LIKE)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun doContentMarkLikeCall(@Body request: ContentSubmissionRequest): ApiGeneralResponse
+    suspend fun contentMarkLike(@Body request: ContentSubmissionRequest): ApiGeneralResponse
 
     @POST(Endpoints.CONTENT_MARK_UNLIKE)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun doContentMarkUnlikeCall(@Body request: ContentSubmissionRequest): ApiGeneralResponse
+    suspend fun contentMarkUnlike(@Body request: ContentSubmissionRequest): ApiGeneralResponse
 
     @POST(Endpoints.CONTENT_MARK_VIEW)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun doContentMarkViewCall(@Body request: ContentSubmissionRequest): ApiGeneralResponse
+    suspend fun contentMarkView(@Body request: ContentSubmissionRequest): ApiGeneralResponse
 
     @POST(Endpoints.CONTENT_MARK_SHARE)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun doContentMarkShareCall(@Body request: ContentSubmissionRequest): ApiGeneralResponse
+    suspend fun contentMarkShare(@Body request: ContentSubmissionRequest): ApiGeneralResponse
 
     @POST(Endpoints.STORAGE_MOOD)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun doMoodStorageCall(@Body request: MoodsRequest): ApiGeneralResponse
+    suspend fun moodStorage(@Body request: MoodsRequest): ApiGeneralResponse
 
     @POST(Endpoints.STORAGE_JOURNAL)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun doJournalStorageCall(@Body request: JournalsRequest): ApiGeneralResponse
+    suspend fun journalStorage(@Body request: JournalsRequest): ApiGeneralResponse
 }

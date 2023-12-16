@@ -49,7 +49,7 @@ class RefreshTokenInterceptor @Inject constructor(
                         if (refreshToken != null) {
 
                             val refreshTokenCall =
-                                networkService.doRefreshTokenCall(RefreshTokenRequest(refreshToken))
+                                networkService.refreshToken(RefreshTokenRequest(refreshToken))
                                     .execute()
 
                             if (refreshTokenCall.isSuccessful) {

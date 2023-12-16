@@ -31,7 +31,7 @@ class JournalRepository @Inject constructor(
     }
 
     fun sendJournal(journals: List<Journal>): Flow<String> = flow {
-        emit(networkService.doJournalStorageCall(JournalsRequest(journals)))
+        emit(networkService.journalStorage(JournalsRequest(journals)))
     }.map { it.message }
 
     fun fetchUnSyncJournals(userId: String): Flow<List<Journal>> = flow {

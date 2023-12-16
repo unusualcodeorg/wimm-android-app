@@ -13,14 +13,14 @@ class SearchRepository @Inject constructor(
 ) {
 
     fun fetchSearchResults(query: String): Flow<List<UniversalSearchResult>> = flow {
-        emit(networkService.doSearchCall(query))
+        emit(networkService.search(query))
     }.map { it.data }
 
     fun fetchMentorSearchResults(query: String): Flow<List<UniversalSearchResult>> = flow {
-        emit(networkService.doFilteredSearchCall(query, Content.Category.MENTOR_INFO.type))
+        emit(networkService.filteredSearch(query, Content.Category.MENTOR_INFO.type))
     }.map { it.data }
 
     fun fetchTopicSearchResults(query: String): Flow<List<UniversalSearchResult>> = flow {
-        emit(networkService.doFilteredSearchCall(query, Content.Category.TOPIC_INFO.type))
+        emit(networkService.filteredSearch(query, Content.Category.TOPIC_INFO.type))
     }.map { it.data }
 }
