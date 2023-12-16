@@ -52,5 +52,9 @@ internal fun MessageHandler(
                 }
             }
         }.launchIn(this)
+
+        messenger.clear.onEach {
+            snackbarHostState.currentSnackbarData?.dismiss()
+        }.launchIn(this)
     }
 }
