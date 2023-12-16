@@ -186,7 +186,7 @@ private fun LoginView(
 
 @Preview
 @Composable
-fun LoginPreview() {
+private fun LoginPreview() {
     LoginView(
         email = "abc",
         password = "",

@@ -18,7 +18,7 @@ fun Splash(modifier: Modifier, viewModel: SplashViewModel) {
 }
 
 @Composable
-fun SplashView(modifier: Modifier, onAnimationComplete: () -> Unit) {
+private fun SplashView(modifier: Modifier, onAnimationComplete: () -> Unit) {
     Column(
         modifier = modifier
             .fillMaxHeight()
@@ -35,6 +35,6 @@ fun SplashView(modifier: Modifier, onAnimationComplete: () -> Unit) {
 
 @Preview
 @Composable
-fun LoginPreview() {
+private fun LoginPreview() {
     SplashView(modifier = Modifier) {}
 }

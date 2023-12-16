@@ -26,46 +26,39 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.whereismymotivation.R
-import com.whereismymotivation.ui.navigation.Destination
 import com.whereismymotivation.ui.feed.Feed
 import com.whereismymotivation.ui.mentors.Mentors
 import com.whereismymotivation.ui.mybox.MyBox
+import com.whereismymotivation.ui.navigation.Destination
 import com.whereismymotivation.ui.profile.Profile
+import com.whereismymotivation.ui.profile.ProfileViewModel
 import com.whereismymotivation.ui.search.Search
 
 fun NavGraphBuilder.home(
     modifier: Modifier = Modifier
 ) {
     composable(Destination.Home.Feed.route) {
-        Feed(
-            modifier
-        )
+        Feed(modifier)
     }
     composable(Destination.Home.Mentors.route) {
-        Mentors(
-            modifier
-        )
+        Mentors(modifier)
     }
     composable(Destination.Home.Search.route) {
-        Search(
-            modifier
-        )
+        Search(modifier)
     }
     composable(Destination.Home.Profile.route) {
-        Profile(
-            modifier
-        )
+        val viewModel: ProfileViewModel = hiltViewModel()
+        Profile(modifier, viewModel)
     }
 
     composable(Destination.Home.MyBox.route) {
-        MyBox(
-            modifier
-        )
+        MyBox(modifier)
     }
 }
 
