@@ -31,8 +31,10 @@ open class BaseViewModel @Inject constructor(
     }
 
     protected fun launchNetwork(block: suspend CoroutineScope.() -> Unit) {
-        if (checkInternetConnectionWithMessage())
+        if (checkInternetConnectionWithMessage()) {
+            messenger.reset()
             viewModelScope.launch { block() }
+        }
     }
 
     protected fun handleNetworkError(err: Throwable?) =
