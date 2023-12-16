@@ -19,7 +19,7 @@ class ContentRepository @Inject constructor(
 ) {
 
     fun fetchSimilarContentList(contentId: String): Flow<List<Content>> = flow {
-        emit(networkService.doSimilarContentListCall(contentId))
+        emit(networkService.similarContentList(contentId))
     }.map { it.data }
 
     fun fetchHomeFeedList(
@@ -27,48 +27,48 @@ class ContentRepository @Inject constructor(
         pageItemCount: Int,
         empty: Boolean
     ): Flow<List<Content>> = flow {
-        emit(networkService.doContentListCall(pageNumber, pageItemCount, empty))
+        emit(networkService.contentList(pageNumber, pageItemCount, empty))
     }.map { it.data }
 
     fun fetchMyBoxContentList(pageNumber: Int, pageItemCount: Int): Flow<List<Content>> = flow {
-        emit(networkService.doMyBoxContentListCall(pageNumber, pageItemCount))
+        emit(networkService.myBoxContentList(pageNumber, pageItemCount))
     }.map { it.data }
 
     fun fetchMetaContent(url: String): Flow<MetaContent> = flow {
-        emit(networkService.doMetaContentCall(url))
+        emit(networkService.metaContent(url))
     }.map { it.data }
 
     fun createPrivateContent(content: MetaContent): Flow<Content> = flow {
-        emit(networkService.doCreatePrivateContentCall(content))
+        emit(networkService.createPrivateContent(content))
     }.map { it.data }
 
     fun removePrivateContent(contentId: String): Flow<String> = flow {
-        emit(networkService.doRemovePrivateContentCall(contentId))
+        emit(networkService.removePrivateContent(contentId))
     }.map { it.message }
 
     fun bookmarkContent(contentId: String): Flow<String> = flow {
-        emit(networkService.doContentBookmarkCall(ContentBookmarkRequest(contentId)))
+        emit(networkService.contentBookmark(ContentBookmarkRequest(contentId)))
     }.map { it.message }
 
     fun removeContentBookmark(contentId: String): Flow<String> = flow {
-        emit(networkService.doRemoveContentBookmarkCall(contentId))
+        emit(networkService.removeContentBookmark(contentId))
     }.map { it.message }
 
     fun submitPrivateContent(contentId: String): Flow<String> = flow {
         emit(
-            networkService.doSubmitPrivateContentCall(ContentSubmissionRequest(contentId))
+            networkService.submitPrivateContent(ContentSubmissionRequest(contentId))
         )
     }.map { it.message }
 
     fun unsubmitPrivateContent(contentId: String): Flow<String> = flow {
         emit(
-            networkService.doUnsubmitPrivateContentCall(ContentSubmissionRequest(contentId))
+            networkService.unsubmitPrivateContent(ContentSubmissionRequest(contentId))
         )
     }.map { it.message }
 
     fun publishGeneralContent(contentId: String): Flow<String> = flow {
         emit(
-            networkService.doPublishGeneralContent(ContentSubmissionRequest(contentId))
+            networkService.publishGeneral(ContentSubmissionRequest(contentId))
         )
     }.map { it.message }
 
@@ -82,26 +82,26 @@ class ContentRepository @Inject constructor(
     fun markFeedLastSeen() = contentPreferences.setFeedLastSeen(System.currentTimeMillis())
 
     fun getContentDetails(contentId: String): Flow<Content> = flow {
-        emit(networkService.doContentDetailsCall(contentId))
+        emit(networkService.contentDetails(contentId))
     }.map { it.data }
 
     fun markContentLike(contentId: String): Flow<String> = flow {
-        emit(networkService.doContentMarkLikeCall(ContentSubmissionRequest(contentId)))
+        emit(networkService.contentMarkLike(ContentSubmissionRequest(contentId)))
     }.map { it.message }
 
     fun markContentUnlike(contentId: String): Flow<String> = flow {
         emit(
-            networkService.doContentMarkUnlikeCall(ContentSubmissionRequest(contentId))
+            networkService.contentMarkUnlike(ContentSubmissionRequest(contentId))
         )
     }.map { it.message }
 
     fun markContentView(contentId: String): Flow<String> = flow {
-        emit(networkService.doContentMarkViewCall(ContentSubmissionRequest(contentId)))
+        emit(networkService.contentMarkView(ContentSubmissionRequest(contentId)))
     }.map { it.message }
 
     fun markContentShare(contentId: String): Flow<String> = flow {
         emit(
-            networkService.doContentMarkShareCall(ContentSubmissionRequest(contentId))
+            networkService.contentMarkShare(ContentSubmissionRequest(contentId))
         )
     }.map { it.message }
 

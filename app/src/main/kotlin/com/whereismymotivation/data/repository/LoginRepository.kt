@@ -15,15 +15,15 @@ class LoginRepository @Inject constructor(
     private val networkService: NetworkService,
 ) {
     fun doFacebookLogin(userId: String, token: String): Flow<AppUser> = flow {
-        emit(networkService.doFacebookLoginCall(FacebookLoginRequest(userId, token)))
+        emit(networkService.facebookLogin(FacebookLoginRequest(userId, token)))
     }.map { saveUserData(it.data) }
 
     fun doGoogleLogin(userId: String, token: String): Flow<AppUser> = flow {
-        emit(networkService.doGoogleLoginCall(GoogleLoginRequest(userId, token)))
+        emit(networkService.googleLogin(GoogleLoginRequest(userId, token)))
     }.map { saveUserData(it.data) }
 
     fun basicLogin(email: String, password: String): Flow<AppUser> = flow {
-        emit(networkService.doBasicLoginCall(BasicLoginRequest(email, password)))
+        emit(networkService.basicLogin(BasicLoginRequest(email, password)))
     }.map { saveUserData(it.data) }
 
     private fun saveUserData(data: Auth): AppUser = AppUser(

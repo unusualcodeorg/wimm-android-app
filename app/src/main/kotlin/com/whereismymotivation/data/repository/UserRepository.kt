@@ -104,7 +104,7 @@ class UserRepository @Inject constructor(
 
     fun saveUserRatingMessage(rate: Int, message: String): Flow<String> = flow {
         emit(
-            networkService.doMessageCall(
+            networkService.message(
                 MessageRequest("USER_ANDROID_RATING", "Rating: $rate | Message: $message")
             )
         )
@@ -112,11 +112,11 @@ class UserRepository @Inject constructor(
 
 
     fun sendFirebaseToken(token: String): Flow<String> = flow {
-        emit(networkService.doFirebaseTokenCall(FirebaseTokenRequest(token)))
+        emit(networkService.firebaseToken(FirebaseTokenRequest(token)))
     }.map { it.message }
 
     fun sendFeedback(message: String): Flow<String> = flow {
-        emit(networkService.doMessageCall(MessageRequest("USER_ANDROID_FEEDBACK", message)))
+        emit(networkService.message(MessageRequest("USER_ANDROID_FEEDBACK", message)))
     }.map { it.message }
 
     fun getFirebaseToken(): String? = userPreferences.getFirebaseToken()
@@ -128,6 +128,6 @@ class UserRepository @Inject constructor(
     fun setFirebaseTokenSent() = userPreferences.setFirebaseTokenSent()
 
     fun doLogoutCall(): Flow<String> = flow {
-        emit(networkService.doLogoutCall())
+        emit(networkService.logout())
     }.map { it.message }
 }

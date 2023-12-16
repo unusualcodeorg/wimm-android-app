@@ -15,11 +15,11 @@ class SubscriptionRepository @Inject constructor(
 ) {
 
     fun fetchRecommendedMentorList(pageNumber: Int, pageItemCount: Int): Flow<List<Mentor>> = flow {
-        emit(networkService.doRecommendedMentorListCall(pageNumber, pageItemCount))
+        emit(networkService.recommendedMentorList(pageNumber, pageItemCount))
     }.map { it.data }
 
     fun fetchRecommendedTopicList(pageNumber: Int, pageItemCount: Int): Flow<List<Topic>> = flow {
-        emit(networkService.doRecommendedTopicListCall(pageNumber, pageItemCount))
+        emit(networkService.recommendedTopicList(pageNumber, pageItemCount))
     }.map { it.data }
 
     fun subscribe(mentors: List<Mentor>, topics: List<Topic>): Flow<String> = flow {
@@ -31,7 +31,7 @@ class SubscriptionRepository @Inject constructor(
 
         emit(
             networkService
-                .doSubscriptionSubscribeCall(SubscriptionModifyRequest(mentorsArray, topicsArray))
+                .subscriptionSubscribe(SubscriptionModifyRequest(mentorsArray, topicsArray))
         )
     }.map { it.message }
 
@@ -44,17 +44,17 @@ class SubscriptionRepository @Inject constructor(
 
         emit(
             networkService
-                .doSubscriptionUnsubscribeCall(SubscriptionModifyRequest(mentorsArray, topicsArray))
+                .subscriptionUnsubscribe(SubscriptionModifyRequest(mentorsArray, topicsArray))
         )
 
     }.map { it.message }
 
     fun fetchSubscriptionInfoMentor(mentorId: String): Flow<SubscriptionInfo> = flow {
-        emit(networkService.doSubscriptionInfoMentorCall(mentorId))
+        emit(networkService.subscriptionInfoMentor(mentorId))
     }.map { it.data }
 
     fun fetchSubscriptionInfoTopic(topicId: String): Flow<SubscriptionInfo> = flow {
-        emit(networkService.doSubscriptionInfoTopicCall(topicId))
+        emit(networkService.subscriptionInfoTopic(topicId))
     }.map { it.data }
 
 }

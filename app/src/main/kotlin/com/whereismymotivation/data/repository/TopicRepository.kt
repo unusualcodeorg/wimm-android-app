@@ -13,7 +13,7 @@ class TopicRepository @Inject constructor(
 ) {
 
     fun fetchSubscriptionTopicList(): Flow<List<Topic>> = flow {
-        emit(networkService.doSubscriptionTopicListCall())
+        emit(networkService.subscriptionTopicList())
     }.map {
         it.data.onEach { topic -> topic.subscribed = true }
     }
@@ -23,10 +23,10 @@ class TopicRepository @Inject constructor(
         pageNumber: Int,
         pageItemCount: Int
     ): Flow<List<Content>> = flow {
-        emit(networkService.doTopicContentListCall(topicId, pageNumber, pageItemCount))
+        emit(networkService.topicContentList(topicId, pageNumber, pageItemCount))
     }.map { it.data }
 
     fun fetchTopicDetails(topicId: String): Flow<Topic> = flow {
-        emit(networkService.doTopicDetailsCall(topicId))
+        emit(networkService.topicDetails(topicId))
     }.map { it.data }
 }
