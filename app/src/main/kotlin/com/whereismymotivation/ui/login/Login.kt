@@ -91,7 +91,7 @@ private fun LoginView(
                     top = 32.dp,
                     bottom = 4.dp
                 )
-            ){
+            ) {
                 Image(
                     painterResource(R.drawable.wimm_logo),
                     contentDescription = "",
@@ -186,7 +186,7 @@ private fun LoginView(
 
 @Preview
 @Composable
-fun LoginViewPreview() {
+fun LoginPreview() {
     LoginView(
         email = "abc",
         password = "",
