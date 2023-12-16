@@ -15,7 +15,7 @@ import retrofit2.http.*
 
 interface NetworkService {
 
-    @POST(Endpoints.LOGIN_DEVICE)
+    @POST(Endpoints.LOGIN_BASIC)
     @Headers(RequestHeaders.Key.AUTH_PUBLIC)
     suspend fun basicLogin(@Body request: BasicLoginRequest): ApiDataResponse<Auth>
 

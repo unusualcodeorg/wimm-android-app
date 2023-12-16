@@ -2,7 +2,6 @@ package com.whereismymotivation.ui.base
 
 import androidx.lifecycle.ViewModel
 import com.whereismymotivation.R
-import com.whereismymotivation.ui.navigation.Navigator
 import com.whereismymotivation.utils.common.Resource
 import com.whereismymotivation.utils.network.NetworkError
 import com.whereismymotivation.utils.network.NetworkHelper
@@ -25,6 +24,8 @@ open class BaseViewModel @Inject constructor(
 
     private val _networkMessage = MutableStateFlow(Resource.unknown(0))
     val networkMessage = _networkMessage.asStateFlow()
+
+    protected fun checkInternetConnection(): Boolean = networkHelper.isNetworkConnected()
 
     protected fun handleNetworkError(err: Throwable?) =
         err?.let {

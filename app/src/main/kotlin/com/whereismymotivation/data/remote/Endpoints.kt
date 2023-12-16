@@ -3,6 +3,7 @@ package com.whereismymotivation.data.remote
 object Endpoints {
 
     const val LOGIN_DEVICE = "login/device-id"
+    const val LOGIN_BASIC = "login/basic"
     const val LOGIN_GOOGLE = "login/google"
     const val LOGIN_FACEBOOK = "login/facebook"
     const val REFRESH_TOKEN = "token/refresh"

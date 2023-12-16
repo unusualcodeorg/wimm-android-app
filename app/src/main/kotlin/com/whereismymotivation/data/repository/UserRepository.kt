@@ -21,6 +21,8 @@ class UserRepository @Inject constructor(
     private val userPreferences: UserPreferences
 ) {
 
+    fun userExists() = userPreferences.getUserId() != null
+
     fun saveCurrentUser(user: AppUser) {
         removeCurrentUser()
         userPreferences.setUserId(user.userId)
@@ -127,7 +129,7 @@ class UserRepository @Inject constructor(
 
     fun setFirebaseTokenSent() = userPreferences.setFirebaseTokenSent()
 
-    fun doLogoutCall(): Flow<String> = flow {
+    fun logout(): Flow<String> = flow {
         emit(networkService.logout())
     }.map { it.message }
 }
