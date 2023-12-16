@@ -1,14 +1,14 @@
-package com.whereismymotivation.ui.message
+package com.whereismymotivation.ui.common.snackbar
 
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import com.whereismymotivation.ui.message.Message.Type.ERROR
-import com.whereismymotivation.ui.message.Message.Type.INFO
-import com.whereismymotivation.ui.message.Message.Type.SUCCESS
-import com.whereismymotivation.ui.message.Message.Type.WARNING
+import com.whereismymotivation.ui.common.snackbar.Message.Type.ERROR
+import com.whereismymotivation.ui.common.snackbar.Message.Type.INFO
+import com.whereismymotivation.ui.common.snackbar.Message.Type.SUCCESS
+import com.whereismymotivation.ui.common.snackbar.Message.Type.WARNING
 import com.whereismymotivation.ui.theme.black
 import com.whereismymotivation.ui.theme.error
 import com.whereismymotivation.ui.theme.info

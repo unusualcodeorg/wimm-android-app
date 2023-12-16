@@ -1,4 +1,4 @@
-package com.whereismymotivation.ui.message
+package com.whereismymotivation.ui.common.snackbar
 
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
