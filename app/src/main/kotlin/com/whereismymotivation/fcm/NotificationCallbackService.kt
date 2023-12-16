@@ -30,6 +30,24 @@ class NotificationCallbackService : IntentService("NotificationCallbackService")
     @Inject
     lateinit var remoteConfigRepository: RemoteConfigRepository
 
+    private val ACTION_SCREEN_NAVIGATION = "ACTION_SCREEN_NAVIGATION"
+    private val KEY_SCREEN_TO_GO = "KEY_SCREEN_TO_GO"
+
+    val SCREEN_MOOD = "SCREEN_MOOD"
+    val SCREEN_JOURNAL = "SCREEN_JOURNAL"
+
+    fun getMainStartIntent(context: Context): Intent =
+        Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+
+    fun getMainStartIntent(context: Context, screenToGo: String): Intent =
+        Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            action = ACTION_SCREEN_NAVIGATION
+            putExtra(KEY_SCREEN_TO_GO, screenToGo)
+        }
+
     override fun onHandleIntent(intent: Intent?) {
         intent?.run {
             try {
@@ -50,9 +68,7 @@ class NotificationCallbackService : IntentService("NotificationCallbackService")
                                 userRepository.getCurrentUser()?.let {
                                     TaskStackBuilder.create(applicationContext)
                                         .addNextIntent(
-                                            MainActivity.getStartIntent(
-                                                applicationContext
-                                            )
+                                            getMainStartIntent(applicationContext)
                                         )
                                         .addNextIntent(
                                             getContentStartIntent(
@@ -92,9 +108,9 @@ class NotificationCallbackService : IntentService("NotificationCallbackService")
                             closeNotificationDrawer()
                             userRepository.getCurrentUser()?.let {
                                 applicationContext.startActivity(
-                                    MainActivity.getStartIntent(
+                                    getMainStartIntent(
                                         applicationContext,
-                                        MainActivity.SCREEN_MOOD
+                                        SCREEN_MOOD
                                     )
                                 )
                             }
@@ -105,9 +121,9 @@ class NotificationCallbackService : IntentService("NotificationCallbackService")
                             closeNotificationDrawer()
                             userRepository.getCurrentUser()?.let {
                                 applicationContext.startActivity(
-                                    MainActivity.getStartIntent(
+                                    getMainStartIntent(
                                         applicationContext,
-                                        MainActivity.SCREEN_JOURNAL
+                                        SCREEN_JOURNAL
                                     )
                                 )
                             }
@@ -153,8 +169,7 @@ class NotificationCallbackService : IntentService("NotificationCallbackService")
     }
 
     private fun launchApp() {
-        applicationContext.startActivity(MainActivity.getStartIntent(applicationContext))
-//        applicationContext.startActivity(SplashActivity.getRelaunchAppIntent(applicationContext))
+        applicationContext.startActivity(getMainStartIntent(applicationContext))
     }
 
     private fun closeNotificationDrawer() {

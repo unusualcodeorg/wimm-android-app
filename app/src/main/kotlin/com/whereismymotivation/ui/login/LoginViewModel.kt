@@ -3,6 +3,7 @@ package com.whereismymotivation.ui.login
 import com.whereismymotivation.data.repository.LoginRepository
 import com.whereismymotivation.data.repository.UserRepository
 import com.whereismymotivation.ui.base.BaseViewModel
+import com.whereismymotivation.ui.common.progress.Loader
 import com.whereismymotivation.ui.common.snackbar.Message
 import com.whereismymotivation.ui.common.snackbar.Messenger
 import com.whereismymotivation.ui.navigation.Destination
@@ -13,17 +14,17 @@ import com.whereismymotivation.utils.network.NetworkHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.catch
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     networkHelper: NetworkHelper,
+    loader: Loader,
     private val loginRepository: LoginRepository,
     private val userRepository: UserRepository,
     val navigator: Navigator,
-    val messenger: Messenger
-) : BaseViewModel(networkHelper, messenger) {
+    val messenger: Messenger,
+) : BaseViewModel(networkHelper, loader, messenger) {
 
     companion object {
         const val TAG = "LoginViewModel"
@@ -41,19 +42,18 @@ class LoginViewModel @Inject constructor(
 
     fun onEmailChange(input: String) {
         _email.tryEmit(input)
-        if (_emailError.value.isNotEmpty()) _emailError.tryEmit("")
+        if (emailError.value.isNotEmpty()) _emailError.tryEmit("")
     }
 
     fun onPasswordChange(input: String) {
         _password.tryEmit(input)
-        if (_passwordError.value.isNotEmpty()) _passwordError.tryEmit("")
+        if (passwordError.value.isNotEmpty()) _passwordError.tryEmit("")
     }
 
     fun basicLogin() {
         if (validate() && checkInternetConnectionWithMessage()) {
             launchNetwork {
                 loginRepository.basicLogin(email.value, password.value)
-                    .catch { handleNetworkError(it) }
                     .collect {
                         userRepository.saveCurrentUser(it)
                         navigator.navigateTo(NavTarget(Destination.Home.Feed, true))
@@ -68,7 +68,6 @@ class LoginViewModel @Inject constructor(
         if (!isValidEmail(email.value)) _emailError.tryEmit("Invalid Email").run { error = true }
         if (password.value.length < 6) _passwordError.tryEmit("Password length should be at least 6")
             .run { error = true }
-
         return !error
     }
 }

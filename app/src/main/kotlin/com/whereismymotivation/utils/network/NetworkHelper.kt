@@ -30,17 +30,17 @@ class NetworkHelper @Inject constructor(@ApplicationContext private val context:
                 && actNw.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED))
     }
 
-    fun castToNetworkError(throwable: Throwable): NetworkError {
+    fun castToNetworkError(e: Throwable): NetworkError {
         val defaultNetworkError = NetworkError()
         try {
-            if (throwable is ConnectException) return NetworkError(0, "0")
-            if (throwable !is HttpException) return defaultNetworkError
+            if (e is ConnectException) return NetworkError(0, "0")
+            if (e !is HttpException) return defaultNetworkError
             val error = Moshi.Builder()
                 .build()
                 .adapter(NetworkError::class.java)
-                .fromJson(throwable.response()?.errorBody()?.string().orEmpty())
+                .fromJson(e.response()?.errorBody()?.string().orEmpty())
             return error?.let {
-                return@let NetworkError(throwable.code(), error.statusCode, error.message)
+                return@let NetworkError(e.code(), error.statusCode, error.message)
             } ?: defaultNetworkError
         } catch (e: IOException) {
             Logger.e(TAG, e.toString())
