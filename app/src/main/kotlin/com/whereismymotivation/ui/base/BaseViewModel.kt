@@ -1,17 +1,20 @@
 package com.whereismymotivation.ui.base
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.whereismymotivation.R
-import com.whereismymotivation.utils.common.Resource
+import com.whereismymotivation.ui.message.Message
+import com.whereismymotivation.ui.message.Messenger
 import com.whereismymotivation.utils.network.NetworkError
 import com.whereismymotivation.utils.network.NetworkHelper
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.net.ssl.HttpsURLConnection
 
 open class BaseViewModel @Inject constructor(
-    private val networkHelper: NetworkHelper
+    private val networkHelper: NetworkHelper,
+    private val messenger: Messenger
 ) :
     ViewModel() {
 
@@ -19,45 +22,51 @@ open class BaseViewModel @Inject constructor(
         const val TAG = "HomeViewModel"
     }
 
-    protected val _message = MutableStateFlow(Resource.unknown(""))
-    val message = _message.asStateFlow()
-
-    private val _networkMessage = MutableStateFlow(Resource.unknown(0))
-    val networkMessage = _networkMessage.asStateFlow()
-
     protected fun checkInternetConnection(): Boolean = networkHelper.isNetworkConnected()
+
+    protected fun checkInternetConnectionWithMessage(): Boolean {
+        val connected = networkHelper.isNetworkConnected()
+        if (!connected) messenger.deliverRes(Message.error(R.string.no_internet_connection))
+        return connected
+    }
+
+    protected fun launchNetwork(block: suspend CoroutineScope.() -> Unit) {
+        if (checkInternetConnectionWithMessage())
+            viewModelScope.launch { block() }
+    }
 
     protected fun handleNetworkError(err: Throwable?) =
         err?.let {
             return@let networkHelper.castToNetworkError(it).apply {
                 when (status) {
-                    0 -> _networkMessage.value = Resource.error(R.string.server_connection_error)
+                    0 -> messenger.deliverRes(Message.error(R.string.server_connection_error))
                     HttpsURLConnection.HTTP_UNAUTHORIZED -> {
-                        _networkMessage.value = Resource.error(R.string.network_login_again)
+                        if (it.message != null)
+                            messenger.deliver(Message.error(this.message))
+                        else
+                            messenger.deliverRes(Message.error(R.string.network_login_again))
                     }
 
                     HttpsURLConnection.HTTP_FORBIDDEN -> {
-                        _networkMessage.value = Resource.error(R.string.permission_not_available)
+                        messenger.deliverRes(Message.error(R.string.permission_not_available))
                     }
 
                     HttpsURLConnection.HTTP_BAD_REQUEST -> {
-                        it.message?.let { _message.value = Resource.error(this.message) }
+                        it.message?.let { messenger.deliver(Message.error(this.message)) }
                     }
 
                     HttpsURLConnection.HTTP_NOT_FOUND -> {
-                        _networkMessage.value = Resource.error(R.string.something_went_wrong)
+                        messenger.deliverRes(Message.error(R.string.something_went_wrong))
                     }
 
                     HttpsURLConnection.HTTP_INTERNAL_ERROR ->
-                        _networkMessage.value = Resource.error(R.string.network_internal_error)
+                        messenger.deliverRes(Message.error(R.string.network_internal_error))
 
                     HttpsURLConnection.HTTP_UNAVAILABLE ->
-                        _networkMessage.value =
-                            Resource.error(R.string.network_server_not_available)
+                        messenger.deliverRes(Message.error(R.string.network_server_not_available))
 
                     else -> {
-                        _networkMessage.value =
-                            Resource.error(R.string.something_went_wrong)
+                        messenger.deliverRes(Message.error(R.string.something_went_wrong))
                     }
                 }
             }

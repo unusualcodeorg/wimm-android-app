@@ -3,6 +3,7 @@ package com.whereismymotivation.ui.splash
 import androidx.lifecycle.viewModelScope
 import com.whereismymotivation.data.repository.UserRepository
 import com.whereismymotivation.ui.base.BaseViewModel
+import com.whereismymotivation.ui.message.Messenger
 import com.whereismymotivation.ui.navigation.Destination
 import com.whereismymotivation.ui.navigation.NavTarget
 import com.whereismymotivation.ui.navigation.Navigator
@@ -16,7 +17,8 @@ class SplashViewModel @Inject constructor(
     networkHelper: NetworkHelper,
     private val userRepository: UserRepository,
     val navigator: Navigator,
-) : BaseViewModel(networkHelper) {
+    val messenger: Messenger
+) : BaseViewModel(networkHelper, messenger) {
 
     companion object {
         const val TAG = "SplashViewModel"

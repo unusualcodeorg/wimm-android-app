@@ -9,6 +9,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.core.content.ContextCompat
 import com.whereismymotivation.R
+import com.whereismymotivation.ui.message.Messenger
 import com.whereismymotivation.ui.navigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -18,6 +19,9 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var navigator: Navigator
+
+    @Inject
+    lateinit var messenger: Messenger
 
     companion object {
 
@@ -50,7 +54,7 @@ class MainActivity : ComponentActivity() {
         )
         super.onCreate(savedInstanceState)
         setContent {
-            WimmApp(navigator) { finish() }
+            WimmApp(navigator, messenger) { finish() }
         }
     }
 }

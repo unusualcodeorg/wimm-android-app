@@ -1,9 +1,10 @@
 package com.whereismymotivation.ui.login
 
-import androidx.lifecycle.viewModelScope
 import com.whereismymotivation.data.repository.LoginRepository
 import com.whereismymotivation.data.repository.UserRepository
 import com.whereismymotivation.ui.base.BaseViewModel
+import com.whereismymotivation.ui.message.Message
+import com.whereismymotivation.ui.message.Messenger
 import com.whereismymotivation.ui.navigation.Destination
 import com.whereismymotivation.ui.navigation.NavTarget
 import com.whereismymotivation.ui.navigation.Navigator
@@ -13,7 +14,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,7 +22,8 @@ class LoginViewModel @Inject constructor(
     private val loginRepository: LoginRepository,
     private val userRepository: UserRepository,
     val navigator: Navigator,
-) : BaseViewModel(networkHelper) {
+    val messenger: Messenger
+) : BaseViewModel(networkHelper, messenger) {
 
     companion object {
         const val TAG = "LoginViewModel"
@@ -49,13 +50,14 @@ class LoginViewModel @Inject constructor(
     }
 
     fun basicLogin() {
-        if (validate() && checkInternetConnection()) {
-            viewModelScope.launch {
+        if (validate() && checkInternetConnectionWithMessage()) {
+            launchNetwork {
                 loginRepository.basicLogin(email.value, password.value)
                     .catch { handleNetworkError(it) }
                     .collect {
                         userRepository.saveCurrentUser(it)
                         navigator.navigateTo(NavTarget(Destination.Home.Feed, true))
+                        messenger.deliver(Message.success("Login Success"))
                     }
             }
         }
