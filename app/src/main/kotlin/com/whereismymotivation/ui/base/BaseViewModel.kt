@@ -43,6 +43,8 @@ open class BaseViewModel @Inject constructor(
                     handleNetworkError(e)
                     Logger.d(TAG, e)
                     Logger.record(e)
+                } finally {
+                    loader.stop()
                 }
             }
         } else {
@@ -52,6 +54,8 @@ open class BaseViewModel @Inject constructor(
                 } catch (e: Throwable) {
                     Logger.d(TAG, e)
                     Logger.record(e)
+                } finally {
+                    loader.stop()
                 }
             }
         }
