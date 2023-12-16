@@ -1,5 +1,6 @@
 package com.whereismymotivation.ui
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
@@ -8,6 +9,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.whereismymotivation.ui.common.progress.Loader
+import com.whereismymotivation.ui.common.progress.Loading
 import com.whereismymotivation.ui.common.snackbar.AppSnackbar
 import com.whereismymotivation.ui.common.snackbar.Messenger
 import com.whereismymotivation.ui.home.HomeBottomBar
@@ -35,6 +37,12 @@ fun WimmApp(
                 modifier = Modifier.padding(innerPaddingModifier),
                 navigator = navigator,
                 finish = finish
+            )
+            Loading(
+                modifier = Modifier
+                    .padding(innerPaddingModifier)
+                    .fillMaxWidth(),
+                loader = loader
             )
         }
     }

@@ -16,7 +16,10 @@ import com.whereismymotivation.ui.theme.success
 import com.whereismymotivation.ui.theme.warning
 
 @Composable
-fun AppSnackbar(snackbarHostState: SnackbarHostState, messenger: Messenger) {
+fun AppSnackbar(
+    snackbarHostState: SnackbarHostState,
+    messenger: Messenger
+) {
     MessageHandler(snackbarHostState, messenger)
 
     val messageType = messenger.messageType.collectAsState()
