@@ -3,7 +3,7 @@ package com.whereismymotivation.ui.splash
 import androidx.lifecycle.viewModelScope
 import com.whereismymotivation.data.repository.UserRepository
 import com.whereismymotivation.ui.base.BaseViewModel
-import com.whereismymotivation.ui.message.Messenger
+import com.whereismymotivation.ui.common.snackbar.Messenger
 import com.whereismymotivation.ui.navigation.Destination
 import com.whereismymotivation.ui.navigation.NavTarget
 import com.whereismymotivation.ui.navigation.Navigator

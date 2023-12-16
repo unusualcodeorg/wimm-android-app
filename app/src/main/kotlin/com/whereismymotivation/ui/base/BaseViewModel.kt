@@ -3,8 +3,8 @@ package com.whereismymotivation.ui.base
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.whereismymotivation.R
-import com.whereismymotivation.ui.message.Message
-import com.whereismymotivation.ui.message.Messenger
+import com.whereismymotivation.ui.common.snackbar.Message
+import com.whereismymotivation.ui.common.snackbar.Messenger
 import com.whereismymotivation.utils.network.NetworkError
 import com.whereismymotivation.utils.network.NetworkHelper
 import kotlinx.coroutines.CoroutineScope

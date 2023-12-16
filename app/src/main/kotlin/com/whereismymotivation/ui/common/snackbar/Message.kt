@@ -1,4 +1,4 @@
-package com.whereismymotivation.ui.message
+package com.whereismymotivation.ui.common.snackbar
 
 import androidx.annotation.StringRes
 

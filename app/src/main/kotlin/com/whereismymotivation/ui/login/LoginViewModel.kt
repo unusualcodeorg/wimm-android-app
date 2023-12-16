@@ -3,8 +3,8 @@ package com.whereismymotivation.ui.login
 import com.whereismymotivation.data.repository.LoginRepository
 import com.whereismymotivation.data.repository.UserRepository
 import com.whereismymotivation.ui.base.BaseViewModel
-import com.whereismymotivation.ui.message.Message
-import com.whereismymotivation.ui.message.Messenger
+import com.whereismymotivation.ui.common.snackbar.Message
+import com.whereismymotivation.ui.common.snackbar.Messenger
 import com.whereismymotivation.ui.navigation.Destination
 import com.whereismymotivation.ui.navigation.NavTarget
 import com.whereismymotivation.ui.navigation.Navigator

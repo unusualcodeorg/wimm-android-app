@@ -1,7 +1,7 @@
 package com.whereismymotivation.ui.home
 
 import com.whereismymotivation.ui.base.BaseViewModel
-import com.whereismymotivation.ui.message.Messenger
+import com.whereismymotivation.ui.common.snackbar.Messenger
 import com.whereismymotivation.utils.network.NetworkHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

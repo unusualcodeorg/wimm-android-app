@@ -1,4 +1,4 @@
-package com.whereismymotivation.ui.common
+package com.whereismymotivation.ui.common.image
 
 import androidx.annotation.RawRes
 import androidx.compose.runtime.Composable

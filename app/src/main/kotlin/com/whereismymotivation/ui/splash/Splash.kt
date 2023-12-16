@@ -9,7 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.whereismymotivation.R
-import com.whereismymotivation.ui.common.LottieLoader
+import com.whereismymotivation.ui.common.image.LottieLoader
 
 @Composable
 fun Splash(modifier: Modifier, viewModel: SplashViewModel) {
