@@ -1,5 +1,6 @@
 package com.whereismymotivation.ui.mentors
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -61,7 +62,9 @@ fun MentorsView(
                     MentorView(mentor, selectMentor)
                 }
             },
-            modifier = Modifier.fillMaxWidth().padding(4.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(4.dp)
         )
     }
 }
@@ -193,7 +196,7 @@ private fun MentorsPreview() {
     )
     AppTheme {
         MentorsView(
-            modifier = Modifier,
+            modifier = Modifier.background(MaterialTheme.colorScheme.background),
             selectMentor = {},
             mentors = listOf(
                 mentor1, mentor2, mentor2, mentor1, mentor2
