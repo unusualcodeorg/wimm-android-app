@@ -1,6 +1,7 @@
 package com.whereismymotivation.ui.login
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -24,6 +26,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -80,7 +84,21 @@ private fun LoginView(
             verticalArrangement = Arrangement.Center
 
         ) {
-
+            Row(
+                modifier = Modifier.padding(
+                    start = 16.dp,
+                    end = 16.dp,
+                    top = 32.dp,
+                    bottom = 4.dp
+                )
+            ){
+                Image(
+                    painterResource(R.drawable.wimm_logo),
+                    contentDescription = "",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.size(80.dp)
+                )
+            }
             Row(
                 modifier = Modifier.padding(
                     start = 16.dp,
@@ -172,7 +190,7 @@ fun LoginViewPreview() {
     LoginView(
         email = "abc",
         password = "",
-        emailError = "Imvalid Email",
+        emailError = "Invalid Email",
         passwordError = "",
         onEmailChange = {},
         onPasswordChange = {}
