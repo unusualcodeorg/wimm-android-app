@@ -79,7 +79,7 @@ open class BaseViewModel @Inject constructor(
                 }
 
                 HttpsURLConnection.HTTP_NOT_FOUND -> {
-                    messenger.deliverRes(Message.error(R.string.something_went_wrong))
+                    message.let { messenger.deliver(Message.error(message)) }
                 }
 
                 HttpsURLConnection.HTTP_INTERNAL_ERROR ->
