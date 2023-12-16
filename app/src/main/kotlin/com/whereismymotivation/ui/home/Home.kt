@@ -64,7 +64,7 @@ enum class HomeTab(
         R.string.menu_search,
         R.drawable.ic_search_unselected,
         R.drawable.ic_search,
-        Destination.Home.MyBox.route
+        Destination.Home.Search.route
     ),
     PROFILE(
         R.string.menu_me,
