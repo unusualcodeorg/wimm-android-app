@@ -1,4 +1,4 @@
-package com.whereismymotivation.ui.home
+package com.whereismymotivation.ui.common.appbar
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.whereismymotivation.R
 
 @Composable
-fun HomeAppBar(modifier: Modifier = Modifier, title: String) {
+fun LogoAppBar(modifier: Modifier = Modifier, title: String) {
     Surface(
         modifier = modifier.height(80.dp),
     ) {
@@ -48,6 +48,6 @@ fun HomeAppBar(modifier: Modifier = Modifier, title: String) {
 
 @Preview
 @Composable
-private fun HomeAppBarPreview() {
-    HomeAppBar(title = stringResource(R.string.app_name))
+private fun LogoAppBarPreview() {
+    LogoAppBar(title = stringResource(R.string.app_name))
 }

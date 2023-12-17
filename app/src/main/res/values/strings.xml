@@ -58,6 +58,7 @@
     <string name="explore_more_topics">Find More Topics</string>
     <string name="my_mentors">My Mentors</string>
     <string name="retry">Retry</string>
+    <string name="back">Back</string>
 
     <string name="logout">Logout</string>
     <string name="login">Login</string>
