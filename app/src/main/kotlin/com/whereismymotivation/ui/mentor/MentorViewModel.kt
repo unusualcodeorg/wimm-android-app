@@ -33,12 +33,15 @@ class MentorViewModel @Inject constructor(
 
     init {
         loadMentor(mentorId)
+        loadMentorContents(mentorId)
     }
 
     private val _mentor = MutableStateFlow<Mentor?>(null)
+    private val _contents = MutableStateFlow<List<Content>?>(null)
     private val _contentsVisibility = MutableStateFlow<Boolean>(false)
 
     val mentor = _mentor.asStateFlow()
+    val contents = _contents.asStateFlow()
     val contentsVisibility = _contentsVisibility.asStateFlow()
 
     fun upPress() {
@@ -63,7 +66,15 @@ class MentorViewModel @Inject constructor(
                     _mentor.value = it
                 }
         }
+    }
 
+    private fun loadMentorContents(mentorId: String) {
+        launchNetwork {
+            mentorRepository.fetchMentorContents(mentorId, 1, 100)
+                .collect {
+                    _contents.value = it
+                }
+        }
     }
 
     fun selectMentor(mentor: Mentor) {}
