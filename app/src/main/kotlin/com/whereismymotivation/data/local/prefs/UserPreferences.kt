@@ -12,8 +12,7 @@ class UserPreferences @Inject constructor(private val prefs: SharedPreferences) 
         private const val USER_ID = "PREF_KEY_USER_ID"
         private const val USER_NAME = "PREF_KEY_USER_NAME"
         private const val USER_EMAIL = "PREF_KEY_USER_EMAIL"
-        private const val USER_GOOGLE_PROFILE_PIC_URL = "USER_GOOGLE_PROFILE_PIC_URL"
-        private const val USER_FACEBOOK_PROFILE_PIC_URL = "USER_FACEBOOK_PROFILE_PIC_URL"
+        private const val USER_PROFILE_PIC_URL = "USER_PROFILE_PIC_URL"
         private const val ACCESS_TOKEN = "PREF_KEY_ACCESS_TOKEN"
         private const val REFRESH_TOKEN = "PREF_KEY_REFRESH_TOKEN"
         private const val DEVICE_ID = "PREF_KEY_DEVICE_ID"
@@ -49,23 +48,14 @@ class UserPreferences @Inject constructor(private val prefs: SharedPreferences) 
     fun removeUserEmail() =
         prefs.edit().remove(USER_EMAIL).apply()
 
-    fun getUserGoogleProfilePicUrl(): String? =
-        prefs.getString(USER_GOOGLE_PROFILE_PIC_URL, null)
+    fun getUserProfilePicUrlUrl(): String? =
+        prefs.getString(USER_PROFILE_PIC_URL, null)
 
-    fun setUserGoogleProfilePicUrl(url: String?) =
-        prefs.edit().putString(USER_GOOGLE_PROFILE_PIC_URL, url).apply()
+    fun setUserProfileProfilePicUrl(url: String?) =
+        prefs.edit().putString(USER_PROFILE_PIC_URL, url).apply()
 
-    fun removeUserGoogleProfilePicUrl() =
-        prefs.edit().remove(USER_GOOGLE_PROFILE_PIC_URL).apply()
-
-    fun getUserFacebookProfilePicUrl(): String? =
-        prefs.getString(USER_FACEBOOK_PROFILE_PIC_URL, null)
-
-    fun setUserFacebookProfilePicUrl(url: String?) =
-        prefs.edit().putString(USER_FACEBOOK_PROFILE_PIC_URL, url).apply()
-
-    fun removeUserFacebookProfilePicUrl() =
-        prefs.edit().remove(USER_FACEBOOK_PROFILE_PIC_URL).apply()
+    fun removeUserProfilePicUrl() =
+        prefs.edit().remove(USER_PROFILE_PIC_URL).apply()
 
     fun getAccessToken(): String? =
         prefs.getString(ACCESS_TOKEN, null)

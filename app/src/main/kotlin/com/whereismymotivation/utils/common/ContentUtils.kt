@@ -1,6 +1,9 @@
 package com.whereismymotivation.utils.common
 
-import com.whereismymotivation.data.model.*
+import com.whereismymotivation.data.model.Content
+import com.whereismymotivation.data.model.DeepLinkData
+import com.whereismymotivation.data.model.UniversalSearchResult
+import com.whereismymotivation.data.model.User
 
 object ContentUtils {
 
@@ -40,7 +43,7 @@ object ContentUtils {
                 String.NULL(),
                 thumbnail ?: String.NULL(),
                 extra,
-                User(String.NULL(), null, String.NULL(), null, null, null)
+                User(String.NULL(), null, String.NULL(), null)
             )
         }
 
@@ -53,7 +56,7 @@ object ContentUtils {
                 secondary ?: String.NULL(),
                 tertiary ?: String.NULL(),
                 extra ?: String.NULL(),
-                User(String.NULL(), null, String.NULL(), null, null, null)
+                User(String.NULL(), null, String.NULL(), null)
             )
         }
 
@@ -74,7 +77,7 @@ object ContentUtils {
             subtitle,
             thumbnail,
             extra,
-            User(String.NULL(), null, String.NULL(), null, null, null)
+            User(String.NULL(), null, String.NULL(), null)
         )
     }
 }
