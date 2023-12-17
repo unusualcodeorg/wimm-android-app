@@ -23,7 +23,6 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.rounded.Article
 import androidx.compose.material.icons.rounded.Audiotrack
 import androidx.compose.material.icons.rounded.FormatQuote
@@ -31,18 +30,15 @@ import androidx.compose.material.icons.rounded.Image
 import androidx.compose.material.icons.rounded.PersonOutline
 import androidx.compose.material.icons.rounded.PlayCircleOutline
 import androidx.compose.material.icons.rounded.Topic
+import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
@@ -71,7 +67,6 @@ import java.util.Locale
 fun Mentor(modifier: Modifier, viewModel: MentorViewModel) {
     val mentor = viewModel.mentor.collectAsState().value
     val contents = viewModel.contents.collectAsState().value
-    val bottomSheetVisibility = viewModel.contentsVisibility.collectAsState().value
 
     MentorView(
         modifier = modifier.fillMaxSize(),
@@ -79,9 +74,6 @@ fun Mentor(modifier: Modifier, viewModel: MentorViewModel) {
         contents = contents,
         selectContent = { viewModel.selectContent(it) },
         upPress = { viewModel.upPress() },
-        openBottomSheet = { viewModel.showContents() },
-        closeBottomSheet = { viewModel.hideContents() },
-        bottomSheetVisibility = bottomSheetVisibility
     )
 }
 
@@ -93,58 +85,39 @@ private fun MentorView(
     contents: List<Content>?,
     selectContent: (Content) -> Unit,
     upPress: () -> Unit,
-    openBottomSheet: () -> Unit,
-    closeBottomSheet: () -> Unit,
-    bottomSheetVisibility: Boolean,
 ) {
     if (mentor == null) return
-    val sheetState = rememberModalBottomSheetState()
+    val scaffoldState = rememberBottomSheetScaffoldState()
     val scope = rememberCoroutineScope()
-
-    Scaffold(
+    BottomSheetScaffold(
         modifier = modifier,
-        floatingActionButton = {
-            if (contents != null) {
-                FloatingActionButton(
-                    shape = FloatingActionButtonDefaults.smallShape,
-                    modifier = Modifier.size(42.dp),
-                    onClick = { openBottomSheet() }
+        scaffoldState = scaffoldState,
+        sheetPeekHeight = 54.dp,
+        sheetContainerColor= MaterialTheme.colorScheme.primary,
+        sheetContent = {
+            if (contents != null) MentorContents(contents = contents)
+            Column(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(64.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Button(
+                    onClick = {
+                        scope.launch { scaffoldState.bottomSheetState.partialExpand() }
+                    }
                 ) {
-                    Icon(Icons.Filled.ExpandLess, contentDescription = "")
+                    Text("Close")
                 }
             }
-        },
-        bottomBar = {
-
-        }
-    ) { contentPadding ->
-        // Screen content
+        })
+    { innerPadding ->
         MentorDescription(
-            modifier = Modifier.padding(contentPadding),
+            modifier = Modifier.padding(innerPadding),
             mentor = mentor,
             selectContent = selectContent,
             upPress = upPress
         )
-
-        if (bottomSheetVisibility && contents != null) {
-            ModalBottomSheet(
-                containerColor = MaterialTheme.colorScheme.background,
-                onDismissRequest = { closeBottomSheet() },
-                sheetState = sheetState,
-
-            ) {
-                // Sheet content
-                MentorContents(contents = contents)
-                Button(onClick = {
-                    scope.launch { sheetState.hide() }.invokeOnCompletion {
-                        if (!sheetState.isVisible) {
-                            closeBottomSheet()
-                        }
-                    }
-                }) {}
-
-            }
-        }
     }
 }
 
@@ -193,7 +166,7 @@ private fun MentorHeader(
 
 @Composable
 private fun MentorBody(modifier: Modifier = Modifier, mentor: Mentor) {
-    Column(modifier = modifier) {
+    Column(modifier = modifier.padding(bottom = 54.dp)) {
         Text(
             text = mentor.occupation.uppercase(Locale.getDefault()) ?: "",
             color = MaterialTheme.colorScheme.primary,
@@ -242,24 +215,16 @@ private fun MentorContents(
     modifier: Modifier = Modifier,
     contents: List<Content>,
 ) {
-    Box(modifier = modifier.fillMaxWidth()) {
-        // When sheet open, show a list of the lessons
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            val scroll = rememberLazyListState()
-            LazyColumn(
-                state = scroll,
-                contentPadding = WindowInsets.systemBars
-                    .only(WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom)
-                    .asPaddingValues()
-            ) {
-                items(contents) { content ->
-                    MentorContent(modifier = modifier, content = content)
-                    Divider(modifier = Modifier.padding(start = 120.dp))
-                }
-            }
+    val scroll = rememberLazyListState()
+    LazyColumn(
+        state = scroll,
+        contentPadding = WindowInsets.systemBars
+            .only(WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom)
+            .asPaddingValues()
+    ) {
+        items(contents) { content ->
+            MentorContent(modifier = modifier, content = content)
+            Divider(modifier = Modifier.padding(start = 120.dp))
         }
     }
 }
@@ -274,7 +239,9 @@ private fun MentorContent(modifier: Modifier = Modifier, content: Content) {
         NetworkImage(
             url = content.thumbnail,
             contentDescription = null,
-            modifier = Modifier.size(112.dp, 64.dp).padding(start = 8.dp)
+            modifier = Modifier
+                .size(112.dp, 64.dp)
+                .padding(start = 8.dp)
         )
         Column(
             modifier = Modifier
@@ -331,9 +298,6 @@ private fun MentorPreview(
             contents = emptyList(),
             selectContent = {},
             upPress = {},
-            openBottomSheet = {},
-            closeBottomSheet = {},
-            bottomSheetVisibility = false
         )
     }
 }
