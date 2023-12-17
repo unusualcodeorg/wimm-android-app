@@ -43,11 +43,11 @@ interface NetworkService {
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
     suspend fun subscriptionUnsubscribe(@Body request: SubscriptionModifyRequest): ApiGeneralResponse
 
-    @GET(Endpoints.SUBSCRIPTION_MENTOR_LIST)
+    @GET(Endpoints.SUBSCRIPTION_MENTORS)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
     suspend fun subscriptionMentorList(): ApiDataResponse<List<Mentor>>
 
-    @GET(Endpoints.SUBSCRIPTION_TOPIC_LIST)
+    @GET(Endpoints.SUBSCRIPTION_TOPICS)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
     suspend fun subscriptionTopicList(): ApiDataResponse<List<Topic>>
 
@@ -59,11 +59,11 @@ interface NetworkService {
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
     suspend fun subscriptionInfoTopic(@Path("id") topicId: String): ApiDataResponse<SubscriptionInfo>
 
-    @GET(Endpoints.SIMILAR_CONTENT_LIST)
+    @GET(Endpoints.SIMILAR_CONTENTS)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
     suspend fun similarContentList(@Query("contentId") contentId: String): ApiDataResponse<List<Content>>
 
-    @GET(Endpoints.CONTENT_LIST)
+    @GET(Endpoints.CONTENTS)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
     suspend fun contentList(
         @Query("pageNumber") pageNumber: Int,
@@ -71,7 +71,7 @@ interface NetworkService {
         @Query("empty") empty: Boolean
     ): ApiDataResponse<List<Content>>
 
-    @GET(Endpoints.MENTOR_CONTENT_LIST)
+    @GET(Endpoints.MENTOR_CONTENTS)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
     suspend fun mentorContentList(
         @Path("id") mentorId: String,
@@ -79,7 +79,7 @@ interface NetworkService {
         @Query("pageItemCount") pageItemCount: Int
     ): ApiDataResponse<List<Content>>
 
-    @GET(Endpoints.TOPIC_CONTENT_LIST)
+    @GET(Endpoints.TOPIC_CONTENTS)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
     suspend fun topicContentList(
         @Path("id") topicId: String,
@@ -87,13 +87,13 @@ interface NetworkService {
         @Query("pageItemCount") pageItemCount: Int
     ): ApiDataResponse<List<Content>>
 
-    @GET(Endpoints.RECOMMENDED_MENTOR_LIST)
+    @GET(Endpoints.RECOMMENDED_MENTORS)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
     suspend fun recommendedMentorList(
         @Query("pageNumber") pageNumber: Int, @Query("pageItemCount") pageItemCount: Int
     ): ApiDataResponse<List<Mentor>>
 
-    @GET(Endpoints.RECOMMENDED_TOPIC_LIST)
+    @GET(Endpoints.RECOMMENDED_TOPICS)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
     suspend fun recommendedTopicList(
         @Query("pageNumber") pageNumber: Int, @Query("pageItemCount") pageItemCount: Int
@@ -129,7 +129,7 @@ interface NetworkService {
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
     suspend fun metaContent(@Query("url") url: String): ApiDataResponse<MetaContent>
 
-    @GET(Endpoints.MY_BOX_CONTENT_LIST)
+    @GET(Endpoints.MY_BOX_CONTENTS)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
     suspend fun myBoxContentList(
         @Query("pageNumber") pageNumber: Int, @Query("pageItemCount") pageItemCount: Int

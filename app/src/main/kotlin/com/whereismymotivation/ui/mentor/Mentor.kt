@@ -2,7 +2,6 @@ package com.whereismymotivation.ui.mentor
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,7 +17,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -28,12 +26,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.rounded.Article
 import androidx.compose.material.icons.rounded.Audiotrack
-import androidx.compose.material.icons.rounded.ExpandMore
 import androidx.compose.material.icons.rounded.FormatQuote
 import androidx.compose.material.icons.rounded.Image
 import androidx.compose.material.icons.rounded.PersonOutline
 import androidx.compose.material.icons.rounded.PlayCircleOutline
-import androidx.compose.material.icons.rounded.PlaylistPlay
 import androidx.compose.material.icons.rounded.Topic
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
@@ -41,7 +37,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
@@ -54,13 +49,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import com.whereismymotivation.R
 import com.whereismymotivation.data.model.Content
 import com.whereismymotivation.data.model.Mentor
 import com.whereismymotivation.ui.common.appbar.BackAppBar
@@ -77,11 +70,13 @@ import java.util.Locale
 @Composable
 fun Mentor(modifier: Modifier, viewModel: MentorViewModel) {
     val mentor = viewModel.mentor.collectAsState().value
+    val contents = viewModel.contents.collectAsState().value
     val bottomSheetVisibility = viewModel.contentsVisibility.collectAsState().value
 
     MentorView(
         modifier = modifier,
         mentor = mentor,
+        contents = contents,
         selectContent = { viewModel.selectContent(it) },
         upPress = { viewModel.upPress() },
         openBottomSheet = { viewModel.showContents() },
@@ -95,6 +90,7 @@ fun Mentor(modifier: Modifier, viewModel: MentorViewModel) {
 private fun MentorView(
     modifier: Modifier,
     mentor: Mentor?,
+    contents: List<Content>?,
     selectContent: (Content) -> Unit,
     upPress: () -> Unit,
     openBottomSheet: () -> Unit,
@@ -108,12 +104,15 @@ private fun MentorView(
     Scaffold(
         modifier = modifier,
         floatingActionButton = {
-            FloatingActionButton(
-                shape = FloatingActionButtonDefaults.smallShape,
-                modifier = Modifier.size(42.dp),
-                onClick = { openBottomSheet() }
-            ) {
-                Icon(Icons.Filled.ExpandLess, contentDescription = "")
+
+            if (contents != null) {
+                FloatingActionButton(
+                    shape = FloatingActionButtonDefaults.smallShape,
+                    modifier = Modifier.size(42.dp),
+                    onClick = { openBottomSheet() }
+                ) {
+                    Icon(Icons.Filled.ExpandLess, contentDescription = "")
+                }
             }
         }
     ) { contentPadding ->
@@ -125,25 +124,21 @@ private fun MentorView(
             upPress = upPress
         )
 
-        if (bottomSheetVisibility) {
+        if (bottomSheetVisibility && contents != null) {
             ModalBottomSheet(
+                containerColor = MaterialTheme.colorScheme.background,
                 onDismissRequest = { closeBottomSheet() },
                 sheetState = sheetState
             ) {
                 // Sheet content
-                MentorContents(
-                    mentorName = mentor.name,
-                    contents = emptyList(),
-                    openBottomSheet = openBottomSheet,
-                    closeBottomSheet = closeBottomSheet
-                )
+                MentorContents(contents = contents)
                 Button(onClick = {
                     scope.launch { sheetState.hide() }.invokeOnCompletion {
                         if (!sheetState.isVisible) {
                             closeBottomSheet()
                         }
                     }
-                }){}
+                }) {}
 
             }
         }
@@ -242,51 +237,15 @@ private fun MentorBody(modifier: Modifier = Modifier, mentor: Mentor) {
 @Composable
 private fun MentorContents(
     modifier: Modifier = Modifier,
-    mentorName: String,
     contents: List<Content>,
-    openBottomSheet: () -> Unit,
-    closeBottomSheet: () -> Unit
 ) {
     Box(modifier = modifier.fillMaxWidth()) {
         // When sheet open, show a list of the lessons
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .statusBarsPadding()
         ) {
             val scroll = rememberLazyListState()
-            Surface(
-                tonalElevation = 32.dp
-            ) {
-                Row(
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(4.dp)
-                        .height(56.dp),
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Text(
-                        text = mentorName,
-                        style = MaterialTheme.typography.titleSmall,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .align(Alignment.CenterVertically)
-                            .weight(1f)
-                    )
-                    IconButton(
-                        onClick = closeBottomSheet,
-                        modifier = Modifier.align(Alignment.CenterVertically)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Rounded.ExpandMore,
-                            contentDescription = stringResource(R.string.similar_content),
-                        )
-                    }
-                }
-            }
             LazyColumn(
                 state = scroll,
                 contentPadding = WindowInsets.systemBars
@@ -297,22 +256,6 @@ private fun MentorContents(
                     MentorContent(modifier = modifier, content = content)
                     Divider(modifier = Modifier.padding(start = 120.dp))
                 }
-            }
-        }
-        Box(
-            modifier = Modifier
-                .size(56.dp)
-                .padding(start = 16.dp, top = 8.dp) // visually center contents
-        ) {
-            IconButton(
-                modifier = Modifier.align(Alignment.Center),
-                onClick = openBottomSheet
-            ) {
-                Icon(
-                    imageVector = Icons.Rounded.PlaylistPlay,
-                    tint = MaterialTheme.colorScheme.onPrimary,
-                    contentDescription = stringResource(R.string.similar_content)
-                )
             }
         }
     }
@@ -328,7 +271,7 @@ private fun MentorContent(modifier: Modifier = Modifier, content: Content) {
         NetworkImage(
             url = content.thumbnail,
             contentDescription = null,
-            modifier = Modifier.size(112.dp, 64.dp)
+            modifier = Modifier.size(112.dp, 64.dp).padding(start = 8.dp)
         )
         Column(
             modifier = Modifier
@@ -382,6 +325,7 @@ private fun MentorPreview(
         MentorView(
             modifier = Modifier,
             mentor = mentor,
+            contents = emptyList(),
             selectContent = {},
             upPress = {},
             openBottomSheet = {},
@@ -437,10 +381,7 @@ private fun MentorContentsPreview(
     AppTheme {
         MentorContents(
             Modifier.background(MaterialTheme.colorScheme.background),
-            mentorName = "Mentor Name",
             contents = listOf(content, content, content, content, content),
-            openBottomSheet = {},
-            closeBottomSheet = {}
         )
     }
 }
