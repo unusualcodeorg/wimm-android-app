@@ -3,6 +3,8 @@ package com.whereismymotivation
 import android.app.Application
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
+import coil.Coil
+import coil.ImageLoader
 import com.whereismymotivation.analytics.Tracker
 import com.whereismymotivation.data.repository.AppMetricRepository
 import com.whereismymotivation.data.repository.UserRepository
@@ -33,6 +35,9 @@ class WimmApplication : Application(), Configuration.Provider {
     @Inject
     lateinit var appMetricRepository: AppMetricRepository
 
+    @Inject
+    lateinit var imageLoader: ImageLoader
+
     override val workManagerConfiguration: Configuration
         get() = Configuration.Builder()
             .setWorkerFactory(workerFactory)
@@ -46,5 +51,6 @@ class WimmApplication : Application(), Configuration.Provider {
         scheduleWorks(this)
         getFcmToken()
         createDefaultNotificationChannel(this)
+        Coil.setImageLoader(imageLoader)
     }
 }

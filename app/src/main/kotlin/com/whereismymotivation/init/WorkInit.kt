@@ -1,11 +1,11 @@
 package com.whereismymotivation.init
 
-import android.app.Application
+import android.content.Context
 import com.whereismymotivation.work.AppAlarmManager
 import com.whereismymotivation.work.AppWorkManager
 
-fun scheduleWorks(app: Application) {
-    AppWorkManager.scheduleDailyMoodNotifyWork(app)
-    AppAlarmManager.setDailyMoodAlarm(app)
-    AppWorkManager.runMoodAndJournalSyncWork(app)
+fun scheduleWorks(context: Context) {
+    AppWorkManager.scheduleDailyMoodNotifyWork(context)
+    AppAlarmManager.setDailyMoodAlarm(context)
+    AppWorkManager.runMoodAndJournalSyncWork(context)
 }
