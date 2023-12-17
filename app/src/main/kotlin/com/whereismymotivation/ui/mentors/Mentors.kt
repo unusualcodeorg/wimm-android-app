@@ -42,7 +42,7 @@ fun Mentors(
 ) {
     val mentors = mentorViewModel.mentors.collectAsState().value
     MentorsView(
-        modifier = modifier,
+        modifier = modifier.fillMaxSize(),
         mentors = mentors,
         selectMentor = { mentorViewModel.selectMentor(it) }
     )

@@ -74,7 +74,7 @@ fun Mentor(modifier: Modifier, viewModel: MentorViewModel) {
     val bottomSheetVisibility = viewModel.contentsVisibility.collectAsState().value
 
     MentorView(
-        modifier = modifier,
+        modifier = modifier.fillMaxSize(),
         mentor = mentor,
         contents = contents,
         selectContent = { viewModel.selectContent(it) },
@@ -104,7 +104,6 @@ private fun MentorView(
     Scaffold(
         modifier = modifier,
         floatingActionButton = {
-
             if (contents != null) {
                 FloatingActionButton(
                     shape = FloatingActionButtonDefaults.smallShape,
@@ -114,6 +113,9 @@ private fun MentorView(
                     Icon(Icons.Filled.ExpandLess, contentDescription = "")
                 }
             }
+        },
+        bottomBar = {
+
         }
     ) { contentPadding ->
         // Screen content
@@ -128,7 +130,8 @@ private fun MentorView(
             ModalBottomSheet(
                 containerColor = MaterialTheme.colorScheme.background,
                 onDismissRequest = { closeBottomSheet() },
-                sheetState = sheetState
+                sheetState = sheetState,
+
             ) {
                 // Sheet content
                 MentorContents(contents = contents)
