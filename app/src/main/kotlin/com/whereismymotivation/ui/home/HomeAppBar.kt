@@ -22,8 +22,6 @@ import com.whereismymotivation.R
 fun HomeAppBar(modifier: Modifier = Modifier, title: String) {
     Surface(
         modifier = modifier.height(80.dp),
-        shadowElevation = 4.dp
-
     ) {
         Row(
             Modifier

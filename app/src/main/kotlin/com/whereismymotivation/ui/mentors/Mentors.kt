@@ -5,10 +5,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -50,13 +52,18 @@ fun MentorsView(
     modifier: Modifier = Modifier,
     selectMentor: (Mentor) -> Unit,
 ) {
-    Column(modifier = modifier) {
-        HomeAppBar(title = stringResource(R.string.my_mentors))
+    Column(modifier = modifier.fillMaxSize()) {
         LazyVerticalStaggeredGrid(
             columns = StaggeredGridCells.Fixed(2),
             verticalItemSpacing = 2.dp,
             horizontalArrangement = Arrangement.spacedBy(2.dp),
             content = {
+                item(
+                    key = "HomeAppBar",
+                    span = StaggeredGridItemSpan.FullLine
+                ) {
+                    HomeAppBar(title = stringResource(R.string.my_mentors))
+                }
                 items(mentors) { mentor ->
                     MentorView(mentor, selectMentor)
                 }
