@@ -1,10 +1,12 @@
 package com.whereismymotivation.di
 
 import android.content.Context
+import coil.ImageLoader
 import com.whereismymotivation.BuildConfig
 import com.whereismymotivation.data.local.prefs.UserPreferences
 import com.whereismymotivation.data.remote.NetworkService
 import com.whereismymotivation.data.remote.Networking
+import com.whereismymotivation.data.remote.interceptors.ImageHeaderInterceptor
 import com.whereismymotivation.data.remote.interceptors.RefreshTokenInterceptor
 import com.whereismymotivation.data.remote.interceptors.RequestHeaderInterceptor
 import com.whereismymotivation.utils.common.ResultCallback
@@ -30,8 +32,22 @@ object NetworkModule {
     ): NetworkService =
         Networking.create(
             baseUrl, requestHeaderInterceptor, refreshTokenInterceptor,
-            context.cacheDir, 10 * 1024 * 1024 // 10MB
+            context.cacheDir, 50 * 1024 * 1024 // 50MB
         )
+
+    @Provides
+    @Singleton
+    fun provideImageLoader(
+        @ApplicationContext context: Context,
+        imageHeaderInterceptor: ImageHeaderInterceptor
+    ): ImageLoader =
+        ImageLoader.Builder(context)
+            .okHttpClient(
+                Networking.createForImage(
+                    imageHeaderInterceptor, context.cacheDir, 50 * 1024 * 1024 // 50MB
+                )
+            )
+            .build()
 
     @Provides
     @Singleton
