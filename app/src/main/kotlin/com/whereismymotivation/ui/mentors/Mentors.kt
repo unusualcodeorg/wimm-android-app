@@ -77,7 +77,9 @@ private fun MentorView(
 ) {
     Surface(
         modifier = modifier.padding(4.dp),
-        color = MaterialTheme.colorScheme.surface
+        color = MaterialTheme.colorScheme.surface,
+        tonalElevation = 4.dp,
+        shape = MaterialTheme.shapes.medium
     ) {
         ConstraintLayout(
             modifier = Modifier
@@ -102,7 +104,7 @@ private fun MentorView(
             OutlinedAvatar(
                 url = mentor.thumbnail,
                 modifier = Modifier
-                    .size(38.dp)
+                    .size(48.dp)
                     .constrainAs(avatar) {
                         centerHorizontallyTo(parent)
                         centerAround(cover.bottom)
