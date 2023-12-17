@@ -8,8 +8,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.whereismymotivation.R
 import com.whereismymotivation.ui.feed.Feed
-import com.whereismymotivation.ui.mentors.MentorViewModel
 import com.whereismymotivation.ui.mentors.Mentors
+import com.whereismymotivation.ui.mentors.MentorsViewModel
 import com.whereismymotivation.ui.mybox.MyBox
 import com.whereismymotivation.ui.navigation.Destination
 import com.whereismymotivation.ui.profile.Profile
@@ -23,7 +23,7 @@ fun NavGraphBuilder.home(
         Feed(modifier)
     }
     composable(Destination.Home.Mentors.route) {
-        val viewModel: MentorViewModel = hiltViewModel()
+        val viewModel: MentorsViewModel = hiltViewModel()
         Mentors(modifier, viewModel)
     }
     composable(Destination.Home.Search.route) {
