@@ -30,8 +30,7 @@ class LoginRepository @Inject constructor(
         data.user.id,
         data.user.name,
         data.user.email,
-        data.user.facebookProfilePicUrl,
-        data.user.googleProfilePicUrl,
+        data.user.profilePicUrl,
         data.token.accessToken,
         data.token.refreshToken,
         data.roles

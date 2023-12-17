@@ -8,9 +8,7 @@ data class AppUser(
 
     val userEmail: String?,
 
-    val facebookProfilePicUrl: String? = null,
-
-    val googleProfilePicUrl: String? = null,
+    val profilePicUrl: String? = null,
 
     val accessToken: String,
 

@@ -45,8 +45,7 @@ class UserRepository @Inject constructor(
         userPreferences.setUserRoles(roles)
         userPreferences.setAccessToken(user.accessToken)
         userPreferences.setRefreshToken(user.refreshToken)
-        userPreferences.setUserFacebookProfilePicUrl(user.facebookProfilePicUrl)
-        userPreferences.setUserGoogleProfilePicUrl(user.googleProfilePicUrl)
+        userPreferences.setUserProfileProfilePicUrl(user.profilePicUrl)
     }
 
     fun removeCurrentUser() {
@@ -55,8 +54,7 @@ class UserRepository @Inject constructor(
         userPreferences.removeUserEmail()
         userPreferences.removeAccessToken()
         userPreferences.removeRefreshToken()
-        userPreferences.removeUserFacebookProfilePicUrl()
-        userPreferences.removeUserGoogleProfilePicUrl()
+        userPreferences.removeUserProfilePicUrl()
         userPreferences.removeOnBoardingComplete()
         userPreferences.removeUserRoles()
     }
@@ -66,8 +64,7 @@ class UserRepository @Inject constructor(
         val userId = userPreferences.getUserId()
         val userName = userPreferences.getUserName()
         val userEmail = userPreferences.getUserEmail()
-        val facebookProfilePicUrl = userPreferences.getUserFacebookProfilePicUrl()
-        val googleProfilePicUrl = userPreferences.getUserGoogleProfilePicUrl()
+        val profilePicUrl = userPreferences.getUserProfilePicUrlUrl()
         val accessToken = userPreferences.getAccessToken()
         val refreshToken = userPreferences.getRefreshToken()
         val rolesString = userPreferences.getUserRoles()
@@ -87,8 +84,7 @@ class UserRepository @Inject constructor(
                 }
 
             return AppUser(
-                userId, userName, userEmail, facebookProfilePicUrl,
-                googleProfilePicUrl, accessToken, refreshToken, roles
+                userId, userName, userEmail, profilePicUrl, accessToken, refreshToken, roles
             )
         }
         return null

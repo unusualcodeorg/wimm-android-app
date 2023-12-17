@@ -16,14 +16,9 @@ data class User(
     val name: String?,
 
     @Json(name = "email")
-    val email: String,
+    val email: String?,
 
     @Json(name = "profilePicUrl")
-    val profilePicUrl: String?,
+    val profilePicUrl: String?
 
-    @Json(name = "facebookProfilePicUrl")
-    val facebookProfilePicUrl: String?,
-
-    @Json(name = "googleProfilePicUrl")
-    val googleProfilePicUrl: String?
 ) : Parcelable
