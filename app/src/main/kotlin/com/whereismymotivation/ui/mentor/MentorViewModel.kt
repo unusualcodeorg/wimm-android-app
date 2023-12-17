@@ -1,7 +1,9 @@
 package com.whereismymotivation.ui.mentor
 
 import androidx.lifecycle.SavedStateHandle
+import com.whereismymotivation.data.model.Content
 import com.whereismymotivation.data.model.Mentor
+import com.whereismymotivation.data.repository.MentorRepository
 import com.whereismymotivation.ui.base.BaseViewModel
 import com.whereismymotivation.ui.common.progress.Loader
 import com.whereismymotivation.ui.common.snackbar.Messenger
@@ -18,7 +20,8 @@ class MentorViewModel @Inject constructor(
     loader: Loader,
     messenger: Messenger,
     savedStateHandle: SavedStateHandle,
-    private val navigator: Navigator
+    private val navigator: Navigator,
+    private val mentorRepository: MentorRepository
 ) : BaseViewModel(networkHelper, loader, messenger) {
 
     companion object {
@@ -33,14 +36,33 @@ class MentorViewModel @Inject constructor(
     }
 
     private val _mentor = MutableStateFlow<Mentor?>(null)
+    private val _contentsVisibility = MutableStateFlow<Boolean>(false)
 
     val mentor = _mentor.asStateFlow()
+    val contentsVisibility = _contentsVisibility.asStateFlow()
 
     fun upPress() {
         navigator.navigateBack()
     }
 
+    fun selectContent(content: Content) {
+    }
+
+    fun showContents() {
+        _contentsVisibility.value = true
+    }
+
+    fun hideContents() {
+        _contentsVisibility.value = false
+    }
+
     private fun loadMentor(mentorId: String) {
+        launchNetwork {
+            mentorRepository.fetchMentorDetails(mentorId)
+                .collect {
+                    _mentor.value = it
+                }
+        }
 
     }
 
