@@ -38,25 +38,15 @@ class MentorViewModel @Inject constructor(
 
     private val _mentor = MutableStateFlow<Mentor?>(null)
     private val _contents = MutableStateFlow<List<Content>?>(null)
-    private val _contentsVisibility = MutableStateFlow<Boolean>(false)
 
     val mentor = _mentor.asStateFlow()
     val contents = _contents.asStateFlow()
-    val contentsVisibility = _contentsVisibility.asStateFlow()
 
     fun upPress() {
         navigator.navigateBack()
     }
 
     fun selectContent(content: Content) {
-    }
-
-    fun showContents() {
-        _contentsVisibility.value = true
-    }
-
-    fun hideContents() {
-        _contentsVisibility.value = false
     }
 
     private fun loadMentor(mentorId: String) {
@@ -76,6 +66,4 @@ class MentorViewModel @Inject constructor(
                 }
         }
     }
-
-    fun selectMentor(mentor: Mentor) {}
 }

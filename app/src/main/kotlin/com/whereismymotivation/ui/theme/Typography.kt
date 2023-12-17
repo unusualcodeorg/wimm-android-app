@@ -1,12 +1,11 @@
 package com.whereismymotivation.ui.theme
 
+import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.material3.Typography
 import androidx.compose.ui.unit.em
-import androidx.compose.ui.unit.sp
 import com.whereismymotivation.R
 
 private val fonts = FontFamily(
@@ -31,12 +30,10 @@ val typography = typographyFromDefaults(
     headlineLarge = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.Bold,
-        lineHeight = 48.sp
     ),
     headlineMedium = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.Bold,
-        lineHeight = 40.sp
     ),
     headlineSmall = TextStyle(
         fontFamily = fonts,
@@ -45,12 +42,10 @@ val typography = typographyFromDefaults(
     titleLarge = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.W500,
-        lineHeight = 28.sp
     ),
     titleMedium = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.W500,
-        lineHeight = 22.sp
     ),
     titleSmall = TextStyle(
         fontFamily = fonts,
@@ -59,12 +54,10 @@ val typography = typographyFromDefaults(
     bodyLarge = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.Normal,
-        lineHeight = 28.sp
     ),
     bodyMedium = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.Normal,
-        lineHeight = 16.sp
     ),
     labelLarge = TextStyle(
         fontFamily = fonts,
