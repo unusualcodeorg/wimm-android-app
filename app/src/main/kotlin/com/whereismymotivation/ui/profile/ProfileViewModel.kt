@@ -33,7 +33,7 @@ class ProfileViewModel @Inject constructor(
                 userRepository.logout()
                     .collect {
                         userRepository.removeCurrentUser()
-                        navigator.navigateTo(NavTarget(Destination.Login, true))
+                        navigator.navigateTo(NavTarget(Destination.Login.route, true))
                         messenger.deliver(Message.success("Logout Success"))
                     }
             }

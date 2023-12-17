@@ -7,6 +7,9 @@ import com.whereismymotivation.data.repository.MentorRepository
 import com.whereismymotivation.ui.base.BaseViewModel
 import com.whereismymotivation.ui.common.progress.Loader
 import com.whereismymotivation.ui.common.snackbar.Messenger
+import com.whereismymotivation.ui.navigation.Destination
+import com.whereismymotivation.ui.navigation.NavTarget
+import com.whereismymotivation.ui.navigation.Navigator
 import com.whereismymotivation.utils.coroutine.Dispatcher
 import com.whereismymotivation.utils.network.NetworkHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,6 +24,7 @@ class MentorViewModel @Inject constructor(
     networkHelper: NetworkHelper,
     loader: Loader,
     messenger: Messenger,
+    private val navigator: Navigator,
     private val dispatcher: Dispatcher,
     private val mentorRepository: MentorRepository,
     private val localFiles: LocalFiles
@@ -38,7 +42,9 @@ class MentorViewModel @Inject constructor(
         loadMentors()
     }
 
-    fun selectMentor(mentor: Mentor) {}
+    fun selectMentor(mentor: Mentor) {
+        navigator.navigateTo(NavTarget(Destination.Mentor.createRoute(mentor.id)))
+    }
 
     private fun loadMentors() {
         launchNetwork {

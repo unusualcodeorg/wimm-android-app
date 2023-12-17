@@ -30,9 +30,9 @@ class SplashViewModel @Inject constructor(
         viewModelScope.launch {
             val exists = userRepository.userExists()
             if (exists) {
-                navigator.navigateTo(NavTarget(Destination.Home.Feed, true))
+                navigator.navigateTo(NavTarget(Destination.Home.Feed.route, true))
             } else {
-                navigator.navigateTo(NavTarget(Destination.Login, true))
+                navigator.navigateTo(NavTarget(Destination.Login.route, true))
             }
         }
 

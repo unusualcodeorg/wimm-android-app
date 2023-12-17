@@ -7,6 +7,7 @@ import com.whereismymotivation.ui.common.progress.Loader
 import com.whereismymotivation.ui.common.snackbar.Message
 import com.whereismymotivation.ui.common.snackbar.Messenger
 import com.whereismymotivation.utils.log.Logger
+import com.whereismymotivation.utils.network.NetworkError
 import com.whereismymotivation.utils.network.NetworkHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -32,15 +33,19 @@ open class BaseViewModel @Inject constructor(
         return connected
     }
 
-    protected fun launchNetwork(silent: Boolean = false, block: suspend CoroutineScope.() -> Unit) {
+    protected fun launchNetwork(
+        silent: Boolean = false,
+        onError: (NetworkError) -> Unit = {},
+        block: suspend CoroutineScope.() -> Unit
+    ) {
         if (!silent && checkInternetConnectionWithMessage()) {
             loader.start()
-            messenger.reset()
             viewModelScope.launch {
                 try {
                     block()
                 } catch (e: Throwable) {
-                    handleNetworkError(e)
+                    val networkError = handleNetworkError(e)
+                    onError(networkError)
                     Logger.d(TAG, e)
                     Logger.record(e)
                 } finally {
@@ -52,6 +57,8 @@ open class BaseViewModel @Inject constructor(
                 try {
                     block()
                 } catch (e: Throwable) {
+                    val networkError = handleNetworkError(e)
+                    onError(networkError)
                     Logger.d(TAG, e)
                     Logger.record(e)
                 } finally {
@@ -61,8 +68,8 @@ open class BaseViewModel @Inject constructor(
         }
     }
 
-    private fun handleNetworkError(e: Throwable) {
-        return networkHelper.castToNetworkError(e).run {
+    private fun handleNetworkError(e: Throwable): NetworkError {
+        return networkHelper.castToNetworkError(e).apply {
             when (status) {
                 0 -> messenger.deliverRes(Message.error(R.string.server_connection_error))
 
