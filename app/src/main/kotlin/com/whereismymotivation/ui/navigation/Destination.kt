@@ -1,8 +1,10 @@
 package com.whereismymotivation.ui.navigation
 
 import androidx.navigation.NamedNavArgument
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
 
-sealed class Destination(
+sealed class Destination private constructor(
     val route: String,
     val navArguments: List<NamedNavArgument> = emptyList()
 ) {
@@ -17,4 +19,14 @@ sealed class Destination(
         data object Search : Destination("home/search")
         data object Profile : Destination("home/profile")
     }
+
+    data object Mentor : Destination(
+        route = "mentor/{mentorId}",
+        navArguments = listOf(navArgument("mentorId") {
+            type = NavType.StringType
+        })
+    ) {
+        fun createRoute(mentorId: String) = "mentor/${mentorId}"
+    }
+
 }

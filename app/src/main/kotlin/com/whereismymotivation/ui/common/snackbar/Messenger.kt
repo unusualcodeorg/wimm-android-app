@@ -28,12 +28,10 @@ class Messenger @Inject constructor() {
 
 
     fun deliver(message: Message<String>) {
+        _clear.tryEmit(true)
         _messageType.tryEmit(message.type)
         _message.tryEmit(message)
     }
-
-    fun reset() = _clear.tryEmit(true)
-
 
     fun deliverRes(@StringRes message: Message<Int>) {
         _messageType.tryEmit(message.type)

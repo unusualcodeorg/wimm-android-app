@@ -10,6 +10,8 @@ import androidx.navigation.navigation
 import com.whereismymotivation.ui.home.home
 import com.whereismymotivation.ui.login.Login
 import com.whereismymotivation.ui.login.LoginViewModel
+import com.whereismymotivation.ui.mentor.Mentor
+import com.whereismymotivation.ui.mentor.MentorViewModel
 import com.whereismymotivation.ui.splash.Splash
 import com.whereismymotivation.ui.splash.SplashViewModel
 
@@ -51,6 +53,16 @@ fun NavGraph(
         ) {
             home(
                 modifier = modifier
+            )
+        }
+        composable(
+            route = Destination.Mentor.route,
+            arguments = Destination.Mentor.navArguments
+        ) {
+            val viewModel: MentorViewModel = hiltViewModel()
+            Mentor(
+                modifier = modifier,
+                viewModel = viewModel
             )
         }
     }

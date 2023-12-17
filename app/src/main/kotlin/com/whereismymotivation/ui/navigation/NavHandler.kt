@@ -15,11 +15,11 @@ internal fun NavHandler(
     LaunchedEffect("navigation") {
         navigator.navigate.onEach {
             if (it.popBackstack) navController.popBackStack()
-            navController.navigate(it.destination.route)
+            navController.navigate(it.route)
         }.launchIn(this)
 
         navigator.back.onEach {
-            navController.popBackStack()
+            navController.navigateUp()
         }.launchIn(this)
 
         navigator.end.onEach {
