@@ -52,7 +52,7 @@ class MentorViewModel @Inject constructor(
             withContext(dispatcher.io()) {
                 localFiles.getMentorsForSuggestion()
                     .collect {
-                        _mentors.value = it
+                        _mentors.value = it + it + it + it + it + it + it
                     }
             }
         }

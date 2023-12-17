@@ -5,7 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
@@ -63,8 +62,7 @@ fun MentorsView(
                 }
             },
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(4.dp)
+                .padding(start = 4.dp, end = 4.dp)
         )
     }
 }
@@ -77,9 +75,8 @@ private fun MentorView(
 ) {
     Surface(
         modifier = modifier.padding(4.dp),
-        color = MaterialTheme.colorScheme.surface,
         tonalElevation = 4.dp,
-        shape = MaterialTheme.shapes.medium
+        shape = MaterialTheme.shapes.extraSmall
     ) {
         ConstraintLayout(
             modifier = Modifier

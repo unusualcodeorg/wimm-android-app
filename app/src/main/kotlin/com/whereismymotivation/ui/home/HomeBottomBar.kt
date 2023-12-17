@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.Composable
@@ -18,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.whereismymotivation.ui.navigation.Destination
+import com.whereismymotivation.ui.theme.black
 
 @Composable
 fun HomeBottomBar(navController: NavController) {
@@ -55,9 +57,11 @@ private fun HomeBottomBarView(
 
     if (currentRoute in routes) {
         NavigationBar(
-            Modifier.windowInsetsBottomHeight(
-                WindowInsets.navigationBars.add(WindowInsets(bottom = 56.dp))
-            )
+            Modifier
+                .windowInsetsBottomHeight(
+                    WindowInsets.navigationBars.add(WindowInsets(bottom = 56.dp))
+                ),
+            tonalElevation = 4.dp
         ) {
             tabs.forEach { tab ->
                 val selected = currentRoute == tab.route
@@ -65,13 +69,14 @@ private fun HomeBottomBarView(
                     icon = {
                         Icon(
                             painterResource(if (selected) tab.selectedIcon else tab.unselectedIcon),
-                            contentDescription = null
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.black,
                         )
                     },
                     selected = selected,
                     onClick = { tabClick(tab) },
                     alwaysShowLabel = false,
-                    modifier = Modifier.navigationBarsPadding()
+                    modifier = Modifier.navigationBarsPadding(),
                 )
             }
         }
