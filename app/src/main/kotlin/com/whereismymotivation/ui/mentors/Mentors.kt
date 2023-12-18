@@ -3,7 +3,7 @@ package com.whereismymotivation.ui.mentors
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -54,26 +54,24 @@ fun MentorsView(
     modifier: Modifier = Modifier,
     selectMentor: (Mentor) -> Unit,
 ) {
-    Column(modifier = modifier.fillMaxSize()) {
-        LazyVerticalStaggeredGrid(
-            columns = StaggeredGridCells.Fixed(2),
-            verticalItemSpacing = 2.dp,
-            horizontalArrangement = Arrangement.spacedBy(2.dp),
-            content = {
-                item(
-                    key = "LogoAppBar",
-                    span = StaggeredGridItemSpan.FullLine
-                ) {
-                    LogoAppBar(title = stringResource(R.string.my_mentors))
-                }
-                items(mentors) { mentor ->
-                    MentorView(mentor, selectMentor)
-                }
-            },
-            modifier = Modifier
-                .padding(start = 4.dp, end = 4.dp)
-        )
-    }
+    LazyVerticalStaggeredGrid(
+        modifier = modifier.fillMaxSize(),
+        columns = StaggeredGridCells.Fixed(2),
+        verticalItemSpacing = 2.dp,
+        horizontalArrangement = Arrangement.spacedBy(2.dp),
+        content = {
+            item(
+                key = "LogoAppBar",
+                span = StaggeredGridItemSpan.FullLine
+            ) {
+                LogoAppBar(title = stringResource(R.string.my_mentors))
+            }
+            items(mentors) { mentor ->
+                MentorView(mentor, selectMentor)
+            }
+        },
+        contentPadding = PaddingValues(horizontal = 4.dp, vertical = 4.dp)
+    )
 }
 
 @Composable
