@@ -6,22 +6,15 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Article
 import androidx.compose.material.icons.rounded.Audiotrack
@@ -32,6 +25,7 @@ import androidx.compose.material.icons.rounded.PlayCircleOutline
 import androidx.compose.material.icons.rounded.Topic
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -92,10 +86,13 @@ private fun MentorView(
     BottomSheetScaffold(
         modifier = modifier,
         scaffoldState = scaffoldState,
-        sheetPeekHeight = 54.dp,
-        sheetContainerColor= MaterialTheme.colorScheme.primary,
+        sheetPeekHeight = 56.dp,
+        sheetContainerColor = MaterialTheme.colorScheme.tertiary,
         sheetContent = {
-            if (contents != null) MentorContents(contents = contents)
+            if (contents != null) MentorContents(
+                contents = contents,
+                selectContent = selectContent
+            )
             Column(
                 Modifier
                     .fillMaxWidth()
@@ -103,6 +100,9 @@ private fun MentorView(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Button(
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.tertiary
+                    ),
                     onClick = {
                         scope.launch { scaffoldState.bottomSheetState.partialExpand() }
                     }
@@ -115,7 +115,6 @@ private fun MentorView(
         MentorDescription(
             modifier = Modifier.padding(innerPadding),
             mentor = mentor,
-            selectContent = selectContent,
             upPress = upPress
         )
     }
@@ -125,10 +124,9 @@ private fun MentorView(
 private fun MentorDescription(
     modifier: Modifier = Modifier,
     mentor: Mentor,
-    selectContent: (Content) -> Unit,
     upPress: () -> Unit
 ) {
-    Surface(modifier = Modifier.fillMaxSize()) {
+    Surface(modifier = modifier.fillMaxSize()) {
         LazyColumn {
             item { MentorHeader(mentor, upPress) }
             item { MentorBody(Modifier, mentor) }
@@ -166,7 +164,7 @@ private fun MentorHeader(
 
 @Composable
 private fun MentorBody(modifier: Modifier = Modifier, mentor: Mentor) {
-    Column(modifier = modifier.padding(bottom = 54.dp)) {
+    Column(modifier = modifier.padding(bottom = 42.dp)) {
         Text(
             text = mentor.occupation.uppercase(Locale.getDefault()) ?: "",
             color = MaterialTheme.colorScheme.primary,
@@ -214,26 +212,25 @@ private fun MentorBody(modifier: Modifier = Modifier, mentor: Mentor) {
 private fun MentorContents(
     modifier: Modifier = Modifier,
     contents: List<Content>,
+    selectContent: (Content) -> Unit,
 ) {
-    val scroll = rememberLazyListState()
-    LazyColumn(
-        state = scroll,
-        contentPadding = WindowInsets.systemBars
-            .only(WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom)
-            .asPaddingValues()
-    ) {
+    LazyColumn {
         items(contents) { content ->
-            MentorContent(modifier = modifier, content = content)
+            MentorContent(modifier, content, selectContent)
             Divider(modifier = Modifier.padding(start = 120.dp))
         }
     }
 }
 
 @Composable
-private fun MentorContent(modifier: Modifier = Modifier, content: Content) {
+private fun MentorContent(
+    modifier: Modifier = Modifier,
+    content: Content,
+    selectContent: (Content) -> Unit,
+) {
     Row(
         modifier = modifier
-            .clickable(onClick = { /* todo */ })
+            .clickable(onClick = { selectContent(content) })
             .padding(vertical = 16.dp)
     ) {
         NetworkImage(
@@ -279,12 +276,6 @@ private fun MentorContent(modifier: Modifier = Modifier, content: Content) {
         )
     }
 }
-
-
-private enum class SheetState { Open, Closed }
-
-private val LazyListState.isScrolled: Boolean
-    get() = firstVisibleItemIndex > 0 || firstVisibleItemScrollOffset > 0
 
 @Preview
 @Composable
@@ -335,7 +326,8 @@ private fun MentorContentPreview(
     AppTheme {
         MentorContent(
             modifier = Modifier.background(MaterialTheme.colorScheme.background),
-            content = content
+            content = content,
+            selectContent = {}
         )
     }
 }
@@ -348,6 +340,7 @@ private fun MentorContentsPreview(
     AppTheme {
         MentorContents(
             Modifier.background(MaterialTheme.colorScheme.background),
+            selectContent = {},
             contents = listOf(content, content, content, content, content),
         )
     }
