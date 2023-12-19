@@ -7,7 +7,6 @@ import com.whereismymotivation.ui.base.BaseViewModel
 import com.whereismymotivation.ui.common.progress.Loader
 import com.whereismymotivation.ui.common.snackbar.Messenger
 import com.whereismymotivation.ui.navigation.Navigator
-import com.whereismymotivation.utils.log.Logger
 import com.whereismymotivation.utils.network.NetworkHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -33,27 +32,26 @@ class FeedViewModel @Inject constructor(
     val contents = _contents.asStateFlow()
 
     private var loading = false
-    private var notMoreToLoad = false
 
-    //    private var pageItemCount = remoteConfigRepository.getHomePageContentCount()
-//    private var startPageNumber = contentRepository.getFeedNextPageNumber()
-    private var startPageNumber = 1
-    private var pageItemCount = 10
+    private var pageItemCount = remoteConfigRepository.getHomePageContentCount()
+    private var startPageNumber = contentRepository.getFeedNextPageNumber()
     private var currentPageNumber = startPageNumber
-    private var reverse: Boolean = false
 
     init {
         if ((System.currentTimeMillis() - contentRepository.getFeedLastSeen()) / 1000 / 60 / 60 > 3) {
-            contentRepository.setFeedNextPageNumber(1)
-            startPageNumber = 1
-            currentPageNumber = startPageNumber
+            rotateFeedList()
         }
 
         loadContents(currentPageNumber, pageItemCount)
     }
 
+    private fun rotateFeedList() {
+        contentRepository.setFeedNextPageNumber(1)
+        startPageNumber = 1
+        currentPageNumber = startPageNumber
+    }
+
     fun loadMoreContents() {
-        Logger.d(TAG, "loadMoreContents")
         loadContents(currentPageNumber, pageItemCount)
     }
 
@@ -61,14 +59,14 @@ class FeedViewModel @Inject constructor(
     }
 
     private fun loadContents(pageNumber: Int, pageItemCount: Int) {
-        if (loading || notMoreToLoad) return
+        if (loading) return
         loading = true
 
         launchNetwork(error = { loading = false }) {
             contentRepository.fetchHomeFeedList(pageNumber, pageItemCount, contents.value.isEmpty())
                 .collect {
                     if (it.isEmpty()) {
-                        notMoreToLoad = true
+                        rotateFeedList()
                     } else {
                         currentPageNumber++
                         contentRepository.setFeedNextPageNumber(currentPageNumber)
@@ -77,5 +75,10 @@ class FeedViewModel @Inject constructor(
                     loading = false
                 }
         }
+    }
+
+    override fun onCleared() {
+        contentRepository.markFeedLastSeen()
+        super.onCleared()
     }
 }
