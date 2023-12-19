@@ -32,12 +32,13 @@ fun InfiniteLazyColumn(
     horizontalAlignment: Alignment.Horizontal = Alignment.Start,
     flingBehavior: FlingBehavior = ScrollableDefaults.flingBehavior(),
     userScrollEnabled: Boolean = true,
+    extraItemsCount: Int = 0, // the number the extra items added in the list
     content: LazyListScope.() -> Unit
 ) {
     val isAtBottom by remember {
         derivedStateOf {
             val layoutInfo = state.layoutInfo
-            if (layoutInfo.totalItemsCount == 0) {
+            if (layoutInfo.totalItemsCount == extraItemsCount) {
                 // if no item in view
                 false
             } else {
