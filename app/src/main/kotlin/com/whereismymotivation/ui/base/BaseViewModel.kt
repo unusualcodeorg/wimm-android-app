@@ -14,7 +14,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import javax.net.ssl.HttpsURLConnection
 
-abstract class BaseViewModel (
+abstract class BaseViewModel(
     private val networkHelper: NetworkHelper,
     private val loader: Loader,
     private val messenger: Messenger,
@@ -44,7 +44,7 @@ abstract class BaseViewModel (
                 try {
                     block()
                 } catch (e: Throwable) {
-                    if(e is CancellationException) return@launch
+                    if (e is CancellationException) return@launch
                     val networkError = handleNetworkError(e)
                     error(networkError)
                     Logger.d(TAG, e)

@@ -1,5 +1,6 @@
 package com.whereismymotivation.ui.feed
 
+import androidx.lifecycle.viewModelScope
 import com.whereismymotivation.data.model.Content
 import com.whereismymotivation.data.repository.ContentRepository
 import com.whereismymotivation.data.repository.RemoteConfigRepository
@@ -9,8 +10,10 @@ import com.whereismymotivation.ui.common.snackbar.Messenger
 import com.whereismymotivation.ui.navigation.Navigator
 import com.whereismymotivation.utils.network.NetworkHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -42,7 +45,10 @@ class FeedViewModel @Inject constructor(
             rotateFeedList()
         }
 
-        loadContents(currentPageNumber, pageItemCount)
+        viewModelScope.launch {
+            delay(50) // Fix for viewModel recomposition by Navigation
+            loadMoreContents()
+        }
     }
 
     private fun rotateFeedList() {

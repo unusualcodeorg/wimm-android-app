@@ -45,7 +45,8 @@ fun FeedView(
         modifier = modifier.fillMaxSize(),
         loadMore = loadMore,
         key = "FeedView",
-        contentPadding = PaddingValues(horizontal = 4.dp, vertical = 4.dp)
+        contentPadding = PaddingValues(horizontal = 4.dp, vertical = 4.dp),
+        extraItemsCount = 1
     ) {
         item(key = "LogoAppBar") {
             LogoAppBar(title = stringResource(R.string.app_name))
