@@ -8,6 +8,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.whereismymotivation.R
 import com.whereismymotivation.ui.feed.Feed
+import com.whereismymotivation.ui.feed.FeedViewModel
 import com.whereismymotivation.ui.mentors.Mentors
 import com.whereismymotivation.ui.mentors.MentorsViewModel
 import com.whereismymotivation.ui.mybox.MyBox
@@ -20,17 +21,18 @@ fun NavGraphBuilder.home(
     modifier: Modifier = Modifier
 ) {
     composable(Destination.Home.Feed.route) {
-        Feed(modifier)
+        val viewModel: FeedViewModel =  hiltViewModel(key = FeedViewModel.TAG)
+        Feed(modifier, viewModel)
     }
     composable(Destination.Home.Mentors.route) {
-        val viewModel: MentorsViewModel = hiltViewModel()
+        val viewModel: MentorsViewModel = hiltViewModel(key = MentorsViewModel.TAG)
         Mentors(modifier, viewModel)
     }
     composable(Destination.Home.Search.route) {
         Search(modifier)
     }
     composable(Destination.Home.Profile.route) {
-        val viewModel: ProfileViewModel = hiltViewModel()
+        val viewModel: ProfileViewModel = hiltViewModel(key = ProfileViewModel.TAG)
         Profile(modifier, viewModel)
     }
     composable(Destination.Home.MyBox.route) {

@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -54,7 +55,10 @@ fun MentorsView(
     modifier: Modifier = Modifier,
     selectMentor: (Mentor) -> Unit,
 ) {
+    val state = rememberLazyStaggeredGridState()
+
     LazyVerticalStaggeredGrid(
+        state = state,
         modifier = modifier.fillMaxSize(),
         columns = StaggeredGridCells.Fixed(2),
         verticalItemSpacing = 2.dp,
@@ -66,7 +70,7 @@ fun MentorsView(
             ) {
                 LogoAppBar(title = stringResource(R.string.my_mentors))
             }
-            items(mentors) { mentor ->
+            items(mentors, key = { it.id }) { mentor ->
                 MentorView(mentor, selectMentor)
             }
         },
@@ -180,7 +184,11 @@ private fun MentorsPreview(
             modifier = Modifier.background(MaterialTheme.colorScheme.background),
             selectMentor = {},
             mentors = listOf(
-                mentor, mentor, mentor, mentor, mentor
+                mentor.copy(id = "1"),
+                mentor.copy(id = "2"),
+                mentor.copy(id = "3"),
+                mentor.copy(id = "4"),
+                mentor.copy(id = "5"),
             )
         )
     }

@@ -11,10 +11,9 @@ import com.whereismymotivation.utils.network.NetworkError
 import com.whereismymotivation.utils.network.NetworkHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 import javax.net.ssl.HttpsURLConnection
 
-open class BaseViewModel @Inject constructor(
+abstract class BaseViewModel (
     private val networkHelper: NetworkHelper,
     private val loader: Loader,
     private val messenger: Messenger,
@@ -35,7 +34,7 @@ open class BaseViewModel @Inject constructor(
 
     protected fun launchNetwork(
         silent: Boolean = false,
-        onError: (NetworkError) -> Unit = {},
+        error: (NetworkError) -> Unit = {},
         block: suspend CoroutineScope.() -> Unit
     ) {
         if (!silent && checkInternetConnectionWithMessage()) {
@@ -45,7 +44,7 @@ open class BaseViewModel @Inject constructor(
                     block()
                 } catch (e: Throwable) {
                     val networkError = handleNetworkError(e)
-                    onError(networkError)
+                    error(networkError)
                     Logger.d(TAG, e)
                     Logger.record(e)
                 } finally {
@@ -58,7 +57,7 @@ open class BaseViewModel @Inject constructor(
                     block()
                 } catch (e: Throwable) {
                     val networkError = handleNetworkError(e)
-                    onError(networkError)
+                    error(networkError)
                     Logger.d(TAG, e)
                     Logger.record(e)
                 } finally {

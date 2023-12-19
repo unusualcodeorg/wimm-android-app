@@ -215,7 +215,7 @@ private fun MentorContents(
     selectContent: (Content) -> Unit,
 ) {
     LazyColumn {
-        items(contents) { content ->
+        items(contents, key = { it.id }) { content ->
             MentorContent(modifier, content, selectContent)
             Divider(modifier = Modifier.padding(start = 120.dp))
         }
@@ -223,7 +223,7 @@ private fun MentorContents(
 }
 
 @Composable
-private fun MentorContent(
+fun MentorContent(
     modifier: Modifier = Modifier,
     content: Content,
     selectContent: (Content) -> Unit,
@@ -341,7 +341,14 @@ private fun MentorContentsPreview(
         MentorContents(
             Modifier.background(MaterialTheme.colorScheme.background),
             selectContent = {},
-            contents = listOf(content, content, content, content, content),
+            contents = listOf(
+                content.copy(id = "1"),
+                content.copy(id = "2"),
+                content.copy(id = "3"),
+                content.copy(id = "4"),
+                content.copy(id = "5"),
+                content.copy(id = "6")
+            ),
         )
     }
 }
