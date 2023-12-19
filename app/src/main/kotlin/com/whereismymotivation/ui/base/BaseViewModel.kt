@@ -9,6 +9,7 @@ import com.whereismymotivation.ui.common.snackbar.Messenger
 import com.whereismymotivation.utils.log.Logger
 import com.whereismymotivation.utils.network.NetworkError
 import com.whereismymotivation.utils.network.NetworkHelper
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import javax.net.ssl.HttpsURLConnection
@@ -43,6 +44,7 @@ abstract class BaseViewModel (
                 try {
                     block()
                 } catch (e: Throwable) {
+                    if(e is CancellationException) return@launch
                     val networkError = handleNetworkError(e)
                     error(networkError)
                     Logger.d(TAG, e)
