@@ -12,7 +12,6 @@ import com.whereismymotivation.utils.network.NetworkHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 
 @HiltViewModel
@@ -33,8 +32,8 @@ class FeedViewModel @Inject constructor(
 
     val contents = _contents.asStateFlow()
 
-    private var loading = AtomicBoolean(false)
-    private var notMoreToLoad = AtomicBoolean(false)
+    private var loading = false
+    private var notMoreToLoad = false
 
     //    private var pageItemCount = remoteConfigRepository.getHomePageContentCount()
 //    private var startPageNumber = contentRepository.getFeedNextPageNumber()
@@ -62,21 +61,20 @@ class FeedViewModel @Inject constructor(
     }
 
     private fun loadContents(pageNumber: Int, pageItemCount: Int) {
-        if (loading.get() || notMoreToLoad.get()) return
-        loading.set(true)
+        if (loading || notMoreToLoad) return
+        loading = true
 
-        launchNetwork {
-            contentRepository.fetchHomeFeedList(pageNumber, pageItemCount, true)
+        launchNetwork(error = { loading = false }) {
+            contentRepository.fetchHomeFeedList(pageNumber, pageItemCount, contents.value.isEmpty())
                 .collect {
                     if (it.isEmpty()) {
-                        loading.set(false)
-                        notMoreToLoad.set(true)
+                        notMoreToLoad = true
                     } else {
                         currentPageNumber++
                         contentRepository.setFeedNextPageNumber(currentPageNumber)
-                        _contents.value = it
-                        loading.set(false)
+                        _contents.value = _contents.value + it
                     }
+                    loading = false
                 }
         }
     }
