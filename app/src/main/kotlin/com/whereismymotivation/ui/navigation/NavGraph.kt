@@ -1,5 +1,7 @@
 package com.whereismymotivation.ui.navigation
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -31,17 +33,21 @@ fun NavGraph(
 
     NavHost(
         navController = navController,
-        startDestination = startDestination
+        startDestination = startDestination,
+        enterTransition = { EnterTransition.None },
+        exitTransition = { ExitTransition.None },
+        popEnterTransition = { EnterTransition.None },
+        popExitTransition = { ExitTransition.None },
     ) {
         composable(Destination.Splash.route) {
-            val viewModel: SplashViewModel = hiltViewModel()
+            val viewModel: SplashViewModel = hiltViewModel(key = SplashViewModel.TAG)
             Splash(
                 modifier = modifier,
                 viewModel = viewModel,
             )
         }
         composable(Destination.Login.route) {
-            val viewModel: LoginViewModel = hiltViewModel()
+            val viewModel: LoginViewModel = hiltViewModel(key = LoginViewModel.TAG)
             Login(
                 modifier = modifier,
                 viewModel = viewModel,
@@ -59,7 +65,7 @@ fun NavGraph(
             route = Destination.Mentor.route,
             arguments = Destination.Mentor.navArguments
         ) {
-            val viewModel: MentorViewModel = hiltViewModel()
+            val viewModel: MentorViewModel = hiltViewModel(key = MentorViewModel.TAG)
             Mentor(
                 modifier = modifier,
                 viewModel = viewModel
