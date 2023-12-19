@@ -28,7 +28,7 @@ class RefreshTokenInterceptor @Inject constructor(
         private val LOCK = Object()
     }
 
-    private lateinit var networkService: NetworkService
+    internal lateinit var networkService: NetworkService
 
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
