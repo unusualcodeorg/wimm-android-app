@@ -46,6 +46,7 @@ object Networking {
         )
         .build()
         .create(NetworkService::class.java)
+        .apply { refreshTokenInterceptor.networkService = this }
 
     fun createForImage(
         imageHeaderInterceptor: ImageHeaderInterceptor,
