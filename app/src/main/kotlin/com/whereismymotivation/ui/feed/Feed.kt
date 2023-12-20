@@ -17,9 +17,9 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.whereismymotivation.R
 import com.whereismymotivation.data.model.Content
-import com.whereismymotivation.ui.common.InfiniteLazyColumn
 import com.whereismymotivation.ui.common.appbar.LogoAppBar
 import com.whereismymotivation.ui.common.image.NetworkImage
+import com.whereismymotivation.ui.common.list.InfiniteLazyColumn
 import com.whereismymotivation.ui.common.preview.ContentPreviewParameterProvider
 import com.whereismymotivation.ui.mentor.MentorContent
 import com.whereismymotivation.ui.theme.AppTheme

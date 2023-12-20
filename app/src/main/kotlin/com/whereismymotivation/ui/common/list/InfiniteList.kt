@@ -1,4 +1,4 @@
-package com.whereismymotivation.ui.common
+package com.whereismymotivation.ui.common.list
 
 import androidx.compose.foundation.gestures.FlingBehavior
 import androidx.compose.foundation.gestures.ScrollableDefaults

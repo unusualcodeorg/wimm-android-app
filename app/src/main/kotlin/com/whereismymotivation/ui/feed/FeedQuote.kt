@@ -13,6 +13,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -22,11 +23,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.whereismymotivation.R
+import com.whereismymotivation.ui.common.text.AutoSizeText
 import com.whereismymotivation.ui.theme.AppTheme
-import com.whereismymotivation.ui.theme.quote
+import com.whereismymotivation.ui.theme.quoteAmaranth
+import com.whereismymotivation.ui.theme.quoteBerkshire
+import com.whereismymotivation.ui.theme.quoteOleoScript
+import com.whereismymotivation.ui.theme.quoteOswald
+import com.whereismymotivation.ui.theme.quotePayToneOne
+import com.whereismymotivation.ui.theme.quoteSail
+import com.whereismymotivation.utils.display.FontUtils
 
 @Composable
 fun FeedQuote(modifier: Modifier = Modifier, saying: String, author: String) {
+    val font = remember { FontUtils.getFont(saying.length) }
+
     Column(
         modifier = modifier
             .background(MaterialTheme.colorScheme.primaryContainer)
@@ -48,15 +58,23 @@ fun FeedQuote(modifier: Modifier = Modifier, saying: String, author: String) {
                 .height(220.dp)
                 .padding(8.dp)
         ) {
-            Text(
+            AutoSizeText(
                 text = saying,
-                style = MaterialTheme.typography.quote,
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.primary,
                 modifier = modifier
                     .align(Alignment.Center)
                     .background(MaterialTheme.colorScheme.primaryContainer),
-                fontSize = 28.sp,
+                maxLines = 4,
+                style = when (font) {
+                    FontUtils.FontName.SAIL -> MaterialTheme.typography.quoteSail
+                    FontUtils.FontName.AMARANTH -> MaterialTheme.typography.quoteAmaranth
+                    FontUtils.FontName.PLAY_TONE_ONE -> MaterialTheme.typography.quotePayToneOne
+                    FontUtils.FontName.BERKSHIRE -> MaterialTheme.typography.quoteBerkshire
+                    FontUtils.FontName.OLEO_SCRIPT -> MaterialTheme.typography.quoteOleoScript
+                    FontUtils.FontName.OSWALD -> MaterialTheme.typography.quoteOswald
+                },
+                defaultFontSize = 32.sp
             )
         }
 

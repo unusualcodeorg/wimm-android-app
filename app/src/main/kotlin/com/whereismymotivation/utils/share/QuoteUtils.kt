@@ -7,10 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.res.ResourcesCompat
 import com.whereismymotivation.R
-import com.whereismymotivation.utils.common.Constants
-import com.whereismymotivation.utils.display.FontUtils
 import com.whereismymotivation.utils.log.Logger
 
 object QuoteUtils {
@@ -28,17 +25,6 @@ object QuoteUtils {
             tvAuthor.text = author
             ivThumbnail.setImageBitmap(image)
 
-            FontUtils.getFont(quote.length)
-                .let {
-                    if (it != Constants.NULL_INDEX)
-                        try {
-                            ResourcesCompat.getFont(context, it)?.run {
-                                tvQuote.typeface = this
-                            }
-                        } catch (e: Exception) {
-                            Logger.record(e)
-                        }
-                }
             return view
         } catch (e: Exception) {
             Logger.record(e)
