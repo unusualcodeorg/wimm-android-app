@@ -14,6 +14,15 @@ private val fonts = FontFamily(
     Font(R.font.rubik_bold, FontWeight.Bold)
 )
 
+private val quoteFonts = FontFamily(
+    Font(R.font.paytone_one_regular),
+)
+
+val Typography.quote: TextStyle
+    get() = TextStyle(
+        fontFamily = quoteFonts
+    )
+
 val typography = typographyFromDefaults(
     displayLarge = TextStyle(
         fontFamily = fonts,

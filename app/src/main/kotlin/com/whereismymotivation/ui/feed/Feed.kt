@@ -3,12 +3,14 @@ package com.whereismymotivation.ui.feed
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -17,6 +19,7 @@ import com.whereismymotivation.R
 import com.whereismymotivation.data.model.Content
 import com.whereismymotivation.ui.common.InfiniteLazyColumn
 import com.whereismymotivation.ui.common.appbar.LogoAppBar
+import com.whereismymotivation.ui.common.image.NetworkImage
 import com.whereismymotivation.ui.common.preview.ContentPreviewParameterProvider
 import com.whereismymotivation.ui.mentor.MentorContent
 import com.whereismymotivation.ui.theme.AppTheme
@@ -64,7 +67,28 @@ fun FeedView(
                 likeClick = likeClick,
                 shareClick = shareClick,
                 whatsAppClick = whatsAppClick
-            )
+            ) {
+                when (content.category) {
+                    Content.Category.AUDIO,
+                    Content.Category.VIDEO,
+                    Content.Category.IMAGE,
+                    Content.Category.YOUTUBE,
+                    Content.Category.FACEBOOK_VIDEO,
+                    Content.Category.ARTICLE,
+                    Content.Category.MENTOR_INFO,
+                    Content.Category.TOPIC_INFO ->
+                        NetworkImage(
+                            url = content.thumbnail,
+                            contentDescription = null,
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier.height(220.dp)
+                        )
+                    Content.Category.QUOTE -> FeedQuote(
+                        saying = content.extra,
+                        author = content.subtitle
+                    )
+                }
+            }
         }
     }
 }
@@ -95,12 +119,13 @@ private fun FeedPreview(
             whatsAppClick = { },
             loadMore = {},
             contents = listOf(
-                content.copy(id = "1"),
-                content.copy(id = "2"),
-                content.copy(id = "3"),
-                content.copy(id = "4"),
-                content.copy(id = "5"),
-                content.copy(id = "6")
+                content.copy(
+                    category = Content.Category.QUOTE,
+                    extra = "Don't let what you cannot do interfere with what you can do.",
+                    subtitle = "Anonymous"
+                ),
+                content.copy(),
+                content.copy()
             ),
         )
     }
