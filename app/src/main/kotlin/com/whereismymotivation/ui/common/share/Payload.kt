@@ -11,11 +11,11 @@ data class Payload<T> private constructor(
     companion object {
         fun <T> text(data: T) = Payload(Type.TEXT, data)
 
-        fun <T> image(data: T) = Payload(Type.IMAGE, data)
+        fun <T> image(data: T, bitmap: Bitmap) = Payload(Type.IMAGE, data, bitmap)
 
         fun <T> whatsappText(data: T) = Payload(Type.WHATSAPP_TEXT, data)
 
-        fun <T> whatsappImage(data: T) = Payload(Type.WHATSAPP_IMAGE, data)
+        fun <T> whatsappImage(data: T, bitmap: Bitmap) = Payload(Type.WHATSAPP_IMAGE, data, bitmap)
     }
 
     enum class Type {
