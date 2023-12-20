@@ -14,12 +14,16 @@ fun NetworkImage(
     contentDescription: String?,
     modifier: Modifier = Modifier,
     contentScale: ContentScale = ContentScale.Crop,
-    @DrawableRes placeholderRes: Int = R.drawable.photo_architecture
+    @DrawableRes errorRes: Int = R.drawable.image_placeholder,
+    @DrawableRes fallbackRes: Int = R.drawable.image_placeholder,
+    @DrawableRes placeholderRes: Int = R.drawable.image_placeholder
 ) {
     AsyncImage(
         model = url,
         contentDescription = contentDescription,
         placeholder = painterResource(placeholderRes),
+        error = painterResource(errorRes),
+        fallback = painterResource(fallbackRes),
         modifier = modifier,
         contentScale = contentScale
     )
