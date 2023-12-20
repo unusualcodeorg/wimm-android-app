@@ -14,13 +14,46 @@ private val fonts = FontFamily(
     Font(R.font.rubik_bold, FontWeight.Bold)
 )
 
-private val quoteFonts = FontFamily(
-    Font(R.font.paytone_one_regular),
-)
-
-val Typography.quote: TextStyle
+val Typography.quoteSail: TextStyle
     get() = TextStyle(
-        fontFamily = quoteFonts
+        fontFamily = FontFamily(
+            Font(R.font.sail_regular),
+        )
+    )
+
+val Typography.quoteAmaranth: TextStyle
+    get() = TextStyle(
+        fontFamily = FontFamily(
+            Font(R.font.amaranth_regular),
+        )
+    )
+
+val Typography.quotePayToneOne: TextStyle
+    get() = TextStyle(
+        fontFamily = FontFamily(
+            Font(R.font.paytone_one_regular),
+        )
+    )
+
+val Typography.quoteBerkshire: TextStyle
+    get() = TextStyle(
+        fontFamily = FontFamily(
+            Font(R.font.berkshire_swash_regular),
+        )
+    )
+
+val Typography.quoteOleoScript: TextStyle
+    get() = TextStyle(
+        fontFamily = FontFamily(
+            Font(R.font.oleo_script_regular),
+        )
+    )
+
+val Typography.quoteOswald: TextStyle
+    get() = TextStyle(
+        fontFamily = FontFamily(
+            Font(R.font.oswald_regular),
+        )
     )
 
 val typography = typographyFromDefaults(

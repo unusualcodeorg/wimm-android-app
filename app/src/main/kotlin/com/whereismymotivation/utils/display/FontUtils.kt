@@ -1,26 +1,25 @@
 package com.whereismymotivation.utils.display
 
-import com.whereismymotivation.R
 import kotlin.random.Random
 
 object FontUtils {
 
-    private val FONT_ARRAY: Array<Int> = arrayOf(
-        R.font.sail_regular,
-        R.font.amaranth_regular,
-        R.font.paytone_one_regular,
-        R.font.berkshire_swash_regular,
-        R.font.oleo_script_regular,
-        R.font.oswald_regular
+    private val FONT_ARRAY: Array<FontName> = arrayOf(
+        FontName.SAIL,
+        FontName.AMARANTH,
+        FontName.PLAY_TONE_ONE,
+        FontName.BERKSHIRE,
+        FontName.OLEO_SCRIPT,
+        FontName.OSWALD,
     )
 
-    fun getRandomFont(): Int {
+    private fun getRandomFont(): FontName {
         val index = Random.nextInt(0, FONT_ARRAY.size)
         return if (index >= 0 && index < FONT_ARRAY.size) FONT_ARRAY[index]
         else FONT_ARRAY[0]
     }
 
-    fun getFont(index: Int): Int {
+    fun getFont(index: Int): FontName {
         return if (index >= 0 && index < FONT_ARRAY.size) {
             FONT_ARRAY[index]
         } else {
@@ -28,5 +27,14 @@ object FontUtils {
             return if (rem >= 0 && rem < FONT_ARRAY.size) FONT_ARRAY[rem]
             else getRandomFont()
         }
+    }
+
+    enum class FontName {
+        SAIL,
+        AMARANTH,
+        PLAY_TONE_ONE,
+        BERKSHIRE,
+        OLEO_SCRIPT,
+        OSWALD
     }
 }
