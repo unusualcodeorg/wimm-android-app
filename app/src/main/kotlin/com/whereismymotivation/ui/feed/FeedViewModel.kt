@@ -91,7 +91,13 @@ class FeedViewModel @Inject constructor(
                     content.id
                 )
             call.collect {
-                content.liked = liked
+                val list = _contents.value.toMutableList()
+                val index = list.indexOf(content)
+                if (index > -1) {
+                    list[index] = content.copy(liked = liked)
+                    _contents.value = list
+
+                }
             }
         }
     }
