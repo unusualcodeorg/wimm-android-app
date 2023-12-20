@@ -89,7 +89,10 @@ class FeedViewModel @Inject constructor(
             call.collect {
                 val index = contents.indexOf(content)
                 if (index > -1) {
-                    contents[index] = content.copy(liked = liked)
+                    contents[index] = content.copy(
+                        liked = liked,
+                        likes = if (liked) content.likes?.plus(1) else content.likes?.minus(1)
+                    )
                 }
             }
         }
