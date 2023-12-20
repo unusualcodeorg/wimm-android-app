@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.outlined.PlayArrow
@@ -48,11 +49,11 @@ import com.whereismymotivation.utils.common.Formatter
 fun FeedContentItem(
     modifier: Modifier = Modifier,
     content: Content,
-    onCardClick: () -> Unit = {},
-    onProfileClick: () -> Unit = {},
-    onLikeClick: () -> Unit = {},
-    onShareClick: () -> Unit = {},
-    onWhatsAppClick: () -> Unit = {},
+    cardClick: (Content) -> Unit,
+    profileClick: (Content) -> Unit,
+    likeClick: (Content) -> Unit,
+    shareClick: (Content) -> Unit,
+    whatsAppClick: (Content) -> Unit,
 ) {
     Card(
         modifier = modifier,
@@ -60,13 +61,11 @@ fun FeedContentItem(
         shape = RectangleShape,
     ) {
         ConstraintLayout(
-            modifier = Modifier
-                .fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
         ) {
             val (profilePic, name, contentType, subtitle, views, thumbnail, play, title, divider, likesAndShares) = createRefs()
 
-            NetworkImage(
-                url = content.creator.profilePicUrl ?: "",
+            NetworkImage(url = content.creator.profilePicUrl ?: "",
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -77,38 +76,31 @@ fun FeedContentItem(
                         top.linkTo(parent.top)
                     }
                     .clip(CircleShape)
-                    .clickable { onProfileClick() }
-            )
+                    .clickable { profileClick(content) })
 
-            Text(
-                text = content.title,
+            Text(text = content.title,
                 style = MaterialTheme.typography.titleSmall,
                 maxLines = 3,
                 overflow = TextOverflow.Ellipsis,
-                modifier = Modifier
-                    .constrainAs(title) {
-                        top.linkTo(profilePic.top, 16.dp)
-                        start.linkTo(profilePic.end, 16.dp)
-                        end.linkTo(parent.end, 16.dp)
-                        width = Dimension.fillToConstraints
-                    }
+                modifier = Modifier.constrainAs(title) {
+                    top.linkTo(profilePic.top, 16.dp)
+                    start.linkTo(profilePic.end, 16.dp)
+                    end.linkTo(parent.end, 16.dp)
+                    width = Dimension.fillToConstraints
+                }
 
             )
 
-            Text(
-                text = content.creator.name ?: "",
+            Text(text = content.creator.name ?: "",
                 style = MaterialTheme.typography.bodySmall,
                 maxLines = 1,
-                modifier = Modifier
-                    .constrainAs(name) {
-                        top.linkTo(title.bottom, 8.dp)
-                        start.linkTo(profilePic.end, 16.dp)
-                        width = Dimension.fillToConstraints
-                    }
-            )
+                modifier = Modifier.constrainAs(name) {
+                    top.linkTo(title.bottom, 8.dp)
+                    start.linkTo(profilePic.end, 16.dp)
+                    width = Dimension.fillToConstraints
+                })
 
-            Icon(
-                imageVector = Icons.Outlined.PlayCircle,
+            Icon(imageVector = Icons.Outlined.PlayCircle,
                 contentDescription = null,
                 tint = Color(0xFF0077cc),
                 modifier = Modifier
@@ -116,44 +108,37 @@ fun FeedContentItem(
                     .constrainAs(contentType) {
                         top.linkTo(name.bottom, 5.dp)
                         start.linkTo(name.start)
-                    }
-            )
+                    })
 
-            Text(
-                text = content.subtitle,
+            Text(text = content.subtitle,
                 style = MaterialTheme.typography.bodySmall,
                 color = Color(0xFF0077cc),
-                modifier = Modifier
-                    .constrainAs(subtitle) {
-                        top.linkTo(contentType.top)
-                        bottom.linkTo(contentType.bottom)
-                        start.linkTo(contentType.end, 5.dp)
-                        width = Dimension.fillToConstraints
-                    }
-            )
+                modifier = Modifier.constrainAs(subtitle) {
+                    top.linkTo(contentType.top)
+                    bottom.linkTo(contentType.bottom)
+                    start.linkTo(contentType.end, 5.dp)
+                    width = Dimension.fillToConstraints
+                })
 
             Text(
                 style = MaterialTheme.typography.labelSmall,
-                modifier = Modifier
-                    .constrainAs(views) {
-                        top.linkTo(subtitle.top)
-                        bottom.linkTo(subtitle.bottom)
-                        end.linkTo(parent.end, 16.dp)
-                        width = Dimension.fillToConstraints
-                    },
+                modifier = Modifier.constrainAs(views) {
+                    top.linkTo(subtitle.top)
+                    bottom.linkTo(subtitle.bottom)
+                    end.linkTo(parent.end, 16.dp)
+                    width = Dimension.fillToConstraints
+                },
                 text = when (content.views) {
                     null -> ""
                     1L -> stringResource(R.string.view_count_1)
                     else -> stringResource(
-                        R.string.views_count,
-                        Formatter.format(content.views ?: 0)
+                        R.string.views_count, Formatter.format(content.views ?: 0)
                     )
                 }
 
             )
 
-            NetworkImage(
-                url = content.thumbnail,
+            NetworkImage(url = content.thumbnail,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -164,11 +149,9 @@ fun FeedContentItem(
                         start.linkTo(parent.start)
                         end.linkTo(parent.end)
                     }
-                    .clickable { onCardClick() }
-            )
+                    .clickable { cardClick(content) })
 
-            Icon(
-                imageVector = Icons.Outlined.PlayArrow,
+            Icon(imageVector = Icons.Outlined.PlayArrow,
                 contentDescription = null,
                 tint = Color.White,
                 modifier = Modifier
@@ -179,8 +162,7 @@ fun FeedContentItem(
                         bottom.linkTo(thumbnail.bottom, 8.dp)
                         end.linkTo(parent.end, 16.dp)
                     }
-                    .clickable { onCardClick() }
-            )
+                    .clickable { cardClick(content) })
 
             Row(
                 modifier = Modifier
@@ -204,22 +186,18 @@ fun FeedContentItem(
                 )
 
                 IconButton(
-                    onClick = { onLikeClick() },
-                    modifier = Modifier
-                        .size(24.dp)
+                    onClick = { likeClick(content) }, modifier = Modifier.size(24.dp)
                 ) {
                     Icon(
-                        imageVector = Icons.Default.FavoriteBorder,
+                        imageVector = if (content.liked == true) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                         contentDescription = null,
-                        tint = Color.Black
+                        tint = if (content.liked == true) Color.Red else Color.Black,
                     )
 
                 }
 
                 IconButton(
-                    onClick = { onShareClick() },
-                    modifier = Modifier
-                        .padding(8.dp)
+                    onClick = { shareClick(content) }, modifier = Modifier.padding(8.dp)
                 ) {
                     Icon(
                         imageVector = Icons.Default.Share,
@@ -229,27 +207,22 @@ fun FeedContentItem(
                 }
 
                 IconButton(
-                    onClick = { onWhatsAppClick() },
-                    modifier = Modifier.size(24.dp)
+                    onClick = { whatsAppClick(content) }, modifier = Modifier.size(24.dp)
                 ) {
                     Image(
                         painter = painterResource(R.drawable.ic_whatsapp),
                         contentDescription = "whatsapp",
-                        modifier = Modifier
-                            .size(24.dp)
+                        modifier = Modifier.size(24.dp)
                     )
                 }
             }
-            Divider(
-                thickness = 0.75.dp,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .constrainAs(divider) {
-                        top.linkTo(likesAndShares.bottom, 8.dp)
-                        start.linkTo(parent.start)
-                        end.linkTo(parent.end)
-                    }
-            )
+            Divider(thickness = 0.75.dp, modifier = Modifier
+                .fillMaxWidth()
+                .constrainAs(divider) {
+                    top.linkTo(likesAndShares.bottom, 8.dp)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                })
         }
     }
 }
@@ -259,30 +232,26 @@ fun LikeAndShareText(modifier: Modifier, likes: Long, shares: Long) {
     Text(
         modifier = modifier,
         style = MaterialTheme.typography.labelSmall,
-        text = if (likes == 0L && shares == 1L)
-            stringResource(R.string.share_count_1)
-        else if (likes == 0L && shares > 1L)
-            stringResource(R.string.shares_count, Formatter.format(shares))
-        else if (likes == 1L && shares == 0L)
-            stringResource(R.string.like_count_1)
-        else if (likes > 1L && shares == 0L)
-            stringResource(R.string.likes_count, Formatter.format(likes))
-        else if (likes == 1L && shares == 1L)
-            stringResource(R.string.like_and_share_count_1)
-        else if (likes > 1L && shares == 1L)
-            stringResource(
-                R.string.likes_and_share_count, Formatter.format(likes)
-            )
-        else if (likes == 1L && shares > 1L)
-            stringResource(
-                R.string.like_and_shares_count, Formatter.format(shares)
-            )
-        else if (likes > 1L && shares > 1L)
-            stringResource(
-                R.string.likes_and_shares_count,
-                Formatter.format(likes),
-                Formatter.format(shares)
-            )
+        text = if (likes == 0L && shares == 1L) stringResource(R.string.share_count_1)
+        else if (likes == 0L && shares > 1L) stringResource(
+            R.string.shares_count,
+            Formatter.format(shares)
+        )
+        else if (likes == 1L && shares == 0L) stringResource(R.string.like_count_1)
+        else if (likes > 1L && shares == 0L) stringResource(
+            R.string.likes_count,
+            Formatter.format(likes)
+        )
+        else if (likes == 1L && shares == 1L) stringResource(R.string.like_and_share_count_1)
+        else if (likes > 1L && shares == 1L) stringResource(
+            R.string.likes_and_share_count, Formatter.format(likes)
+        )
+        else if (likes == 1L && shares > 1L) stringResource(
+            R.string.like_and_shares_count, Formatter.format(shares)
+        )
+        else if (likes > 1L && shares > 1L) stringResource(
+            R.string.likes_and_shares_count, Formatter.format(likes), Formatter.format(shares)
+        )
         else ""
     )
 }
@@ -293,7 +262,12 @@ fun FeedContentItemPreview(
     @PreviewParameter(ContentPreviewParameterProvider::class, limit = 1) content: Content
 ) {
     AppTheme {
-        FeedContentItem(content = content)
+        FeedContentItem(content = content,
+            cardClick = {},
+            profileClick = {},
+            likeClick = {},
+            shareClick = {},
+            whatsAppClick = {})
     }
 }
 

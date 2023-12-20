@@ -28,7 +28,11 @@ fun Feed(modifier: Modifier, feedViewModel: FeedViewModel) {
     FeedView(
         modifier = modifier,
         contents = contents,
-        selectContent = { feedViewModel.selectContent(it) },
+        cardClick = { },
+        profileClick = { },
+        likeClick = { feedViewModel.toggleContentLike(it) },
+        shareClick = { },
+        whatsAppClick = { },
         loadMore = { feedViewModel.loadMoreContents() }
     )
 }
@@ -37,7 +41,11 @@ fun Feed(modifier: Modifier, feedViewModel: FeedViewModel) {
 fun FeedView(
     modifier: Modifier = Modifier,
     contents: List<Content>,
-    selectContent: (Content) -> Unit,
+    cardClick: (Content) -> Unit,
+    profileClick: (Content) -> Unit,
+    likeClick: (Content) -> Unit,
+    shareClick: (Content) -> Unit,
+    whatsAppClick: (Content) -> Unit,
     loadMore: () -> Unit,
 ) {
     InfiniteLazyColumn(
@@ -51,7 +59,14 @@ fun FeedView(
             Divider()
         }
         items(contents) { content ->
-            FeedContentItem(content = content)
+            FeedContentItem(
+                content = content,
+                cardClick = cardClick,
+                profileClick = profileClick,
+                likeClick = likeClick,
+                shareClick = shareClick,
+                whatsAppClick = whatsAppClick
+            )
         }
     }
 }
@@ -75,7 +90,11 @@ private fun FeedPreview(
     AppTheme {
         FeedView(
             modifier = Modifier.background(MaterialTheme.colorScheme.background),
-            selectContent = {},
+            cardClick = { },
+            profileClick = { },
+            likeClick = { },
+            shareClick = { },
+            whatsAppClick = { },
             loadMore = {},
             contents = listOf(
                 content.copy(id = "1"),
