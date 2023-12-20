@@ -83,6 +83,19 @@ class FeedViewModel @Inject constructor(
         }
     }
 
+    fun toggleContentLike(content: Content) {
+        launchNetwork {
+            val liked = !(content.liked ?: false)
+            val call =
+                if (liked) contentRepository.markContentLike(content.id) else contentRepository.markContentUnlike(
+                    content.id
+                )
+            call.collect {
+                content.liked = liked
+            }
+        }
+    }
+
     override fun onCleared() {
         contentRepository.markFeedLastSeen()
         super.onCleared()
