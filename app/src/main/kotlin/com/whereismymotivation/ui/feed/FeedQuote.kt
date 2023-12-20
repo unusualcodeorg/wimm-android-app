@@ -38,7 +38,11 @@ import com.whereismymotivation.ui.theme.white
 import com.whereismymotivation.utils.display.FontUtils
 
 @Composable
-fun FeedQuote(modifier: Modifier = Modifier, saying: String, author: String) {
+fun FeedQuote(
+    modifier: Modifier = Modifier,
+    saying: String,
+    author: String
+) {
     val font = remember { FontUtils.getFont(saying.length) }
     val random = remember { (0..4).random() }
 
@@ -53,18 +57,21 @@ fun FeedQuote(modifier: Modifier = Modifier, saying: String, author: String) {
                             Color(0xffef8e38),
                         ),
                     )
+
                     1 -> Brush.linearGradient(
                         colors = listOf(
                             Color(0xff22c1c3),
                             Color(0xff2948ff),
                         ),
                     )
+
                     2 -> Brush.linearGradient(
                         colors = listOf(
                             Color(0xffc0392b),
                             Color(0xff8e44ad),
                         ),
                     )
+
                     3 -> Brush.linearGradient(
                         colors = listOf(
                             Color(0xffA770EF),
@@ -72,6 +79,7 @@ fun FeedQuote(modifier: Modifier = Modifier, saying: String, author: String) {
                             Color(0xffFDB99B),
                         ),
                     )
+
                     else -> Brush.linearGradient(
                         colors = listOf(
                             Color(0xff12c2e9),
