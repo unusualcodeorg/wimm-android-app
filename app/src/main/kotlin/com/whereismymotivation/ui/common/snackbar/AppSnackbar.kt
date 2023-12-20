@@ -5,7 +5,7 @@ import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.whereismymotivation.ui.common.snackbar.Message.Type.ERROR
 import com.whereismymotivation.ui.common.snackbar.Message.Type.INFO
 import com.whereismymotivation.ui.common.snackbar.Message.Type.SUCCESS
@@ -22,7 +22,7 @@ fun AppSnackbar(
 ) {
     MessageHandler(snackbarHostState, messenger)
 
-    val messageType = messenger.messageType.collectAsState()
+    val messageType = messenger.messageType.collectAsStateWithLifecycle()
 
     val color = when (messageType.value) {
         SUCCESS -> MaterialTheme.colorScheme.success

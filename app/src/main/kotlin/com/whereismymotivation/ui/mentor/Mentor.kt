@@ -34,7 +34,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,6 +43,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.whereismymotivation.data.model.Content
 import com.whereismymotivation.data.model.Mentor
 import com.whereismymotivation.ui.common.appbar.BackAppBar
@@ -59,8 +59,8 @@ import java.util.Locale
 
 @Composable
 fun Mentor(modifier: Modifier, viewModel: MentorViewModel) {
-    val mentor = viewModel.mentor.collectAsState().value
-    val contents = viewModel.contents.collectAsState().value
+    val mentor = viewModel.mentor.collectAsStateWithLifecycle().value
+    val contents = viewModel.contents.collectAsStateWithLifecycle().value
 
     MentorView(
         modifier = modifier.fillMaxSize(),
