@@ -16,7 +16,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,25 +34,63 @@ import com.whereismymotivation.ui.theme.quoteOleoScript
 import com.whereismymotivation.ui.theme.quoteOswald
 import com.whereismymotivation.ui.theme.quotePayToneOne
 import com.whereismymotivation.ui.theme.quoteSail
+import com.whereismymotivation.ui.theme.white
 import com.whereismymotivation.utils.display.FontUtils
 
 @Composable
 fun FeedQuote(modifier: Modifier = Modifier, saying: String, author: String) {
     val font = remember { FontUtils.getFont(saying.length) }
+    val random = remember { (0..4).random() }
 
     Column(
         modifier = modifier
-            .background(MaterialTheme.colorScheme.primaryContainer)
             .fillMaxWidth()
+            .background(
+                brush = when (random) {
+                    0 -> Brush.linearGradient(
+                        colors = listOf(
+                            Color(0xff108dc7),
+                            Color(0xffef8e38),
+                        ),
+                    )
+                    1 -> Brush.linearGradient(
+                        colors = listOf(
+                            Color(0xff22c1c3),
+                            Color(0xff2948ff),
+                        ),
+                    )
+                    2 -> Brush.linearGradient(
+                        colors = listOf(
+                            Color(0xffc0392b),
+                            Color(0xff8e44ad),
+                        ),
+                    )
+                    3 -> Brush.linearGradient(
+                        colors = listOf(
+                            Color(0xffA770EF),
+                            Color(0xffCF8BF3),
+                            Color(0xffFDB99B),
+                        ),
+                    )
+                    else -> Brush.linearGradient(
+                        colors = listOf(
+                            Color(0xff12c2e9),
+                            Color(0xffc471ed),
+                            Color(0xfff64f59)
+                        ),
+                    )
+                }
+            )
     ) {
         Icon(
             painter = painterResource(id = R.drawable.ic_quotation_mark),
             contentDescription = null,
-            tint = MaterialTheme.colorScheme.secondary,
+            tint = MaterialTheme.colorScheme.white,
             modifier = Modifier
+                .padding(top = 16.dp)
                 .size(32.dp)
-                .padding(top = 10.dp)
                 .align(Alignment.CenterHorizontally)
+                .alpha(0.7f)
         )
 
         Box(
@@ -61,10 +102,10 @@ fun FeedQuote(modifier: Modifier = Modifier, saying: String, author: String) {
             AutoSizeText(
                 text = saying,
                 textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.white,
                 modifier = modifier
                     .align(Alignment.Center)
-                    .background(MaterialTheme.colorScheme.primaryContainer),
+                    .alpha(0.9f),
                 maxLines = 4,
                 style = when (font) {
                     FontUtils.FontName.SAIL -> MaterialTheme.typography.quoteSail
@@ -84,8 +125,9 @@ fun FeedQuote(modifier: Modifier = Modifier, saying: String, author: String) {
             modifier = Modifier
                 .width(100.dp)
                 .height(3.dp)
-                .background(MaterialTheme.colorScheme.primary)
+                .background(MaterialTheme.colorScheme.white)
                 .align(Alignment.CenterHorizontally)
+                .alpha(0.7f)
         )
 
         Text(
@@ -95,19 +137,21 @@ fun FeedQuote(modifier: Modifier = Modifier, saying: String, author: String) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(8.dp)
-                .align(Alignment.CenterHorizontally),
-            color = MaterialTheme.colorScheme.primary
+                .align(Alignment.CenterHorizontally)
+                .alpha(0.9f),
+            color = MaterialTheme.colorScheme.white
         )
 
         Icon(
             painter = painterResource(id = R.drawable.ic_quotation_mark),
             contentDescription = null,
-            tint = MaterialTheme.colorScheme.primary,
+            tint = MaterialTheme.colorScheme.white,
             modifier = Modifier
+                .padding(bottom = 16.dp)
                 .size(32.dp)
                 .scale(1f, -1f)
                 .align(Alignment.CenterHorizontally)
-                .padding(bottom = 10.dp)
+                .alpha(0.7f)
         )
     }
 }
