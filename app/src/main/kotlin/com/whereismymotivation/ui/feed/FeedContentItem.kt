@@ -133,7 +133,6 @@ fun FeedContentItem(
             )
 
             Text(
-                text = content.views.toString(),
                 style = MaterialTheme.typography.labelSmall,
                 modifier = Modifier
                     .constrainAs(views) {
@@ -141,7 +140,16 @@ fun FeedContentItem(
                         bottom.linkTo(subtitle.bottom)
                         end.linkTo(parent.end, 16.dp)
                         width = Dimension.fillToConstraints
-                    }
+                    },
+                text = when (content.views) {
+                    null -> ""
+                    1L -> stringResource(R.string.view_count_1)
+                    else -> stringResource(
+                        R.string.views_count,
+                        Formatter.format(content.views ?: 0)
+                    )
+                }
+
             )
 
             NetworkImage(
