@@ -13,15 +13,22 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.FormatQuote
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.outlined.Article
+import androidx.compose.material.icons.outlined.Audiotrack
+import androidx.compose.material.icons.outlined.Image
+import androidx.compose.material.icons.outlined.PersonPinCircle
 import androidx.compose.material.icons.outlined.PlayArrow
 import androidx.compose.material.icons.outlined.PlayCircle
+import androidx.compose.material.icons.outlined.Topic
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -54,6 +61,7 @@ fun FeedContentItem(
     likeClick: (Content) -> Unit,
     shareClick: (Content) -> Unit,
     whatsAppClick: (Content) -> Unit,
+    media: @Composable () -> Unit
 ) {
     Card(
         modifier = modifier,
@@ -88,7 +96,6 @@ fun FeedContentItem(
                     end.linkTo(parent.end, 16.dp)
                     width = Dimension.fillToConstraints
                 }
-
             )
 
             Text(text = content.creator.name ?: "",
@@ -100,7 +107,7 @@ fun FeedContentItem(
                     width = Dimension.fillToConstraints
                 })
 
-            Icon(imageVector = Icons.Outlined.PlayCircle,
+            Icon(
                 contentDescription = null,
                 tint = Color(0xFF0077cc),
                 modifier = Modifier
@@ -108,7 +115,19 @@ fun FeedContentItem(
                     .constrainAs(contentType) {
                         top.linkTo(name.bottom, 5.dp)
                         start.linkTo(name.start)
-                    })
+                    },
+                imageVector = when (content.category) {
+                    Content.Category.AUDIO -> Icons.Outlined.Audiotrack
+                    Content.Category.VIDEO -> Icons.Outlined.PlayCircle
+                    Content.Category.IMAGE -> Icons.Outlined.Image
+                    Content.Category.YOUTUBE -> Icons.Outlined.PlayCircle
+                    Content.Category.FACEBOOK_VIDEO -> Icons.Outlined.PlayCircle
+                    Content.Category.ARTICLE -> Icons.Outlined.Article
+                    Content.Category.QUOTE -> Icons.Default.FormatQuote
+                    Content.Category.MENTOR_INFO -> Icons.Outlined.PersonPinCircle
+                    Content.Category.TOPIC_INFO -> Icons.Outlined.Topic
+                }
+            )
 
             Text(text = content.subtitle,
                 style = MaterialTheme.typography.bodySmall,
@@ -135,34 +154,43 @@ fun FeedContentItem(
                         R.string.views_count, Formatter.format(content.views ?: 0)
                     )
                 }
-
             )
 
-            NetworkImage(url = content.thumbnail,
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
+            Surface(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(220.dp)
                     .constrainAs(thumbnail) {
                         top.linkTo(subtitle.bottom, 8.dp)
                         start.linkTo(parent.start)
                         end.linkTo(parent.end)
                     }
-                    .clickable { cardClick(content) })
+                    .clickable { cardClick(content) },
+                content = media
+            )
 
-            Icon(imageVector = Icons.Outlined.PlayArrow,
-                contentDescription = null,
-                tint = Color.White,
-                modifier = Modifier
-                    .size(45.dp)
-                    .background(Color(0x88000000))
-                    .padding(8.dp)
-                    .constrainAs(play) {
-                        bottom.linkTo(thumbnail.bottom, 8.dp)
-                        end.linkTo(parent.end, 16.dp)
-                    }
-                    .clickable { cardClick(content) })
+            when (content.category) {
+                Content.Category.AUDIO -> {}
+                Content.Category.IMAGE -> {}
+                Content.Category.ARTICLE -> {}
+                Content.Category.QUOTE -> {}
+                Content.Category.MENTOR_INFO -> {}
+                Content.Category.TOPIC_INFO -> {}
+                Content.Category.FACEBOOK_VIDEO,
+                Content.Category.YOUTUBE,
+                Content.Category.VIDEO ->
+                    Icon(imageVector = Icons.Outlined.PlayArrow,
+                        contentDescription = null,
+                        tint = Color.White,
+                        modifier = Modifier
+                            .size(45.dp)
+                            .background(Color(0x88000000))
+                            .padding(8.dp)
+                            .constrainAs(play) {
+                                bottom.linkTo(thumbnail.bottom, 8.dp)
+                                end.linkTo(parent.end, 16.dp)
+                            }
+                            .clickable { cardClick(content) })
+            }
 
             Row(
                 modifier = Modifier
@@ -228,7 +256,7 @@ fun FeedContentItem(
 }
 
 @Composable
-fun LikeAndShareText(modifier: Modifier, likes: Long, shares: Long) {
+private fun LikeAndShareText(modifier: Modifier, likes: Long, shares: Long) {
     Text(
         modifier = modifier,
         style = MaterialTheme.typography.labelSmall,
@@ -258,7 +286,7 @@ fun LikeAndShareText(modifier: Modifier, likes: Long, shares: Long) {
 
 @Preview
 @Composable
-fun FeedContentItemPreview(
+private fun FeedContentItemPreview(
     @PreviewParameter(ContentPreviewParameterProvider::class, limit = 1) content: Content
 ) {
     AppTheme {
@@ -267,7 +295,35 @@ fun FeedContentItemPreview(
             profileClick = {},
             likeClick = {},
             shareClick = {},
-            whatsAppClick = {})
+            whatsAppClick = {}) {
+            NetworkImage(
+                url = content.thumbnail,
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.height(220.dp)
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun FeedQuoteItemPreview(
+    @PreviewParameter(ContentPreviewParameterProvider::class, limit = 1) content: Content
+) {
+    AppTheme {
+        FeedContentItem(content = content.copy(category = Content.Category.QUOTE),
+            cardClick = {},
+            profileClick = {},
+            likeClick = {},
+            shareClick = {},
+            whatsAppClick = {}) {
+            FeedQuote(
+                modifier = Modifier.background(MaterialTheme.colorScheme.background),
+                saying = "Don't let what you cannot do interfere with what you can do.",
+                author = "Anonymous"
+            )
+        }
     }
 }
 
