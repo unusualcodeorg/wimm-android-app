@@ -1,6 +1,5 @@
 package com.whereismymotivation.ui.splash
 
-import androidx.lifecycle.viewModelScope
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.whereismymotivation.data.repository.UserRepository
 import com.whereismymotivation.ui.base.BaseViewModel
@@ -11,14 +10,13 @@ import com.whereismymotivation.ui.navigation.NavTarget
 import com.whereismymotivation.ui.navigation.Navigator
 import com.whereismymotivation.utils.network.NetworkHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
     networkHelper: NetworkHelper,
     loader: Loader,
-    private val firebaseRemote: FirebaseRemoteConfig,
+    firebaseRemote: FirebaseRemoteConfig,
     private val userRepository: UserRepository,
     val navigator: Navigator,
     val messenger: Messenger
@@ -29,14 +27,12 @@ class SplashViewModel @Inject constructor(
     }
 
     init {
-        viewModelScope.launch {
-            firebaseRemote.ensureInitialized().addOnCompleteListener {
-                val exists = userRepository.userExists()
-                if (exists) {
-                    navigator.navigateTo(NavTarget(Destination.Home.Feed.route, true))
-                } else {
-                    navigator.navigateTo(NavTarget(Destination.Login.route, true))
-                }
+        firebaseRemote.ensureInitialized().addOnCompleteListener {
+            val exists = userRepository.userExists()
+            if (exists) {
+                navigator.navigateTo(NavTarget(Destination.Home.Feed.route, true))
+            } else {
+                navigator.navigateTo(NavTarget(Destination.Login.route, true))
             }
         }
     }
