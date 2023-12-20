@@ -23,7 +23,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -34,6 +33,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.whereismymotivation.R
 
 @Composable
@@ -41,10 +41,10 @@ fun Login(modifier: Modifier = Modifier, viewModel: LoginViewModel) {
     BackHandler { viewModel.navigator.finish() }
     LoginView(
         modifier,
-        email = viewModel.email.collectAsState().value,
-        password = viewModel.password.collectAsState().value,
-        emailError = viewModel.emailError.collectAsState().value,
-        passwordError = viewModel.passwordError.collectAsState().value,
+        email = viewModel.email.collectAsStateWithLifecycle().value,
+        password = viewModel.password.collectAsStateWithLifecycle().value,
+        emailError = viewModel.emailError.collectAsStateWithLifecycle().value,
+        passwordError = viewModel.passwordError.collectAsStateWithLifecycle().value,
         onEmailChange = { viewModel.onEmailChange(it) },
         onPasswordChange = { viewModel.onPasswordChange(it) },
         basicLogin = { viewModel.basicLogin() },
