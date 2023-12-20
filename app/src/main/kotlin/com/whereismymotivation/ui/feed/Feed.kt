@@ -29,11 +29,11 @@ fun Feed(modifier: Modifier, feedViewModel: FeedViewModel) {
     FeedView(
         modifier = modifier,
         contents = feedViewModel.contents,
-        cardClick = { },
+        cardClick = { feedViewModel.selectContent(it) },
         profileClick = { },
         likeClick = { feedViewModel.toggleContentLike(it) },
-        shareClick = { },
-        whatsAppClick = { },
+        shareClick = { feedViewModel.shareContent(it) },
+        whatsAppClick = { feedViewModel.shareWhatsappContent(it) },
         loadMore = { feedViewModel.loadMoreContents() }
     )
 }
@@ -83,6 +83,7 @@ fun FeedView(
                             contentScale = ContentScale.Crop,
                             modifier = Modifier.height(220.dp)
                         )
+
                     Content.Category.QUOTE -> FeedQuote(
                         saying = content.extra,
                         author = content.subtitle

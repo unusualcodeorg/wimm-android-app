@@ -7,6 +7,8 @@ import com.whereismymotivation.data.repository.ContentRepository
 import com.whereismymotivation.data.repository.RemoteConfigRepository
 import com.whereismymotivation.ui.base.BaseViewModel
 import com.whereismymotivation.ui.common.progress.Loader
+import com.whereismymotivation.ui.common.share.Payload
+import com.whereismymotivation.ui.common.share.Sharer
 import com.whereismymotivation.ui.common.snackbar.Messenger
 import com.whereismymotivation.ui.navigation.Navigator
 import com.whereismymotivation.utils.network.NetworkHelper
@@ -22,6 +24,7 @@ class FeedViewModel @Inject constructor(
     messenger: Messenger,
     remoteConfigRepository: RemoteConfigRepository,
     private val navigator: Navigator,
+    private val sharer: Sharer<Content>,
     private val contentRepository: ContentRepository,
 ) : BaseViewModel(networkHelper, loader, messenger) {
 
@@ -96,6 +99,14 @@ class FeedViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun shareContent(content: Content) {
+        sharer.share(Payload.text(content))
+    }
+
+    fun shareWhatsappContent(content: Content) {
+        sharer.share(Payload.whatsappText(content))
     }
 
     override fun onCleared() {

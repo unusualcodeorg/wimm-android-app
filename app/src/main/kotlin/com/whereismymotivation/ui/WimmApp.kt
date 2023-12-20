@@ -8,8 +8,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
+import com.whereismymotivation.data.model.Content
 import com.whereismymotivation.ui.common.progress.Loader
 import com.whereismymotivation.ui.common.progress.Loading
+import com.whereismymotivation.ui.common.share.ContentShareHandler
+import com.whereismymotivation.ui.common.share.Sharer
 import com.whereismymotivation.ui.common.snackbar.AppSnackbar
 import com.whereismymotivation.ui.common.snackbar.Messenger
 import com.whereismymotivation.ui.home.HomeBottomBar
@@ -21,6 +24,7 @@ import com.whereismymotivation.ui.theme.AppTheme
 fun WimmApp(
     navigator: Navigator,
     loader: Loader,
+    sharer: Sharer<Content>,
     messenger: Messenger,
     finish: () -> Unit
 ) {
@@ -44,6 +48,7 @@ fun WimmApp(
                     .fillMaxWidth(),
                 loader = loader
             )
+            ContentShareHandler(sharer)
         }
     }
 }
