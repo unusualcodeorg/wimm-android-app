@@ -36,7 +36,9 @@ class ContentPreviewParameterProvider : PreviewParameterProvider<Content> {
             ),
             views = 54,
             category = Content.Category.YOUTUBE,
-            liked = false
+            liked = false,
+            likes = 12456356,
+            shares = 974524
         )
     )
 }
