@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,10 +23,9 @@ import com.whereismymotivation.ui.theme.AppTheme
 
 @Composable
 fun Feed(modifier: Modifier, feedViewModel: FeedViewModel) {
-    val contents = feedViewModel.contents.collectAsState().value
     FeedView(
         modifier = modifier,
-        contents = contents,
+        contents = feedViewModel.contents,
         cardClick = { },
         profileClick = { },
         likeClick = { feedViewModel.toggleContentLike(it) },

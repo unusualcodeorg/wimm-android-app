@@ -1,5 +1,6 @@
 package com.whereismymotivation.ui.feed
 
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.viewModelScope
 import com.whereismymotivation.data.model.Content
 import com.whereismymotivation.data.repository.ContentRepository
@@ -11,8 +12,6 @@ import com.whereismymotivation.ui.navigation.Navigator
 import com.whereismymotivation.utils.network.NetworkHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,12 +29,9 @@ class FeedViewModel @Inject constructor(
         const val TAG = "FeedViewModel"
     }
 
-    private val _contents = MutableStateFlow<List<Content>>(emptyList())
-
-    val contents = _contents.asStateFlow()
+    val contents = mutableStateListOf<Content>()
 
     private var loading = false
-
     private var pageItemCount = remoteConfigRepository.getHomePageContentCount()
     private var startPageNumber = contentRepository.getFeedNextPageNumber()
     private var currentPageNumber = startPageNumber
@@ -69,14 +65,14 @@ class FeedViewModel @Inject constructor(
         loading = true
 
         launchNetwork(error = { loading = false }) {
-            contentRepository.fetchHomeFeedList(pageNumber, pageItemCount, contents.value.isEmpty())
+            contentRepository.fetchHomeFeedList(pageNumber, pageItemCount, contents.isEmpty())
                 .collect {
                     if (it.isEmpty()) {
                         rotateFeedList()
                     } else {
                         currentPageNumber++
                         contentRepository.setFeedNextPageNumber(currentPageNumber)
-                        _contents.value = _contents.value + it
+                        contents.addAll(it)
                     }
                     loading = false
                 }
@@ -91,12 +87,9 @@ class FeedViewModel @Inject constructor(
                     content.id
                 )
             call.collect {
-                val list = _contents.value.toMutableList()
-                val index = list.indexOf(content)
+                val index = contents.indexOf(content)
                 if (index > -1) {
-                    list[index] = content.copy(liked = liked)
-                    _contents.value = list
-
+                    contents[index] = content.copy(liked = liked)
                 }
             }
         }
