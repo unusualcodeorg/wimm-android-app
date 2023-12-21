@@ -25,16 +25,16 @@ import com.whereismymotivation.ui.mentor.MentorContent
 import com.whereismymotivation.ui.theme.AppTheme
 
 @Composable
-fun Feed(modifier: Modifier, feedViewModel: FeedViewModel) {
+fun Feed(modifier: Modifier, viewModel: FeedViewModel) {
     FeedView(
         modifier = modifier,
-        contents = feedViewModel.contents,
-        cardClick = { feedViewModel.selectContent(it) },
+        contents = viewModel.contents,
+        cardClick = { viewModel.selectContent(it) },
         profileClick = { },
-        likeClick = { feedViewModel.toggleContentLike(it) },
-        shareClick = { feedViewModel.shareContent(it) },
-        whatsAppClick = { feedViewModel.shareWhatsappContent(it) },
-        loadMore = { feedViewModel.loadMoreContents() }
+        likeClick = { viewModel.toggleContentLike(it) },
+        shareClick = { viewModel.shareContent(it) },
+        whatsAppClick = { viewModel.shareWhatsappContent(it) },
+        loadMore = { viewModel.loadMoreContents() }
     )
 }
 

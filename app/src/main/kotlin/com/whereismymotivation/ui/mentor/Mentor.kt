@@ -59,7 +59,7 @@ import java.util.Locale
 
 @Composable
 fun Mentor(modifier: Modifier, viewModel: MentorViewModel) {
-    val mentor = viewModel.mentor.collectAsStateWithLifecycle().value
+    val mentor = viewModel.mentor.collectAsStateWithLifecycle().value ?: return
     val contents = viewModel.contents.collectAsStateWithLifecycle().value
 
     MentorView(
@@ -75,12 +75,11 @@ fun Mentor(modifier: Modifier, viewModel: MentorViewModel) {
 @Composable
 private fun MentorView(
     modifier: Modifier,
-    mentor: Mentor?,
+    mentor: Mentor,
     contents: List<Content>?,
     selectContent: (Content) -> Unit,
     upPress: () -> Unit,
 ) {
-    if (mentor == null) return
     val scaffoldState = rememberBottomSheetScaffoldState()
     val scope = rememberCoroutineScope()
     BottomSheetScaffold(
@@ -166,7 +165,7 @@ private fun MentorHeader(
 private fun MentorBody(modifier: Modifier = Modifier, mentor: Mentor) {
     Column(modifier = modifier.padding(bottom = 42.dp)) {
         Text(
-            text = mentor.occupation.uppercase(Locale.getDefault()) ?: "",
+            text = mentor.occupation.uppercase(Locale.getDefault()),
             color = MaterialTheme.colorScheme.primary,
             style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Center,
