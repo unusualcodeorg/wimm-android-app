@@ -29,4 +29,13 @@ sealed class Destination private constructor(
         fun createRoute(mentorId: String) = "mentor/${mentorId}"
     }
 
+    data object YouTube : Destination(
+        route = "youtube/{contentId}",
+        navArguments = listOf(navArgument("contentId") {
+            type = NavType.StringType
+        })
+    ) {
+        fun createRoute(contentId: String) = "youtube/${contentId}"
+    }
+
 }

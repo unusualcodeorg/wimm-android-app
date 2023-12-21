@@ -10,6 +10,8 @@ import com.whereismymotivation.ui.common.progress.Loader
 import com.whereismymotivation.ui.common.share.Payload
 import com.whereismymotivation.ui.common.share.Sharer
 import com.whereismymotivation.ui.common.snackbar.Messenger
+import com.whereismymotivation.ui.navigation.Destination
+import com.whereismymotivation.ui.navigation.NavTarget
 import com.whereismymotivation.ui.navigation.Navigator
 import com.whereismymotivation.utils.network.NetworkHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -61,6 +63,19 @@ class FeedViewModel @Inject constructor(
     }
 
     fun selectContent(content: Content) {
+        when (content.category) {
+            Content.Category.AUDIO -> {}
+            Content.Category.VIDEO -> {}
+            Content.Category.IMAGE -> {}
+            Content.Category.FACEBOOK_VIDEO -> {}
+            Content.Category.ARTICLE -> {}
+            Content.Category.QUOTE -> {}
+            Content.Category.MENTOR_INFO -> {}
+            Content.Category.TOPIC_INFO -> {}
+            Content.Category.YOUTUBE -> {
+                navigator.navigateTo(NavTarget(Destination.YouTube.createRoute(content.id)))
+            }
+        }
     }
 
     private fun loadContents(pageNumber: Int, pageItemCount: Int) {

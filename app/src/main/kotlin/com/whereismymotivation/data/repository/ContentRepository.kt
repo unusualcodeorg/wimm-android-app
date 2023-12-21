@@ -34,6 +34,10 @@ class ContentRepository @Inject constructor(
         emit(networkService.myBoxContentList(pageNumber, pageItemCount))
     }.map { it.data }
 
+    fun fetchContentDetails(contendId: String): Flow<Content> = flow {
+        emit(networkService.contentDetails(contendId))
+    }.map { it.data }
+
     fun fetchMetaContent(url: String): Flow<MetaContent> = flow {
         emit(networkService.metaContent(url))
     }.map { it.data }
