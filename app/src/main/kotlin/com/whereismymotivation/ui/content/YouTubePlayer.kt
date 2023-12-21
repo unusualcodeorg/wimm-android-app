@@ -49,7 +49,11 @@ private fun YouTubeWebView(url: String) {
     AndroidView(
         factory = { context ->
             WebView(context).apply {
-                webViewClient = object : WebViewClient() {}
+                webViewClient = object : WebViewClient() {
+                    override fun onPageCommitVisible(view: WebView?, url: String?) {
+                        super.onPageCommitVisible(view, url)
+                    }
+                }
 
                 webChromeClient = object : WebChromeClient() {
                     override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
