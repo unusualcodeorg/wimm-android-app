@@ -31,6 +31,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
@@ -60,13 +61,18 @@ fun Search(modifier: Modifier, viewModel: SearchViewModel) {
 
 @Composable
 fun SearchView(
-    modifier: Modifier, results: List<UniversalSearchResult>,
+    modifier: Modifier,
+    results: List<UniversalSearchResult>,
     selectResult: (UniversalSearchResult) -> Unit,
     search: (String) -> Unit,
     query: String
 ) {
     Column(modifier = modifier.fillMaxSize()) {
-        SearchAutoCompleter(search = search, query = query)
+        SearchAutoCompleter(
+            search = search,
+            query = query,
+            elevated = results.isNotEmpty()
+        )
         SearchResults(
             results = results,
             selectResult = selectResult
@@ -79,14 +85,16 @@ fun SearchView(
 fun SearchAutoCompleter(
     modifier: Modifier = Modifier,
     search: (String) -> Unit,
-    query: String
+    query: String,
+    elevated: Boolean = false
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
 
     Column(
         modifier = modifier
+            .shadow(if (elevated) 6.dp else 0.dp)
             .background(Color.White)
-            .padding(16.dp)
+            .padding(16.dp),
     ) {
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
