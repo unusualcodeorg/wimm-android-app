@@ -22,7 +22,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.whereismymotivation.R
 import com.whereismymotivation.ui.navigation.Destination
-import com.whereismymotivation.ui.theme.black
+import com.whereismymotivation.ui.theme.AppTheme
 
 enum class HomeTab(
     @StringRes val title: Int,
@@ -111,7 +111,7 @@ private fun HomeBottomBarView(
                         Icon(
                             painterResource(if (selected) tab.selectedIcon else tab.unselectedIcon),
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.black,
+                            tint = MaterialTheme.colorScheme.onSurface,
                         )
                     },
                     selected = selected,
@@ -124,12 +124,26 @@ private fun HomeBottomBarView(
     }
 }
 
-@Preview
+@Preview("Light")
 @Composable
-private fun HomeBottomBarPreview() {
-    HomeBottomBarView(
-        tabs = HomeTab.entries.toTypedArray().asList(),
-        routes = HomeTab.entries.map { it.route },
-        currentRoute = HomeTab.MENTORS.route,
-    ) {}
+private fun HomeBottomBarLightPreview() {
+    AppTheme {
+        HomeBottomBarView(
+            tabs = HomeTab.entries.toTypedArray().asList(),
+            routes = HomeTab.entries.map { it.route },
+            currentRoute = HomeTab.MENTORS.route,
+        ) {}
+    }
+}
+
+@Preview("Dark")
+@Composable
+private fun HomeBottomBarDarkPreview() {
+    AppTheme(dark = true) {
+        HomeBottomBarView(
+            tabs = HomeTab.entries.toTypedArray().asList(),
+            routes = HomeTab.entries.map { it.route },
+            currentRoute = HomeTab.MENTORS.route,
+        ) {}
+    }
 }

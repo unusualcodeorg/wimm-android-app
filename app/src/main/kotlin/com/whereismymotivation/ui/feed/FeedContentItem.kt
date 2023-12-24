@@ -219,7 +219,7 @@ fun FeedContentItem(
                     Icon(
                         imageVector = if (content.liked == true) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                         contentDescription = null,
-                        tint = if (content.liked == true) Color.Red else Color.Black,
+                        tint = if (content.liked == true) Color.Red else MaterialTheme.colorScheme.onSurface,
                     )
 
                 }
@@ -230,7 +230,7 @@ fun FeedContentItem(
                     Icon(
                         imageVector = Icons.Default.Share,
                         contentDescription = null,
-                        tint = Color.Black
+                        tint = MaterialTheme.colorScheme.onSurface
                     )
                 }
 
@@ -240,7 +240,7 @@ fun FeedContentItem(
                     Image(
                         painter = painterResource(R.drawable.ic_whatsapp),
                         contentDescription = "whatsapp",
-                        modifier = Modifier.size(24.dp)
+                        modifier = Modifier.size(24.dp),
                     )
                 }
             }
@@ -284,12 +284,12 @@ private fun LikeAndShareText(modifier: Modifier, likes: Long, shares: Long) {
     )
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, name = "Dark")
 @Composable
 private fun FeedContentItemPreview(
     @PreviewParameter(ContentPreviewParameterProvider::class, limit = 1) content: Content
 ) {
-    AppTheme {
+    AppTheme(dark = true) {
         FeedContentItem(content = content,
             cardClick = {},
             profileClick = {},
