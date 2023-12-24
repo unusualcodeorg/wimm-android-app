@@ -50,7 +50,7 @@ fun YouTubeContent(modifier: Modifier = Modifier, viewModel: ContentViewModel) {
         YouTubePlayer(url = content.extra)
         YouTubeContentView(content = content,
             similarContents = similarContents,
-            selectSimilarContent = {})
+            selectSimilarContent = { viewModel.selectSimilarContent(it) })
     }
 }
 

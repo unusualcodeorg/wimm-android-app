@@ -45,6 +45,10 @@ class ContentViewModel @Inject constructor(
         navigator.navigateBack()
     }
 
+    fun selectSimilarContent(content: Content) {
+        loadContent(content.id)
+    }
+
     private fun loadContent(contentId: String) {
         launchNetwork {
             contentRepository.fetchContentDetails(contentId)
