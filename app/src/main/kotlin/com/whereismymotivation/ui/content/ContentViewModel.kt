@@ -6,6 +6,8 @@ import com.whereismymotivation.data.model.Content
 import com.whereismymotivation.data.repository.ContentRepository
 import com.whereismymotivation.ui.base.BaseViewModel
 import com.whereismymotivation.ui.common.progress.Loader
+import com.whereismymotivation.ui.common.share.Payload
+import com.whereismymotivation.ui.common.share.Sharer
 import com.whereismymotivation.ui.common.snackbar.Messenger
 import com.whereismymotivation.ui.navigation.Navigator
 import com.whereismymotivation.utils.network.NetworkHelper
@@ -23,7 +25,8 @@ class ContentViewModel @Inject constructor(
     messenger: Messenger,
     savedStateHandle: SavedStateHandle,
     private val navigator: Navigator,
-    private val contentRepository: ContentRepository
+    private val contentRepository: ContentRepository,
+    private val sharer: Sharer<Content>
 ) : BaseViewModel(networkHelper, loader, messenger) {
 
     companion object {
@@ -90,6 +93,29 @@ class ContentViewModel @Inject constructor(
                     loadingSimilarContent = false
                 }
         }
+    }
 
+    fun toggleContentLike(content: Content) {
+        launchNetwork {
+            val liked = !(content.liked ?: false)
+            val call =
+                if (liked) contentRepository.markContentLike(content.id) else contentRepository.markContentUnlike(
+                    content.id
+                )
+            call.collect {
+                _content.value = content.copy(
+                    liked = liked,
+                    likes = if (liked) content.likes?.plus(1) else content.likes?.minus(1)
+                )
+            }
+        }
+    }
+
+    fun shareContent(content: Content) {
+        sharer.share(Payload.text(content))
+    }
+
+    fun shareWhatsappContent(content: Content) {
+        sharer.share(Payload.whatsappText(content))
     }
 }
