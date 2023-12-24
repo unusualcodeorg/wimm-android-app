@@ -54,7 +54,7 @@ sealed class Destination private constructor(
             type = NavType.StringType
         })
     ) {
-        fun createRoute(searchMode: SearchMode) = "search/${searchMode.code}"
+        fun createRoute(searchMode: SearchMode) = "search/${searchMode.name}"
     }
 
 }

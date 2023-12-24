@@ -1,5 +1,6 @@
 package com.whereismymotivation.ui.search
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.whereismymotivation.data.model.Content
 import com.whereismymotivation.data.model.UniversalSearchResult
@@ -34,16 +35,21 @@ class SearchViewModel @Inject constructor(
     loader: Loader,
     messenger: Messenger,
     searchRepository: SearchRepository,
+    savedStateHandle: SavedStateHandle,
     private val navigator: Navigator
 ) : BaseViewModel(networkHelper, loader, messenger) {
 
     companion object {
         const val TAG = "SearchViewModel"
-        private var searchMode: SearchMode = SearchMode.UNIVERSAL
+        private const val SEARCH_MODE_SAVED_STATE_KEY = "searchMode"
     }
 
-    val _results = MutableStateFlow<List<UniversalSearchResult>>(emptyList())
-    val _query = MutableStateFlow("")
+    private val searchMode = SearchMode.valueOf(
+        savedStateHandle.get<String>(SEARCH_MODE_SAVED_STATE_KEY) ?: SearchMode.UNIVERSAL.name
+    )
+
+    private val _results = MutableStateFlow<List<UniversalSearchResult>>(emptyList())
+    private val _query = MutableStateFlow("")
 
     val results = _results.asStateFlow()
     val query = _query.asStateFlow()
@@ -82,21 +88,23 @@ class SearchViewModel @Inject constructor(
 
     fun selectResult(result: UniversalSearchResult) {
         when (result.category) {
-            Content.Category.YOUTUBE -> {
-                navigator.navigateTo(NavTarget(Destination.YouTube.createRoute(result.id)))
-            }
-
             Content.Category.AUDIO -> {}
             Content.Category.VIDEO -> {}
             Content.Category.IMAGE -> {}
             Content.Category.FACEBOOK_VIDEO -> {}
             Content.Category.ARTICLE -> {}
             Content.Category.QUOTE -> {}
+            Content.Category.YOUTUBE -> {
+                navigator.navigateTo(NavTarget(Destination.YouTube.createRoute(result.id)))
+            }
+
             Content.Category.MENTOR_INFO -> {
                 navigator.navigateTo(NavTarget(Destination.Mentor.createRoute(result.id)))
             }
 
-            Content.Category.TOPIC_INFO -> {}
+            Content.Category.TOPIC_INFO -> {
+                navigator.navigateTo(NavTarget(Destination.Topic.createRoute(result.id)))
+            }
         }
     }
 
