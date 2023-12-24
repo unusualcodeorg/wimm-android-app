@@ -36,6 +36,4 @@ class SplashViewModel @Inject constructor(
             }
         }
     }
-
-    fun animationComplete() {}
 }
