@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -34,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import com.whereismymotivation.R
 import com.whereismymotivation.data.model.Content
 import com.whereismymotivation.ui.common.image.NetworkImage
+import com.whereismymotivation.ui.common.list.InfiniteLazyColumn
 import com.whereismymotivation.ui.common.preview.ContentPreviewParameterProvider
 import com.whereismymotivation.ui.theme.AppTheme
 import com.whereismymotivation.ui.theme.black
@@ -42,7 +42,7 @@ import com.whereismymotivation.ui.theme.white
 @Composable
 fun YouTubeContent(modifier: Modifier = Modifier, viewModel: ContentViewModel) {
     val content = viewModel.content.collectAsState().value ?: return
-    val similarContents = viewModel.similarContents.collectAsState().value
+    val similarContents = viewModel.similarContents
 
     Column(
         modifier = modifier.fillMaxSize()
@@ -50,7 +50,9 @@ fun YouTubeContent(modifier: Modifier = Modifier, viewModel: ContentViewModel) {
         YouTubePlayer(url = content.extra)
         YouTubeContentView(content = content,
             similarContents = similarContents,
-            selectSimilarContent = { viewModel.selectSimilarContent(it) })
+            selectSimilarContent = { viewModel.selectSimilarContent(it) },
+            loadMoreSimilarContents = { viewModel.loadMoreSimilarContents() }
+        )
     }
 }
 
@@ -60,6 +62,7 @@ private fun YouTubeContentView(
     content: Content,
     similarContents: List<Content>,
     selectSimilarContent: (Content) -> Unit,
+    loadMoreSimilarContents: () -> Unit
 ) {
     Column(
         modifier = modifier.fillMaxWidth()
@@ -70,7 +73,8 @@ private fun YouTubeContentView(
         SimilarContents(
             modifier = Modifier,
             contents = similarContents,
-            selectContent = selectSimilarContent
+            selectContent = selectSimilarContent,
+            loadMore = loadMoreSimilarContents
         )
     }
 }
@@ -167,8 +171,9 @@ private fun SimilarContents(
     modifier: Modifier = Modifier,
     contents: List<Content>,
     selectContent: (Content) -> Unit,
+    loadMore: () -> Unit
 ) {
-    LazyColumn {
+    InfiniteLazyColumn(loadMore = loadMore) {
         items(contents) { content ->
             SimilarContent(modifier, content, selectContent)
             Divider()
@@ -236,6 +241,7 @@ private fun YouTubeContentPreview(
                     content.copy(),
                     content.copy(),
                 ),
+                loadMoreSimilarContents = {}
             )
         }
     }
@@ -258,6 +264,7 @@ private fun SimilarContentsPreview(
                 content.copy(),
                 content.copy(),
             ),
+            loadMore = {}
         )
     }
 }
