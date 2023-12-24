@@ -285,14 +285,13 @@ private fun SimilarContentsPreview(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun SimilarContentPreview(
     @PreviewParameter(ContentPreviewParameterProvider::class, limit = 1) content: Content
 ) {
     AppTheme {
         SimilarContent(
-            modifier = Modifier.background(MaterialTheme.colorScheme.background),
             content = content,
             selectContent = {}
         )

@@ -1,6 +1,5 @@
 package com.whereismymotivation.ui.mentor
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -276,7 +275,7 @@ fun MentorContent(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun MentorPreview(
     @PreviewParameter(MentorPreviewParameterProvider::class, limit = 1) mentor: Mentor
@@ -292,7 +291,7 @@ private fun MentorPreview(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun MentorHeaderPreview(
     @PreviewParameter(MentorPreviewParameterProvider::class, limit = 1) mentor: Mentor
@@ -304,41 +303,36 @@ private fun MentorHeaderPreview(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun MentorBodyPreview(
     @PreviewParameter(MentorPreviewParameterProvider::class, limit = 1) mentor: Mentor
 ) {
     AppTheme {
-        MentorBody(
-            modifier = Modifier.background(MaterialTheme.colorScheme.background),
-            mentor = mentor
-        )
+        MentorBody(mentor = mentor)
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun MentorContentPreview(
     @PreviewParameter(ContentPreviewParameterProvider::class, limit = 1) content: Content
 ) {
     AppTheme {
         MentorContent(
-            modifier = Modifier.background(MaterialTheme.colorScheme.background),
             content = content,
             selectContent = {}
         )
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun MentorContentsPreview(
     @PreviewParameter(ContentPreviewParameterProvider::class, limit = 1) content: Content,
 ) {
     AppTheme {
         MentorContents(
-            Modifier.background(MaterialTheme.colorScheme.background),
             selectContent = {},
             contents = listOf(
                 content.copy(id = "1"),

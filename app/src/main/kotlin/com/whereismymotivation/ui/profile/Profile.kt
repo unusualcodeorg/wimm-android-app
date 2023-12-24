@@ -22,7 +22,7 @@ private fun ProfileView(modifier: Modifier, logout: () -> Unit) {
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun ProfilePreview() {
     ProfileView(modifier = Modifier) {}

@@ -67,9 +67,6 @@ private fun LoginView(
         modifier = modifier
             .fillMaxHeight()
             .fillMaxWidth()
-            .background(
-                color = MaterialTheme.colorScheme.background,
-            )
     ) {
         Column(
             modifier = Modifier
@@ -184,7 +181,7 @@ private fun LoginView(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun LoginPreview() {
     LoginView(

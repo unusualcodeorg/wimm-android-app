@@ -33,7 +33,7 @@ private fun SplashView(modifier: Modifier, onAnimationComplete: () -> Unit) {
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun LoginPreview() {
     SplashView(modifier = Modifier) {}
