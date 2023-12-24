@@ -22,7 +22,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -30,18 +29,22 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.whereismymotivation.R
 import com.whereismymotivation.data.model.Content
 import com.whereismymotivation.ui.common.image.NetworkImage
 import com.whereismymotivation.ui.common.list.InfiniteLazyColumn
 import com.whereismymotivation.ui.common.preview.ContentPreviewParameterProvider
+import com.whereismymotivation.ui.common.progress.LoadingPlaceholder
 import com.whereismymotivation.ui.theme.AppTheme
 import com.whereismymotivation.ui.theme.black
 import com.whereismymotivation.ui.theme.white
 
 @Composable
 fun YouTubeContent(modifier: Modifier = Modifier, viewModel: ContentViewModel) {
-    val content = viewModel.content.collectAsState().value ?: return
+    val content = viewModel.content.collectAsStateWithLifecycle().value
+        ?: return LoadingPlaceholder(loading = true)
+
     val similarContents = viewModel.similarContents
 
     Column(

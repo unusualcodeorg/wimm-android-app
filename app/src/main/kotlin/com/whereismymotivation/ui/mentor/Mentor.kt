@@ -50,6 +50,7 @@ import com.whereismymotivation.ui.common.image.NetworkImage
 import com.whereismymotivation.ui.common.image.OutlinedAvatar
 import com.whereismymotivation.ui.common.preview.ContentPreviewParameterProvider
 import com.whereismymotivation.ui.common.preview.MentorPreviewParameterProvider
+import com.whereismymotivation.ui.common.progress.LoadingPlaceholder
 import com.whereismymotivation.ui.common.utils.scrim
 import com.whereismymotivation.ui.theme.AppTheme
 import com.whereismymotivation.ui.theme.white
@@ -58,7 +59,9 @@ import java.util.Locale
 
 @Composable
 fun Mentor(modifier: Modifier, viewModel: MentorViewModel) {
-    val mentor = viewModel.mentor.collectAsStateWithLifecycle().value ?: return
+    val mentor = viewModel.mentor.collectAsStateWithLifecycle().value
+        ?: return LoadingPlaceholder(loading = true)
+
     val contents = viewModel.contents.collectAsStateWithLifecycle().value
 
     MentorView(

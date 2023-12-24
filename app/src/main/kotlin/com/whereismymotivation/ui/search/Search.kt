@@ -28,7 +28,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -40,6 +39,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.whereismymotivation.data.model.Content
 import com.whereismymotivation.data.model.UniversalSearchResult
 import com.whereismymotivation.ui.common.image.NetworkImage
@@ -48,8 +48,8 @@ import com.whereismymotivation.ui.theme.AppTheme
 
 @Composable
 fun Search(modifier: Modifier, viewModel: SearchViewModel) {
-    val results = viewModel.results.collectAsState().value
-    val query = viewModel.query.collectAsState().value
+    val results = viewModel.results.collectAsStateWithLifecycle().value
+    val query = viewModel.query.collectAsStateWithLifecycle().value
     SearchView(
         modifier = modifier,
         results = results,

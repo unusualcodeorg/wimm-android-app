@@ -21,11 +21,13 @@ import com.whereismymotivation.ui.common.appbar.LogoAppBar
 import com.whereismymotivation.ui.common.image.NetworkImage
 import com.whereismymotivation.ui.common.list.InfiniteLazyColumn
 import com.whereismymotivation.ui.common.preview.ContentPreviewParameterProvider
+import com.whereismymotivation.ui.common.progress.LoadingPlaceholder
 import com.whereismymotivation.ui.mentor.MentorContent
 import com.whereismymotivation.ui.theme.AppTheme
 
 @Composable
 fun Feed(modifier: Modifier, viewModel: FeedViewModel) {
+    LoadingPlaceholder(loading = viewModel.contents.isEmpty())
     FeedView(
         modifier = modifier,
         contents = viewModel.contents,

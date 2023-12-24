@@ -32,19 +32,21 @@ import com.whereismymotivation.ui.common.appbar.LogoAppBar
 import com.whereismymotivation.ui.common.image.NetworkImage
 import com.whereismymotivation.ui.common.image.OutlinedAvatar
 import com.whereismymotivation.ui.common.preview.MentorPreviewParameterProvider
+import com.whereismymotivation.ui.common.progress.LoadingPlaceholder
 import com.whereismymotivation.ui.theme.AppTheme
 import java.util.Locale
 
 @Composable
 fun Mentors(
     modifier: Modifier = Modifier,
-    mentorViewModel: MentorsViewModel,
+    viewModel: MentorsViewModel,
 ) {
-    val mentors = mentorViewModel.mentors.collectAsStateWithLifecycle().value
+    val mentors = viewModel.mentors.collectAsStateWithLifecycle().value
+    LoadingPlaceholder(loading = mentors.isEmpty())
     MentorsView(
         modifier = modifier.fillMaxSize(),
         mentors = mentors,
-        selectMentor = { mentorViewModel.selectMentor(it) }
+        selectMentor = { viewModel.selectMentor(it) }
     )
 }
 
