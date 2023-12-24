@@ -23,7 +23,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 fun InfiniteLazyColumn(
     modifier: Modifier = Modifier,
     loadMore: () -> Unit,
-    key: Any?,
+    key: Any? = null,
     state: LazyListState = rememberLazyListState(),
     contentPadding: PaddingValues = PaddingValues(0.dp),
     reverseLayout: Boolean = false,
