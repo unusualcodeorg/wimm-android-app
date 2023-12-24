@@ -242,7 +242,7 @@ private fun SimilarContent(
 private fun YouTubeContentPreview(
     @PreviewParameter(ContentPreviewParameterProvider::class, limit = 1) content: Content
 ) {
-    AppTheme {
+    AppTheme(dark = false) {
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
