@@ -1,6 +1,7 @@
 package com.whereismymotivation.ui
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
@@ -32,6 +33,7 @@ fun WimmApp(
     AppTheme {
         val navController = rememberNavController()
         Scaffold(
+            modifier = Modifier.imePadding(),
             snackbarHost = { AppSnackbar(snackbarHostState, messenger) },
             // it will render bottom bar only in the home route
             bottomBar = { HomeBottomBar(navController = navController) },
