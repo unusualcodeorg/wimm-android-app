@@ -14,12 +14,12 @@ class SubscriptionRepository @Inject constructor(
     private val networkService: NetworkService,
 ) {
 
-    fun fetchRecommendedMentorList(pageNumber: Int, pageItemCount: Int): Flow<List<Mentor>> = flow {
-        emit(networkService.recommendedMentorList(pageNumber, pageItemCount))
+    fun fetchRecommendedMentors(pageNumber: Int, pageItemCount: Int): Flow<List<Mentor>> = flow {
+        emit(networkService.recommendedMentors(pageNumber, pageItemCount))
     }.map { it.data }
 
-    fun fetchRecommendedTopicList(pageNumber: Int, pageItemCount: Int): Flow<List<Topic>> = flow {
-        emit(networkService.recommendedTopicList(pageNumber, pageItemCount))
+    fun fetchRecommendedTopics(pageNumber: Int, pageItemCount: Int): Flow<List<Topic>> = flow {
+        emit(networkService.recommendedTopics(pageNumber, pageItemCount))
     }.map { it.data }
 
     fun subscribe(mentors: List<Mentor>, topics: List<Topic>): Flow<String> = flow {

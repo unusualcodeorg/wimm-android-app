@@ -18,7 +18,7 @@ object Endpoints {
     const val RECOMMENDED_MENTORS = "subscription/recommendation/mentors"
     const val RECOMMENDED_TOPICS = "subscription/recommendation/topics"
 
-    const val SIMILAR_CONTENTS = "content/similar"
+    const val SIMILAR_CONTENTS = "contents/content/{id}/similar"
     const val CONTENTS = "contents/rotated"
     const val MENTOR_CONTENTS = "contents/mentor/{id}"
     const val TOPIC_CONTENTS = "contents/topic/{id}"

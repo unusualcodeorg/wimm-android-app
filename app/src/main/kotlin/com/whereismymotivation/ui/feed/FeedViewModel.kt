@@ -83,7 +83,7 @@ class FeedViewModel @Inject constructor(
         loading = true
 
         launchNetwork(error = { loading = false }) {
-            contentRepository.fetchHomeFeedList(pageNumber, pageItemCount, contents.isEmpty())
+            contentRepository.fetchHomeFeedContents(pageNumber, pageItemCount, contents.isEmpty())
                 .collect {
                     if (it.isEmpty()) {
                         rotateFeedList()
