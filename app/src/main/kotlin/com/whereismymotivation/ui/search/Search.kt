@@ -3,8 +3,9 @@ package com.whereismymotivation.ui.search
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -26,6 +27,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -47,16 +49,28 @@ import com.whereismymotivation.ui.common.preview.SearchPreviewParameterProvider
 import com.whereismymotivation.ui.theme.AppTheme
 
 @Composable
-fun Search(modifier: Modifier, viewModel: SearchViewModel) {
-    val results = viewModel.results.collectAsStateWithLifecycle().value
-    val query = viewModel.query.collectAsStateWithLifecycle().value
+fun Search(
+    modifier: Modifier,
+    searchViewModel: SearchViewModel,
+    suggestionViewModel: SuggestionViewModel
+) {
+    val results = searchViewModel.results.collectAsStateWithLifecycle().value
+    val query = searchViewModel.query.collectAsStateWithLifecycle().value
     SearchView(
         modifier = modifier,
         results = results,
-        selectResult = { viewModel.selectResult(it) },
-        search = { viewModel.search(it) },
+        selectResult = { searchViewModel.selectResult(it) },
+        search = { searchViewModel.search(it) },
         query = query
-    )
+    ) {
+        if (results.isEmpty()) {
+            Suggestion(
+                modifier = Modifier.padding(it),
+                viewModel = suggestionViewModel
+            )
+        }
+    }
+
 }
 
 @Composable
@@ -65,14 +79,21 @@ fun SearchView(
     results: List<UniversalSearchResult>,
     selectResult: (UniversalSearchResult) -> Unit,
     search: (String) -> Unit,
-    query: String
+    query: String,
+    suggestion: @Composable (PaddingValues) -> Unit
 ) {
-    Column(modifier = modifier.fillMaxSize()) {
-        SearchAutoCompleter(
-            search = search,
-            query = query,
-            elevated = results.isNotEmpty()
-        )
+    Scaffold(
+        modifier = modifier,
+        topBar = {
+            SearchAutoCompleter(
+                search = search,
+                query = query,
+                elevated = true
+            )
+        },
+        contentWindowInsets = WindowInsets(bottom = 0.dp)
+    ) {
+        suggestion(it)
         SearchResults(
             results = results,
             selectResult = selectResult
@@ -89,7 +110,6 @@ fun SearchAutoCompleter(
     elevated: Boolean = false
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
-
     Column(
         modifier = modifier
             .shadow(if (elevated) 6.dp else 0.dp)
@@ -209,7 +229,7 @@ private fun SearchPreview(
             selectResult = {},
             search = {},
             query = "query"
-        )
+        ) {}
     }
 }
 

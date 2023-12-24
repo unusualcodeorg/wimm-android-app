@@ -22,6 +22,7 @@ import com.whereismymotivation.ui.profile.Profile
 import com.whereismymotivation.ui.profile.ProfileViewModel
 import com.whereismymotivation.ui.search.Search
 import com.whereismymotivation.ui.search.SearchViewModel
+import com.whereismymotivation.ui.search.SuggestionViewModel
 import com.whereismymotivation.ui.splash.Splash
 import com.whereismymotivation.ui.splash.SplashViewModel
 import com.whereismymotivation.ui.topic.Topic
@@ -47,17 +48,11 @@ fun NavGraph(
     ) {
         composable(Destination.Splash.route) {
             val viewModel: SplashViewModel = hiltViewModel(key = SplashViewModel.TAG)
-            Splash(
-                modifier = modifier,
-                viewModel = viewModel,
-            )
+            Splash(modifier, viewModel)
         }
         composable(Destination.Login.route) {
             val viewModel: LoginViewModel = hiltViewModel(key = LoginViewModel.TAG)
-            Login(
-                modifier = modifier,
-                viewModel = viewModel,
-            )
+            Login(modifier, viewModel)
         }
         navigation(
             route = Destination.Home.route,
@@ -73,7 +68,8 @@ fun NavGraph(
             }
             composable(Destination.Home.Search.route) {
                 val viewModel: SearchViewModel = hiltViewModel(key = SearchViewModel.TAG)
-                Search(modifier, viewModel)
+                val sViewModel: SuggestionViewModel = hiltViewModel(key = SuggestionViewModel.TAG)
+                Search(modifier, viewModel, sViewModel)
             }
             composable(Destination.Home.Profile.route) {
                 val viewModel: ProfileViewModel = hiltViewModel(key = ProfileViewModel.TAG)
@@ -88,40 +84,29 @@ fun NavGraph(
             arguments = Destination.Mentor.navArguments
         ) {
             val viewModel: MentorViewModel = hiltViewModel(key = MentorViewModel.TAG)
-            Mentor(
-                modifier = modifier,
-                viewModel = viewModel
-            )
+            Mentor(modifier, viewModel)
         }
         composable(
             route = Destination.Topic.route,
             arguments = Destination.Topic.navArguments
         ) {
             val viewModel: TopicViewModel = hiltViewModel(key = TopicViewModel.TAG)
-            Topic(
-                modifier = modifier,
-                viewModel = viewModel
-            )
+            Topic(modifier, viewModel)
         }
         composable(
             route = Destination.YouTube.route,
             arguments = Destination.YouTube.navArguments
         ) {
             val viewModel: ContentViewModel = hiltViewModel(key = ContentViewModel.TAG)
-            YouTubeContent(
-                modifier = modifier,
-                viewModel = viewModel
-            )
+            YouTubeContent(modifier, viewModel)
         }
         composable(
             route = Destination.Search.route,
             arguments = Destination.Search.navArguments
         ) {
             val viewModel: SearchViewModel = hiltViewModel(key = SearchViewModel.TAG)
-            Search(
-                modifier = modifier,
-                viewModel = viewModel
-            )
+            val sViewModel: SuggestionViewModel = hiltViewModel(key = SuggestionViewModel.TAG)
+            Search(modifier, viewModel, sViewModel)
         }
     }
 }
