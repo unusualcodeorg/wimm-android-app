@@ -104,7 +104,7 @@ fun YouTubePlaceholder() {
     )
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun YouTubePlaceholderPreview() {
     YouTubePlaceholder()

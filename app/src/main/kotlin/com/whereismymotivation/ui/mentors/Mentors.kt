@@ -1,6 +1,5 @@
 package com.whereismymotivation.ui.mentors
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -174,14 +173,13 @@ private fun MentorPreview(
     }
 }
 
-@Preview(name = "MentorsPreview: Light")
+@Preview(name = "MentorsPreview: Light", showBackground = true)
 @Composable
 private fun MentorsPreview(
     @PreviewParameter(MentorPreviewParameterProvider::class, limit = 1) mentor: Mentor
 ) {
     AppTheme {
         MentorsView(
-            modifier = Modifier.background(MaterialTheme.colorScheme.background),
             selectMentor = {},
             mentors = listOf(
                 mentor.copy(id = "1"),

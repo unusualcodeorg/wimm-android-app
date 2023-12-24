@@ -164,12 +164,11 @@ fun FeedQuote(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun FeedQuotePreview() {
     AppTheme {
         FeedQuote(
-            modifier = Modifier.background(MaterialTheme.colorScheme.background),
             saying = "Don't let what you cannot do interfere with what you can do.",
             author = "Anonymous"
         )

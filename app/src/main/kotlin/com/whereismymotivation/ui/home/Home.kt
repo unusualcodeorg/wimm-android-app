@@ -16,12 +16,13 @@ import com.whereismymotivation.ui.navigation.Destination
 import com.whereismymotivation.ui.profile.Profile
 import com.whereismymotivation.ui.profile.ProfileViewModel
 import com.whereismymotivation.ui.search.Search
+import com.whereismymotivation.ui.search.SearchViewModel
 
 fun NavGraphBuilder.home(
     modifier: Modifier = Modifier
 ) {
     composable(Destination.Home.Feed.route) {
-        val viewModel: FeedViewModel =  hiltViewModel(key = FeedViewModel.TAG)
+        val viewModel: FeedViewModel = hiltViewModel(key = FeedViewModel.TAG)
         Feed(modifier, viewModel)
     }
     composable(Destination.Home.Mentors.route) {
@@ -29,7 +30,8 @@ fun NavGraphBuilder.home(
         Mentors(modifier, viewModel)
     }
     composable(Destination.Home.Search.route) {
-        Search(modifier)
+        val viewModel: SearchViewModel = hiltViewModel(key = SearchViewModel.TAG)
+        Search(modifier, viewModel)
     }
     composable(Destination.Home.Profile.route) {
         val viewModel: ProfileViewModel = hiltViewModel(key = ProfileViewModel.TAG)

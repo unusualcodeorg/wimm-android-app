@@ -284,7 +284,7 @@ private fun LikeAndShareText(modifier: Modifier, likes: Long, shares: Long) {
     )
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun FeedContentItemPreview(
     @PreviewParameter(ContentPreviewParameterProvider::class, limit = 1) content: Content
@@ -306,7 +306,7 @@ private fun FeedContentItemPreview(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun FeedQuoteItemPreview(
     @PreviewParameter(ContentPreviewParameterProvider::class, limit = 1) content: Content
@@ -319,7 +319,6 @@ private fun FeedQuoteItemPreview(
             shareClick = {},
             whatsAppClick = {}) {
             FeedQuote(
-                modifier = Modifier.background(MaterialTheme.colorScheme.background),
                 saying = "Don't let what you cannot do interfere with what you can do.",
                 author = "Anonymous"
             )
