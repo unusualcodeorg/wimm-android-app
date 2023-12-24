@@ -18,20 +18,24 @@ class ContentRepository @Inject constructor(
     private val contentPreferences: ContentPreferences
 ) {
 
-    fun fetchSimilarContentList(contentId: String): Flow<List<Content>> = flow {
-        emit(networkService.similarContentList(contentId))
+    fun fetchSimilarContents(
+        contentId: String,
+        pageNumber: Int,
+        pageItemCount: Int,
+    ): Flow<List<Content>> = flow {
+        emit(networkService.similarContents(contentId, pageNumber, pageItemCount))
     }.map { it.data }
 
-    fun fetchHomeFeedList(
+    fun fetchHomeFeedContents(
         pageNumber: Int,
         pageItemCount: Int,
         empty: Boolean
     ): Flow<List<Content>> = flow {
-        emit(networkService.contentList(pageNumber, pageItemCount, empty))
+        emit(networkService.contents(pageNumber, pageItemCount, empty))
     }.map { it.data }
 
-    fun fetchMyBoxContentList(pageNumber: Int, pageItemCount: Int): Flow<List<Content>> = flow {
-        emit(networkService.myBoxContentList(pageNumber, pageItemCount))
+    fun fetchMyBoxContents(pageNumber: Int, pageItemCount: Int): Flow<List<Content>> = flow {
+        emit(networkService.myBoxContents(pageNumber, pageItemCount))
     }.map { it.data }
 
     fun fetchContentDetails(contendId: String): Flow<Content> = flow {

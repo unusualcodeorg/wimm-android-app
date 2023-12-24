@@ -13,9 +13,9 @@ class MentorRepository @Inject constructor(
     private val networkService: NetworkService
 ) {
 
-    fun fetchSubscriptionMentorList(): Flow<List<Mentor>> =
+    fun fetchSubscriptionMentors(): Flow<List<Mentor>> =
         flow {
-            emit(networkService.subscriptionMentorList())
+            emit(networkService.subscriptionMentors())
         }.map { it.data }
 
 
@@ -24,7 +24,7 @@ class MentorRepository @Inject constructor(
         pageNumber: Int,
         pageItemCount: Int
     ): Flow<List<Content>> = flow {
-        emit(networkService.mentorContentList(mentorId, pageNumber, pageItemCount))
+        emit(networkService.mentorContents(mentorId, pageNumber, pageItemCount))
     }.map { it.data }
 
     fun fetchMentorDetails(mentorId: String): Flow<Mentor> = flow {

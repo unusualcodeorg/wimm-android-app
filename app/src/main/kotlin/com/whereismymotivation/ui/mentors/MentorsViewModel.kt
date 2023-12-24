@@ -41,7 +41,7 @@ class MentorsViewModel @Inject constructor(
 
     private fun loadMentors() {
         launchNetwork {
-            mentorRepository.fetchSubscriptionMentorList()
+            mentorRepository.fetchSubscriptionMentors()
                 .collect {
                     _mentors.value = it
                 }
