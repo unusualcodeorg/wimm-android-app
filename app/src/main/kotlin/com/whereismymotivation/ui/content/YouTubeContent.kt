@@ -48,10 +48,14 @@ fun YouTubeContent(modifier: Modifier = Modifier, viewModel: ContentViewModel) {
         modifier = modifier.fillMaxSize()
     ) {
         YouTubePlayer(url = content.extra)
-        YouTubeContentView(content = content,
+        YouTubeContentView(
+            content = content,
             similarContents = similarContents,
             selectSimilarContent = { viewModel.selectSimilarContent(it) },
-            loadMoreSimilarContents = { viewModel.loadMoreSimilarContents() }
+            likeClick = { viewModel.toggleContentLike(it) },
+            shareClick = { viewModel.shareContent(it) },
+            whatsAppClick = { viewModel.shareWhatsappContent(it) },
+            loadMoreSimilarContents = { viewModel.loadMoreSimilarContents() },
         )
     }
 }
@@ -62,19 +66,25 @@ private fun YouTubeContentView(
     content: Content,
     similarContents: List<Content>,
     selectSimilarContent: (Content) -> Unit,
-    loadMoreSimilarContents: () -> Unit
+    likeClick: (Content) -> Unit,
+    shareClick: (Content) -> Unit,
+    whatsAppClick: (Content) -> Unit,
+    loadMoreSimilarContents: () -> Unit,
 ) {
     Column(
         modifier = modifier.fillMaxWidth()
     ) {
         ContentActions(
-            content = content
+            content = content,
+            likeClick = likeClick,
+            shareClick = shareClick,
+            whatsAppClick = whatsAppClick,
         )
         SimilarContents(
             modifier = Modifier,
             contents = similarContents,
             selectContent = selectSimilarContent,
-            loadMore = loadMoreSimilarContents
+            loadMore = { loadMoreSimilarContents() }
         )
     }
 }
@@ -83,6 +93,9 @@ private fun YouTubeContentView(
 private fun ContentActions(
     modifier: Modifier = Modifier,
     content: Content,
+    likeClick: (Content) -> Unit,
+    shareClick: (Content) -> Unit,
+    whatsAppClick: (Content) -> Unit,
 ) {
     Column(
         modifier = modifier.fillMaxWidth()
@@ -110,7 +123,7 @@ private fun ContentActions(
                 }
             }
             IconButton(
-                onClick = {},
+                onClick = { likeClick(content) },
                 modifier = modifier
                     .padding(8.dp)
                     .background(
@@ -128,7 +141,7 @@ private fun ContentActions(
                 )
             }
             IconButton(
-                onClick = {},
+                onClick = { shareClick(content) },
                 modifier = modifier
                     .padding(8.dp)
                     .background(
@@ -146,7 +159,7 @@ private fun ContentActions(
                 )
             }
             IconButton(
-                onClick = {},
+                onClick = { whatsAppClick(content) },
                 modifier = modifier
                     .padding(8.dp)
                     .background(
@@ -241,7 +254,10 @@ private fun YouTubeContentPreview(
                     content.copy(),
                     content.copy(),
                 ),
-                loadMoreSimilarContents = {}
+                loadMoreSimilarContents = {},
+                likeClick = {},
+                shareClick = {},
+                whatsAppClick = {},
             )
         }
     }
