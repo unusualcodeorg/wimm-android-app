@@ -35,6 +35,7 @@ class ContentViewModel @Inject constructor(
         private const val pageItemCount = 10
     }
 
+    private var noMoreToLoad = false
     private var loadingSimilarContent = false
     private var currentPageNumber = 1
     private val _content = MutableStateFlow<Content?>(null)
@@ -52,6 +53,7 @@ class ContentViewModel @Inject constructor(
                 .collect {
                     _content.value = it
                     currentPageNumber = 1
+                    noMoreToLoad = false
                 }
         }
     }
@@ -70,16 +72,20 @@ class ContentViewModel @Inject constructor(
                     )
                 }
                 .collect {
-                    similarContents.addAll(it)
-                    currentPageNumber++
                     loadingSimilarContent = false
+                    if (it.isEmpty()) {
+                        noMoreToLoad = true
+                    } else {
+                        similarContents.addAll(it)
+                        currentPageNumber++
+                    }
                 }
         }
     }
 
     fun loadMoreSimilarContents() {
         val contentData = content.value ?: return
-        if (loadingSimilarContent) return
+        if (loadingSimilarContent || noMoreToLoad) return
 
         launchNetwork(error = { loadingSimilarContent = false }) {
             contentRepository.fetchSimilarContents(
@@ -88,9 +94,13 @@ class ContentViewModel @Inject constructor(
                 pageItemCount
             )
                 .collect {
-                    similarContents.addAll(it)
-                    currentPageNumber++
                     loadingSimilarContent = false
+                    if (it.isEmpty()) {
+                        noMoreToLoad = true
+                    } else {
+                        similarContents.addAll(it)
+                        currentPageNumber++
+                    }
                 }
         }
     }

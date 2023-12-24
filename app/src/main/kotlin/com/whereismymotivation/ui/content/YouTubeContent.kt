@@ -45,7 +45,9 @@ fun YouTubeContent(modifier: Modifier = Modifier, viewModel: ContentViewModel) {
     val similarContents = viewModel.similarContents
 
     Column(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
     ) {
         YouTubePlayer(url = content.extra)
         YouTubeContentView(
