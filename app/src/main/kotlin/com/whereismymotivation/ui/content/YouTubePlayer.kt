@@ -7,34 +7,29 @@ import android.webkit.CookieManager
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Surface
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import com.whereismymotivation.ui.theme.black
 import com.whereismymotivation.utils.common.UrlUtils
 import com.whereismymotivation.utils.log.Logger
 import kotlin.math.roundToInt
 
-@Composable
-fun YouTubePlayer(modifier: Modifier = Modifier, viewModel: ContentViewModel) {
-    val content = viewModel.content.collectAsState().value ?: return
-
-    Surface(
-        modifier = modifier.fillMaxSize()
-    ) {
-        YouTubeWebView(url = content.extra)
-    }
-}
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
-private fun YouTubeWebView(url: String) {
+fun YouTubePlayer(url: String) {
 
     val density = LocalDensity.current
     val configuration = LocalConfiguration.current
@@ -47,6 +42,10 @@ private fun YouTubeWebView(url: String) {
     }
 
     AndroidView(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(with(LocalDensity.current) { screen.second.toDp() })
+            .background(MaterialTheme.colorScheme.black),
         factory = { context ->
             WebView(context).apply {
                 webViewClient = object : WebViewClient() {
@@ -82,8 +81,32 @@ private fun YouTubeWebView(url: String) {
                 )
             }
         },
-        modifier = Modifier.fillMaxSize()
     )
+}
+
+@Composable
+fun YouTubePlaceholder() {
+    val density = LocalDensity.current
+    val configuration = LocalConfiguration.current
+    val screen = remember {
+        with(density) {
+            val width = configuration.screenWidthDp.dp.toPx()
+            val height = (width * 1080) / 1920
+            return@remember Pair(width.roundToInt(), height.roundToInt())
+        }
+    }
+    Box(
+        modifier = Modifier
+            .width(with(LocalDensity.current) { screen.first.toDp() })
+            .height(with(LocalDensity.current) { screen.second.toDp() })
+            .background(MaterialTheme.colorScheme.black)
+    )
+}
+
+@Preview
+@Composable
+private fun YouTubePlaceholderPreview() {
+    YouTubePlaceholder()
 }
 
 private fun youtubeIframe(width: Int, height: Int, videoId: String) = """

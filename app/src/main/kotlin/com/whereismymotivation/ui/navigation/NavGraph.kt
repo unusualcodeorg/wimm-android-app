@@ -10,7 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.whereismymotivation.ui.content.ContentViewModel
-import com.whereismymotivation.ui.content.YouTubePlayer
+import com.whereismymotivation.ui.content.YouTubeContent
 import com.whereismymotivation.ui.home.home
 import com.whereismymotivation.ui.login.Login
 import com.whereismymotivation.ui.login.LoginViewModel
@@ -78,7 +78,7 @@ fun NavGraph(
             arguments = Destination.YouTube.navArguments
         ) {
             val viewModel: ContentViewModel = hiltViewModel(key = ContentViewModel.TAG)
-            YouTubePlayer(
+            YouTubeContent(
                 modifier = modifier,
                 viewModel = viewModel
             )
