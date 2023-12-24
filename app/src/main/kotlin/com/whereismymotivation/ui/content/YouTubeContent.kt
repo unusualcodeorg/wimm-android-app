@@ -42,13 +42,14 @@ import com.whereismymotivation.ui.theme.white
 @Composable
 fun YouTubeContent(modifier: Modifier = Modifier, viewModel: ContentViewModel) {
     val content = viewModel.content.collectAsState().value ?: return
+    val similarContents = viewModel.similarContents.collectAsState().value
 
     Column(
         modifier = modifier.fillMaxSize()
     ) {
         YouTubePlayer(url = content.extra)
         YouTubeContentView(content = content,
-            similarContents = emptyList(),
+            similarContents = similarContents,
             selectSimilarContent = {})
     }
 }
@@ -184,19 +185,16 @@ private fun SimilarContent(
     Row(
         modifier = modifier
             .clickable(onClick = { selectContent(content) })
-            .padding(vertical = 16.dp)
+            .padding(16.dp)
     ) {
         NetworkImage(
             url = content.thumbnail,
             contentDescription = null,
             modifier = Modifier
                 .size(112.dp, 64.dp)
-                .padding(start = 8.dp)
         )
         Column(
-            modifier = Modifier
-                .weight(1f)
-                .padding(start = 16.dp)
+            modifier = Modifier.padding(start = 16.dp)
         ) {
             Text(
                 text = content.title,

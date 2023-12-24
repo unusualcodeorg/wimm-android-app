@@ -32,11 +32,14 @@ class ContentViewModel @Inject constructor(
 
     init {
         loadContent(contentId)
+        loadSimilarContents(contentId)
     }
 
     private val _content = MutableStateFlow<Content?>(null)
+    private val _similarContents = MutableStateFlow<List<Content>>(emptyList())
 
     val content = _content.asStateFlow()
+    val similarContents = _similarContents.asStateFlow()
 
     fun upPress() {
         navigator.navigateBack()
@@ -51,4 +54,12 @@ class ContentViewModel @Inject constructor(
         }
     }
 
+    private fun loadSimilarContents(contentId: String) {
+        launchNetwork {
+            contentRepository.fetchSimilarContents(contentId, 1, 20)
+                .collect {
+                    _similarContents.value = it
+                }
+        }
+    }
 }
