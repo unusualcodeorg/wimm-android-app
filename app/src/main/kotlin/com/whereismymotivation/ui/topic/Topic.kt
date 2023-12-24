@@ -1,4 +1,4 @@
-package com.whereismymotivation.ui.mentor
+package com.whereismymotivation.ui.topic
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -44,26 +44,25 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.whereismymotivation.data.model.Content
-import com.whereismymotivation.data.model.Mentor
+import com.whereismymotivation.data.model.Topic
 import com.whereismymotivation.ui.common.appbar.BackAppBar
 import com.whereismymotivation.ui.common.image.NetworkImage
 import com.whereismymotivation.ui.common.image.OutlinedAvatar
 import com.whereismymotivation.ui.common.preview.ContentPreviewParameterProvider
-import com.whereismymotivation.ui.common.preview.MentorPreviewParameterProvider
+import com.whereismymotivation.ui.common.preview.TopicPreviewParameterProvider
 import com.whereismymotivation.ui.common.utils.scrim
 import com.whereismymotivation.ui.theme.AppTheme
 import com.whereismymotivation.ui.theme.white
 import kotlinx.coroutines.launch
-import java.util.Locale
 
 @Composable
-fun Mentor(modifier: Modifier, viewModel: MentorViewModel) {
-    val mentor = viewModel.mentor.collectAsStateWithLifecycle().value ?: return
+fun Topic(modifier: Modifier, viewModel: TopicViewModel) {
+    val topic = viewModel.topic.collectAsStateWithLifecycle().value ?: return
     val contents = viewModel.contents.collectAsStateWithLifecycle().value
 
-    MentorView(
+    TopicView(
         modifier = modifier.fillMaxSize(),
-        mentor = mentor,
+        topic = topic,
         contents = contents,
         selectContent = { viewModel.selectContent(it) },
         upPress = { viewModel.upPress() },
@@ -72,9 +71,9 @@ fun Mentor(modifier: Modifier, viewModel: MentorViewModel) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun MentorView(
+private fun TopicView(
     modifier: Modifier,
-    mentor: Mentor,
+    topic: Topic,
     contents: List<Content>?,
     selectContent: (Content) -> Unit,
     upPress: () -> Unit,
@@ -85,9 +84,9 @@ private fun MentorView(
         modifier = modifier,
         scaffoldState = scaffoldState,
         sheetPeekHeight = 56.dp,
-        sheetContainerColor = MaterialTheme.colorScheme.primary,
+        sheetContainerColor = MaterialTheme.colorScheme.secondary,
         sheetContent = {
-            if (contents != null) MentorContents(
+            if (contents != null) TopicContents(
                 contents = contents,
                 selectContent = selectContent
             )
@@ -99,7 +98,7 @@ private fun MentorView(
             ) {
                 Button(
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary
+                        containerColor = MaterialTheme.colorScheme.secondary
                     ),
                     onClick = {
                         scope.launch { scaffoldState.bottomSheetState.partialExpand() }
@@ -110,36 +109,36 @@ private fun MentorView(
             }
         })
     { innerPadding ->
-        MentorDescription(
+        TopicDescription(
             modifier = Modifier.padding(innerPadding),
-            mentor = mentor,
+            topic = topic,
             upPress = upPress
         )
     }
 }
 
 @Composable
-private fun MentorDescription(
+private fun TopicDescription(
     modifier: Modifier = Modifier,
-    mentor: Mentor,
+    topic: Topic,
     upPress: () -> Unit
 ) {
     Surface(modifier = modifier.fillMaxSize()) {
         LazyColumn {
-            item { MentorHeader(mentor, upPress) }
-            item { MentorBody(Modifier, mentor) }
+            item { TopicHeader(topic, upPress) }
+            item { TopicBody(Modifier, topic) }
         }
     }
 }
 
 @Composable
-private fun MentorHeader(
-    mentor: Mentor,
+private fun TopicHeader(
+    topic: Topic,
     upPress: () -> Unit
 ) {
     Box {
         NetworkImage(
-            url = mentor.coverImgUrl,
+            url = topic.coverImgUrl,
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()
@@ -151,7 +150,7 @@ private fun MentorHeader(
             upPress = upPress
         )
         OutlinedAvatar(
-            url = mentor.thumbnail,
+            url = topic.thumbnail,
             modifier = Modifier
                 .size(80.dp)
                 .align(Alignment.BottomCenter)
@@ -161,12 +160,11 @@ private fun MentorHeader(
 }
 
 @Composable
-private fun MentorBody(modifier: Modifier = Modifier, mentor: Mentor) {
+private fun TopicBody(modifier: Modifier = Modifier, topic: Topic) {
     Column(modifier = modifier.padding(bottom = 42.dp)) {
         Text(
-            text = mentor.occupation.uppercase(Locale.getDefault()),
-            color = MaterialTheme.colorScheme.primary,
-            style = MaterialTheme.typography.bodyMedium,
+            text = topic.name,
+            style = MaterialTheme.typography.headlineSmall,
             textAlign = TextAlign.Center,
             modifier = Modifier
                 .fillMaxWidth()
@@ -177,18 +175,10 @@ private fun MentorBody(modifier: Modifier = Modifier, mentor: Mentor) {
                     bottom = 16.dp
                 )
         )
-        Text(
-            text = mentor.name,
-            style = MaterialTheme.typography.headlineSmall,
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-        )
         Spacer(modifier = Modifier.height(16.dp))
         Divider(modifier = Modifier.padding(16.dp))
         Text(
-            text = mentor.title,
+            text = topic.title,
             style = MaterialTheme.typography.titleMedium,
             textAlign = TextAlign.Center,
             modifier = Modifier
@@ -196,7 +186,7 @@ private fun MentorBody(modifier: Modifier = Modifier, mentor: Mentor) {
                 .padding(16.dp)
         )
         Text(
-            text = mentor.description ?: "",
+            text = topic.description ?: "",
             style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Start,
             modifier = Modifier
@@ -207,21 +197,21 @@ private fun MentorBody(modifier: Modifier = Modifier, mentor: Mentor) {
 }
 
 @Composable
-private fun MentorContents(
+private fun TopicContents(
     modifier: Modifier = Modifier,
     contents: List<Content>,
     selectContent: (Content) -> Unit,
 ) {
     LazyColumn {
         items(contents, key = { it.id }) { content ->
-            MentorContent(modifier, content, selectContent)
+            TopicContent(modifier, content, selectContent)
             Divider(modifier = Modifier.padding(start = 120.dp))
         }
     }
 }
 
 @Composable
-fun MentorContent(
+fun TopicContent(
     modifier: Modifier = Modifier,
     content: Content,
     selectContent: (Content) -> Unit,
@@ -277,13 +267,13 @@ fun MentorContent(
 
 @Preview(showBackground = true)
 @Composable
-private fun MentorPreview(
-    @PreviewParameter(MentorPreviewParameterProvider::class, limit = 1) mentor: Mentor
+private fun TopicPreview(
+    @PreviewParameter(TopicPreviewParameterProvider::class, limit = 1) topic: Topic
 ) {
     AppTheme {
-        MentorView(
+        TopicView(
             modifier = Modifier,
-            mentor = mentor,
+            topic = topic,
             contents = emptyList(),
             selectContent = {},
             upPress = {},
@@ -293,33 +283,33 @@ private fun MentorPreview(
 
 @Preview(showBackground = true)
 @Composable
-private fun MentorHeaderPreview(
-    @PreviewParameter(MentorPreviewParameterProvider::class, limit = 1) mentor: Mentor
+private fun TopicHeaderPreview(
+    @PreviewParameter(TopicPreviewParameterProvider::class, limit = 1) topic: Topic
 ) {
     AppTheme {
-        MentorHeader(
-            mentor = mentor
+        TopicHeader(
+            topic = topic
         ) {}
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun MentorBodyPreview(
-    @PreviewParameter(MentorPreviewParameterProvider::class, limit = 1) mentor: Mentor
+private fun TopicBodyPreview(
+    @PreviewParameter(TopicPreviewParameterProvider::class, limit = 1) topic: Topic
 ) {
     AppTheme {
-        MentorBody(mentor = mentor)
+        TopicBody(topic = topic)
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun MentorContentPreview(
+private fun TopicContentPreview(
     @PreviewParameter(ContentPreviewParameterProvider::class, limit = 1) content: Content
 ) {
     AppTheme {
-        MentorContent(
+        TopicContent(
             content = content,
             selectContent = {}
         )
@@ -328,11 +318,11 @@ private fun MentorContentPreview(
 
 @Preview(showBackground = true)
 @Composable
-private fun MentorContentsPreview(
+private fun TopicContentsPreview(
     @PreviewParameter(ContentPreviewParameterProvider::class, limit = 1) content: Content,
 ) {
     AppTheme {
-        MentorContents(
+        TopicContents(
             selectContent = {},
             contents = listOf(
                 content.copy(id = "1"),
