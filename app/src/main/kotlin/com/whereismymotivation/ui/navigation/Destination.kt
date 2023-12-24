@@ -3,6 +3,7 @@ package com.whereismymotivation.ui.navigation
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import com.whereismymotivation.ui.search.SearchMode
 
 sealed class Destination private constructor(
     val route: String,
@@ -45,6 +46,15 @@ sealed class Destination private constructor(
         })
     ) {
         fun createRoute(contentId: String) = "youtube/${contentId}"
+    }
+
+    data object Search : Destination(
+        route = "search/{searchMode}",
+        navArguments = listOf(navArgument("searchMode") {
+            type = NavType.StringType
+        })
+    ) {
+        fun createRoute(searchMode: SearchMode) = "search/${searchMode.code}"
     }
 
 }
