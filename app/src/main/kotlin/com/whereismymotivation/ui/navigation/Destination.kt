@@ -29,6 +29,15 @@ sealed class Destination private constructor(
         fun createRoute(mentorId: String) = "mentor/${mentorId}"
     }
 
+    data object Topic : Destination(
+        route = "topic/{topicId}",
+        navArguments = listOf(navArgument("topicId") {
+            type = NavType.StringType
+        })
+    ) {
+        fun createRoute(topicId: String) = "topic/${topicId}"
+    }
+
     data object YouTube : Destination(
         route = "youtube/{contentId}",
         navArguments = listOf(navArgument("contentId") {

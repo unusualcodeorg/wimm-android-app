@@ -1,9 +1,9 @@
-package com.whereismymotivation.ui.mentor
+package com.whereismymotivation.ui.topic
 
 import androidx.lifecycle.SavedStateHandle
 import com.whereismymotivation.data.model.Content
-import com.whereismymotivation.data.model.Mentor
-import com.whereismymotivation.data.repository.MentorRepository
+import com.whereismymotivation.data.model.Topic
+import com.whereismymotivation.data.repository.TopicRepository
 import com.whereismymotivation.ui.base.BaseViewModel
 import com.whereismymotivation.ui.common.progress.Loader
 import com.whereismymotivation.ui.common.snackbar.Messenger
@@ -17,30 +17,31 @@ import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class MentorViewModel @Inject constructor(
+class TopicViewModel @Inject constructor(
     networkHelper: NetworkHelper,
     loader: Loader,
     messenger: Messenger,
     savedStateHandle: SavedStateHandle,
     private val navigator: Navigator,
-    private val mentorRepository: MentorRepository
+    private val topicRepository: TopicRepository
 ) : BaseViewModel(networkHelper, loader, messenger) {
 
     companion object {
-        const val TAG = "MentorsViewModel"
-        private const val MENTOR_ID_SAVED_STATE_KEY = "mentorId"
+        const val TAG = "TopicViewModel"
+        private const val TOPIC_ID_SAVED_STATE_KEY = "topicId"
     }
+
 
     init {
-        val mentorId: String = savedStateHandle.get<String>(MENTOR_ID_SAVED_STATE_KEY)!!
-        loadMentor(mentorId)
-        loadMentorContents(mentorId)
+        val topicId: String = savedStateHandle.get<String>(TOPIC_ID_SAVED_STATE_KEY)!!
+        loadTopic(topicId)
+        loadTopicContents(topicId)
     }
 
-    private val _mentor = MutableStateFlow<Mentor?>(null)
+    private val _topic = MutableStateFlow<Topic?>(null)
     private val _contents = MutableStateFlow<List<Content>?>(null)
 
-    val mentor = _mentor.asStateFlow()
+    val topic = _topic.asStateFlow()
     val contents = _contents.asStateFlow()
 
     fun upPress() {
@@ -57,18 +58,18 @@ class MentorViewModel @Inject constructor(
         }
     }
 
-    private fun loadMentor(mentorId: String) {
+    private fun loadTopic(topicId: String) {
         launchNetwork {
-            mentorRepository.fetchMentorDetails(mentorId)
+            topicRepository.fetchTopicDetails(topicId)
                 .collect {
-                    _mentor.value = it
+                    _topic.value = it
                 }
         }
     }
 
-    private fun loadMentorContents(mentorId: String) {
+    private fun loadTopicContents(topicId: String) {
         launchNetwork {
-            mentorRepository.fetchMentorContents(mentorId, 1, 100)
+            topicRepository.fetchTopicContents(topicId, 1, 100)
                 .collect {
                     _contents.value = it
                 }

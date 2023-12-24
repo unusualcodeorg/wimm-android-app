@@ -18,6 +18,8 @@ import com.whereismymotivation.ui.mentor.Mentor
 import com.whereismymotivation.ui.mentor.MentorViewModel
 import com.whereismymotivation.ui.splash.Splash
 import com.whereismymotivation.ui.splash.SplashViewModel
+import com.whereismymotivation.ui.topic.Topic
+import com.whereismymotivation.ui.topic.TopicViewModel
 
 @Composable
 fun NavGraph(
@@ -69,6 +71,16 @@ fun NavGraph(
         ) {
             val viewModel: MentorViewModel = hiltViewModel(key = MentorViewModel.TAG)
             Mentor(
+                modifier = modifier,
+                viewModel = viewModel
+            )
+        }
+        composable(
+            route = Destination.Topic.route,
+            arguments = Destination.Topic.navArguments
+        ) {
+            val viewModel: TopicViewModel = hiltViewModel(key = TopicViewModel.TAG)
+            Topic(
                 modifier = modifier,
                 viewModel = viewModel
             )
