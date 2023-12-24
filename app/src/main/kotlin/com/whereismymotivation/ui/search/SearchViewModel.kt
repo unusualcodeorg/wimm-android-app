@@ -39,7 +39,7 @@ class SearchViewModel @Inject constructor(
 
     companion object {
         const val TAG = "SearchViewModel"
-        private var searchMode: SearchMode = SearchMode.SEARCH_MODE_UNIVERSAL
+        private var searchMode: SearchMode = SearchMode.UNIVERSAL
     }
 
     val _results = MutableStateFlow<List<UniversalSearchResult>>(emptyList())
@@ -61,9 +61,9 @@ class SearchViewModel @Inject constructor(
                 if (it.isEmpty() || it.isBlank())
                     return@mapLatest flowOf(emptyList<UniversalSearchResult>())
                 return@mapLatest when (searchMode) {
-                    SearchMode.SEARCH_MODE_UNIVERSAL -> searchRepository.fetchSearchResults(it)
-                    SearchMode.SEARCH_MODE_MENTOR -> searchRepository.fetchMentorSearchResults(it)
-                    SearchMode.SEARCH_MODE_TOPIC -> searchRepository.fetchTopicSearchResults(it)
+                    SearchMode.UNIVERSAL -> searchRepository.fetchSearchResults(it)
+                    SearchMode.MENTOR -> searchRepository.fetchMentorSearchResults(it)
+                    SearchMode.TOPIC -> searchRepository.fetchTopicSearchResults(it)
                 }
             }
             .onEach {

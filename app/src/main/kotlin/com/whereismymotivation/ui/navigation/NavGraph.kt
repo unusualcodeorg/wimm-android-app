@@ -11,11 +11,19 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.whereismymotivation.ui.content.ContentViewModel
 import com.whereismymotivation.ui.content.YouTubeContent
-import com.whereismymotivation.ui.home.home
+import com.whereismymotivation.ui.feed.Feed
+import com.whereismymotivation.ui.feed.FeedViewModel
 import com.whereismymotivation.ui.login.Login
 import com.whereismymotivation.ui.login.LoginViewModel
 import com.whereismymotivation.ui.mentor.Mentor
 import com.whereismymotivation.ui.mentor.MentorViewModel
+import com.whereismymotivation.ui.mentors.Mentors
+import com.whereismymotivation.ui.mentors.MentorsViewModel
+import com.whereismymotivation.ui.mybox.MyBox
+import com.whereismymotivation.ui.profile.Profile
+import com.whereismymotivation.ui.profile.ProfileViewModel
+import com.whereismymotivation.ui.search.Search
+import com.whereismymotivation.ui.search.SearchViewModel
 import com.whereismymotivation.ui.splash.Splash
 import com.whereismymotivation.ui.splash.SplashViewModel
 import com.whereismymotivation.ui.topic.Topic
@@ -61,9 +69,25 @@ fun NavGraph(
             route = Destination.Home.route,
             startDestination = Destination.Home.Feed.route
         ) {
-            home(
-                modifier = modifier
-            )
+            composable(Destination.Home.Feed.route) {
+                val viewModel: FeedViewModel = hiltViewModel(key = FeedViewModel.TAG)
+                Feed(modifier, viewModel)
+            }
+            composable(Destination.Home.Mentors.route) {
+                val viewModel: MentorsViewModel = hiltViewModel(key = MentorsViewModel.TAG)
+                Mentors(modifier, viewModel)
+            }
+            composable(Destination.Home.Search.route) {
+                val viewModel: SearchViewModel = hiltViewModel(key = SearchViewModel.TAG)
+                Search(modifier, viewModel)
+            }
+            composable(Destination.Home.Profile.route) {
+                val viewModel: ProfileViewModel = hiltViewModel(key = ProfileViewModel.TAG)
+                Profile(modifier, viewModel)
+            }
+            composable(Destination.Home.MyBox.route) {
+                MyBox(modifier)
+            }
         }
         composable(
             route = Destination.Mentor.route,
@@ -91,6 +115,16 @@ fun NavGraph(
         ) {
             val viewModel: ContentViewModel = hiltViewModel(key = ContentViewModel.TAG)
             YouTubeContent(
+                modifier = modifier,
+                viewModel = viewModel
+            )
+        }
+        composable(
+            route = Destination.Search.route,
+            arguments = Destination.Search.navArguments
+        ) {
+            val viewModel: SearchViewModel = hiltViewModel(key = SearchViewModel.TAG)
+            Search(
                 modifier = modifier,
                 viewModel = viewModel
             )
