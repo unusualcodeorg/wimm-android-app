@@ -3,6 +3,7 @@ package com.whereismymotivation.ui.common.preview
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.whereismymotivation.data.model.Content
 import com.whereismymotivation.data.model.Mentor
+import com.whereismymotivation.data.model.UniversalSearchResult
 import com.whereismymotivation.data.model.User
 
 class MentorPreviewParameterProvider : PreviewParameterProvider<Mentor> {
@@ -39,6 +40,18 @@ class ContentPreviewParameterProvider : PreviewParameterProvider<Content> {
             liked = false,
             likes = 12456356,
             shares = 974524
+        )
+    )
+}
+
+class SearchPreviewParameterProvider : PreviewParameterProvider<UniversalSearchResult> {
+    override val values = sequenceOf(
+        UniversalSearchResult(
+            id = "5d3abb01d7e737505f6283a8",
+            title = "What Booth Said After He Killed Lincoln",
+            category = Content.Category.YOUTUBE,
+            thumbnail = "https://i3.ytimg.com/vi/hVLM0BSqx5o/hqdefault.jpg",
+            extra = "https://www.youtube.com/watch?v=9TCMHVmNc5w",
         )
     )
 }
