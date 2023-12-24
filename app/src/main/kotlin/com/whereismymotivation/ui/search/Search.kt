@@ -29,8 +29,10 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
@@ -72,12 +74,15 @@ fun SearchView(
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SearchAutoCompleter(
     modifier: Modifier = Modifier,
     search: (String) -> Unit,
     query: String
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     Column(
         modifier = modifier
             .background(Color.White)
@@ -96,7 +101,7 @@ fun SearchAutoCompleter(
             ),
             keyboardActions = KeyboardActions(
                 onSearch = {
-                    // Handle search action (e.g., trigger API request)
+                    keyboardController?.hide()
                 }
             )
         )
