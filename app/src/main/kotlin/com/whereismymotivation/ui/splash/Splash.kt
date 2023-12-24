@@ -3,7 +3,7 @@ package com.whereismymotivation.ui.splash
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,9 +20,7 @@ fun Splash(modifier: Modifier, viewModel: SplashViewModel) {
 @Composable
 private fun SplashView(modifier: Modifier, onAnimationComplete: () -> Unit) {
     Column(
-        modifier = modifier
-            .fillMaxHeight()
-            .fillMaxHeight(),
+        modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

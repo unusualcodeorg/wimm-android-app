@@ -12,8 +12,8 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 
 @Composable
 fun LottieLoader(
-    @RawRes rawRes: Int,
     modifier: Modifier = Modifier,
+    @RawRes rawRes: Int,
     forever: Boolean = false,
     onComplete: () -> Unit = {}
 ) {
@@ -22,12 +22,11 @@ fun LottieLoader(
         composition,
         iterations = if (forever) LottieConstants.IterateForever else 1
     )
-    if (progress == 1.0f) onComplete()
+    if (!forever && progress == 1.0f) onComplete()
 
     LottieAnimation(
         composition = composition,
         progress = { progress },
         modifier = modifier,
     )
-
 }
