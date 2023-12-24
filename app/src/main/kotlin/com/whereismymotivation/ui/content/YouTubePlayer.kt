@@ -67,6 +67,7 @@ fun YouTubePlayer(url: String) {
                     loadWithOverviewMode = true
                     useWideViewPort = true
                     setSupportZoom(true)
+                    mediaPlaybackRequiresUserGesture = false;
                 }
                 setBackgroundColor(Color.BLACK)
                 CookieManager.getInstance().setAcceptThirdPartyCookies(this, true)
