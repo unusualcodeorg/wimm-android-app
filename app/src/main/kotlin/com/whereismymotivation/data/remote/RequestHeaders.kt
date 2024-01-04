@@ -4,7 +4,6 @@ import com.whereismymotivation.di.AccessTokenInfo
 import com.whereismymotivation.di.ApiKeyInfo
 import com.whereismymotivation.di.AppVersionCodeInfo
 import com.whereismymotivation.di.DeviceIdInfo
-import com.whereismymotivation.di.UserInfo
 import com.whereismymotivation.utils.common.ResultFetcher
 import javax.inject.Inject
 
@@ -20,7 +19,7 @@ class RequestHeaders @Inject constructor(
         const val AUTH_PROTECTED = "$API_AUTH_TYPE: protected"
     }
 
-    enum class Type constructor(val value: String) {
+    enum class Type(val value: String) {
         PUBLIC("public"),
         PROTECTED("protected")
     }
