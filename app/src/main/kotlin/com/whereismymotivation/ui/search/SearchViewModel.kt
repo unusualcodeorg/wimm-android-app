@@ -11,7 +11,6 @@ import com.whereismymotivation.ui.common.snackbar.Messenger
 import com.whereismymotivation.ui.navigation.Destination
 import com.whereismymotivation.ui.navigation.NavTarget
 import com.whereismymotivation.ui.navigation.Navigator
-import com.whereismymotivation.utils.network.NetworkHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -31,13 +30,12 @@ import javax.inject.Inject
 @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    networkHelper: NetworkHelper,
     loader: Loader,
     messenger: Messenger,
     searchRepository: SearchRepository,
     savedStateHandle: SavedStateHandle,
     private val navigator: Navigator
-) : BaseViewModel(networkHelper, loader, messenger) {
+) : BaseViewModel(loader, messenger) {
 
     companion object {
         const val TAG = "SearchViewModel"

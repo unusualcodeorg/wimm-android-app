@@ -13,7 +13,6 @@ import com.whereismymotivation.ui.common.snackbar.Messenger
 import com.whereismymotivation.ui.navigation.Destination
 import com.whereismymotivation.ui.navigation.NavTarget
 import com.whereismymotivation.ui.navigation.Navigator
-import com.whereismymotivation.utils.network.NetworkHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -21,14 +20,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FeedViewModel @Inject constructor(
-    networkHelper: NetworkHelper,
     loader: Loader,
     messenger: Messenger,
     remoteConfigRepository: RemoteConfigRepository,
     private val navigator: Navigator,
     private val sharer: Sharer<Content>,
     private val contentRepository: ContentRepository,
-) : BaseViewModel(networkHelper, loader, messenger) {
+) : BaseViewModel(loader, messenger) {
 
     companion object {
         const val TAG = "FeedViewModel"

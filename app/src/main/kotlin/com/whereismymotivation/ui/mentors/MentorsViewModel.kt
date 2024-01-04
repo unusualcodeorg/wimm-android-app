@@ -8,7 +8,6 @@ import com.whereismymotivation.ui.common.snackbar.Messenger
 import com.whereismymotivation.ui.navigation.Destination
 import com.whereismymotivation.ui.navigation.NavTarget
 import com.whereismymotivation.ui.navigation.Navigator
-import com.whereismymotivation.utils.network.NetworkHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,12 +15,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MentorsViewModel @Inject constructor(
-    networkHelper: NetworkHelper,
     loader: Loader,
     messenger: Messenger,
     private val navigator: Navigator,
     private val mentorRepository: MentorRepository,
-) : BaseViewModel(networkHelper, loader, messenger) {
+) : BaseViewModel(loader, messenger) {
 
     companion object {
         const val TAG = "MentorsViewModel"

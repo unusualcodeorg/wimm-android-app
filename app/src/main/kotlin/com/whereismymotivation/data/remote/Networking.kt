@@ -3,6 +3,7 @@ package com.whereismymotivation.data.remote
 import com.squareup.moshi.Moshi
 import com.whereismymotivation.BuildConfig
 import com.whereismymotivation.data.remote.interceptors.ImageHeaderInterceptor
+import com.whereismymotivation.data.remote.interceptors.NetworkInterceptor
 import com.whereismymotivation.data.remote.interceptors.RefreshTokenInterceptor
 import com.whereismymotivation.data.remote.interceptors.RequestHeaderInterceptor
 import okhttp3.Cache
@@ -19,6 +20,7 @@ object Networking {
 
     fun create(
         baseUrl: String,
+        networkInterceptor: NetworkInterceptor,
         headerInterceptor: RequestHeaderInterceptor,
         refreshTokenInterceptor: RefreshTokenInterceptor,
         cacheDir: File,
@@ -28,6 +30,7 @@ object Networking {
         .client(
             OkHttpClient.Builder()
                 .cache(Cache(cacheDir, cacheSize))
+                .addInterceptor(networkInterceptor)
                 .addInterceptor(headerInterceptor)
                 .addInterceptor(refreshTokenInterceptor)
                 .addInterceptor(HttpLoggingInterceptor()
