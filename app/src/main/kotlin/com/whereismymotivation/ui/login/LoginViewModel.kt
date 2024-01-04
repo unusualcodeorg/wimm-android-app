@@ -63,7 +63,7 @@ class LoginViewModel @Inject constructor(
 
     private fun validate(): Boolean {
         var error = false
-        if (!isValidEmail(email.value)) _emailError.tryEmit("Invalid Email").run { error = true }
+        if (!email.value.isValidEmail()) _emailError.tryEmit("Invalid Email").run { error = true }
         if (password.value.length < 6) _passwordError.tryEmit("Password length should be at least 6")
             .run { error = true }
         return !error

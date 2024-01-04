@@ -40,10 +40,10 @@ object ContentUtils {
                 id,
                 category,
                 title,
-                String.NULL(),
-                thumbnail ?: String.NULL(),
+                String.Null(),
+                thumbnail ?: String.Null(),
                 extra,
-                User(String.NULL(), null, String.NULL(), null)
+                User(String.Null(), null, String.Null(), null)
             )
         }
 
@@ -52,11 +52,11 @@ object ContentUtils {
             return@run Content(
                 id,
                 parse(type),
-                primary ?: String.NULL(),
-                secondary ?: String.NULL(),
-                tertiary ?: String.NULL(),
-                extra ?: String.NULL(),
-                User(String.NULL(), null, String.NULL(), null)
+                primary ?: String.Null(),
+                secondary ?: String.Null(),
+                tertiary ?: String.Null(),
+                extra ?: String.Null(),
+                User(String.Null(), null, String.Null(), null)
             )
         }
 
@@ -77,7 +77,7 @@ object ContentUtils {
             subtitle,
             thumbnail,
             extra,
-            User(String.NULL(), null, String.NULL(), null)
+            User(String.Null(), null, String.Null(), null)
         )
     }
 }
