@@ -11,23 +11,19 @@ import com.whereismymotivation.ui.common.snackbar.Messenger
 import com.whereismymotivation.ui.navigation.Destination
 import com.whereismymotivation.ui.navigation.NavTarget
 import com.whereismymotivation.ui.navigation.Navigator
-import com.whereismymotivation.utils.network.NetworkHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    val networkHelper: NetworkHelper,
     val loader: Loader,
     val messenger: Messenger,
     val sharer: Sharer<Content>,
     val navigator: Navigator,
     forcedLogout: ForcedLogout,
     userRepository: UserRepository,
-) : BaseViewModel(
-    networkHelper, loader, messenger
-) {
+) : BaseViewModel(loader, messenger) {
 
     init {
         viewModelScope.launch {

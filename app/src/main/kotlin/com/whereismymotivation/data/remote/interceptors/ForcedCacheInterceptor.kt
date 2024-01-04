@@ -1,6 +1,6 @@
 package com.whereismymotivation.data.remote.interceptors
 
-import com.whereismymotivation.utils.network.NetworkHelper
+import com.whereismymotivation.data.remote.utils.NetworkHelper
 import okhttp3.CacheControl
 import okhttp3.Interceptor
 import okhttp3.Response

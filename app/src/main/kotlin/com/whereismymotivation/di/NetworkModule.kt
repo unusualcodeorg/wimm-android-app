@@ -7,6 +7,7 @@ import com.whereismymotivation.data.local.prefs.UserPreferences
 import com.whereismymotivation.data.remote.NetworkService
 import com.whereismymotivation.data.remote.Networking
 import com.whereismymotivation.data.remote.interceptors.ImageHeaderInterceptor
+import com.whereismymotivation.data.remote.interceptors.NetworkInterceptor
 import com.whereismymotivation.data.remote.interceptors.RefreshTokenInterceptor
 import com.whereismymotivation.data.remote.interceptors.RequestHeaderInterceptor
 import com.whereismymotivation.utils.common.ResultCallback
@@ -27,12 +28,17 @@ object NetworkModule {
     fun provideNetworkService(
         @ApplicationContext context: Context,
         @BaseUrl baseUrl: String,
+        networkInterceptor: NetworkInterceptor,
         requestHeaderInterceptor: RequestHeaderInterceptor,
         refreshTokenInterceptor: RefreshTokenInterceptor
     ): NetworkService =
         Networking.create(
-            baseUrl, requestHeaderInterceptor, refreshTokenInterceptor,
-            context.cacheDir, 50 * 1024 * 1024 // 50MB
+            baseUrl,
+            networkInterceptor,
+            requestHeaderInterceptor,
+            refreshTokenInterceptor,
+            context.cacheDir,
+            50 * 1024 * 1024 // 50MB
         )
 
     @Provides
@@ -44,7 +50,9 @@ object NetworkModule {
         ImageLoader.Builder(context)
             .okHttpClient(
                 Networking.createForImage(
-                    imageHeaderInterceptor, context.cacheDir, 50 * 1024 * 1024 // 50MB
+                    imageHeaderInterceptor,
+                    context.cacheDir,
+                    50 * 1024 * 1024 // 50MB
                 )
             )
             .build()
