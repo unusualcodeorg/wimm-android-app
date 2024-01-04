@@ -3,6 +3,7 @@ package com.whereismymotivation.data.remote.interceptors
 import com.whereismymotivation.data.remote.NetworkService
 import com.whereismymotivation.data.remote.RequestHeaders
 import com.whereismymotivation.data.remote.request.RefreshTokenRequest
+import com.whereismymotivation.data.remote.utils.ForcedLogout
 import com.whereismymotivation.di.AccessTokenInfo
 import com.whereismymotivation.di.RefreshTokenInfo
 import com.whereismymotivation.utils.common.ResultCallback
@@ -19,7 +20,8 @@ class RefreshTokenInterceptor @Inject constructor(
     @AccessTokenInfo private val accessTokenFetcher: ResultFetcher<String>,
     @AccessTokenInfo private val accessTokenCallback: ResultCallback<String>,
     @RefreshTokenInfo private val refreshTokenFetcher: ResultFetcher<String>,
-    @RefreshTokenInfo private val refreshTokenCallback: ResultCallback<String>
+    @RefreshTokenInfo private val refreshTokenCallback: ResultCallback<String>,
+    private val forcedLogout: ForcedLogout
 ) : Interceptor {
 
     companion object {
@@ -58,6 +60,8 @@ class RefreshTokenInterceptor @Inject constructor(
                                     accessTokenCallback.onResult(tokenResponse.data.accessToken)
                                     refreshTokenCallback.onResult(tokenResponse.data.refreshToken)
                                 }
+                            } else {
+                                forcedLogout.logout()
                             }
                         }
                     }
