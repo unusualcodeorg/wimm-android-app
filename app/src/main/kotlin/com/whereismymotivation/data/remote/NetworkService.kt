@@ -1,39 +1,16 @@
 package com.whereismymotivation.data.remote
 
-import com.whereismymotivation.data.model.Auth
 import com.whereismymotivation.data.model.Content
 import com.whereismymotivation.data.model.Mentor
 import com.whereismymotivation.data.model.MetaContent
 import com.whereismymotivation.data.model.SubscriptionInfo
-import com.whereismymotivation.data.model.Token
 import com.whereismymotivation.data.model.Topic
 import com.whereismymotivation.data.model.UniversalSearchResult
 import com.whereismymotivation.data.remote.request.*
 import com.whereismymotivation.data.remote.response.*
-import retrofit2.Call
 import retrofit2.http.*
 
 interface NetworkService {
-
-    @POST(Endpoints.AUTH_LOGIN_BASIC)
-    @Headers(RequestHeaders.Key.AUTH_PUBLIC)
-    suspend fun basicLogin(@Body request: BasicLoginRequest): ApiDataResponse<Auth>
-
-    @POST(Endpoints.AUTH_LOGIN_FACEBOOK)
-    @Headers(RequestHeaders.Key.AUTH_PUBLIC)
-    suspend fun facebookLogin(@Body request: FacebookLoginRequest): ApiDataResponse<Auth>
-
-    @POST(Endpoints.AUTH_LOGIN_GOOGLE)
-    @Headers(RequestHeaders.Key.AUTH_PUBLIC)
-    suspend fun googleLogin(@Body request: GoogleLoginRequest): ApiDataResponse<Auth>
-
-    @POST(Endpoints.AUTH_REFRESH_TOKEN)
-    @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    fun refreshToken(@Body request: RefreshTokenRequest): Call<ApiDataResponse<Token>>
-
-    @DELETE(Endpoints.AUTH_LOGOUT)
-    @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun logout(): ApiGeneralResponse
 
     @POST(Endpoints.SUBSCRIPTION_SUBSCRIBE)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)

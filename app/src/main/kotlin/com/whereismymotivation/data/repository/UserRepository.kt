@@ -124,8 +124,4 @@ class UserRepository @Inject constructor(
     fun getFirebaseTokenSent(): Boolean = userPreferences.getFirebaseTokenSent()
 
     fun setFirebaseTokenSent() = userPreferences.setFirebaseTokenSent()
-
-    fun logout(): Flow<String> = flow {
-        emit(networkService.logout())
-    }.map { it.message }
 }

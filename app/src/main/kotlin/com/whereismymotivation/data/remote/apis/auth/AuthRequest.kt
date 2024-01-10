@@ -1,10 +1,10 @@
-package com.whereismymotivation.data.remote.request
+package com.whereismymotivation.data.remote.apis.auth
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class BasicLoginRequest(
+data class BasicAuthRequest(
     @Json(name = "email")
     val email: String,
 
@@ -13,7 +13,7 @@ data class BasicLoginRequest(
 )
 
 @JsonClass(generateAdapter = true)
-data class GoogleLoginRequest(
+data class GoogleAuthRequest(
     @Json(name = "googleUserId")
     val googleUserId: String,
 
@@ -22,7 +22,7 @@ data class GoogleLoginRequest(
 )
 
 @JsonClass(generateAdapter = true)
-data class FacebookLoginRequest(
+data class FacebookAuthRequest(
     @Json(name = "fbUserId")
     val facebookUserId: String,
 

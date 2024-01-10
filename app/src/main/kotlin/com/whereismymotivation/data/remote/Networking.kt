@@ -18,40 +18,47 @@ object Networking {
 
     private const val NETWORK_CALL_TIMEOUT = 60
 
-    fun create(
-        baseUrl: String,
+    fun <T> createService(baseUrl: String, client: OkHttpClient, service: Class<T>): T =
+        Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .client(client)
+            .addConverterFactory(
+                MoshiConverterFactory.create(
+                    Moshi.Builder().build()
+                )
+            )
+            .build()
+            .create(service)
+
+
+    fun createOkHttpClientForApis(
         networkInterceptor: NetworkInterceptor,
         headerInterceptor: RequestHeaderInterceptor,
         refreshTokenInterceptor: RefreshTokenInterceptor,
         cacheDir: File,
         cacheSize: Long
-    ): NetworkService = Retrofit.Builder()
-        .baseUrl(baseUrl)
-        .client(
-            OkHttpClient.Builder()
-                .cache(Cache(cacheDir, cacheSize))
-                .addInterceptor(networkInterceptor)
-                .addInterceptor(headerInterceptor)
-                .addInterceptor(refreshTokenInterceptor)
-                .addInterceptor(HttpLoggingInterceptor()
-                    .apply {
-                        level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY
-                        else HttpLoggingInterceptor.Level.NONE
-                    })
-                .readTimeout(NETWORK_CALL_TIMEOUT.toLong(), TimeUnit.SECONDS)
-                .writeTimeout(NETWORK_CALL_TIMEOUT.toLong(), TimeUnit.SECONDS)
-                .build()
-        )
-        .addConverterFactory(
-            MoshiConverterFactory.create(
-                Moshi.Builder().build()
-            )
-        )
+    ) = OkHttpClient.Builder()
+        .cache(Cache(cacheDir, cacheSize))
+        .addInterceptor(networkInterceptor)
+        .addInterceptor(headerInterceptor)
+        .addInterceptor(refreshTokenInterceptor)
+        .addInterceptor(getHttpLoggingInterceptor())
+        .readTimeout(NETWORK_CALL_TIMEOUT.toLong(), TimeUnit.SECONDS)
+        .writeTimeout(NETWORK_CALL_TIMEOUT.toLong(), TimeUnit.SECONDS)
         .build()
-        .create(NetworkService::class.java)
-        .apply { refreshTokenInterceptor.networkService = this }
 
-    fun createForImage(
+    fun createOkHttpClientForRefreshToken(
+        networkInterceptor: NetworkInterceptor,
+        headerInterceptor: RequestHeaderInterceptor,
+    ) = OkHttpClient.Builder()
+        .addInterceptor(networkInterceptor)
+        .addInterceptor(headerInterceptor)
+        .addInterceptor(getHttpLoggingInterceptor())
+        .readTimeout(NETWORK_CALL_TIMEOUT.toLong(), TimeUnit.SECONDS)
+        .writeTimeout(NETWORK_CALL_TIMEOUT.toLong(), TimeUnit.SECONDS)
+        .build()
+
+    fun createOkHttpClientForImage(
         imageHeaderInterceptor: ImageHeaderInterceptor,
         cacheDir: File,
         cacheSize: Long,
@@ -61,4 +68,10 @@ object Networking {
         .readTimeout(NETWORK_CALL_TIMEOUT.toLong(), TimeUnit.SECONDS)
         .writeTimeout(NETWORK_CALL_TIMEOUT.toLong(), TimeUnit.SECONDS)
         .build()
+
+    private fun getHttpLoggingInterceptor() = HttpLoggingInterceptor()
+        .apply {
+            level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY
+            else HttpLoggingInterceptor.Level.NONE
+        }
 }

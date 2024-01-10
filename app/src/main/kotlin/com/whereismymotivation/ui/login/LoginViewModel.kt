@@ -1,6 +1,6 @@
 package com.whereismymotivation.ui.login
 
-import com.whereismymotivation.data.repository.LoginRepository
+import com.whereismymotivation.data.repository.AuthRepository
 import com.whereismymotivation.data.repository.UserRepository
 import com.whereismymotivation.ui.base.BaseViewModel
 import com.whereismymotivation.ui.common.progress.Loader
@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     loader: Loader,
-    private val loginRepository: LoginRepository,
+    private val authRepository: AuthRepository,
     private val userRepository: UserRepository,
     val navigator: Navigator,
     val messenger: Messenger,
@@ -51,7 +51,7 @@ class LoginViewModel @Inject constructor(
     fun basicLogin() {
         if (validate()) {
             launchNetwork {
-                loginRepository.basicLogin(email.value, password.value)
+                authRepository.basicLogin(email.value, password.value)
                     .collect {
                         userRepository.saveCurrentAuth(it)
                         navigator.navigateTo(NavTarget(Destination.Home.Feed.route, true))
