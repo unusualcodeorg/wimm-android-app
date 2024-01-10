@@ -6,6 +6,8 @@ import com.whereismymotivation.BuildConfig
 import com.whereismymotivation.data.local.prefs.UserPreferences
 import com.whereismymotivation.data.remote.NetworkService
 import com.whereismymotivation.data.remote.Networking
+import com.whereismymotivation.data.remote.apis.auth.AuthApi
+import com.whereismymotivation.data.remote.apis.auth.RefreshTokenApi
 import com.whereismymotivation.data.remote.interceptors.ImageHeaderInterceptor
 import com.whereismymotivation.data.remote.interceptors.NetworkInterceptor
 import com.whereismymotivation.data.remote.interceptors.RefreshTokenInterceptor
@@ -17,6 +19,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import javax.inject.Singleton
 
 @Module
@@ -25,20 +28,58 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideNetworkService(
-        @ApplicationContext context: Context,
+    fun provideRefreshTokenApi(
         @BaseUrl baseUrl: String,
         networkInterceptor: NetworkInterceptor,
         requestHeaderInterceptor: RequestHeaderInterceptor,
-        refreshTokenInterceptor: RefreshTokenInterceptor
-    ): NetworkService =
-        Networking.create(
+    ): RefreshTokenApi =
+        Networking.createService(
             baseUrl,
+            Networking.createOkHttpClientForRefreshToken(
+                networkInterceptor,
+                requestHeaderInterceptor,
+            ),
+            RefreshTokenApi::class.java
+        )
+
+    @Provides
+    @Singleton
+    fun provideApiOkHttpClient(
+        @ApplicationContext context: Context,
+        networkInterceptor: NetworkInterceptor,
+        requestHeaderInterceptor: RequestHeaderInterceptor,
+        refreshTokenInterceptor: RefreshTokenInterceptor
+    ): OkHttpClient =
+        Networking.createOkHttpClientForApis(
             networkInterceptor,
             requestHeaderInterceptor,
             refreshTokenInterceptor,
             context.cacheDir,
             50 * 1024 * 1024 // 50MB
+        )
+
+    @Provides
+    @Singleton
+    fun provideNetworkService(
+        @BaseUrl baseUrl: String,
+        okHttpClient: OkHttpClient
+    ): NetworkService =
+        Networking.createService(
+            baseUrl,
+            okHttpClient,
+            NetworkService::class.java
+        )
+
+    @Provides
+    @Singleton
+    fun provideAuthApi(
+        @BaseUrl baseUrl: String,
+        okHttpClient: OkHttpClient
+    ): AuthApi =
+        Networking.createService(
+            baseUrl,
+            okHttpClient,
+            AuthApi::class.java
         )
 
     @Provides
@@ -49,7 +90,7 @@ object NetworkModule {
     ): ImageLoader =
         ImageLoader.Builder(context)
             .okHttpClient(
-                Networking.createForImage(
+                Networking.createOkHttpClientForImage(
                     imageHeaderInterceptor,
                     context.cacheDir,
                     50 * 1024 * 1024 // 50MB
