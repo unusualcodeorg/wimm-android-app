@@ -6,7 +6,7 @@ import com.whereismymotivation.BuildConfig
 import com.whereismymotivation.data.local.prefs.UserPreferences
 import com.whereismymotivation.data.remote.Networking
 import com.whereismymotivation.data.remote.apis.auth.AuthApi
-import com.whereismymotivation.data.remote.apis.auth.request.RefreshTokenApi
+import com.whereismymotivation.data.remote.apis.auth.RefreshTokenApi
 import com.whereismymotivation.data.remote.apis.content.ContentApi
 import com.whereismymotivation.data.remote.apis.subscription.request.SubscriptionApi
 import com.whereismymotivation.data.remote.apis.user.UserApi
