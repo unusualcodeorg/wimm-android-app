@@ -1,6 +1,6 @@
 package com.whereismymotivation.data.remote.apis.auth
 
-object AuthEndpoints {
+object Endpoints {
 
     const val AUTH_LOGIN_BASIC = "auth/login/basic"
     const val AUTH_LOGIN_GOOGLE = "auth/login/google"

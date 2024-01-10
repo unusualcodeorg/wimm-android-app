@@ -8,6 +8,7 @@ import com.whereismymotivation.data.remote.NetworkService
 import com.whereismymotivation.data.remote.Networking
 import com.whereismymotivation.data.remote.apis.auth.AuthApi
 import com.whereismymotivation.data.remote.apis.auth.RefreshTokenApi
+import com.whereismymotivation.data.remote.apis.subscription.SubscriptionApi
 import com.whereismymotivation.data.remote.interceptors.ImageHeaderInterceptor
 import com.whereismymotivation.data.remote.interceptors.NetworkInterceptor
 import com.whereismymotivation.data.remote.interceptors.RefreshTokenInterceptor
@@ -80,6 +81,18 @@ object NetworkModule {
             baseUrl,
             okHttpClient,
             AuthApi::class.java
+        )
+
+    @Provides
+    @Singleton
+    fun provideSubscriptionApi(
+        @BaseUrl baseUrl: String,
+        okHttpClient: OkHttpClient
+    ): SubscriptionApi =
+        Networking.createService(
+            baseUrl,
+            okHttpClient,
+            SubscriptionApi::class.java
         )
 
     @Provides

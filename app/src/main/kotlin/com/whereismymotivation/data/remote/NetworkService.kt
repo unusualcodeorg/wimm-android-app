@@ -3,7 +3,6 @@ package com.whereismymotivation.data.remote
 import com.whereismymotivation.data.model.Content
 import com.whereismymotivation.data.model.Mentor
 import com.whereismymotivation.data.model.MetaContent
-import com.whereismymotivation.data.model.SubscriptionInfo
 import com.whereismymotivation.data.model.Topic
 import com.whereismymotivation.data.model.UniversalSearchResult
 import com.whereismymotivation.data.remote.request.*
@@ -11,30 +10,6 @@ import com.whereismymotivation.data.remote.response.*
 import retrofit2.http.*
 
 interface NetworkService {
-
-    @POST(Endpoints.SUBSCRIPTION_SUBSCRIBE)
-    @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun subscriptionSubscribe(@Body request: SubscriptionModifyRequest): ApiGeneralResponse
-
-    @POST(Endpoints.SUBSCRIPTION_UNSUBSCRIBE)
-    @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun subscriptionUnsubscribe(@Body request: SubscriptionModifyRequest): ApiGeneralResponse
-
-    @GET(Endpoints.SUBSCRIPTION_MENTORS)
-    @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun subscriptionMentors(): ApiDataResponse<List<Mentor>>
-
-    @GET(Endpoints.SUBSCRIPTION_TOPICS)
-    @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun subscriptionTopics(): ApiDataResponse<List<Topic>>
-
-    @GET(Endpoints.SUBSCRIPTION_INFO_MENTOR)
-    @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun subscriptionInfoMentor(@Path("id") mentorId: String): ApiDataResponse<SubscriptionInfo>
-
-    @GET(Endpoints.SUBSCRIPTION_INFO_TOPIC)
-    @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun subscriptionInfoTopic(@Path("id") topicId: String): ApiDataResponse<SubscriptionInfo>
 
     @GET(Endpoints.SIMILAR_CONTENTS)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
@@ -67,18 +42,6 @@ interface NetworkService {
         @Query("pageNumber") pageNumber: Int,
         @Query("pageItemCount") pageItemCount: Int
     ): ApiDataResponse<List<Content>>
-
-    @GET(Endpoints.RECOMMENDED_MENTORS)
-    @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun recommendedMentors(
-        @Query("pageNumber") pageNumber: Int, @Query("pageItemCount") pageItemCount: Int
-    ): ApiDataResponse<List<Mentor>>
-
-    @GET(Endpoints.RECOMMENDED_TOPICS)
-    @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun recommendedTopics(
-        @Query("pageNumber") pageNumber: Int, @Query("pageItemCount") pageItemCount: Int
-    ): ApiDataResponse<List<Topic>>
 
     @GET(Endpoints.MENTOR_DETAIL)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
