@@ -8,7 +8,7 @@ import com.whereismymotivation.data.remote.Networking
 import com.whereismymotivation.data.remote.apis.auth.AuthApi
 import com.whereismymotivation.data.remote.apis.auth.RefreshTokenApi
 import com.whereismymotivation.data.remote.apis.content.ContentApi
-import com.whereismymotivation.data.remote.apis.subscription.request.SubscriptionApi
+import com.whereismymotivation.data.remote.apis.subscription.SubscriptionApi
 import com.whereismymotivation.data.remote.apis.user.UserApi
 import com.whereismymotivation.data.remote.interceptors.ImageHeaderInterceptor
 import com.whereismymotivation.data.remote.interceptors.NetworkInterceptor

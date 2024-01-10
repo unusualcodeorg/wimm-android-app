@@ -3,8 +3,8 @@ package com.whereismymotivation.data.repository
 import com.whereismymotivation.data.model.Mentor
 import com.whereismymotivation.data.model.SubscriptionInfo
 import com.whereismymotivation.data.model.Topic
+import com.whereismymotivation.data.remote.apis.subscription.SubscriptionApi
 import com.whereismymotivation.data.remote.apis.subscription.SubscriptionModifyRequest
-import com.whereismymotivation.data.remote.apis.subscription.request.SubscriptionApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
