@@ -7,7 +7,7 @@ import com.whereismymotivation.data.model.Topic
 import com.whereismymotivation.data.model.UniversalSearchResult
 import com.whereismymotivation.data.remote.RequestHeaders
 import com.whereismymotivation.data.remote.apis.content.request.ContentBookmarkRequest
-import com.whereismymotivation.data.remote.apis.subscription.request.ContentSubmissionRequest
+import com.whereismymotivation.data.remote.apis.content.request.ContentSubmissionRequest
 import com.whereismymotivation.data.remote.response.*
 import retrofit2.http.*
 

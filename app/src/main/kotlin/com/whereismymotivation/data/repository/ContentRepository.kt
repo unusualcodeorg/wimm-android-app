@@ -5,7 +5,7 @@ import com.whereismymotivation.data.model.Content
 import com.whereismymotivation.data.model.MetaContent
 import com.whereismymotivation.data.remote.apis.content.ContentApi
 import com.whereismymotivation.data.remote.apis.content.request.ContentBookmarkRequest
-import com.whereismymotivation.data.remote.apis.subscription.request.ContentSubmissionRequest
+import com.whereismymotivation.data.remote.apis.content.request.ContentSubmissionRequest
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
