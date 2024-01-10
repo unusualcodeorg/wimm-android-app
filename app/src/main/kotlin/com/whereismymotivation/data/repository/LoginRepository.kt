@@ -1,6 +1,5 @@
 package com.whereismymotivation.data.repository
 
-import com.whereismymotivation.data.model.AppUser
 import com.whereismymotivation.data.model.Auth
 import com.whereismymotivation.data.remote.NetworkService
 import com.whereismymotivation.data.remote.request.BasicLoginRequest
@@ -14,25 +13,16 @@ import javax.inject.Inject
 class LoginRepository @Inject constructor(
     private val networkService: NetworkService,
 ) {
-    fun doFacebookLogin(userId: String, token: String): Flow<AppUser> = flow {
+    fun doFacebookLogin(userId: String, token: String): Flow<Auth> = flow {
         emit(networkService.facebookLogin(FacebookLoginRequest(userId, token)))
-    }.map { saveUserData(it.data) }
+    }.map { it.data }
 
-    fun doGoogleLogin(userId: String, token: String): Flow<AppUser> = flow {
+    fun doGoogleLogin(userId: String, token: String): Flow<Auth> = flow {
         emit(networkService.googleLogin(GoogleLoginRequest(userId, token)))
-    }.map { saveUserData(it.data) }
+    }.map { it.data }
 
-    fun basicLogin(email: String, password: String): Flow<AppUser> = flow {
+    fun basicLogin(email: String, password: String): Flow<Auth> = flow {
         emit(networkService.basicLogin(BasicLoginRequest(email, password)))
-    }.map { saveUserData(it.data) }
+    }.map { it.data }
 
-    private fun saveUserData(data: Auth): AppUser = AppUser(
-        data.user.id,
-        data.user.name,
-        data.user.email,
-        data.user.profilePicUrl,
-        data.token.accessToken,
-        data.token.refreshToken,
-        data.roles
-    )
 }

@@ -9,7 +9,7 @@ data class ApiErrorResponse(
     val status: Status = Status.UNKNOWN,
 
     @Json(name = "statusCode")
-    val statusCode: String = "-1",
+    val statusCode: Int = -1,
 
     @Json(name = "message")
     val message: String = "Something went wrong"

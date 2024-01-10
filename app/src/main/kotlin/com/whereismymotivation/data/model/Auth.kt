@@ -12,9 +12,6 @@ data class Auth(
     @Json(name = "user")
     val user: User,
 
-    @Json(name = "roles")
-    val roles: List<Role>,
-
     @Json(name = "tokens")
     val token: Token
 

@@ -3,8 +3,9 @@ package com.whereismymotivation.data.repository
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import com.whereismymotivation.data.local.prefs.UserPreferences
-import com.whereismymotivation.data.model.AppUser
+import com.whereismymotivation.data.model.Auth
 import com.whereismymotivation.data.model.Role
+import com.whereismymotivation.data.model.User
 import com.whereismymotivation.data.remote.NetworkService
 import com.whereismymotivation.data.remote.request.FirebaseTokenRequest
 import com.whereismymotivation.data.remote.request.MessageRequest
@@ -23,11 +24,12 @@ class UserRepository @Inject constructor(
 
     fun userExists() = userPreferences.getUserId() != null
 
-    fun saveCurrentUser(user: AppUser) {
+    fun saveCurrentAuth(auth: Auth) {
         removeCurrentUser()
-        userPreferences.setUserId(user.userId)
-        user.userName?.let { userPreferences.setUserName(it) }
-        user.userEmail?.let { userPreferences.setUserEmail(it) }
+        val user = auth.user
+        userPreferences.setUserId(user.id)
+        user.name?.let { userPreferences.setUserName(it) }
+        user.email?.let { userPreferences.setUserEmail(it) }
 
         val roles: String =
             try {
@@ -36,15 +38,15 @@ class UserRepository @Inject constructor(
                         List::class.java,
                         Role::class.java
                     )
-                ).toJson(user.userRoles)
+                ).toJson(user.roles)
             } catch (e: AssertionError) {
                 Logger.record(e)
                 "[]"
             }
 
         userPreferences.setUserRoles(roles)
-        userPreferences.setAccessToken(user.accessToken)
-        userPreferences.setRefreshToken(user.refreshToken)
+        userPreferences.setAccessToken(auth.token.accessToken)
+        userPreferences.setRefreshToken(auth.token.refreshToken)
         userPreferences.setUserProfileProfilePicUrl(user.profilePicUrl)
     }
 
@@ -59,17 +61,15 @@ class UserRepository @Inject constructor(
         userPreferences.removeUserRoles()
     }
 
-    fun getCurrentUser(): AppUser? {
+    fun getCurrentUser(): User? {
 
         val userId = userPreferences.getUserId()
         val userName = userPreferences.getUserName()
         val userEmail = userPreferences.getUserEmail()
         val profilePicUrl = userPreferences.getUserProfilePicUrlUrl()
-        val accessToken = userPreferences.getAccessToken()
-        val refreshToken = userPreferences.getRefreshToken()
         val rolesString = userPreferences.getUserRoles()
 
-        if (userId !== null && accessToken != null && refreshToken != null && rolesString != null) {
+        if (userId !== null && rolesString != null) {
             val roles: List<Role> =
                 try {
                     Moshi.Builder().build().adapter<List<Role>>(
@@ -83,8 +83,8 @@ class UserRepository @Inject constructor(
                     emptyList()
                 }
 
-            return AppUser(
-                userId, userName, userEmail, profilePicUrl, accessToken, refreshToken, roles
+            return User(
+                userId, userName, userEmail, profilePicUrl, roles
             )
         }
         return null

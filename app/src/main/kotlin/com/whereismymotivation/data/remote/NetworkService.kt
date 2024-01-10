@@ -15,23 +15,23 @@ import retrofit2.http.*
 
 interface NetworkService {
 
-    @POST(Endpoints.LOGIN_BASIC)
+    @POST(Endpoints.AUTH_LOGIN_BASIC)
     @Headers(RequestHeaders.Key.AUTH_PUBLIC)
     suspend fun basicLogin(@Body request: BasicLoginRequest): ApiDataResponse<Auth>
 
-    @POST(Endpoints.LOGIN_FACEBOOK)
+    @POST(Endpoints.AUTH_LOGIN_FACEBOOK)
     @Headers(RequestHeaders.Key.AUTH_PUBLIC)
     suspend fun facebookLogin(@Body request: FacebookLoginRequest): ApiDataResponse<Auth>
 
-    @POST(Endpoints.LOGIN_GOOGLE)
+    @POST(Endpoints.AUTH_LOGIN_GOOGLE)
     @Headers(RequestHeaders.Key.AUTH_PUBLIC)
     suspend fun googleLogin(@Body request: GoogleLoginRequest): ApiDataResponse<Auth>
 
-    @POST(Endpoints.REFRESH_TOKEN)
+    @POST(Endpoints.AUTH_REFRESH_TOKEN)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
     fun refreshToken(@Body request: RefreshTokenRequest): Call<ApiDataResponse<Token>>
 
-    @DELETE(Endpoints.LOGOUT)
+    @DELETE(Endpoints.AUTH_LOGOUT)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
     suspend fun logout(): ApiGeneralResponse
 

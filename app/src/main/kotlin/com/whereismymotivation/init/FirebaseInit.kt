@@ -17,10 +17,10 @@ import com.whereismymotivation.utils.log.Logger
 
 fun recordUser(userRepository: UserRepository) {
     userRepository.getCurrentUser()?.run {
-        Firebase.crashlytics.setUserId(userId)
-        Firebase.analytics.setUserId(userId)
-        userEmail?.let { Firebase.analytics.setUserProperty("Email", it) }
-        userName?.let { Firebase.analytics.setUserProperty("Name", it) }
+        Firebase.crashlytics.setUserId(id)
+        Firebase.analytics.setUserId(id)
+        email?.let { Firebase.analytics.setUserProperty("Email", it) }
+        email?.let { Firebase.analytics.setUserProperty("Name", it) }
     }
 }
 

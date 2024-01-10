@@ -53,7 +53,7 @@ class LoginViewModel @Inject constructor(
             launchNetwork {
                 loginRepository.basicLogin(email.value, password.value)
                     .collect {
-                        userRepository.saveCurrentUser(it)
+                        userRepository.saveCurrentAuth(it)
                         navigator.navigateTo(NavTarget(Destination.Home.Feed.route, true))
                         messenger.deliver(Message.success("Login Success"))
                     }
