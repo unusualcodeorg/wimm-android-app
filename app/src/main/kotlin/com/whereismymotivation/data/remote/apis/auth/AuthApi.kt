@@ -11,19 +11,19 @@ import retrofit2.http.POST
 
 interface AuthApi {
 
-    @POST(AuthEndpoints.AUTH_LOGIN_BASIC)
+    @POST(Endpoints.AUTH_LOGIN_BASIC)
     @Headers(RequestHeaders.Key.AUTH_PUBLIC)
     suspend fun basicLogin(@Body request: BasicAuthRequest): ApiDataResponse<Auth>
 
-    @POST(AuthEndpoints.AUTH_LOGIN_FACEBOOK)
+    @POST(Endpoints.AUTH_LOGIN_FACEBOOK)
     @Headers(RequestHeaders.Key.AUTH_PUBLIC)
     suspend fun facebookLogin(@Body request: FacebookAuthRequest): ApiDataResponse<Auth>
 
-    @POST(AuthEndpoints.AUTH_LOGIN_GOOGLE)
+    @POST(Endpoints.AUTH_LOGIN_GOOGLE)
     @Headers(RequestHeaders.Key.AUTH_PUBLIC)
     suspend fun googleLogin(@Body request: GoogleAuthRequest): ApiDataResponse<Auth>
 
-    @DELETE(AuthEndpoints.AUTH_LOGOUT)
+    @DELETE(Endpoints.AUTH_LOGOUT)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
     suspend fun logout(): ApiGeneralResponse
 }

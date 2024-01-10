@@ -11,7 +11,7 @@ import retrofit2.http.POST
 
 interface RefreshTokenApi {
 
-    @POST(AuthEndpoints.AUTH_REFRESH_TOKEN)
+    @POST(Endpoints.AUTH_REFRESH_TOKEN)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
     fun refreshToken(@Body request: RefreshTokenRequest): Call<ApiDataResponse<Token>>
 
