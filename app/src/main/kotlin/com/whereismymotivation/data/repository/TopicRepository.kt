@@ -2,8 +2,8 @@ package com.whereismymotivation.data.repository
 
 import com.whereismymotivation.data.model.Content
 import com.whereismymotivation.data.model.Topic
-import com.whereismymotivation.data.remote.NetworkService
-import com.whereismymotivation.data.remote.apis.subscription.SubscriptionApi
+import com.whereismymotivation.data.remote.apis.content.ContentApi
+import com.whereismymotivation.data.remote.apis.subscription.request.SubscriptionApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 class TopicRepository @Inject constructor(
     private val subscriptionApi: SubscriptionApi,
-    private val networkService: NetworkService
+    private val contentApi: ContentApi
 ) {
 
     fun fetchSubscriptionTopics(): Flow<List<Topic>> =
@@ -27,11 +27,11 @@ class TopicRepository @Inject constructor(
         pageItemCount: Int
     ): Flow<List<Content>> =
         flow {
-            emit(networkService.topicContents(topicId, pageNumber, pageItemCount))
+            emit(contentApi.topicContents(topicId, pageNumber, pageItemCount))
         }.map { it.data }
 
     fun fetchTopicDetails(topicId: String): Flow<Topic> =
         flow {
-            emit(networkService.topicDetails(topicId))
+            emit(contentApi.topicDetails(topicId))
         }.map { it.data }
 }

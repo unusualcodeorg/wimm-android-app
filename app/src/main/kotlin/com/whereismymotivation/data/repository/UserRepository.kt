@@ -6,9 +6,9 @@ import com.whereismymotivation.data.local.prefs.UserPreferences
 import com.whereismymotivation.data.model.Auth
 import com.whereismymotivation.data.model.Role
 import com.whereismymotivation.data.model.User
-import com.whereismymotivation.data.remote.NetworkService
-import com.whereismymotivation.data.remote.request.FirebaseTokenRequest
-import com.whereismymotivation.data.remote.request.MessageRequest
+import com.whereismymotivation.data.remote.apis.user.UserApi
+import com.whereismymotivation.data.remote.apis.user.request.FirebaseTokenRequest
+import com.whereismymotivation.data.remote.apis.user.request.MessageRequest
 import com.whereismymotivation.utils.log.Logger
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -18,7 +18,7 @@ import javax.inject.Singleton
 
 @Singleton
 class UserRepository @Inject constructor(
-    private val networkService: NetworkService,
+    private val userApi: UserApi,
     private val userPreferences: UserPreferences
 ) {
 
@@ -100,22 +100,25 @@ class UserRepository @Inject constructor(
 
     fun getDeviceId() = userPreferences.getDeviceId()
 
-    fun saveUserRatingMessage(rate: Int, message: String): Flow<String> = flow {
-        emit(
-            networkService.message(
-                MessageRequest("USER_ANDROID_RATING", "Rating: $rate | Message: $message")
+    fun saveUserRatingMessage(rate: Int, message: String): Flow<String> =
+        flow {
+            emit(
+                userApi.message(
+                    MessageRequest("USER_ANDROID_RATING", "Rating: $rate | Message: $message")
+                )
             )
-        )
-    }.map { it.message }
+        }.map { it.message }
 
 
-    fun sendFirebaseToken(token: String): Flow<String> = flow {
-        emit(networkService.firebaseToken(FirebaseTokenRequest(token)))
-    }.map { it.message }
+    fun sendFirebaseToken(token: String): Flow<String> =
+        flow {
+            emit(userApi.firebaseToken(FirebaseTokenRequest(token)))
+        }.map { it.message }
 
-    fun sendFeedback(message: String): Flow<String> = flow {
-        emit(networkService.message(MessageRequest("USER_ANDROID_FEEDBACK", message)))
-    }.map { it.message }
+    fun sendFeedback(message: String): Flow<String> =
+        flow {
+            emit(userApi.message(MessageRequest("USER_ANDROID_FEEDBACK", message)))
+        }.map { it.message }
 
     fun getFirebaseToken(): String? = userPreferences.getFirebaseToken()
 

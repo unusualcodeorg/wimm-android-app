@@ -1,4 +1,4 @@
-package com.whereismymotivation.data.remote
+package com.whereismymotivation.data.remote.apis.content
 
 object Endpoints {
 
@@ -26,9 +26,5 @@ object Endpoints {
     const val TOPIC_DETAIL = "topic/id/{id}"
 
     const val SEARCH = "search"
-    const val MESSAGE = "contact"
-    const val PROFILE = "profile"
 
-    const val STORAGE_MOOD = "storage/moods"
-    const val STORAGE_JOURNAL = "storage/journals"
 }

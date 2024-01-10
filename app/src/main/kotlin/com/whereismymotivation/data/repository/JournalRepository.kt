@@ -2,8 +2,8 @@ package com.whereismymotivation.data.repository
 
 import com.whereismymotivation.data.local.db.DatabaseService
 import com.whereismymotivation.data.local.db.entity.Journal
-import com.whereismymotivation.data.remote.NetworkService
-import com.whereismymotivation.data.remote.request.JournalsRequest
+import com.whereismymotivation.data.remote.apis.user.UserApi
+import com.whereismymotivation.data.remote.apis.user.request.JournalsRequest
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 class JournalRepository @Inject constructor(
     private val databaseService: DatabaseService,
-    private val networkService: NetworkService
+    private val userApi: UserApi
 ) {
 
     fun fetchJournals(userId: String, pageNumber: Int, pageItemCount: Int): Flow<List<Journal>> =
@@ -31,7 +31,7 @@ class JournalRepository @Inject constructor(
     }
 
     fun sendJournal(journals: List<Journal>): Flow<String> = flow {
-        emit(networkService.journalStorage(JournalsRequest(journals)))
+        emit(userApi.journalStorage(JournalsRequest(journals)))
     }.map { it.message }
 
     fun fetchUnSyncJournals(userId: String): Flow<List<Journal>> = flow {

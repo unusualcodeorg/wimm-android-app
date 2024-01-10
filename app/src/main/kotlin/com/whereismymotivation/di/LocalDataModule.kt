@@ -30,18 +30,16 @@ object LocalDataModule {
     fun provideSharedPreferences(
         @ApplicationContext context: Context,
         @PrefsInfo prefName: String
-    ): SharedPreferences =
-        context.getSharedPreferences(prefName, Context.MODE_PRIVATE)
+    ): SharedPreferences = context.getSharedPreferences(prefName, Context.MODE_PRIVATE)
 
     @Provides
     @Singleton
     fun provideDatabaseService(
         @ApplicationContext context: Context,
         @DatabaseInfo dbName: String
-    ): DatabaseService =
-        Room.databaseBuilder(
-            context, DatabaseService::class.java,
-            dbName
-        ).build()
+    ): DatabaseService = Room.databaseBuilder(
+        context, DatabaseService::class.java,
+        dbName
+    ).build()
 
 }

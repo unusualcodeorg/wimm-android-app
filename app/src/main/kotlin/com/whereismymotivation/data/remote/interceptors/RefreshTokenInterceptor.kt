@@ -1,8 +1,8 @@
 package com.whereismymotivation.data.remote.interceptors
 
 import com.whereismymotivation.data.remote.RequestHeaders
-import com.whereismymotivation.data.remote.apis.auth.RefreshTokenApi
-import com.whereismymotivation.data.remote.request.RefreshTokenRequest
+import com.whereismymotivation.data.remote.apis.auth.RefreshTokenRequest
+import com.whereismymotivation.data.remote.apis.auth.request.RefreshTokenApi
 import com.whereismymotivation.data.remote.utils.ForcedLogout
 import com.whereismymotivation.di.AccessTokenInfo
 import com.whereismymotivation.di.RefreshTokenInfo
