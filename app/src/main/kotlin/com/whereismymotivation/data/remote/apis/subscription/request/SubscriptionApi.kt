@@ -1,22 +1,28 @@
-package com.whereismymotivation.data.remote.apis.subscription
+package com.whereismymotivation.data.remote.apis.subscription.request
 
 import com.whereismymotivation.data.model.Mentor
 import com.whereismymotivation.data.model.SubscriptionInfo
 import com.whereismymotivation.data.model.Topic
 import com.whereismymotivation.data.remote.RequestHeaders
-import com.whereismymotivation.data.remote.request.*
-import com.whereismymotivation.data.remote.response.*
+import com.whereismymotivation.data.remote.apis.subscription.Endpoints
+import com.whereismymotivation.data.remote.apis.subscription.SubscriptionModifyRequest
+import com.whereismymotivation.data.remote.response.ApiDataResponse
+import com.whereismymotivation.data.remote.response.ApiGeneralResponse
 import retrofit2.http.*
 
 interface SubscriptionApi {
 
     @POST(Endpoints.SUBSCRIPTION_SUBSCRIBE)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun subscriptionSubscribe(@Body request: SubscriptionModifyRequest): ApiGeneralResponse
+    suspend fun subscriptionSubscribe(
+        @Body request: SubscriptionModifyRequest
+    ): ApiGeneralResponse
 
     @POST(Endpoints.SUBSCRIPTION_UNSUBSCRIBE)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun subscriptionUnsubscribe(@Body request: SubscriptionModifyRequest): ApiGeneralResponse
+    suspend fun subscriptionUnsubscribe(
+        @Body request: SubscriptionModifyRequest
+    ): ApiGeneralResponse
 
     @GET(Endpoints.SUBSCRIPTION_MENTORS)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
@@ -28,11 +34,15 @@ interface SubscriptionApi {
 
     @GET(Endpoints.SUBSCRIPTION_INFO_MENTOR)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun subscriptionInfoMentor(@Path("id") mentorId: String): ApiDataResponse<SubscriptionInfo>
+    suspend fun subscriptionInfoMentor(
+        @Path("id") mentorId: String
+    ): ApiDataResponse<SubscriptionInfo>
 
     @GET(Endpoints.SUBSCRIPTION_INFO_TOPIC)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun subscriptionInfoTopic(@Path("id") topicId: String): ApiDataResponse<SubscriptionInfo>
+    suspend fun subscriptionInfoTopic(
+        @Path("id") topicId: String
+    ): ApiDataResponse<SubscriptionInfo>
 
     @GET(Endpoints.RECOMMENDED_MENTORS)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)

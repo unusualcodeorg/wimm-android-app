@@ -2,8 +2,8 @@ package com.whereismymotivation.data.repository
 
 import com.whereismymotivation.data.model.Content
 import com.whereismymotivation.data.model.Mentor
-import com.whereismymotivation.data.remote.NetworkService
-import com.whereismymotivation.data.remote.apis.subscription.SubscriptionApi
+import com.whereismymotivation.data.remote.apis.content.ContentApi
+import com.whereismymotivation.data.remote.apis.subscription.request.SubscriptionApi
 import com.whereismymotivation.utils.log.Logger
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 class MentorRepository @Inject constructor(
     private val subscriptionApi: SubscriptionApi,
-    private val networkService: NetworkService
+    private val contentApi: ContentApi,
 ) {
 
     fun fetchSubscriptionMentors(): Flow<List<Mentor>> =
@@ -27,12 +27,12 @@ class MentorRepository @Inject constructor(
         pageItemCount: Int
     ): Flow<List<Content>> =
         flow {
-            emit(networkService.mentorContents(mentorId, pageNumber, pageItemCount))
+            emit(contentApi.mentorContents(mentorId, pageNumber, pageItemCount))
         }.map { it.data }
 
     fun fetchMentorDetails(mentorId: String): Flow<Mentor> =
         flow {
             Logger.d("ALI MentorRepository", Thread.currentThread().name)
-            emit(networkService.mentorDetails(mentorId))
+            emit(contentApi.mentorDetails(mentorId))
         }.map { it.data }
 }
