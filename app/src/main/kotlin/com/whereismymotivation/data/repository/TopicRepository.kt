@@ -3,7 +3,7 @@ package com.whereismymotivation.data.repository
 import com.whereismymotivation.data.model.Content
 import com.whereismymotivation.data.model.Topic
 import com.whereismymotivation.data.remote.apis.content.ContentApi
-import com.whereismymotivation.data.remote.apis.subscription.request.SubscriptionApi
+import com.whereismymotivation.data.remote.apis.subscription.SubscriptionApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map

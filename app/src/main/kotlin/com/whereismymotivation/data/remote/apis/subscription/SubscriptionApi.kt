@@ -1,11 +1,9 @@
-package com.whereismymotivation.data.remote.apis.subscription.request
+package com.whereismymotivation.data.remote.apis.subscription
 
 import com.whereismymotivation.data.model.Mentor
 import com.whereismymotivation.data.model.SubscriptionInfo
 import com.whereismymotivation.data.model.Topic
 import com.whereismymotivation.data.remote.RequestHeaders
-import com.whereismymotivation.data.remote.apis.subscription.Endpoints
-import com.whereismymotivation.data.remote.apis.subscription.SubscriptionModifyRequest
 import com.whereismymotivation.data.remote.response.ApiDataResponse
 import com.whereismymotivation.data.remote.response.ApiGeneralResponse
 import retrofit2.http.*
