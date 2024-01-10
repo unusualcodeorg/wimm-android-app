@@ -1,4 +1,4 @@
-package com.whereismymotivation.data.remote.apis.subscription.request
+package com.whereismymotivation.data.remote.apis.content.request
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass

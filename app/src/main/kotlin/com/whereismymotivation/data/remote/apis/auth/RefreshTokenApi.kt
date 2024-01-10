@@ -2,6 +2,7 @@ package com.whereismymotivation.data.remote.apis.auth
 
 import com.whereismymotivation.data.model.Token
 import com.whereismymotivation.data.remote.RequestHeaders
+import com.whereismymotivation.data.remote.apis.auth.request.RefreshTokenRequest
 import com.whereismymotivation.data.remote.response.ApiDataResponse
 import retrofit2.Call
 import retrofit2.http.Body
