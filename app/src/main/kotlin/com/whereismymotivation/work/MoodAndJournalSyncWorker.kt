@@ -33,7 +33,7 @@ class MoodAndJournalSyncWorker @AssistedInject constructor(
         val user = userRepository.getCurrentUser() ?: return@withContext Result.failure()
 
         awaitAll(async {
-            moodRepository.fetchUnSyncMoods(user.userId)
+            moodRepository.fetchUnSyncMoods(user.id)
                 .map { moods ->
                     if (moods.isNotEmpty())
                         moodRepository.sendMoods(moods)
@@ -46,7 +46,7 @@ class MoodAndJournalSyncWorker @AssistedInject constructor(
                 }
         },
             async {
-                journalRepository.fetchUnSyncJournals(user.userId)
+                journalRepository.fetchUnSyncJournals(user.id)
                     .map { journals ->
                         if (journals.isNotEmpty())
                             journalRepository.sendJournal(journals)

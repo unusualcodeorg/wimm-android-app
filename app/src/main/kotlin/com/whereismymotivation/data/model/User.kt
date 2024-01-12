@@ -19,6 +19,8 @@ data class User(
     val email: String?,
 
     @Json(name = "profilePicUrl")
-    val profilePicUrl: String?
+    val profilePicUrl: String?,
 
+    @Json(name = "roles")
+    val roles: List<Role> = listOf()
 ) : Parcelable

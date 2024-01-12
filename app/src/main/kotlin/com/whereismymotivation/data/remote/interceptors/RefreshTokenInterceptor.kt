@@ -1,8 +1,8 @@
 package com.whereismymotivation.data.remote.interceptors
 
-import com.whereismymotivation.data.remote.NetworkService
 import com.whereismymotivation.data.remote.RequestHeaders
-import com.whereismymotivation.data.remote.request.RefreshTokenRequest
+import com.whereismymotivation.data.remote.apis.auth.RefreshTokenApi
+import com.whereismymotivation.data.remote.apis.auth.request.RefreshTokenRequest
 import com.whereismymotivation.data.remote.utils.ForcedLogout
 import com.whereismymotivation.di.AccessTokenInfo
 import com.whereismymotivation.di.RefreshTokenInfo
@@ -21,7 +21,8 @@ class RefreshTokenInterceptor @Inject constructor(
     @AccessTokenInfo private val accessTokenCallback: ResultCallback<String>,
     @RefreshTokenInfo private val refreshTokenFetcher: ResultFetcher<String>,
     @RefreshTokenInfo private val refreshTokenCallback: ResultCallback<String>,
-    private val forcedLogout: ForcedLogout
+    private val refreshTokenApi: RefreshTokenApi,
+    private val forcedLogout: ForcedLogout,
 ) : Interceptor {
 
     companion object {
@@ -29,8 +30,6 @@ class RefreshTokenInterceptor @Inject constructor(
         private const val REFRESH_ACCESS_TOKEN = "refresh_token"
         private val LOCK = Object()
     }
-
-    internal lateinit var networkService: NetworkService
 
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
@@ -51,7 +50,7 @@ class RefreshTokenInterceptor @Inject constructor(
                         if (refreshToken != null) {
 
                             val refreshTokenCall =
-                                networkService.refreshToken(RefreshTokenRequest(refreshToken))
+                                refreshTokenApi.refreshToken(RefreshTokenRequest(refreshToken))
                                     .execute()
 
                             if (refreshTokenCall.isSuccessful) {

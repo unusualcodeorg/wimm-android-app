@@ -1,11 +1,11 @@
-package com.whereismymotivation.data.remote.request
+package com.whereismymotivation.data.remote.apis.content.request
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class ContentBookmarkRequest(
+data class ContentSubmissionRequest(
 
-    @Json(name = "contentId")
+    @Json(name = "id")
     val contentId: String
 )

@@ -1,6 +1,7 @@
 package com.whereismymotivation.ui.profile
 
 import com.whereismymotivation.R
+import com.whereismymotivation.data.repository.AuthRepository
 import com.whereismymotivation.data.repository.UserRepository
 import com.whereismymotivation.ui.base.BaseViewModel
 import com.whereismymotivation.ui.common.progress.Loader
@@ -16,6 +17,7 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     loader: Loader,
     private val userRepository: UserRepository,
+    private val authRepository: AuthRepository,
     val navigator: Navigator,
     val messenger: Messenger
 ) : BaseViewModel(loader, messenger) {
@@ -28,7 +30,7 @@ class ProfileViewModel @Inject constructor(
         val exists = userRepository.userExists()
         if (exists) {
             launchNetwork {
-                userRepository.logout()
+                authRepository.logout()
                     .collect {
                         userRepository.removeCurrentUser()
                         navigator.navigateTo(NavTarget(Destination.Login.route, true))

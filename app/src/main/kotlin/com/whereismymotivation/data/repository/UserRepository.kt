@@ -3,11 +3,12 @@ package com.whereismymotivation.data.repository
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import com.whereismymotivation.data.local.prefs.UserPreferences
-import com.whereismymotivation.data.model.AppUser
+import com.whereismymotivation.data.model.Auth
 import com.whereismymotivation.data.model.Role
-import com.whereismymotivation.data.remote.NetworkService
-import com.whereismymotivation.data.remote.request.FirebaseTokenRequest
-import com.whereismymotivation.data.remote.request.MessageRequest
+import com.whereismymotivation.data.model.User
+import com.whereismymotivation.data.remote.apis.user.UserApi
+import com.whereismymotivation.data.remote.apis.user.request.FirebaseTokenRequest
+import com.whereismymotivation.data.remote.apis.user.request.MessageRequest
 import com.whereismymotivation.utils.log.Logger
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -17,17 +18,18 @@ import javax.inject.Singleton
 
 @Singleton
 class UserRepository @Inject constructor(
-    private val networkService: NetworkService,
+    private val userApi: UserApi,
     private val userPreferences: UserPreferences
 ) {
 
     fun userExists() = userPreferences.getUserId() != null
 
-    fun saveCurrentUser(user: AppUser) {
+    fun saveCurrentAuth(auth: Auth) {
         removeCurrentUser()
-        userPreferences.setUserId(user.userId)
-        user.userName?.let { userPreferences.setUserName(it) }
-        user.userEmail?.let { userPreferences.setUserEmail(it) }
+        val user = auth.user
+        userPreferences.setUserId(user.id)
+        user.name?.let { userPreferences.setUserName(it) }
+        user.email?.let { userPreferences.setUserEmail(it) }
 
         val roles: String =
             try {
@@ -36,15 +38,15 @@ class UserRepository @Inject constructor(
                         List::class.java,
                         Role::class.java
                     )
-                ).toJson(user.userRoles)
+                ).toJson(user.roles)
             } catch (e: AssertionError) {
                 Logger.record(e)
                 "[]"
             }
 
         userPreferences.setUserRoles(roles)
-        userPreferences.setAccessToken(user.accessToken)
-        userPreferences.setRefreshToken(user.refreshToken)
+        userPreferences.setAccessToken(auth.token.accessToken)
+        userPreferences.setRefreshToken(auth.token.refreshToken)
         userPreferences.setUserProfileProfilePicUrl(user.profilePicUrl)
     }
 
@@ -59,17 +61,15 @@ class UserRepository @Inject constructor(
         userPreferences.removeUserRoles()
     }
 
-    fun getCurrentUser(): AppUser? {
+    fun getCurrentUser(): User? {
 
         val userId = userPreferences.getUserId()
         val userName = userPreferences.getUserName()
         val userEmail = userPreferences.getUserEmail()
         val profilePicUrl = userPreferences.getUserProfilePicUrlUrl()
-        val accessToken = userPreferences.getAccessToken()
-        val refreshToken = userPreferences.getRefreshToken()
         val rolesString = userPreferences.getUserRoles()
 
-        if (userId !== null && accessToken != null && refreshToken != null && rolesString != null) {
+        if (userId !== null && rolesString != null) {
             val roles: List<Role> =
                 try {
                     Moshi.Builder().build().adapter<List<Role>>(
@@ -83,8 +83,8 @@ class UserRepository @Inject constructor(
                     emptyList()
                 }
 
-            return AppUser(
-                userId, userName, userEmail, profilePicUrl, accessToken, refreshToken, roles
+            return User(
+                userId, userName, userEmail, profilePicUrl, roles
             )
         }
         return null
@@ -100,22 +100,25 @@ class UserRepository @Inject constructor(
 
     fun getDeviceId() = userPreferences.getDeviceId()
 
-    fun saveUserRatingMessage(rate: Int, message: String): Flow<String> = flow {
-        emit(
-            networkService.message(
-                MessageRequest("USER_ANDROID_RATING", "Rating: $rate | Message: $message")
+    fun saveUserRatingMessage(rate: Int, message: String): Flow<String> =
+        flow {
+            emit(
+                userApi.message(
+                    MessageRequest("USER_ANDROID_RATING", "Rating: $rate | Message: $message")
+                )
             )
-        )
-    }.map { it.message }
+        }.map { it.message }
 
 
-    fun sendFirebaseToken(token: String): Flow<String> = flow {
-        emit(networkService.firebaseToken(FirebaseTokenRequest(token)))
-    }.map { it.message }
+    fun sendFirebaseToken(token: String): Flow<String> =
+        flow {
+            emit(userApi.firebaseToken(FirebaseTokenRequest(token)))
+        }.map { it.message }
 
-    fun sendFeedback(message: String): Flow<String> = flow {
-        emit(networkService.message(MessageRequest("USER_ANDROID_FEEDBACK", message)))
-    }.map { it.message }
+    fun sendFeedback(message: String): Flow<String> =
+        flow {
+            emit(userApi.message(MessageRequest("USER_ANDROID_FEEDBACK", message)))
+        }.map { it.message }
 
     fun getFirebaseToken(): String? = userPreferences.getFirebaseToken()
 
@@ -124,8 +127,4 @@ class UserRepository @Inject constructor(
     fun getFirebaseTokenSent(): Boolean = userPreferences.getFirebaseTokenSent()
 
     fun setFirebaseTokenSent() = userPreferences.setFirebaseTokenSent()
-
-    fun logout(): Flow<String> = flow {
-        emit(networkService.logout())
-    }.map { it.message }
 }

@@ -15,10 +15,10 @@ fun Throwable.toApiErrorResponse(): ApiErrorResponse {
     try {
         return when (this) {
             is ConnectException ->
-                return ApiErrorResponse(ApiErrorResponse.Status.REMOTE_CONNECTION_ERROR, "0")
+                return ApiErrorResponse(ApiErrorResponse.Status.REMOTE_CONNECTION_ERROR, 0)
 
             is NoConnectivityException ->
-                return ApiErrorResponse(ApiErrorResponse.Status.NETWORK_CONNECTION_ERROR, "0")
+                return ApiErrorResponse(ApiErrorResponse.Status.NETWORK_CONNECTION_ERROR, 0)
 
             is HttpException -> {
                 val error = Moshi.Builder()

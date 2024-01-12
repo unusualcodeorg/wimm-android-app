@@ -1,22 +1,6 @@
-package com.whereismymotivation.data.remote
+package com.whereismymotivation.data.remote.apis.content
 
 object Endpoints {
-
-    const val LOGIN_DEVICE = "login/device-id"
-    const val LOGIN_BASIC = "login/basic"
-    const val LOGIN_GOOGLE = "login/google"
-    const val LOGIN_FACEBOOK = "login/facebook"
-    const val REFRESH_TOKEN = "token/refresh"
-    const val LOGOUT = "logout"
-
-    const val SUBSCRIPTION_SUBSCRIBE = "subscription/subscribe"
-    const val SUBSCRIPTION_UNSUBSCRIBE = "subscription/unsubscribe"
-    const val SUBSCRIPTION_MENTORS = "subscription/mentors"
-    const val SUBSCRIPTION_TOPICS = "subscription/topics"
-    const val SUBSCRIPTION_INFO_MENTOR = "subscription/info/mentor/{id}"
-    const val SUBSCRIPTION_INFO_TOPIC = "subscription/info/topic/{id}"
-    const val RECOMMENDED_MENTORS = "subscription/recommendation/mentors"
-    const val RECOMMENDED_TOPICS = "subscription/recommendation/topics"
 
     const val SIMILAR_CONTENTS = "contents/content/{id}/similar"
     const val CONTENTS = "contents/rotated"
@@ -42,9 +26,5 @@ object Endpoints {
     const val TOPIC_DETAIL = "topic/id/{id}"
 
     const val SEARCH = "search"
-    const val MESSAGE = "contact"
-    const val PROFILE = "profile"
 
-    const val STORAGE_MOOD = "storage/moods"
-    const val STORAGE_JOURNAL = "storage/journals"
 }

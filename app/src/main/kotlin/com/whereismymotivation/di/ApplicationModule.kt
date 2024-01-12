@@ -28,23 +28,26 @@ object ApplicationModule {
     @Provides
     @Singleton
     @DeviceIdInfo
-    fun provideDeviceId(userPreferences: UserPreferences): ResultFetcher<String> =
-        object : ResultFetcher<String> {
-            override fun fetch(): String? = userPreferences.getDeviceId()
-        }
+    fun provideDeviceId(
+        userPreferences: UserPreferences
+    ): ResultFetcher<String> = object : ResultFetcher<String> {
+        override fun fetch(): String? = userPreferences.getDeviceId()
+    }
 
     @Provides
     @Singleton
     @AppVersionCodeInfo
-    fun provideAppVersionCode(appMetricPreferences: AppMetricPreferences): ResultFetcher<Long> =
-        object : ResultFetcher<Long> {
-            override fun fetch(): Long = appMetricPreferences.getCurrentAppVersion()
-        }
+    fun provideAppVersionCode(
+        appMetricPreferences: AppMetricPreferences
+    ): ResultFetcher<Long> = object : ResultFetcher<Long> {
+        override fun fetch(): Long = appMetricPreferences.getCurrentAppVersion()
+    }
 
     @Provides
     @Singleton
-    fun provideAnalyticsTrackingClient(@ApplicationContext context: Context): TrackingClient =
-        FirebaseTrackingClient(FirebaseAnalytics.getInstance(context))
+    fun provideAnalyticsTrackingClient(
+        @ApplicationContext context: Context
+    ): TrackingClient = FirebaseTrackingClient(FirebaseAnalytics.getInstance(context))
 
     @Provides
     fun provideFirebaseRemoteConfig(): FirebaseRemoteConfig {
@@ -71,6 +74,4 @@ object ApplicationModule {
         }
         return remoteConfig
     }
-
-
 }
