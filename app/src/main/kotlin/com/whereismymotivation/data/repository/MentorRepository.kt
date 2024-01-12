@@ -4,7 +4,6 @@ import com.whereismymotivation.data.model.Content
 import com.whereismymotivation.data.model.Mentor
 import com.whereismymotivation.data.remote.apis.content.ContentApi
 import com.whereismymotivation.data.remote.apis.subscription.SubscriptionApi
-import com.whereismymotivation.utils.log.Logger
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -32,7 +31,6 @@ class MentorRepository @Inject constructor(
 
     fun fetchMentorDetails(mentorId: String): Flow<Mentor> =
         flow {
-            Logger.d("ALI MentorRepository", Thread.currentThread().name)
             emit(contentApi.mentorDetails(mentorId))
         }.map { it.data }
 }

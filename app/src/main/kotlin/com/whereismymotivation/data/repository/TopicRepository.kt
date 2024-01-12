@@ -18,7 +18,7 @@ class TopicRepository @Inject constructor(
         flow {
             emit(subscriptionApi.subscriptionTopics())
         }.map {
-            it.data.onEach { topic -> topic.subscribed = true }
+            it.data
         }
 
     fun fetchTopicContents(

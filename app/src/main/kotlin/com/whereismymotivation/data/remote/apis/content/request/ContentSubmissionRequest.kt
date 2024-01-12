@@ -6,6 +6,6 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class ContentSubmissionRequest(
 
-    @Json(name = "contentId")
+    @Json(name = "id")
     val contentId: String
 )

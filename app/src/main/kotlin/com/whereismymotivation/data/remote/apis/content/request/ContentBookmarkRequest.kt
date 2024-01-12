@@ -6,6 +6,6 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class ContentBookmarkRequest(
 
-    @Json(name = "contentId")
+    @Json(name = "id")
     val contentId: String
 )
