@@ -23,7 +23,6 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 fun InfiniteLazyColumn(
     modifier: Modifier = Modifier,
     loadMore: () -> Unit,
-    key: Any? = null,
     state: LazyListState = rememberLazyListState(),
     contentPadding: PaddingValues = PaddingValues(0.dp),
     reverseLayout: Boolean = false,
@@ -51,7 +50,7 @@ fun InfiniteLazyColumn(
         }
     }
 
-    LaunchedEffect(key) {
+    LaunchedEffect(Unit) {
         snapshotFlow { isAtBottom }
             .distinctUntilChanged()
             .collect {

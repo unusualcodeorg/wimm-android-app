@@ -54,7 +54,6 @@ fun FeedView(
     InfiniteLazyColumn(
         modifier = modifier.fillMaxSize(),
         loadMore = loadMore,
-        key = "FeedView",
         extraItemsCount = 1
     ) {
         item(key = "LogoAppBar") {
