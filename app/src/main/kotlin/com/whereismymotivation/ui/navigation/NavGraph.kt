@@ -11,6 +11,8 @@ import com.whereismymotivation.ui.content.ContentViewModel
 import com.whereismymotivation.ui.content.YouTubeContent
 import com.whereismymotivation.ui.feed.Feed
 import com.whereismymotivation.ui.feed.FeedViewModel
+import com.whereismymotivation.ui.info.InfoViewModel
+import com.whereismymotivation.ui.info.ServerUnreachableInfo
 import com.whereismymotivation.ui.login.Login
 import com.whereismymotivation.ui.login.LoginViewModel
 import com.whereismymotivation.ui.mentor.Mentor
@@ -51,6 +53,10 @@ fun NavGraph(
         composable(Destination.Splash.route) {
             val viewModel: SplashViewModel = hiltViewModel(key = SplashViewModel.TAG)
             Splash(modifier, viewModel)
+        }
+        composable(Destination.ServerUnreachable.route) {
+            val viewModel: InfoViewModel = hiltViewModel(key = InfoViewModel.TAG)
+            ServerUnreachableInfo(modifier, viewModel)
         }
         composable(Destination.Onboarding.route) {
             val viewModel: OnboardingViewModel = hiltViewModel(key = OnboardingViewModel.TAG)

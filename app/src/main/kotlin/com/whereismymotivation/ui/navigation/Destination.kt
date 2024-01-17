@@ -11,9 +11,12 @@ sealed class Destination private constructor(
 ) {
 
     data object Splash : Destination("splash")
+
     data object Login : Destination("login")
 
     data object Onboarding : Destination("onboarding")
+
+    data object ServerUnreachable : Destination("server-unreachable")
 
     data object Home : Destination("home") {
         data object Feed : Destination("home/feed")

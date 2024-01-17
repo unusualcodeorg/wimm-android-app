@@ -19,7 +19,7 @@ class SuggestionViewModel @Inject constructor(
     messenger: Messenger,
     private val navigator: Navigator,
     private val subscriptionRepository: SubscriptionRepository
-) : BaseViewModel(loader, messenger) {
+) : BaseViewModel(loader, messenger, navigator) {
 
     companion object {
         const val TAG = "SuggestionViewModel"

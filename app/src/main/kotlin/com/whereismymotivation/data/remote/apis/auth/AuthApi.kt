@@ -9,6 +9,7 @@ import com.whereismymotivation.data.remote.response.ApiDataResponse
 import com.whereismymotivation.data.remote.response.ApiGeneralResponse
 import retrofit2.http.Body
 import retrofit2.http.DELETE
+import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
 
@@ -35,4 +36,8 @@ interface AuthApi {
     @DELETE(Endpoints.AUTH_LOGOUT)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
     suspend fun logout(): ApiGeneralResponse
+
+    @GET(Endpoints.SERVER_HEART_BEAT)
+    @Headers(RequestHeaders.Key.AUTH_PUBLIC)
+    suspend fun serverHeartbeat(): ApiGeneralResponse
 }

@@ -22,7 +22,7 @@ class TopicViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val navigator: Navigator,
     private val topicRepository: TopicRepository
-) : BaseViewModel(loader, messenger) {
+) : BaseViewModel(loader, messenger, navigator) {
 
     companion object {
         const val TAG = "TopicViewModel"

@@ -9,6 +9,7 @@ import com.whereismymotivation.ui.common.progress.Loader
 import com.whereismymotivation.ui.common.share.Payload
 import com.whereismymotivation.ui.common.share.Sharer
 import com.whereismymotivation.ui.common.snackbar.Messenger
+import com.whereismymotivation.ui.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,9 +22,10 @@ class ContentViewModel @Inject constructor(
     loader: Loader,
     messenger: Messenger,
     savedStateHandle: SavedStateHandle,
+    navigator: Navigator,
     private val contentRepository: ContentRepository,
     private val sharer: Sharer<Content>
-) : BaseViewModel(loader, messenger) {
+) : BaseViewModel(loader, messenger, navigator) {
 
     companion object {
         const val TAG = "ContentViewModel"

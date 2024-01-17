@@ -23,7 +23,7 @@ class MainViewModel @Inject constructor(
     val navigator: Navigator,
     forcedLogout: ForcedLogout,
     userRepository: UserRepository,
-) : BaseViewModel(loader, messenger) {
+) : BaseViewModel(loader, messenger, navigator) {
 
     init {
         viewModelScope.launch {

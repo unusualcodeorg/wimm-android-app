@@ -35,7 +35,7 @@ class SearchViewModel @Inject constructor(
     searchRepository: SearchRepository,
     savedStateHandle: SavedStateHandle,
     private val navigator: Navigator
-) : BaseViewModel(loader, messenger) {
+) : BaseViewModel(loader, messenger, navigator) {
 
     companion object {
         const val TAG = "SearchViewModel"

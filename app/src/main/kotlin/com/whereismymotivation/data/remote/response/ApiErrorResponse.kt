@@ -23,7 +23,8 @@ data class ApiErrorResponse(
         HTTP_BAD_REQUEST(HttpsURLConnection.HTTP_BAD_REQUEST),
         HTTP_NOT_FOUND(HttpsURLConnection.HTTP_NOT_FOUND),
         HTTP_INTERNAL_ERROR(HttpsURLConnection.HTTP_INTERNAL_ERROR),
-        HTTP_UNAVAILABLE(HttpsURLConnection.HTTP_UNAVAILABLE);
+        HTTP_UNAVAILABLE(HttpsURLConnection.HTTP_UNAVAILABLE),
+        HTTP_BAD_GATEWAY(HttpsURLConnection.HTTP_BAD_GATEWAY);
 
         companion object {
             private val codes = entries.toTypedArray()

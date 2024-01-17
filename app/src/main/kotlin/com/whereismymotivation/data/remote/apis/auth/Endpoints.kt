@@ -7,4 +7,5 @@ object Endpoints {
     const val AUTH_LOGIN_FACEBOOK = "auth/login/facebook"
     const val AUTH_REFRESH_TOKEN = "auth/token/refresh"
     const val AUTH_LOGOUT = "auth/logout"
+    const val SERVER_HEART_BEAT = "heartbeat"
 }

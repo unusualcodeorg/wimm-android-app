@@ -36,7 +36,12 @@ fun Throwable.toApiErrorResponse(): ApiErrorResponse {
                     defaultResponse
             }
 
-            else -> defaultResponse
+            else -> {
+                val message = this.message
+                if (message != null && message.contains("unexpected end of stream"))
+                    return ApiErrorResponse(ApiErrorResponse.Status.REMOTE_CONNECTION_ERROR, 0)
+                return defaultResponse
+            }
         }
     } catch (e: IOException) {
         Logger.e(THROWABLE_API_ERROR_TAG, e.toString())

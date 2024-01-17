@@ -33,7 +33,7 @@ class OnboardingViewModel @Inject constructor(
     private val subscriptionRepository: SubscriptionRepository,
     private val mentorRepository: MentorRepository,
     private val topicRepository: TopicRepository
-) : BaseViewModel(loader, messenger) {
+) : BaseViewModel(loader, messenger, navigator) {
 
     companion object {
         const val TAG = "OnboardingViewModel"
