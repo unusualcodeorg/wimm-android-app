@@ -54,8 +54,12 @@ class LoginViewModel @Inject constructor(
                 authRepository.basicLogin(email.value, password.value)
                     .collect {
                         userRepository.saveCurrentAuth(it)
-                        navigator.navigateTo(NavTarget(Destination.Home.Feed.route, true))
                         messenger.deliver(Message.success("Login Success"))
+                        if (userRepository.isOnBoardingComplete()) {
+                            navigator.navigateTo(NavTarget(Destination.Home.route, true))
+                        } else {
+                            navigator.navigateTo(NavTarget(Destination.Onboarding.route, true))
+                        }
                     }
             }
         }
