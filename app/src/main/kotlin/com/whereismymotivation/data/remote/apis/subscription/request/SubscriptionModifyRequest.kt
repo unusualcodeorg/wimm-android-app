@@ -9,7 +9,7 @@ data class SubscriptionModifyRequest(
     @Json(name = "mentorIds")
     val mentorIds: Array<String>,
 
-    @Json(name = "change")
+    @Json(name = "topicIds")
     val topicIds: Array<String>
 ) {
     override fun equals(other: Any?): Boolean {

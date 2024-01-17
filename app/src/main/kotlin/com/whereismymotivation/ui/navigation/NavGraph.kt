@@ -18,6 +18,8 @@ import com.whereismymotivation.ui.mentor.MentorViewModel
 import com.whereismymotivation.ui.mentors.Mentors
 import com.whereismymotivation.ui.mentors.MentorsViewModel
 import com.whereismymotivation.ui.mybox.MyBox
+import com.whereismymotivation.ui.onboarding.Onboarding
+import com.whereismymotivation.ui.onboarding.OnboardingViewModel
 import com.whereismymotivation.ui.profile.Profile
 import com.whereismymotivation.ui.profile.ProfileViewModel
 import com.whereismymotivation.ui.search.Search
@@ -49,6 +51,10 @@ fun NavGraph(
         composable(Destination.Splash.route) {
             val viewModel: SplashViewModel = hiltViewModel(key = SplashViewModel.TAG)
             Splash(modifier, viewModel)
+        }
+        composable(Destination.Onboarding.route) {
+            val viewModel: OnboardingViewModel = hiltViewModel(key = OnboardingViewModel.TAG)
+            Onboarding(modifier, viewModel)
         }
         composable(Destination.Login.route) {
             val viewModel: LoginViewModel = hiltViewModel(key = LoginViewModel.TAG)

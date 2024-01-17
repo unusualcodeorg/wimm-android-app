@@ -13,6 +13,8 @@ sealed class Destination private constructor(
     data object Splash : Destination("splash")
     data object Login : Destination("login")
 
+    data object Onboarding : Destination("onboarding")
+
     data object Home : Destination("home") {
         data object Feed : Destination("home/feed")
         data object Mentors : Destination("home/mentors")

@@ -25,10 +25,15 @@ class SplashViewModel @Inject constructor(
     }
 
     init {
+        // TODO: think of this for open source use case
         firebaseRemote.ensureInitialized().addOnCompleteListener {
             val exists = userRepository.userExists()
             if (exists) {
-                navigator.navigateTo(NavTarget(Destination.Home.Feed.route, true))
+                if (userRepository.isOnBoardingComplete()) {
+                    navigator.navigateTo(NavTarget(Destination.Home.Feed.route, true))
+                } else {
+                    navigator.navigateTo(NavTarget(Destination.Onboarding.route, true))
+                }
             } else {
                 navigator.navigateTo(NavTarget(Destination.Login.route, true))
             }
