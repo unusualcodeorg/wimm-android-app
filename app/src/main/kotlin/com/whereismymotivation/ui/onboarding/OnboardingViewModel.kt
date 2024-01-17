@@ -48,7 +48,7 @@ class OnboardingViewModel @Inject constructor(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun checkAndLoadSuggestions() {
-        launchNetwork {
+        launchNetwork(silent = true, error = { loadSuggestions() }) {
             mentorRepository
                 .fetchSubscriptionMentors()
                 .flatMapLatest { mentors ->
@@ -60,7 +60,6 @@ class OnboardingViewModel @Inject constructor(
                     if (it) navigator.navigateTo(NavTarget(Destination.Home.route, true))
                     else loadSuggestions()
                 }
-
         }
     }
 
@@ -114,7 +113,7 @@ class OnboardingViewModel @Inject constructor(
 
         launchNetwork {
             subscriptionRepository.subscribe(
-                suggestionMentors.map { it.data },
+                selectedMentors.map { it.data },
                 selectedTopic.map { it.data }
             ).collect {
                 messenger.deliver(Message.success(it))
