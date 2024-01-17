@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -58,6 +59,7 @@ import com.whereismymotivation.ui.common.image.NetworkImage
 import com.whereismymotivation.ui.common.preview.MentorPreviewParameterProvider
 import com.whereismymotivation.ui.common.preview.TopicMentorPreviewParameterProvider
 import com.whereismymotivation.ui.common.preview.TopicPreviewParameterProvider
+import com.whereismymotivation.ui.common.progress.LoadingPlaceholder
 import com.whereismymotivation.ui.theme.AppTheme
 
 @Composable
@@ -88,8 +90,12 @@ private fun OnboardingView(
     complete: () -> Unit
 ) {
 
+    if (topicSuggestions.isEmpty() && mentorSuggestions.isEmpty()) {
+        return LoadingPlaceholder(loading = true)
+    }
+
     Scaffold(
-        modifier = modifier,
+        modifier = modifier.fillMaxSize(),
         topBar = { LogoAppBar(title = stringResource(R.string.app_name)) },
         floatingActionButton = {
             FloatingActionButton(
@@ -472,6 +478,23 @@ private fun MentorChipPreview(
             mentor = mentor.copy(),
             selected = false,
             select = { }
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun OnboardingEmptyPreview() {
+    AppTheme {
+        OnboardingView(
+            modifier = Modifier,
+            topicSuggestions = emptyList(),
+            topicSelect = {},
+            topicUnselect = {},
+            mentorSuggestions = emptyList(),
+            mentorSelect = {},
+            mentorUnselect = {},
+            complete = {}
         )
     }
 }

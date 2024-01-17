@@ -57,8 +57,12 @@ class OnboardingViewModel @Inject constructor(
                         .map { topics -> topics.isNotEmpty() }
                 }
                 .collect {
-                    if (it) navigator.navigateTo(NavTarget(Destination.Home.route, true))
-                    else loadSuggestions()
+                    if (it) {
+                        userRepository.markUserOnBoardingComplete()
+                        navigator.navigateTo(NavTarget(Destination.Home.route, true))
+                    } else {
+                        loadSuggestions()
+                    }
                 }
         }
     }
