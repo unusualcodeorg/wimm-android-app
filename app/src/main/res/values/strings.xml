@@ -125,6 +125,8 @@
         list.
     </string>
 
+    <string name="pick_few_mentors_and_topics">Please pick few Topics and Mentors</string>
+
     <string name="share_content_using">Share Content Using</string>
     <string name="share_using">Share Using</string>
     <string name="whatsapp_not_installed">WhatsApp is not installed</string>
