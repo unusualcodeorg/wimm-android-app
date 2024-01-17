@@ -28,6 +28,7 @@ class RefreshTokenInterceptor @Inject constructor(
     companion object {
         private const val INSTRUCTION = "instruction"
         private const val REFRESH_ACCESS_TOKEN = "refresh_token"
+        private const val LOGOUT = "logout"
         private val LOCK = Object()
     }
 
@@ -40,46 +41,49 @@ class RefreshTokenInterceptor @Inject constructor(
         if (!response.isSuccessful && response.code == HttpURLConnection.HTTP_UNAUTHORIZED) {
             val instruction = response.header(INSTRUCTION)
 
-            if (instruction != null && instruction == REFRESH_ACCESS_TOKEN) {
-                val previousAccessToken = accessTokenFetcher.fetch()
+            if (instruction != null) {
+                if (instruction == LOGOUT) {
+                    forcedLogout.logout()
+                } else if (instruction == REFRESH_ACCESS_TOKEN) {
+                    val previousAccessToken = accessTokenFetcher.fetch()
 
-                synchronized(LOCK) {
-                    val newAccessToken = accessTokenFetcher.fetch()
-                    if (previousAccessToken != null && newAccessToken != null && previousAccessToken == newAccessToken) {
-                        val refreshToken = refreshTokenFetcher.fetch()
-                        if (refreshToken != null) {
+                    synchronized(LOCK) {
+                        val newAccessToken = accessTokenFetcher.fetch()
+                        if (previousAccessToken != null && newAccessToken != null && previousAccessToken == newAccessToken) {
+                            val refreshToken = refreshTokenFetcher.fetch()
+                            if (refreshToken != null) {
 
-                            val refreshTokenCall =
-                                refreshTokenApi.refreshToken(RefreshTokenRequest(refreshToken))
-                                    .execute()
+                                val refreshTokenCall =
+                                    refreshTokenApi.refreshToken(RefreshTokenRequest(refreshToken))
+                                        .execute()
 
-                            if (refreshTokenCall.isSuccessful) {
-                                val tokenResponse = refreshTokenCall.body()
-                                if (tokenResponse != null) {
-                                    accessTokenCallback.onResult(tokenResponse.data.accessToken)
-                                    refreshTokenCallback.onResult(tokenResponse.data.refreshToken)
+                                if (refreshTokenCall.isSuccessful) {
+                                    val tokenResponse = refreshTokenCall.body()
+                                    if (tokenResponse != null) {
+                                        accessTokenCallback.onResult(tokenResponse.data.accessToken)
+                                        refreshTokenCallback.onResult(tokenResponse.data.refreshToken)
+                                    }
+                                } else {
+                                    forcedLogout.logout()
                                 }
-                            } else {
-                                forcedLogout.logout()
                             }
                         }
+
+                        val accessToken = accessTokenFetcher.fetch()
+
+                        if (accessToken != null) {
+                            builder.removeHeader(RequestHeaders.Param.ACCESS_TOKEN.value)
+                            builder.addHeader(
+                                RequestHeaders.Param.ACCESS_TOKEN.value,
+                                "Bearer $accessToken"
+                            )
+                        }
+
+                        response.body?.close()
+
+                        return chain.proceed(builder.build())
                     }
-
-                    val accessToken = accessTokenFetcher.fetch()
-
-                    if (accessToken != null) {
-                        builder.removeHeader(RequestHeaders.Param.ACCESS_TOKEN.value)
-                        builder.addHeader(
-                            RequestHeaders.Param.ACCESS_TOKEN.value,
-                            "Bearer $accessToken"
-                        )
-                    }
-
-                    response.body?.close()
-
-                    return chain.proceed(builder.build())
                 }
-
             }
         }
 
