@@ -19,7 +19,7 @@ class MentorsViewModel @Inject constructor(
     messenger: Messenger,
     private val navigator: Navigator,
     private val mentorRepository: MentorRepository,
-) : BaseViewModel(loader, messenger) {
+) : BaseViewModel(loader, messenger, navigator) {
 
     companion object {
         const val TAG = "MentorsViewModel"

@@ -20,7 +20,7 @@ class ProfileViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     val navigator: Navigator,
     val messenger: Messenger
-) : BaseViewModel(loader, messenger) {
+) : BaseViewModel(loader, messenger, navigator) {
 
     companion object {
         const val TAG = "ProfileViewModel"

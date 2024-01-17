@@ -33,4 +33,9 @@ class AuthRepository @Inject constructor(
             emit(authApi.logout())
         }.map { it.message }
 
+    fun serverHeartbeat(): Flow<String> =
+        flow {
+            emit(authApi.serverHeartbeat())
+        }.map { it.message }
+
 }

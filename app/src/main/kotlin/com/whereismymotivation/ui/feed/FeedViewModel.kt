@@ -26,7 +26,7 @@ class FeedViewModel @Inject constructor(
     private val navigator: Navigator,
     private val sharer: Sharer<Content>,
     private val contentRepository: ContentRepository,
-) : BaseViewModel(loader, messenger) {
+) : BaseViewModel(loader, messenger, navigator) {
 
     companion object {
         const val TAG = "FeedViewModel"

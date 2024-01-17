@@ -8,6 +8,9 @@ import com.whereismymotivation.data.remote.utils.toApiErrorResponse
 import com.whereismymotivation.ui.common.progress.Loader
 import com.whereismymotivation.ui.common.snackbar.Message
 import com.whereismymotivation.ui.common.snackbar.Messenger
+import com.whereismymotivation.ui.navigation.Destination
+import com.whereismymotivation.ui.navigation.NavTarget
+import com.whereismymotivation.ui.navigation.Navigator
 import com.whereismymotivation.utils.log.Logger
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
@@ -16,8 +19,8 @@ import kotlinx.coroutines.launch
 abstract class BaseViewModel(
     private val loader: Loader,
     private val messenger: Messenger,
-) :
-    ViewModel() {
+    private val navigator: Navigator
+) : ViewModel() {
 
     companion object {
         const val TAG = "BaseViewModel"
@@ -61,8 +64,11 @@ abstract class BaseViewModel(
 
     private fun handleNetworkError(err: ApiErrorResponse) {
         when (err.status) {
-            ApiErrorResponse.Status.REMOTE_CONNECTION_ERROR ->
+            ApiErrorResponse.Status.HTTP_BAD_GATEWAY,
+            ApiErrorResponse.Status.REMOTE_CONNECTION_ERROR -> {
                 messenger.deliverRes(Message.error(R.string.server_connection_error))
+                navigator.navigateTo(NavTarget(Destination.ServerUnreachable.route))
+            }
 
             ApiErrorResponse.Status.NETWORK_CONNECTION_ERROR ->
                 messenger.deliverRes(Message.error(R.string.no_internet_connection))
@@ -82,8 +88,10 @@ abstract class BaseViewModel(
             ApiErrorResponse.Status.HTTP_INTERNAL_ERROR ->
                 messenger.deliverRes(Message.error(R.string.network_internal_error))
 
-            ApiErrorResponse.Status.HTTP_UNAVAILABLE ->
+            ApiErrorResponse.Status.HTTP_UNAVAILABLE -> {
                 messenger.deliverRes(Message.error(R.string.network_server_not_available))
+                navigator.navigateTo(NavTarget(Destination.ServerUnreachable.route))
+            }
 
             ApiErrorResponse.Status.UNKNOWN ->
                 messenger.deliverRes(Message.error(R.string.something_went_wrong))
