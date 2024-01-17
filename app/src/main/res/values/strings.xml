@@ -125,7 +125,8 @@
         list.
     </string>
 
-    <string name="pick_few_mentors_and_topics">Please pick few Topics and Mentors</string>
+    <string name="select_few_topics">Please select few Topics</string>
+    <string name="select_some_mentors">Please select some Mentors</string>
 
     <string name="share_content_using">Share Content Using</string>
     <string name="share_using">Share Using</string>

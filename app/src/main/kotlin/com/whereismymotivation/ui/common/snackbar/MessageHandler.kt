@@ -22,7 +22,7 @@ internal fun MessageHandler(
                 .showSnackbar(
                     message = it.content,
                     actionLabel = context.getString(R.string.ok),
-                    duration = SnackbarDuration.Long
+                    duration = SnackbarDuration.Short
                 )
             when (result) {
                 SnackbarResult.ActionPerformed -> {
@@ -40,7 +40,7 @@ internal fun MessageHandler(
                 .showSnackbar(
                     message = context.getString(it.content),
                     actionLabel = context.getString(R.string.ok),
-                    duration = SnackbarDuration.Long
+                    duration = SnackbarDuration.Short
                 )
             when (result) {
                 SnackbarResult.ActionPerformed -> {
