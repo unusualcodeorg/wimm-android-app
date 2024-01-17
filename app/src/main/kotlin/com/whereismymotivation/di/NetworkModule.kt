@@ -11,6 +11,7 @@ import com.whereismymotivation.data.remote.apis.content.ContentApi
 import com.whereismymotivation.data.remote.apis.subscription.SubscriptionApi
 import com.whereismymotivation.data.remote.apis.user.UserApi
 import com.whereismymotivation.data.remote.interceptors.ImageHeaderInterceptor
+import com.whereismymotivation.data.remote.interceptors.LocalHostInterceptor
 import com.whereismymotivation.data.remote.interceptors.NetworkInterceptor
 import com.whereismymotivation.data.remote.interceptors.RefreshTokenInterceptor
 import com.whereismymotivation.data.remote.interceptors.RequestHeaderInterceptor
@@ -106,11 +107,13 @@ object NetworkModule {
     @Singleton
     fun provideImageLoader(
         @ApplicationContext context: Context,
-        imageHeaderInterceptor: ImageHeaderInterceptor
+        imageHeaderInterceptor: ImageHeaderInterceptor,
+        localHostInterceptor: LocalHostInterceptor
     ): ImageLoader = ImageLoader.Builder(context)
         .okHttpClient(
             Networking.createOkHttpClientForImage(
                 imageHeaderInterceptor,
+                localHostInterceptor,
                 context.cacheDir,
                 50 * 1024 * 1024 // 50MB
             )

@@ -3,6 +3,7 @@ package com.whereismymotivation.data.remote
 import com.squareup.moshi.Moshi
 import com.whereismymotivation.BuildConfig
 import com.whereismymotivation.data.remote.interceptors.ImageHeaderInterceptor
+import com.whereismymotivation.data.remote.interceptors.LocalHostInterceptor
 import com.whereismymotivation.data.remote.interceptors.NetworkInterceptor
 import com.whereismymotivation.data.remote.interceptors.RefreshTokenInterceptor
 import com.whereismymotivation.data.remote.interceptors.RequestHeaderInterceptor
@@ -60,11 +61,18 @@ object Networking {
 
     fun createOkHttpClientForImage(
         imageHeaderInterceptor: ImageHeaderInterceptor,
+        localHostInterceptor: LocalHostInterceptor,
         cacheDir: File,
         cacheSize: Long,
     ) = OkHttpClient.Builder()
         .cache(Cache(cacheDir, cacheSize))
+        .addInterceptor(localHostInterceptor)
         .addNetworkInterceptor(imageHeaderInterceptor)
+        .addInterceptor(HttpLoggingInterceptor()
+            .apply {
+                level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BASIC
+                else HttpLoggingInterceptor.Level.NONE
+            })
         .readTimeout(NETWORK_CALL_TIMEOUT.toLong(), TimeUnit.SECONDS)
         .writeTimeout(NETWORK_CALL_TIMEOUT.toLong(), TimeUnit.SECONDS)
         .build()
