@@ -3,8 +3,10 @@ package com.whereismymotivation.ui.mybox
 import androidx.compose.runtime.mutableStateListOf
 import com.whereismymotivation.data.model.Content
 import com.whereismymotivation.data.repository.ContentRepository
+import com.whereismymotivation.data.repository.UserRepository
 import com.whereismymotivation.ui.base.BaseViewModel
 import com.whereismymotivation.ui.common.progress.Loader
+import com.whereismymotivation.ui.common.snackbar.Message
 import com.whereismymotivation.ui.common.snackbar.Messenger
 import com.whereismymotivation.ui.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,8 +15,9 @@ import javax.inject.Inject
 @HiltViewModel
 class MyBoxViewModel @Inject constructor(
     loader: Loader,
-    messenger: Messenger,
     navigator: Navigator,
+    userRepository: UserRepository,
+    private val messenger: Messenger,
     private val contentRepository: ContentRepository
 ) : BaseViewModel(loader, messenger, navigator) {
 
@@ -23,6 +26,7 @@ class MyBoxViewModel @Inject constructor(
     }
 
     val contents = mutableStateListOf<Content>()
+    val user = userRepository.getCurrentUser()
 
     private val pageItemCount = 20
     private var currentPageNumber = 1
@@ -53,6 +57,15 @@ class MyBoxViewModel @Inject constructor(
     }
 
     fun delete(content: Content) {
+        launchNetwork {
+            val call =
+                if (user?.id == content.creator.id) contentRepository.removePrivateContent(content.id)
+                else contentRepository.removeContentBookmark(content.id)
 
+            call.collect {
+                contents.remove(content)
+                messenger.deliver(Message.success(it))
+            }
+        }
     }
 }
