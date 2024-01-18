@@ -7,7 +7,7 @@ object Endpoints {
     const val MENTOR_CONTENTS = "contents/mentor/{id}"
     const val TOPIC_CONTENTS = "contents/topic/{id}"
     const val META_CONTENT = "meta/content"
-    const val MY_BOX_CONTENTS = "content/my/box"
+    const val MY_BOX_CONTENTS = "contents/my/box"
     const val CREATE_PRIVATE_CONTENT = "content/private"
     const val DELETE_PRIVATE_CONTENT = "content/private/{id}"
     const val BOOKMARK_CONTENT = "content/bookmark"

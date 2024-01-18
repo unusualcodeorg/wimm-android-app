@@ -40,8 +40,8 @@ class ContentPreviewParameterProvider : PreviewParameterProvider<Content> {
     override val values = sequenceOf(
         Content(
             id = "5d3abb01d7e737505f6283a8",
-            title = "What Booth Said After He Killed Lincoln",
-            subtitle = "Assasination",
+            title = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt",
+            subtitle = "Lorem",
             thumbnail = "https://i3.ytimg.com/vi/hVLM0BSqx5o/hqdefault.jpg",
             extra = "https://www.youtube.com/watch?v=9TCMHVmNc5w",
             creator = User(
