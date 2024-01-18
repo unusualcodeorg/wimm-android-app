@@ -22,6 +22,7 @@ import com.whereismymotivation.ui.mentors.ExploreMentorsViewModel
 import com.whereismymotivation.ui.mentors.Mentors
 import com.whereismymotivation.ui.mentors.MentorsViewModel
 import com.whereismymotivation.ui.mybox.MyBox
+import com.whereismymotivation.ui.mybox.MyBoxViewModel
 import com.whereismymotivation.ui.onboarding.Onboarding
 import com.whereismymotivation.ui.onboarding.OnboardingViewModel
 import com.whereismymotivation.ui.profile.Profile
@@ -90,7 +91,8 @@ fun NavGraph(
                 Profile(modifier, viewModel)
             }
             composable(Destination.Home.MyBox.route) {
-                MyBox(modifier)
+                val viewModel: MyBoxViewModel = hiltViewModel(key = MyBoxViewModel.TAG)
+                MyBox(modifier, viewModel)
             }
         }
         composable(
