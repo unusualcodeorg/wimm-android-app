@@ -256,14 +256,14 @@ private fun SelectionChip(
     select: (Boolean) -> Unit,
     @DrawableRes iconId: Int
 ) {
-    val topicChipTransitionState = topicChipTransition(selected)
+    val chipTransitionState = chipTransition(selected)
 
     Surface(
         modifier = Modifier
             .padding(4.dp)
             .widthIn(154.dp, 254.dp),
         tonalElevation = 4.dp,
-        shape = RoundedCornerShape(8.dp),
+        shape = RoundedCornerShape(chipTransitionState.cornerRadius),
     ) {
         Row(modifier = Modifier.toggleable(value = selected, onValueChange = select)) {
             Box {
@@ -274,20 +274,20 @@ private fun SelectionChip(
                         .size(width = 86.dp, height = 86.dp)
                         .aspectRatio(1f)
                 )
-                if (topicChipTransitionState.selectedAlpha > 0f) {
+                if (chipTransitionState.selectedAlpha > 0f) {
                     Surface(
-                        color = MaterialTheme.colorScheme.primary.copy(alpha = topicChipTransitionState.selectedAlpha),
+                        color = MaterialTheme.colorScheme.primary.copy(alpha = chipTransitionState.selectedAlpha),
                         modifier = Modifier.matchParentSize()
                     ) {
                         Icon(
                             imageVector = Icons.Filled.Done,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onPrimary.copy(
-                                alpha = topicChipTransitionState.selectedAlpha
+                                alpha = chipTransitionState.selectedAlpha
                             ),
                             modifier = Modifier
                                 .wrapContentSize()
-                                .scale(topicChipTransitionState.checkScale)
+                                .scale(chipTransitionState.checkScale)
                         )
                     }
                 }
@@ -329,7 +329,7 @@ private fun SelectionChip(
 }
 
 @Composable
-private fun topicChipTransition(topicSelected: Boolean): TopicChipTransition {
+private fun chipTransition(topicSelected: Boolean): ChipTransition {
     val transition = updateTransition(
         targetState = topicSelected,
         label = "",
@@ -353,14 +353,14 @@ private fun topicChipTransition(topicSelected: Boolean): TopicChipTransition {
         }
     }
     return remember(transition) {
-        TopicChipTransition(cornerRadius, selectedAlpha, checkScale)
+        ChipTransition(cornerRadius, selectedAlpha, checkScale)
     }
 }
 
 /**
  * Class holding animating values when transitioning topic chip states.
  */
-private class TopicChipTransition(
+private class ChipTransition(
     cornerRadius: State<Dp>,
     selectedAlpha: State<Float>,
     checkScale: State<Float>
