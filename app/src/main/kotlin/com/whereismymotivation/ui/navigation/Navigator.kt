@@ -11,7 +11,7 @@ class Navigator @Inject constructor() {
         MutableSharedFlow<NavTarget>(extraBufferCapacity = 1)
 
     private val _back =
-        MutableSharedFlow<Boolean>(extraBufferCapacity = 1)
+        MutableSharedFlow<NavBack>(extraBufferCapacity = 1)
 
     private val _end =
         MutableSharedFlow<Boolean>(extraBufferCapacity = 1)
@@ -24,8 +24,8 @@ class Navigator @Inject constructor() {
         _navigate.tryEmit(navTarget)
     }
 
-    fun navigateBack() {
-        _back.tryEmit(true)
+    fun navigateBack(recreate: Boolean = false) {
+        _back.tryEmit(NavBack(recreate))
     }
 
     fun finish() {

@@ -19,7 +19,15 @@ internal fun NavHandler(
         }.launchIn(this)
 
         navigator.back.onEach {
-            navController.navigateUp()
+            if (it.recreate) {
+                navController.previousBackStackEntry?.destination?.route?.let { route ->
+                    navController.navigate(route) {
+                        popUpTo(route) { inclusive = true }
+                    }
+                }
+            } else {
+                navController.navigateUp()
+            }
         }.launchIn(this)
 
         navigator.end.onEach {
