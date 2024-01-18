@@ -14,16 +14,6 @@ class SubscriptionRepository @Inject constructor(
     private val subscriptionApi: SubscriptionApi,
 ) {
 
-    fun fetchRecommendedMentors(pageNumber: Int, pageItemCount: Int): Flow<List<Mentor>> =
-        flow {
-            emit(subscriptionApi.recommendedMentors(pageNumber, pageItemCount))
-        }.map { it.data }
-
-    fun fetchRecommendedTopics(pageNumber: Int, pageItemCount: Int): Flow<List<Topic>> =
-        flow {
-            emit(subscriptionApi.recommendedTopics(pageNumber, pageItemCount))
-        }.map { it.data }
-
     fun subscribe(mentors: List<Mentor>, topics: List<Topic>): Flow<String> =
         flow {
             val mentorsArray: Array<String> = Array(mentors.size) { "" }

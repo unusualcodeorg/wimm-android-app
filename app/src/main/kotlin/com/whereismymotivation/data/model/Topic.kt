@@ -27,4 +27,7 @@ data class Topic(
     @Json(name = "coverImgUrl")
     val coverImgUrl: String,
 
+    @Json(name = "subscribed")
+    val subscribed: Boolean?
+
 ): Parcelable

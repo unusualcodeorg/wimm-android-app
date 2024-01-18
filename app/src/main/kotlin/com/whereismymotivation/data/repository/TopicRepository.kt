@@ -4,15 +4,21 @@ import com.whereismymotivation.data.model.Content
 import com.whereismymotivation.data.model.Topic
 import com.whereismymotivation.data.remote.apis.content.ContentApi
 import com.whereismymotivation.data.remote.apis.subscription.SubscriptionApi
+import com.whereismymotivation.data.remote.apis.topic.TopicApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class TopicRepository @Inject constructor(
-    private val subscriptionApi: SubscriptionApi,
-    private val contentApi: ContentApi
+    private val topicApi: TopicApi,
+    private val contentApi: ContentApi,
+    private val subscriptionApi: SubscriptionApi
 ) {
+    fun fetchRecommendedTopics(pageNumber: Int, pageItemCount: Int): Flow<List<Topic>> =
+        flow {
+            emit(subscriptionApi.recommendedTopics(pageNumber, pageItemCount))
+        }.map { it.data }
 
     fun fetchSubscriptionTopics(): Flow<List<Topic>> =
         flow {
@@ -32,6 +38,6 @@ class TopicRepository @Inject constructor(
 
     fun fetchTopicDetails(topicId: String): Flow<Topic> =
         flow {
-            emit(contentApi.topicDetails(topicId))
+            emit(topicApi.topicDetails(topicId))
         }.map { it.data }
 }

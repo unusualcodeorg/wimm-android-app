@@ -43,8 +43,8 @@ class OnboardingViewModel @Inject constructor(
         checkAndLoadSuggestions()
     }
 
-    val suggestionMentors = mutableStateListOf<Suggestion<Mentor>>()
-    val suggestionTopics = mutableStateListOf<Suggestion<Topic>>()
+    val mentors = mutableStateListOf<Mentor>()
+    val topics = mutableStateListOf<Topic>()
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun checkAndLoadSuggestions() {
@@ -70,43 +70,41 @@ class OnboardingViewModel @Inject constructor(
     private fun loadSuggestions() {
         launchNetwork {
             combine(
-                subscriptionRepository
+                topicRepository
                     .fetchRecommendedTopics(1, 50),
-                subscriptionRepository
+                mentorRepository
                     .fetchRecommendedMentors(1, 50),
-            ) { topics, mentors ->
-                suggestionTopics
-                    .addAll(topics.map { Suggestion(it, false) })
-                suggestionMentors
-                    .addAll(mentors.map { Suggestion(it, false) })
+            ) { t, m ->
+                topics.addAll(t)
+                mentors.addAll(m)
             }.collect()
         }
     }
 
-    fun topicSelect(suggestion: Suggestion<Topic>) {
-        val index = suggestionTopics.indexOf((suggestion))
-        if (index > -1) suggestionTopics[index] = suggestion.copy(selected = true)
+    fun topicSelect(topic: Topic) {
+        val index = topics.indexOf((topic))
+        if (index > -1) topics[index] = topic.copy(subscribed = true)
     }
 
-    fun topicUnselect(suggestion: Suggestion<Topic>) {
-        val index = suggestionTopics.indexOf((suggestion))
-        if (index > -1) suggestionTopics[index] = suggestion.copy(selected = false)
+    fun topicUnselect(topic: Topic) {
+        val index = topics.indexOf((topic))
+        if (index > -1) topics[index] = topic.copy(subscribed = false)
 
     }
 
-    fun mentorSelect(suggestion: Suggestion<Mentor>) {
-        val index = suggestionMentors.indexOf((suggestion))
-        if (index > -1) suggestionMentors[index] = suggestion.copy(selected = true)
+    fun mentorSelect(mentor: Mentor) {
+        val index = mentors.indexOf((mentor))
+        if (index > -1) mentors[index] = mentor.copy(subscribed = true)
     }
 
-    fun mentorUnselect(suggestion: Suggestion<Mentor>) {
-        val index = suggestionMentors.indexOf((suggestion))
-        if (index > -1) suggestionMentors[index] = suggestion.copy(selected = false)
+    fun mentorUnselect(mentor: Mentor) {
+        val index = mentors.indexOf((mentor))
+        if (index > -1) mentors[index] = mentor.copy(subscribed = false)
     }
 
     fun complete() {
-        val selectedMentors = suggestionMentors.filter { it.selected }
-        val selectedTopic = suggestionTopics.filter { it.selected }
+        val selectedMentors = mentors.filter { it.subscribed == true }
+        val selectedTopic = topics.filter { it.subscribed == true }
         if (selectedTopic.isEmpty()) {
             return messenger.deliverRes(Message.warning(R.string.select_few_topics))
         }
@@ -116,15 +114,16 @@ class OnboardingViewModel @Inject constructor(
         }
 
         launchNetwork {
-            subscriptionRepository.subscribe(
-                selectedMentors.map { it.data },
-                selectedTopic.map { it.data }
-            ).collect {
-                messenger.deliver(Message.success(it))
-                userRepository.markUserOnBoardingComplete()
-                navigator.navigateTo(NavTarget(Destination.Home.route, true))
-            }
+            subscriptionRepository
+                .subscribe(
+                    selectedMentors,
+                    selectedTopic
+                )
+                .collect {
+                    messenger.deliver(Message.success(it))
+                    userRepository.markUserOnBoardingComplete()
+                    navigator.navigateTo(NavTarget(Destination.Home.route, true))
+                }
         }
-
     }
 }

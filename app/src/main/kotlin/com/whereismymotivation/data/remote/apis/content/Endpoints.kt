@@ -22,9 +22,6 @@ object Endpoints {
     const val CONTENT_MARK_UNLIKE = "content/mark/unlike"
     const val CONTENT_MARK_SHARE = "content/mark/share"
 
-    const val MENTOR_DETAIL = "mentor/id/{id}"
-    const val TOPIC_DETAIL = "topic/id/{id}"
-
     const val SEARCH = "search"
 
 }
