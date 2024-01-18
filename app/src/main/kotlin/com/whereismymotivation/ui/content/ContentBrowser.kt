@@ -1,6 +1,5 @@
 package com.whereismymotivation.ui.content
 
-import android.content.Context
 import android.net.Uri
 import com.whereismymotivation.data.model.Content
 import com.whereismymotivation.data.model.UniversalSearchResult
@@ -17,16 +16,7 @@ class ContentBrowser @Inject constructor(
     fun show(content: Content) =
         when (content.category) {
             Content.Category.AUDIO, Content.Category.VIDEO, Content.Category.ARTICLE ->
-                chromeTabHelper
-                    .openCustomTab(
-                        Uri.parse(content.extra),
-                        // TODO: Navigate to WebView
-                        object : ChromeTabHelper.ChromeTabFallback {
-                            override fun openUri(context: Context, uri: Uri) {
-                                // Dummy
-                            }
-                        }
-                    )
+                chromeTabHelper.openCustomTab(Uri.parse(content.extra))
 
             Content.Category.IMAGE -> {}
             Content.Category.FACEBOOK_VIDEO -> {}
@@ -45,16 +35,7 @@ class ContentBrowser @Inject constructor(
     fun show(result: UniversalSearchResult) {
         when (result.category) {
             Content.Category.AUDIO, Content.Category.VIDEO, Content.Category.ARTICLE ->
-                chromeTabHelper
-                    .openCustomTab(
-                        Uri.parse(result.extra),
-                        // TODO: Navigate to WebView
-                        object : ChromeTabHelper.ChromeTabFallback {
-                            override fun openUri(context: Context, uri: Uri) {
-                                // Dummy
-                            }
-                        }
-                    )
+                chromeTabHelper.openCustomTab(Uri.parse(result.extra))
 
             Content.Category.IMAGE -> {}
             Content.Category.FACEBOOK_VIDEO -> {}

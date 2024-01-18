@@ -14,6 +14,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flatMapLatest
 import javax.inject.Inject
 
@@ -22,9 +23,9 @@ class ContentViewModel @Inject constructor(
     loader: Loader,
     messenger: Messenger,
     savedStateHandle: SavedStateHandle,
-    navigator: Navigator,
+    private val navigator: Navigator,
     private val contentRepository: ContentRepository,
-    private val sharer: Sharer<Content>
+    private val sharer: Sharer<Content>,
 ) : BaseViewModel(loader, messenger, navigator) {
 
     companion object {
@@ -60,6 +61,10 @@ class ContentViewModel @Inject constructor(
     private fun initContent(contentId: String) {
         launchNetwork(error = { loadingSimilarContent = false }) {
             contentRepository.fetchContentDetails(contentId)
+                .catch {
+                    navigator.navigateBack()
+                    throw it
+                }
                 .flatMapLatest {
                     _content.value = it
                     loadingSimilarContent = true

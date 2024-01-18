@@ -57,7 +57,8 @@ fun MyBox(modifier: Modifier, viewModel: MyBoxViewModel) {
             modifier = modifier,
             contents = contents,
             loadMore = { viewModel.loadMore() },
-            delete = { viewModel.delete(it) }
+            delete = { viewModel.delete(it) },
+            select = { viewModel.select(it) }
         )
     }
 }
@@ -67,7 +68,8 @@ fun MyBoxView(
     modifier: Modifier,
     contents: List<Content>,
     loadMore: () -> Unit,
-    delete: (Content) -> Unit
+    delete: (Content) -> Unit,
+    select: (Content) -> Unit
 ) {
     InfiniteLazyColumn(
         loadMore = loadMore,
@@ -83,7 +85,8 @@ fun MyBoxView(
             items(contents, key = { it.id }) { content ->
                 MyContent(
                     content = content,
-                    delete = delete
+                    delete = delete,
+                    select = select
                 )
                 Divider()
             }
@@ -133,7 +136,8 @@ private fun EmptyView(modifier: Modifier) {
 @Composable
 private fun MyContent(
     content: Content,
-    delete: (Content) -> Unit
+    delete: (Content) -> Unit,
+    select: (Content) -> Unit
 ) {
     val isDelete = remember { mutableStateOf(false) }
 
@@ -141,7 +145,7 @@ private fun MyContent(
         modifier = Modifier
             .fillMaxWidth()
             .combinedClickable(
-                onClick = { },
+                onClick = { select(content) },
                 onLongClick = { isDelete.value = !isDelete.value }
             )
             .padding(8.dp)
@@ -228,6 +232,7 @@ private fun MyBoxViewPreview(
             modifier = Modifier,
             loadMore = {},
             delete = {},
+            select = {},
             contents = listOf(
                 content.copy(id = "1"),
                 content.copy(id = "2"),
@@ -257,7 +262,8 @@ private fun MyContentPreview(
     AppTheme {
         MyContent(
             content = content,
-            delete = {}
+            delete = {},
+            select = {}
         )
     }
 }

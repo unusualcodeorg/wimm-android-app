@@ -8,6 +8,7 @@ import com.whereismymotivation.ui.base.BaseViewModel
 import com.whereismymotivation.ui.common.progress.Loader
 import com.whereismymotivation.ui.common.snackbar.Message
 import com.whereismymotivation.ui.common.snackbar.Messenger
+import com.whereismymotivation.ui.content.ContentBrowser
 import com.whereismymotivation.ui.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -18,7 +19,8 @@ class MyBoxViewModel @Inject constructor(
     navigator: Navigator,
     userRepository: UserRepository,
     private val messenger: Messenger,
-    private val contentRepository: ContentRepository
+    private val contentRepository: ContentRepository,
+    private val contentBrowser: ContentBrowser
 ) : BaseViewModel(loader, messenger, navigator) {
 
     companion object {
@@ -67,5 +69,9 @@ class MyBoxViewModel @Inject constructor(
                 messenger.deliver(Message.success(it))
             }
         }
+    }
+
+    fun select(content: Content) {
+        contentBrowser.show(content)
     }
 }
