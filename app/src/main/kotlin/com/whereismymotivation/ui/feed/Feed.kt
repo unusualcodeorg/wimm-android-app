@@ -58,7 +58,6 @@ fun FeedView(
     ) {
         item(key = "LogoAppBar") {
             LogoAppBar(title = stringResource(R.string.app_name))
-            Divider()
         }
         items(contents) { content ->
             FeedContentItem(
