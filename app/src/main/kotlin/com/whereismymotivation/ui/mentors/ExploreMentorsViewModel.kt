@@ -77,7 +77,7 @@ class ExploreMentorsViewModel @Inject constructor(
                     .collect {
                         loading = false
                         messenger.deliver(Message.success(it))
-                        navigator.navigateBack()
+                        navigator.navigateBack(true)
                     }
             }
         }
