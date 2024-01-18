@@ -6,7 +6,6 @@ import com.whereismymotivation.ui.base.BaseViewModel
 import com.whereismymotivation.ui.common.progress.Loader
 import com.whereismymotivation.ui.common.snackbar.Messenger
 import com.whereismymotivation.ui.navigation.Destination
-import com.whereismymotivation.ui.navigation.NavTarget
 import com.whereismymotivation.ui.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -30,12 +29,12 @@ class SplashViewModel @Inject constructor(
             val exists = userRepository.userExists()
             if (exists) {
                 if (userRepository.isOnBoardingComplete()) {
-                    navigator.navigateTo(NavTarget(Destination.Home.route, true))
+                    navigator.navigateTo(Destination.Home.route, true)
                 } else {
-                    navigator.navigateTo(NavTarget(Destination.Onboarding.route, true))
+                    navigator.navigateTo(Destination.Onboarding.route, true)
                 }
             } else {
-                navigator.navigateTo(NavTarget(Destination.Login.route, true))
+                navigator.navigateTo(Destination.Login.route, true)
             }
         }
     }

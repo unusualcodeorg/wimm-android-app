@@ -7,7 +7,6 @@ import com.whereismymotivation.ui.common.progress.Loader
 import com.whereismymotivation.ui.common.snackbar.Message
 import com.whereismymotivation.ui.common.snackbar.Messenger
 import com.whereismymotivation.ui.navigation.Destination
-import com.whereismymotivation.ui.navigation.NavTarget
 import com.whereismymotivation.ui.navigation.Navigator
 import com.whereismymotivation.utils.common.isValidEmail
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -56,9 +55,9 @@ class LoginViewModel @Inject constructor(
                         userRepository.saveCurrentAuth(it)
                         messenger.deliver(Message.success("Login Success"))
                         if (userRepository.isOnBoardingComplete()) {
-                            navigator.navigateTo(NavTarget(Destination.Home.route, true))
+                            navigator.navigateTo(Destination.Home.route, true)
                         } else {
-                            navigator.navigateTo(NavTarget(Destination.Onboarding.route, true))
+                            navigator.navigateTo(Destination.Onboarding.route, true)
                         }
                     }
             }

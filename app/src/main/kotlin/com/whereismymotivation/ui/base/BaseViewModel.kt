@@ -9,7 +9,6 @@ import com.whereismymotivation.ui.common.progress.Loader
 import com.whereismymotivation.ui.common.snackbar.Message
 import com.whereismymotivation.ui.common.snackbar.Messenger
 import com.whereismymotivation.ui.navigation.Destination
-import com.whereismymotivation.ui.navigation.NavTarget
 import com.whereismymotivation.ui.navigation.Navigator
 import com.whereismymotivation.utils.log.Logger
 import kotlinx.coroutines.CancellationException
@@ -67,7 +66,7 @@ abstract class BaseViewModel(
             ApiErrorResponse.Status.HTTP_BAD_GATEWAY,
             ApiErrorResponse.Status.REMOTE_CONNECTION_ERROR -> {
                 messenger.deliverRes(Message.error(R.string.server_connection_error))
-                navigator.navigateTo(NavTarget(Destination.ServerUnreachable.route))
+                navigator.navigateTo(Destination.ServerUnreachable.route)
             }
 
             ApiErrorResponse.Status.NETWORK_CONNECTION_ERROR ->
@@ -90,7 +89,7 @@ abstract class BaseViewModel(
 
             ApiErrorResponse.Status.HTTP_UNAVAILABLE -> {
                 messenger.deliverRes(Message.error(R.string.network_server_not_available))
-                navigator.navigateTo(NavTarget(Destination.ServerUnreachable.route))
+                navigator.navigateTo(Destination.ServerUnreachable.route)
             }
 
             ApiErrorResponse.Status.UNKNOWN ->

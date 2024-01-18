@@ -20,8 +20,8 @@ class Navigator @Inject constructor() {
     val back = _back.asSharedFlow()
     val end = _end.asSharedFlow()
 
-    fun navigateTo(navTarget: NavTarget) {
-        _navigate.tryEmit(navTarget)
+    fun navigateTo(route: String, popBackstack: Boolean = false) {
+        _navigate.tryEmit(NavTarget(route, popBackstack))
     }
 
     fun navigateBack(recreate: Boolean = false) {
@@ -31,4 +31,9 @@ class Navigator @Inject constructor() {
     fun finish() {
         _end.tryEmit(true)
     }
+
+    data class NavTarget(val route: String, val popBackstack: Boolean = false)
+
+    data class NavBack(val recreate: Boolean)
+
 }

@@ -9,7 +9,6 @@ import com.whereismymotivation.ui.base.BaseViewModel
 import com.whereismymotivation.ui.common.progress.Loader
 import com.whereismymotivation.ui.common.snackbar.Messenger
 import com.whereismymotivation.ui.navigation.Destination
-import com.whereismymotivation.ui.navigation.NavTarget
 import com.whereismymotivation.ui.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -93,15 +92,15 @@ class SearchViewModel @Inject constructor(
             Content.Category.ARTICLE -> {}
             Content.Category.QUOTE -> {}
             Content.Category.YOUTUBE -> {
-                navigator.navigateTo(NavTarget(Destination.YouTube.createRoute(result.id)))
+                navigator.navigateTo(Destination.YouTube.createRoute(result.id))
             }
 
             Content.Category.MENTOR_INFO -> {
-                navigator.navigateTo(NavTarget(Destination.Mentor.createRoute(result.id)))
+                navigator.navigateTo(Destination.Mentor.createRoute(result.id))
             }
 
             Content.Category.TOPIC_INFO -> {
-                navigator.navigateTo(NavTarget(Destination.Topic.createRoute(result.id)))
+                navigator.navigateTo(Destination.Topic.createRoute(result.id))
             }
         }
     }

@@ -6,7 +6,6 @@ import com.whereismymotivation.ui.base.BaseViewModel
 import com.whereismymotivation.ui.common.progress.Loader
 import com.whereismymotivation.ui.common.snackbar.Messenger
 import com.whereismymotivation.ui.navigation.Destination
-import com.whereismymotivation.ui.navigation.NavTarget
 import com.whereismymotivation.ui.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -43,7 +42,7 @@ class SuggestionViewModel @Inject constructor(
     }
 
     fun selectTopic(topic: Topic) {
-        navigator.navigateTo(NavTarget(Destination.Topic.createRoute(topic.id)))
+        navigator.navigateTo(Destination.Topic.createRoute(topic.id))
     }
 
 }

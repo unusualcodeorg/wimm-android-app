@@ -6,7 +6,6 @@ import com.whereismymotivation.ui.base.BaseViewModel
 import com.whereismymotivation.ui.common.progress.Loader
 import com.whereismymotivation.ui.common.snackbar.Messenger
 import com.whereismymotivation.ui.navigation.Destination
-import com.whereismymotivation.ui.navigation.NavTarget
 import com.whereismymotivation.ui.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -43,11 +42,11 @@ class MentorsViewModel @Inject constructor(
     }
 
     fun selectMentor(mentor: Mentor) {
-        navigator.navigateTo(NavTarget(Destination.Mentor.createRoute(mentor.id)))
+        navigator.navigateTo(Destination.Mentor.createRoute(mentor.id))
     }
 
     fun explore() {
-        navigator.navigateTo(NavTarget(Destination.ExploreMentors.route))
+        navigator.navigateTo(Destination.ExploreMentors.route)
     }
 
 }

@@ -9,7 +9,6 @@ import com.whereismymotivation.ui.common.progress.Loader
 import com.whereismymotivation.ui.common.share.Sharer
 import com.whereismymotivation.ui.common.snackbar.Messenger
 import com.whereismymotivation.ui.navigation.Destination
-import com.whereismymotivation.ui.navigation.NavTarget
 import com.whereismymotivation.ui.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -31,7 +30,7 @@ class MainViewModel @Inject constructor(
                 .collect {
                     if (it) {
                         userRepository.removeCurrentUser()
-                        navigator.navigateTo(NavTarget(Destination.Login.route, true))
+                        navigator.navigateTo(Destination.Login.route, true)
                     }
                 }
         }
