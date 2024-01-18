@@ -33,10 +33,6 @@ class MentorsViewModel @Inject constructor(
         loadMentors()
     }
 
-    fun selectMentor(mentor: Mentor) {
-        navigator.navigateTo(NavTarget(Destination.Mentor.createRoute(mentor.id)))
-    }
-
     private fun loadMentors() {
         launchNetwork {
             mentorRepository.fetchSubscriptionMentors()
@@ -44,6 +40,14 @@ class MentorsViewModel @Inject constructor(
                     _mentors.value = it
                 }
         }
+    }
+
+    fun selectMentor(mentor: Mentor) {
+        navigator.navigateTo(NavTarget(Destination.Mentor.createRoute(mentor.id)))
+    }
+
+    fun explore() {
+        navigator.navigateTo(NavTarget(Destination.ExploreMentors.route))
     }
 
 }

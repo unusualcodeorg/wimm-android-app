@@ -45,7 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.whereismymotivation.data.model.Content
 import com.whereismymotivation.data.model.Topic
-import com.whereismymotivation.ui.common.appbar.BackAppBar
+import com.whereismymotivation.ui.common.appbar.LogoUpAppBar
 import com.whereismymotivation.ui.common.image.NetworkImage
 import com.whereismymotivation.ui.common.image.OutlinedAvatar
 import com.whereismymotivation.ui.common.preview.ContentPreviewParameterProvider
@@ -148,7 +148,7 @@ private fun TopicHeader(
                 .scrim(colors = listOf(Color(0x80000000), Color(0x33000000)))
                 .aspectRatio(4f / 3f)
         )
-        BackAppBar(
+        LogoUpAppBar(
             contentColor = MaterialTheme.colorScheme.white,
             upPress = upPress
         )

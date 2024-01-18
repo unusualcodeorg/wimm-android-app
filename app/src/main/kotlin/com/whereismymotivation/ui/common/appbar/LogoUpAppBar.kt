@@ -26,7 +26,7 @@ import com.whereismymotivation.R
 import com.whereismymotivation.ui.theme.AppTheme
 
 @Composable
-fun BackAppBar(
+fun LogoUpAppBar(
     modifier: Modifier = Modifier,
     color: Color = Color.Transparent,
     contentColor: Color = MaterialTheme.colorScheme.onSurface,
@@ -64,10 +64,10 @@ fun BackAppBar(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun BackAppBarPreview() {
     AppTheme {
-        BackAppBar(modifier = Modifier) {}
+        LogoUpAppBar(modifier = Modifier, upPress = {})
     }
 }
