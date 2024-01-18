@@ -1,7 +1,7 @@
 package com.whereismymotivation.ui.search
 
 import com.whereismymotivation.data.model.Topic
-import com.whereismymotivation.data.repository.SubscriptionRepository
+import com.whereismymotivation.data.repository.TopicRepository
 import com.whereismymotivation.ui.base.BaseViewModel
 import com.whereismymotivation.ui.common.progress.Loader
 import com.whereismymotivation.ui.common.snackbar.Messenger
@@ -18,7 +18,7 @@ class SuggestionViewModel @Inject constructor(
     loader: Loader,
     messenger: Messenger,
     private val navigator: Navigator,
-    private val subscriptionRepository: SubscriptionRepository
+    private val topicRepository: TopicRepository
 ) : BaseViewModel(loader, messenger, navigator) {
 
     companion object {
@@ -35,7 +35,7 @@ class SuggestionViewModel @Inject constructor(
 
     private fun loadTopics() {
         launchNetwork {
-            subscriptionRepository.fetchRecommendedTopics(1, 10)
+            topicRepository.fetchRecommendedTopics(1, 10)
                 .collect {
                     _topics.value = it
                 }

@@ -30,4 +30,7 @@ data class Mentor(
     @Json(name = "coverImgUrl")
     val coverImgUrl: String,
 
+    @Json(name = "subscribed")
+    val subscribed: Boolean?
+
 ) : Parcelable

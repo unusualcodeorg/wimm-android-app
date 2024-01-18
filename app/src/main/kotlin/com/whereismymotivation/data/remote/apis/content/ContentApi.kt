@@ -1,9 +1,7 @@
 package com.whereismymotivation.data.remote.apis.content
 
 import com.whereismymotivation.data.model.Content
-import com.whereismymotivation.data.model.Mentor
 import com.whereismymotivation.data.model.MetaContent
-import com.whereismymotivation.data.model.Topic
 import com.whereismymotivation.data.model.UniversalSearchResult
 import com.whereismymotivation.data.remote.RequestHeaders
 import com.whereismymotivation.data.remote.apis.content.request.ContentBookmarkRequest
@@ -128,18 +126,6 @@ interface ContentApi {
     suspend fun contentMarkShare(
         @Body request: ContentSubmissionRequest
     ): ApiGeneralResponse
-
-    @GET(Endpoints.MENTOR_DETAIL)
-    @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun mentorDetails(
-        @Path("id") mentorId: String
-    ): ApiDataResponse<Mentor>
-
-    @GET(Endpoints.TOPIC_DETAIL)
-    @Headers(RequestHeaders.Key.AUTH_PROTECTED)
-    suspend fun topicDetails(
-        @Path("id") topicId: String
-    ): ApiDataResponse<Topic>
 
     @GET(Endpoints.SEARCH)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)

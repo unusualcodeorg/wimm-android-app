@@ -10,13 +10,14 @@ import com.whereismymotivation.data.model.User
 class MentorPreviewParameterProvider : PreviewParameterProvider<Mentor> {
     override val values = sequenceOf(
         Mentor(
-            id = "abc",
+            id = "xyz",
             name = "Computer Guy",
             thumbnail = "https://upload.wikimedia.org/wikipedia/en/c/cb/Osho.jpg",
-            title = "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-            coverImgUrl = "https://cdn.pixabay.com/photo/2017/09/12/11/56/universe-2742113_1280.jpg",
             occupation = "Computer Engineer",
+            title = "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
             description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget lorem dolor sed viverra ipsum nunc aliquet bibendum. Et netus et malesuada fames ac turpis egestas maecenas pharetra. Facilisis gravida neque convallis a cras semper. \n\n Maecenas ultricies mi eget mauris pharetra et ultrices neque. Et odio pellentesque diam volutpat commodo sed. Et ultrices neque ornare aenean euismod. Ac feugiat sed lectus vestibulum mattis ullamcorper velit. Ut tristique et egestas quis ipsum \n\n suspendisse ultrices gravida. Vel orci porta non pulvinar neque. Laoreet sit amet cursus sit amet dictum. Nibh tellus molestie nunc non blandit massa enim nec dui.",
+            coverImgUrl = "https://cdn.pixabay.com/photo/2017/09/12/11/56/universe-2742113_1280.jpg",
+            subscribed = false
         )
     )
 }
@@ -30,6 +31,7 @@ class TopicPreviewParameterProvider : PreviewParameterProvider<Topic> {
             title = "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
             coverImgUrl = "https://cdn.pixabay.com/photo/2017/09/12/11/56/universe-2742113_1280.jpg",
             description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget lorem dolor sed viverra ipsum nunc aliquet bibendum. Et netus et malesuada fames ac turpis egestas maecenas pharetra. Facilisis gravida neque convallis a cras semper. \n\n Maecenas ultricies mi eget mauris pharetra et ultrices neque. Et odio pellentesque diam volutpat commodo sed. Et ultrices neque ornare aenean euismod. Ac feugiat sed lectus vestibulum mattis ullamcorper velit. Ut tristique et egestas quis ipsum \n\n suspendisse ultrices gravida. Vel orci porta non pulvinar neque. Laoreet sit amet cursus sit amet dictum. Nibh tellus molestie nunc non blandit massa enim nec dui.",
+            subscribed = false
         )
     )
 }
@@ -78,14 +80,16 @@ class TopicMentorPreviewParameterProvider : PreviewParameterProvider<Pair<Topic,
             title = "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
             coverImgUrl = "https://cdn.pixabay.com/photo/2017/09/12/11/56/universe-2742113_1280.jpg",
             description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget lorem dolor sed viverra ipsum nunc aliquet bibendum. Et netus et malesuada fames ac turpis egestas maecenas pharetra. Facilisis gravida neque convallis a cras semper. \n\n Maecenas ultricies mi eget mauris pharetra et ultrices neque. Et odio pellentesque diam volutpat commodo sed. Et ultrices neque ornare aenean euismod. Ac feugiat sed lectus vestibulum mattis ullamcorper velit. Ut tristique et egestas quis ipsum \n\n suspendisse ultrices gravida. Vel orci porta non pulvinar neque. Laoreet sit amet cursus sit amet dictum. Nibh tellus molestie nunc non blandit massa enim nec dui.",
+            subscribed = false
         ) to Mentor(
-            id = "abc",
+            id = "xyz",
             name = "Computer Guy",
             thumbnail = "https://upload.wikimedia.org/wikipedia/en/c/cb/Osho.jpg",
-            title = "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-            coverImgUrl = "https://cdn.pixabay.com/photo/2017/09/12/11/56/universe-2742113_1280.jpg",
             occupation = "Computer Engineer",
+            title = "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
             description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget lorem dolor sed viverra ipsum nunc aliquet bibendum. Et netus et malesuada fames ac turpis egestas maecenas pharetra. Facilisis gravida neque convallis a cras semper. \n\n Maecenas ultricies mi eget mauris pharetra et ultrices neque. Et odio pellentesque diam volutpat commodo sed. Et ultrices neque ornare aenean euismod. Ac feugiat sed lectus vestibulum mattis ullamcorper velit. Ut tristique et egestas quis ipsum \n\n suspendisse ultrices gravida. Vel orci porta non pulvinar neque. Laoreet sit amet cursus sit amet dictum. Nibh tellus molestie nunc non blandit massa enim nec dui.",
+            coverImgUrl = "https://cdn.pixabay.com/photo/2017/09/12/11/56/universe-2742113_1280.jpg",
+            subscribed = false
         )
     )
 }

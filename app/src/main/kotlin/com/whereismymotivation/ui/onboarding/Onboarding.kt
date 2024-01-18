@@ -27,7 +27,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
-import androidx.compose.material.icons.rounded.Explore
+import androidx.compose.material.icons.rounded.DoneAll
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
@@ -64,14 +64,14 @@ import com.whereismymotivation.ui.theme.AppTheme
 
 @Composable
 fun Onboarding(modifier: Modifier, viewModel: OnboardingViewModel) {
-    val topicSuggestions = viewModel.suggestionTopics
-    val mentorSuggestions = viewModel.suggestionMentors
+    val topics = viewModel.topics
+    val mentors = viewModel.mentors
     OnboardingView(
         modifier = modifier,
-        topicSuggestions = topicSuggestions,
+        topics = topics,
         topicSelect = { viewModel.topicSelect(it) },
         topicUnselect = { viewModel.topicUnselect(it) },
-        mentorSuggestions = mentorSuggestions,
+        mentors = mentors,
         mentorSelect = { viewModel.mentorSelect(it) },
         mentorUnselect = { viewModel.mentorUnselect(it) },
         complete = { viewModel.complete() }
@@ -81,16 +81,16 @@ fun Onboarding(modifier: Modifier, viewModel: OnboardingViewModel) {
 @Composable
 private fun OnboardingView(
     modifier: Modifier,
-    topicSuggestions: List<Suggestion<Topic>>,
-    topicSelect: (Suggestion<Topic>) -> Unit,
-    topicUnselect: (Suggestion<Topic>) -> Unit,
-    mentorSuggestions: List<Suggestion<Mentor>>,
-    mentorSelect: (Suggestion<Mentor>) -> Unit,
-    mentorUnselect: (Suggestion<Mentor>) -> Unit,
+    topics: List<Topic>,
+    topicSelect: (Topic) -> Unit,
+    topicUnselect: (Topic) -> Unit,
+    mentors: List<Mentor>,
+    mentorSelect: (Mentor) -> Unit,
+    mentorUnselect: (Mentor) -> Unit,
     complete: () -> Unit
 ) {
 
-    if (topicSuggestions.isEmpty() && mentorSuggestions.isEmpty()) {
+    if (topics.isEmpty() && mentors.isEmpty()) {
         return LoadingPlaceholder(loading = true)
     }
 
@@ -105,7 +105,7 @@ private fun OnboardingView(
                 containerColor = MaterialTheme.colorScheme.primary
             ) {
                 Icon(
-                    imageVector = Icons.Rounded.Explore,
+                    imageVector = Icons.Rounded.DoneAll,
                     contentDescription = null
                 )
             }
@@ -125,7 +125,7 @@ private fun OnboardingView(
             )
 
             TopicsGrid(
-                suggestions = topicSuggestions,
+                topics = topics,
                 select = topicSelect,
                 unselect = topicUnselect
             )
@@ -141,7 +141,7 @@ private fun OnboardingView(
             )
 
             MentorsGrid(
-                suggestions = mentorSuggestions,
+                mentors = mentors,
                 select = mentorSelect,
                 unselect = mentorUnselect
             )
@@ -154,9 +154,9 @@ private fun OnboardingView(
 @Composable
 private fun TopicsGrid(
     modifier: Modifier = Modifier,
-    suggestions: List<Suggestion<Topic>>,
-    select: (Suggestion<Topic>) -> Unit,
-    unselect: (Suggestion<Topic>) -> Unit,
+    topics: List<Topic>,
+    select: (Topic) -> Unit,
+    unselect: (Topic) -> Unit,
 ) {
     val state = rememberLazyStaggeredGridState()
 
@@ -169,13 +169,10 @@ private fun TopicsGrid(
         horizontalItemSpacing = 2.dp,
         verticalArrangement = Arrangement.spacedBy(2.dp),
         content = {
-            items(suggestions, key = { it.data.id }) { suggestion ->
-                TopicChip(
-                    suggestion.data,
-                    suggestion.selected
-                ) {
-                    if (it) select(suggestion)
-                    else unselect(suggestion)
+            items(topics, key = { it.id }) { topic ->
+                TopicChip(topic) {
+                    if (it) select(topic)
+                    else unselect(topic)
                 }
             }
         },
@@ -186,9 +183,9 @@ private fun TopicsGrid(
 @Composable
 private fun MentorsGrid(
     modifier: Modifier = Modifier,
-    suggestions: List<Suggestion<Mentor>>,
-    select: (Suggestion<Mentor>) -> Unit,
-    unselect: (Suggestion<Mentor>) -> Unit,
+    mentors: List<Mentor>,
+    select: (Mentor) -> Unit,
+    unselect: (Mentor) -> Unit,
 ) {
     val state = rememberLazyStaggeredGridState()
 
@@ -201,13 +198,10 @@ private fun MentorsGrid(
         horizontalItemSpacing = 2.dp,
         verticalArrangement = Arrangement.spacedBy(2.dp),
         content = {
-            items(suggestions, key = { it.data.id }) { suggestion ->
-                MentorChip(
-                    suggestion.data,
-                    suggestion.selected
-                ) {
-                    if (it) select(suggestion)
-                    else unselect(suggestion)
+            items(mentors, key = { it.id }) { mentor ->
+                MentorChip(mentor) {
+                    if (it) select(mentor)
+                    else unselect(mentor)
                 }
             }
         },
@@ -216,34 +210,36 @@ private fun MentorsGrid(
 }
 
 @Composable
-private fun MentorChip(
+fun MentorChip(
     mentor: Mentor,
-    selected: Boolean,
+    fullWidth: Boolean = false,
     select: (Boolean) -> Unit,
 ) {
     SelectionChip(
         thumbnail = mentor.thumbnail,
         title = mentor.name,
         subtitle = mentor.occupation,
-        selected = selected,
+        selected = mentor.subscribed ?: false,
         select = select,
-        iconId = R.drawable.ic_mentor
+        iconId = R.drawable.ic_mentor,
+        fullWidth = fullWidth
     )
 }
 
 @Composable
-private fun TopicChip(
+fun TopicChip(
     topic: Topic,
-    selected: Boolean,
-    select: (Boolean) -> Unit
+    fullWidth: Boolean = false,
+    select: (Boolean) -> Unit,
 ) {
     SelectionChip(
         thumbnail = topic.thumbnail,
         title = topic.name,
         subtitle = topic.title,
-        selected = selected,
+        selected = topic.subscribed ?: false,
         select = select,
-        iconId = R.drawable.ic_topic
+        iconId = R.drawable.ic_topic,
+        fullWidth = fullWidth
     )
 }
 
@@ -254,14 +250,18 @@ private fun SelectionChip(
     subtitle: String,
     selected: Boolean,
     select: (Boolean) -> Unit,
-    @DrawableRes iconId: Int
+    @DrawableRes iconId: Int,
+    fullWidth: Boolean
 ) {
     val chipTransitionState = chipTransition(selected)
 
     Surface(
         modifier = Modifier
             .padding(4.dp)
-            .widthIn(154.dp, 254.dp),
+            .run {
+                if (fullWidth) fillMaxWidth()
+                else widthIn(154.dp, 254.dp)
+            },
         tonalElevation = 4.dp,
         shape = RoundedCornerShape(chipTransitionState.cornerRadius),
     ) {
@@ -383,25 +383,26 @@ private fun OnboardingPreview(
     AppTheme {
         OnboardingView(
             modifier = Modifier,
-            topicSuggestions = listOf(
-                Suggestion(topic.copy(id = "1"), true),
-                Suggestion(topic.copy(id = "2"), false),
-                Suggestion(topic.copy(id = "3"), false),
-                Suggestion(topic.copy(id = "4"), false),
-                Suggestion(topic.copy(id = "5"), false),
-                Suggestion(topic.copy(id = "6"), false),
-                Suggestion(topic.copy(id = "7"), false),
+            topics = listOf(
+                topic.copy(id = "1", subscribed = true),
+                topic.copy(id = "2"),
+                topic.copy(id = "3"),
+                topic.copy(id = "4"),
+                topic.copy(id = "5"),
+                topic.copy(id = "6"),
+                topic.copy(id = "7"),
+                topic.copy(id = "8"),
             ),
             topicSelect = {},
             topicUnselect = {},
-            mentorSuggestions = listOf(
-                Suggestion(mentor.copy(id = "1"), true),
-                Suggestion(mentor.copy(id = "2"), false),
-                Suggestion(mentor.copy(id = "3"), false),
-                Suggestion(mentor.copy(id = "4"), false),
-                Suggestion(mentor.copy(id = "5"), false),
-                Suggestion(mentor.copy(id = "6"), false),
-                Suggestion(mentor.copy(id = "7"), false),
+            mentors = listOf(
+                mentor.copy(id = "1"),
+                mentor.copy(id = "2", subscribed = true),
+                mentor.copy(id = "3"),
+                mentor.copy(id = "4"),
+                mentor.copy(id = "5"),
+                mentor.copy(id = "6"),
+                mentor.copy(id = "7"),
             ),
             mentorSelect = {},
             mentorUnselect = {},
@@ -419,14 +420,14 @@ private fun TopicsGridPreview(
         TopicsGrid(
             select = {},
             unselect = {},
-            suggestions = listOf(
-                Suggestion(topic.copy(id = "1"), true),
-                Suggestion(topic.copy(id = "2"), false),
-                Suggestion(topic.copy(id = "3"), false),
-                Suggestion(topic.copy(id = "4"), false),
-                Suggestion(topic.copy(id = "5"), false),
-                Suggestion(topic.copy(id = "6"), false),
-                Suggestion(topic.copy(id = "7"), false),
+            topics = listOf(
+                topic.copy(id = "1", subscribed = true),
+                topic.copy(id = "2"),
+                topic.copy(id = "3"),
+                topic.copy(id = "4"),
+                topic.copy(id = "5"),
+                topic.copy(id = "6"),
+                topic.copy(id = "7"),
             ),
         )
     }
@@ -441,14 +442,14 @@ private fun MentorsGridPreview(
         MentorsGrid(
             select = {},
             unselect = {},
-            suggestions = listOf(
-                Suggestion(mentor.copy(id = "1"), true),
-                Suggestion(mentor.copy(id = "2"), false),
-                Suggestion(mentor.copy(id = "3"), false),
-                Suggestion(mentor.copy(id = "4"), false),
-                Suggestion(mentor.copy(id = "5"), false),
-                Suggestion(mentor.copy(id = "6"), false),
-                Suggestion(mentor.copy(id = "7"), false),
+            mentors = listOf(
+                mentor.copy(id = "1"),
+                mentor.copy(id = "2", subscribed = true),
+                mentor.copy(id = "3"),
+                mentor.copy(id = "4"),
+                mentor.copy(id = "5"),
+                mentor.copy(id = "6"),
+                mentor.copy(id = "7"),
             ),
         )
     }
@@ -462,8 +463,7 @@ private fun TopicChipPreview(
     AppTheme {
         TopicChip(
             topic = topic.copy(),
-            selected = false,
-            select = { }
+            select = { },
         )
     }
 }
@@ -476,8 +476,7 @@ private fun MentorChipPreview(
     AppTheme {
         MentorChip(
             mentor = mentor.copy(),
-            selected = false,
-            select = { }
+            select = { },
         )
     }
 }
@@ -488,10 +487,10 @@ private fun OnboardingEmptyPreview() {
     AppTheme {
         OnboardingView(
             modifier = Modifier,
-            topicSuggestions = emptyList(),
+            topics = emptyList(),
             topicSelect = {},
             topicUnselect = {},
-            mentorSuggestions = emptyList(),
+            mentors = emptyList(),
             mentorSelect = {},
             mentorUnselect = {},
             complete = {}

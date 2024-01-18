@@ -8,7 +8,9 @@ import com.whereismymotivation.data.remote.Networking
 import com.whereismymotivation.data.remote.apis.auth.AuthApi
 import com.whereismymotivation.data.remote.apis.auth.RefreshTokenApi
 import com.whereismymotivation.data.remote.apis.content.ContentApi
+import com.whereismymotivation.data.remote.apis.mentor.MentorApi
 import com.whereismymotivation.data.remote.apis.subscription.SubscriptionApi
+import com.whereismymotivation.data.remote.apis.topic.TopicApi
 import com.whereismymotivation.data.remote.apis.user.UserApi
 import com.whereismymotivation.data.remote.interceptors.ImageHeaderInterceptor
 import com.whereismymotivation.data.remote.interceptors.LocalHostInterceptor
@@ -90,6 +92,28 @@ object NetworkModule {
         baseUrl,
         okHttpClient,
         ContentApi::class.java
+    )
+
+    @Provides
+    @Singleton
+    fun provideMentorApi(
+        @BaseUrl baseUrl: String,
+        okHttpClient: OkHttpClient
+    ): MentorApi = Networking.createService(
+        baseUrl,
+        okHttpClient,
+        MentorApi::class.java
+    )
+
+    @Provides
+    @Singleton
+    fun provideTopicApi(
+        @BaseUrl baseUrl: String,
+        okHttpClient: OkHttpClient
+    ): TopicApi = Networking.createService(
+        baseUrl,
+        okHttpClient,
+        TopicApi::class.java
     )
 
     @Provides
