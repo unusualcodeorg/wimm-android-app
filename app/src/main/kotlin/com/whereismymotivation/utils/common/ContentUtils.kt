@@ -1,8 +1,6 @@
 package com.whereismymotivation.utils.common
 
 import com.whereismymotivation.data.model.Content
-import com.whereismymotivation.data.model.DeepLinkData
-import com.whereismymotivation.data.model.UniversalSearchResult
 import com.whereismymotivation.data.model.User
 
 object ContentUtils {
@@ -32,32 +30,6 @@ object ContentUtils {
             Content.Category.MENTOR_INFO.type -> Content.Category.MENTOR_INFO
             Content.Category.TOPIC_INFO.type -> Content.Category.TOPIC_INFO
             else -> Content.Category.ARTICLE
-        }
-
-    fun convertToContent(result: UniversalSearchResult): Content =
-        result.run {
-            return@run Content(
-                id,
-                category,
-                title,
-                String.Null(),
-                thumbnail ?: String.Null(),
-                extra,
-                User(String.Null(), null, String.Null(), null)
-            )
-        }
-
-    fun convertToContent(result: DeepLinkData): Content =
-        result.run {
-            return@run Content(
-                id,
-                parse(type),
-                primary ?: String.Null(),
-                secondary ?: String.Null(),
-                tertiary ?: String.Null(),
-                extra ?: String.Null(),
-                User(String.Null(), null, String.Null(), null)
-            )
         }
 
     fun convertToContent(data: Map<String, String>): Content? {

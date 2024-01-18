@@ -7,7 +7,7 @@ import com.whereismymotivation.data.repository.TopicRepository
 import com.whereismymotivation.ui.base.BaseViewModel
 import com.whereismymotivation.ui.common.progress.Loader
 import com.whereismymotivation.ui.common.snackbar.Messenger
-import com.whereismymotivation.ui.navigation.Destination
+import com.whereismymotivation.ui.content.ContentBrowser
 import com.whereismymotivation.ui.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +20,8 @@ class TopicViewModel @Inject constructor(
     messenger: Messenger,
     savedStateHandle: SavedStateHandle,
     private val navigator: Navigator,
-    private val topicRepository: TopicRepository
+    private val topicRepository: TopicRepository,
+    private val contentBrowser: ContentBrowser
 ) : BaseViewModel(loader, messenger, navigator) {
 
     companion object {
@@ -46,13 +47,7 @@ class TopicViewModel @Inject constructor(
     }
 
     fun selectContent(content: Content) {
-        when (content.category) {
-            Content.Category.YOUTUBE -> {
-                navigator.navigateTo(Destination.YouTube.createRoute(content.id))
-            }
-
-            else -> {}
-        }
+        contentBrowser.show(content)
     }
 
     private fun loadTopic(topicId: String) {
