@@ -8,7 +8,6 @@ import com.whereismymotivation.ui.common.progress.Loader
 import com.whereismymotivation.ui.common.snackbar.Message
 import com.whereismymotivation.ui.common.snackbar.Messenger
 import com.whereismymotivation.ui.navigation.Destination
-import com.whereismymotivation.ui.navigation.NavTarget
 import com.whereismymotivation.ui.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -33,7 +32,7 @@ class ProfileViewModel @Inject constructor(
                 authRepository.logout()
                     .collect {
                         userRepository.removeCurrentUser()
-                        navigator.navigateTo(NavTarget(Destination.Login.route, true))
+                        navigator.navigateTo(Destination.Login.route, true)
                         messenger.deliver(Message.success("Logout Success"))
                     }
             }
