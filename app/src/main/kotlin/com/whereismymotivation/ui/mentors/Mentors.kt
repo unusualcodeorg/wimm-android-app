@@ -1,7 +1,6 @@
 package com.whereismymotivation.ui.mentors
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,6 +11,10 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.GroupAdd
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -46,7 +49,8 @@ fun Mentors(
     MentorsView(
         modifier = modifier.fillMaxSize(),
         mentors = mentors,
-        selectMentor = { viewModel.selectMentor(it) }
+        selectMentor = { viewModel.selectMentor(it) },
+        explore = { viewModel.explore() }
     )
 }
 
@@ -55,6 +59,7 @@ fun MentorsView(
     mentors: List<Mentor>,
     modifier: Modifier = Modifier,
     selectMentor: (Mentor) -> Unit,
+    explore: () -> Unit
 ) {
     val state = rememberLazyStaggeredGridState()
 
@@ -63,13 +68,22 @@ fun MentorsView(
         modifier = modifier.fillMaxSize(),
         columns = StaggeredGridCells.Fixed(2),
         verticalItemSpacing = 2.dp,
-        horizontalArrangement = Arrangement.spacedBy(2.dp),
         content = {
             item(
                 key = "LogoAppBar",
                 span = StaggeredGridItemSpan.FullLine
             ) {
-                LogoAppBar(title = stringResource(R.string.my_mentors))
+                LogoAppBar(
+                    title = stringResource(R.string.my_mentors),
+                    actions = {
+                        IconButton(onClick = explore) {
+                            Icon(
+                                tint = MaterialTheme.colorScheme.primary,
+                                imageVector = Icons.Filled.GroupAdd,
+                                contentDescription = null
+                            )
+                        }
+                    })
             }
             items(mentors, key = { it.id }) { mentor ->
                 MentorView(mentor, selectMentor)
@@ -161,6 +175,26 @@ private fun MentorView(
     }
 }
 
+@Preview(name = "MentorsPreview: Light", showBackground = true)
+@Composable
+private fun MentorsPreview(
+    @PreviewParameter(MentorPreviewParameterProvider::class, limit = 1) mentor: Mentor
+) {
+    AppTheme {
+        MentorsView(
+            selectMentor = {},
+            explore = {},
+            mentors = listOf(
+                mentor.copy(id = "1"),
+                mentor.copy(id = "2"),
+                mentor.copy(id = "3"),
+                mentor.copy(id = "4"),
+                mentor.copy(id = "5"),
+            )
+        )
+    }
+}
+
 @Preview(name = "MentorInfoPreview: Light")
 @Composable
 private fun MentorPreview(
@@ -171,25 +205,6 @@ private fun MentorPreview(
             modifier = Modifier,
             mentor = mentor,
             selectMentor = {}
-        )
-    }
-}
-
-@Preview(name = "MentorsPreview: Light", showBackground = true)
-@Composable
-private fun MentorsPreview(
-    @PreviewParameter(MentorPreviewParameterProvider::class, limit = 1) mentor: Mentor
-) {
-    AppTheme {
-        MentorsView(
-            selectMentor = {},
-            mentors = listOf(
-                mentor.copy(id = "1"),
-                mentor.copy(id = "2"),
-                mentor.copy(id = "3"),
-                mentor.copy(id = "4"),
-                mentor.copy(id = "5"),
-            )
         )
     }
 }

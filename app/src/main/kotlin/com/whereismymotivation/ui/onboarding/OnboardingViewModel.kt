@@ -46,6 +46,8 @@ class OnboardingViewModel @Inject constructor(
     val mentors = mutableStateListOf<Mentor>()
     val topics = mutableStateListOf<Topic>()
 
+    private var loading = false
+
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun checkAndLoadSuggestions() {
         launchNetwork(silent = true, error = { loadSuggestions() }) {
@@ -103,6 +105,9 @@ class OnboardingViewModel @Inject constructor(
     }
 
     fun complete() {
+        if (loading) return
+        loading = true
+
         val selectedMentors = mentors.filter { it.subscribed == true }
         val selectedTopic = topics.filter { it.subscribed == true }
         if (selectedTopic.isEmpty()) {
@@ -113,7 +118,7 @@ class OnboardingViewModel @Inject constructor(
             return messenger.deliverRes(Message.warning(R.string.select_some_mentors))
         }
 
-        launchNetwork {
+        launchNetwork(error = { loading = false }) {
             subscriptionRepository
                 .subscribe(
                     selectedMentors,
@@ -123,6 +128,7 @@ class OnboardingViewModel @Inject constructor(
                     messenger.deliver(Message.success(it))
                     userRepository.markUserOnBoardingComplete()
                     navigator.navigateTo(NavTarget(Destination.Home.route, true))
+                    loading = false
                 }
         }
     }

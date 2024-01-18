@@ -17,6 +17,8 @@ import com.whereismymotivation.ui.login.Login
 import com.whereismymotivation.ui.login.LoginViewModel
 import com.whereismymotivation.ui.mentor.Mentor
 import com.whereismymotivation.ui.mentor.MentorViewModel
+import com.whereismymotivation.ui.mentors.ExploreMentors
+import com.whereismymotivation.ui.mentors.ExploreMentorsViewModel
 import com.whereismymotivation.ui.mentors.Mentors
 import com.whereismymotivation.ui.mentors.MentorsViewModel
 import com.whereismymotivation.ui.mybox.MyBox
@@ -97,6 +99,11 @@ fun NavGraph(
         ) {
             val viewModel: MentorViewModel = hiltViewModel(key = MentorViewModel.TAG)
             Mentor(modifier, viewModel)
+        }
+        composable(Destination.ExploreMentors.route) {
+            val viewModel: ExploreMentorsViewModel =
+                hiltViewModel(key = ExploreMentorsViewModel.TAG)
+            ExploreMentors(modifier, viewModel)
         }
         composable(
             route = Destination.Topic.route,
