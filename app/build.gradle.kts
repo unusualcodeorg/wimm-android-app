@@ -92,6 +92,8 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
     implementation("androidx.activity:activity-compose:1.8.2")
 
+    implementation("androidx.browser:browser:1.7.0")
+
     // Coroutine
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 

@@ -2,13 +2,12 @@ package com.whereismymotivation.ui.search
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.whereismymotivation.data.model.Content
 import com.whereismymotivation.data.model.UniversalSearchResult
 import com.whereismymotivation.data.repository.SearchRepository
 import com.whereismymotivation.ui.base.BaseViewModel
 import com.whereismymotivation.ui.common.progress.Loader
 import com.whereismymotivation.ui.common.snackbar.Messenger
-import com.whereismymotivation.ui.navigation.Destination
+import com.whereismymotivation.ui.content.ContentBrowser
 import com.whereismymotivation.ui.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -33,7 +32,8 @@ class SearchViewModel @Inject constructor(
     messenger: Messenger,
     searchRepository: SearchRepository,
     savedStateHandle: SavedStateHandle,
-    private val navigator: Navigator
+    navigator: Navigator,
+    private val contentBrowser: ContentBrowser
 ) : BaseViewModel(loader, messenger, navigator) {
 
     companion object {
@@ -84,25 +84,6 @@ class SearchViewModel @Inject constructor(
     }
 
     fun selectResult(result: UniversalSearchResult) {
-        when (result.category) {
-            Content.Category.AUDIO -> {}
-            Content.Category.VIDEO -> {}
-            Content.Category.IMAGE -> {}
-            Content.Category.FACEBOOK_VIDEO -> {}
-            Content.Category.ARTICLE -> {}
-            Content.Category.QUOTE -> {}
-            Content.Category.YOUTUBE -> {
-                navigator.navigateTo(Destination.YouTube.createRoute(result.id))
-            }
-
-            Content.Category.MENTOR_INFO -> {
-                navigator.navigateTo(Destination.Mentor.createRoute(result.id))
-            }
-
-            Content.Category.TOPIC_INFO -> {
-                navigator.navigateTo(Destination.Topic.createRoute(result.id))
-            }
-        }
+        contentBrowser.show(result)
     }
-
 }

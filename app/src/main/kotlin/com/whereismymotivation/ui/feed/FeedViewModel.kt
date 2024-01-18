@@ -10,7 +10,7 @@ import com.whereismymotivation.ui.common.progress.Loader
 import com.whereismymotivation.ui.common.share.Payload
 import com.whereismymotivation.ui.common.share.Sharer
 import com.whereismymotivation.ui.common.snackbar.Messenger
-import com.whereismymotivation.ui.navigation.Destination
+import com.whereismymotivation.ui.content.ContentBrowser
 import com.whereismymotivation.ui.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -25,6 +25,7 @@ class FeedViewModel @Inject constructor(
     private val navigator: Navigator,
     private val sharer: Sharer<Content>,
     private val contentRepository: ContentRepository,
+    private val contentBrowser: ContentBrowser
 ) : BaseViewModel(loader, messenger, navigator) {
 
     companion object {
@@ -60,19 +61,7 @@ class FeedViewModel @Inject constructor(
     }
 
     fun selectContent(content: Content) {
-        when (content.category) {
-            Content.Category.AUDIO -> {}
-            Content.Category.VIDEO -> {}
-            Content.Category.IMAGE -> {}
-            Content.Category.FACEBOOK_VIDEO -> {}
-            Content.Category.ARTICLE -> {}
-            Content.Category.QUOTE -> {}
-            Content.Category.MENTOR_INFO -> {}
-            Content.Category.TOPIC_INFO -> {}
-            Content.Category.YOUTUBE -> {
-                navigator.navigateTo(Destination.YouTube.createRoute(content.id))
-            }
-        }
+        contentBrowser.show(content)
     }
 
     private fun loadContents(pageNumber: Int, pageItemCount: Int) {
