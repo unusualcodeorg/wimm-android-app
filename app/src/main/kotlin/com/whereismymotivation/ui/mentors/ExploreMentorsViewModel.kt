@@ -44,7 +44,7 @@ class ExploreMentorsViewModel @Inject constructor(
                 .fetchRecommendedMentors(pageNumber, pageItemCount)
                 .collect {
                     if (it.isNotEmpty()) {
-                        mentors.addAll(it)
+                        mentors.addAll(it.sortedBy { t -> t.subscribed == true })
                         currentPageNumber++
                         loading = false
                     }
