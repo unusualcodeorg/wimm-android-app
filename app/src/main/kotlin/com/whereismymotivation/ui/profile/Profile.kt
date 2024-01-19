@@ -74,7 +74,7 @@ private fun Header(
 ) {
     Column(
         modifier
-            .background(MaterialTheme.colorScheme.primaryContainer)
+            .background(MaterialTheme.colorScheme.background)
             .padding(16.dp)
     ) {
         Row {
