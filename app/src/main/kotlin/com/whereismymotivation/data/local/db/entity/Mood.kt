@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import kotlinx.parcelize.Parcelize
-import java.util.*
+import java.util.Date
 
 @Parcelize
 @JsonClass(generateAdapter = true)
@@ -55,14 +55,7 @@ data class Mood(
         VERY_HAPPY("VERY_HAPPY")
     }
 
-    fun getValue() =
-        when (code) {
-            Code.ANGRY -> 1
-            Code.SAD -> 2
-            Code.NORMAL -> 3
-            Code.HAPPY -> 4
-            Code.VERY_HAPPY -> 5
-        }
+    fun getValue() = codeToValue(code)
 
     companion object {
 
@@ -74,5 +67,14 @@ data class Mood(
             Code.VERY_HAPPY.type -> Code.VERY_HAPPY
             else -> Code.NORMAL
         }
+
+        fun codeToValue(code: Code) =
+            when (code) {
+                Code.ANGRY -> 1
+                Code.SAD -> 2
+                Code.NORMAL -> 3
+                Code.HAPPY -> 4
+                Code.VERY_HAPPY -> 5
+            }
     }
 }

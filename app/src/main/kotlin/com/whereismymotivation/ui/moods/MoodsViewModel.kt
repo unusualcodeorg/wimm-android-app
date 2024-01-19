@@ -1,5 +1,6 @@
 package com.whereismymotivation.ui.moods
 
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.viewModelScope
 import com.whereismymotivation.R
 import com.whereismymotivation.data.local.db.entity.Mood
@@ -30,10 +31,47 @@ class MoodsViewModel @Inject constructor(
         const val TAG = "MoodsViewModel"
     }
 
-    val user = userRepository.getCurrentUser()!!
+    private val user = userRepository.getCurrentUser()!!
+    private val moods = mutableStateListOf<Mood>()
 
-    private fun loadMoods(){
+    private val _moodGraph = mutableStateListOf<MoodGraphData>()
 
+    val moodGraph: List<MoodGraphData> = _moodGraph
+
+    init {
+        loadMoods()
+    }
+
+    private fun loadMoods() {
+        viewModelScope.launch {
+            moodRepository.fetchMoods(user.id)
+                .catch {
+                    messenger.deliverRes(Message.error(R.string.something_went_wrong))
+                }
+                .collect { moodList ->
+                    val graphDataList = moodList
+                        .sortedBy { it.createdAt }
+                        .map {
+                            Pair(
+                                CalendarUtils.getFormattedDate(it.createdAt) ?: "Unknown",
+                                it.getValue()
+                            )
+                        }
+                        .groupBy { it.first }
+                        .map {
+                            var sum = 0f
+                            it.value.forEach { pair -> sum += pair.second }
+                            MoodGraphData(
+                                it.key,
+                                sum / it.value.size,
+                                it.value.toList().map { entry -> entry.second }
+                            )
+                        }
+
+                    moods.addAll(moodList)
+                    _moodGraph.addAll(graphDataList)
+                }
+        }
     }
 
     fun selectMood(code: Mood.Code) {
@@ -45,6 +83,20 @@ class MoodsViewModel @Inject constructor(
                     messenger.deliverRes(Message.error(R.string.something_went_wrong))
                 }
                 .collect {
+                    val dateStr = CalendarUtils.getFormattedDate(now) ?: "Unknown"
+                    val graphData = _moodGraph.find { it.x == dateStr }
+                    if (graphData != null) {
+                        val index = _moodGraph.indexOf(graphData)
+                        if (index > -1) {
+                            val values =
+                                graphData.values.toMutableList()
+                                    .apply { add(Mood.codeToValue(code)) }.toList()
+                            _moodGraph[index] = graphData.copy(
+                                values = values,
+                                y = values.average().toFloat()
+                            )
+                        }
+                    }
                     messenger.deliverRes(Message.success(R.string.mood_recorded_message))
                 }
 

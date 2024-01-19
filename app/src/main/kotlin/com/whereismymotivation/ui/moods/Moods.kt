@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import com.himanshoe.charty.bar.BarChart
 import com.himanshoe.charty.bar.model.BarData
 import com.himanshoe.charty.common.ChartDataCollection
+import com.himanshoe.charty.common.config.ChartDefaults
 import com.whereismymotivation.R
 import com.whereismymotivation.data.local.db.entity.Mood
 import com.whereismymotivation.ui.theme.AppTheme
@@ -39,7 +40,9 @@ fun Moods(modifier: Modifier = Modifier, viewModel: MoodsViewModel) {
     MoodsView(
         modifier = modifier,
         selectMood = { viewModel.selectMood(it) },
-        chart = { HappinessLevel() }
+        chart = {
+            HappinessLevel(moodGraph = viewModel.moodGraph)
+        }
     )
 }
 
@@ -175,7 +178,8 @@ private fun MoodType(code: Mood.Code, selectMood: (Mood.Code) -> Unit) {
 }
 
 @Composable
-fun HappinessLevel() {
+fun HappinessLevel(moodGraph: List<MoodGraphData>) {
+    if (moodGraph.isEmpty()) return
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -193,17 +197,16 @@ fun HappinessLevel() {
         )
         BarChart(
             dataCollection = ChartDataCollection(
-                listOf(
-                    BarData(10f, "Category A", color = Color(0xffed625d)),
-                    BarData(20f, "Category B", color = Color(0xffed125d)),
-                    BarData(50f, "Category C", color = Color(0xffed225d)),
-                    BarData(40f, "Category D", color = Color(0xffed325d)),
-                    BarData(23f, "Category E", color = Color(0xffed425d)),
-                    BarData(35F, "Category F", color = Color(0xffed525d)),
-                    BarData(20f, "Category K", color = Color(0xffed615d)),
-                    BarData(50f, "Category L", color = Color(0xffed625d)),
-                )
-            )
+                moodGraph.map {
+                    BarData(
+                        it.y,
+                        it.x,
+                        Color.Blue
+                    )
+                }
+            ),
+            axisConfig = ChartDefaults.axisConfigDefaults().copy(minLabelCount = 6)
+
         )
     }
 }
