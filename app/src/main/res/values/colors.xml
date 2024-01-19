@@ -3,38 +3,15 @@
     <color name="immersive_sys_ui">#33000000</color>
 
     <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
 
     <color name="colorPrimary">#FFFFFF</color>
-    <color name="colorPrimaryDark">#e8e8e8</color>
-    <color name="colorSecondary">#f2681d</color>
     <color name="colorAccent">#1da1f2</color>
 
-    <color name="blue_light">#ecf5f9</color>
-    <color name="lavender_white">#e6e6fa</color>
-    <color name="light_gray">#dbdbdb</color>
-    <color name="gray">#747474</color>
-    <color name="semi_gray">#979797</color>
-    <color name="dark_gray">#595959</color>
-    <color name="black_secondary">#6A6882</color>
-    <color name="shadow">#d0d8dc</color>
-    <color name="transparent_black">#33000000</color>
-    <color name="transparent_white">#33ffffff</color>
-    <color name="translucent_black">#77000000</color>
     <color name="semi_black">#99000000</color>
-    <color name="translucent_white">#aaffffff</color>
-    <color name="transparent_light_green">#DDC1FFC1</color>
-    <color name="transparent">#00000000</color>
     <color name="pinkish_red">#FFB2BC</color>
-    <color name="red">#E15550</color>
-    <color name="green">#28B473</color>
-    <color name="yellow_dark">#d0b808</color>
     <color name="yellow">#f8e71c</color>
-    <color name="fb">#3b5998</color>
-    <color name="google">#d34836</color>
     <color name="quote">#f2f2f2</color>
 
     <color name="gradient_start_color">@color/colorPrimary</color>
     <color name="gradient_end_color">@color/colorPrimary</color>
-    <color name="whatsapp_green">#64b161</color>
 </resources>

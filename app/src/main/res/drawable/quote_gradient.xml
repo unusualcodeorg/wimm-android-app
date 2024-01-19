@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
-
-    <gradient
-            android:angle="135"
-            android:startColor="#FC00FF"
-            android:endColor="#00DBDE"
-            android:type="linear"/>
-</shape>
