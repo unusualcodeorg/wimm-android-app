@@ -98,4 +98,6 @@
     <string name="notification_mood_text">Recording your one good thing daily is the best way to remain motivated.
     </string>
 
+    <string name="motivation_box_share_title">Add to Motivation Box</string>
+
 </resources>
