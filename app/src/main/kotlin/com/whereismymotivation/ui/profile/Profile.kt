@@ -38,31 +38,31 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.whereismymotivation.data.model.User
 import com.whereismymotivation.ui.common.image.NetworkImage
 import com.whereismymotivation.ui.common.preview.UserParameterProvider
+import com.whereismymotivation.ui.moods.Moods
+import com.whereismymotivation.ui.moods.MoodsViewModel
 import com.whereismymotivation.ui.theme.AppTheme
 
 @Composable
-fun Profile(modifier: Modifier, viewModel: ProfileViewModel) {
-    val user = viewModel.user.collectAsStateWithLifecycle().value
-    ProfileView(
-        modifier = modifier.fillMaxSize(),
-        user = user,
-        logout = { viewModel.logout() }
-    )
-}
-
-@Composable
-private fun ProfileView(
-    user: User,
+fun Profile(
     modifier: Modifier,
-    logout: () -> Unit
+    profileViewModel: ProfileViewModel,
+    moodViewModel: MoodsViewModel
 ) {
+    val user = profileViewModel.user.collectAsStateWithLifecycle().value
+
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = {
-            Header(logout = logout, user = user)
+            Header(
+                logout = { profileViewModel.logout() },
+                user = user
+            )
         }
     ) { innerPadding ->
-        Tabs(modifier = Modifier.padding(innerPadding))
+        Tabs(
+            modifier = Modifier.padding(innerPadding),
+            moodsViewModel = moodViewModel
+        )
     }
 }
 
@@ -132,7 +132,10 @@ private fun Header(
 }
 
 @Composable
-private fun Tabs(modifier: Modifier = Modifier) {
+private fun Tabs(
+    modifier: Modifier = Modifier,
+    moodsViewModel: MoodsViewModel
+) {
     var tabIndex by remember { mutableIntStateOf(0) }
 
     val tabs = listOf("Moods", "Journals")
@@ -147,19 +150,9 @@ private fun Tabs(modifier: Modifier = Modifier) {
             }
         }
         when (tabIndex) {
-            0 -> Column {}
+            0 -> Moods(viewModel = moodsViewModel)
             1 -> Column {}
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun ProfilePreview(
-    @PreviewParameter(UserParameterProvider::class, limit = 1) user: User
-) {
-    AppTheme {
-        ProfileView(modifier = Modifier, user = user, logout = {})
     }
 }
 
