@@ -27,8 +27,10 @@ class MyBoxViewModel @Inject constructor(
         const val TAG = "MyBoxViewModel"
     }
 
-    val contents = mutableStateListOf<Content>()
-    val user = userRepository.getCurrentUser()
+    private val user = userRepository.getCurrentUser()
+    private val _contents = mutableStateListOf<Content>()
+
+    val contents: List<Content> = _contents
 
     private val pageItemCount = 20
     private var currentPageNumber = 1
@@ -46,7 +48,7 @@ class MyBoxViewModel @Inject constructor(
                 .fetchMyBoxContents(pageNumber, pageItemCount)
                 .collect {
                     if (it.isNotEmpty()) {
-                        contents.addAll(it)
+                        _contents.addAll(it)
                         currentPageNumber++
                         loading = false
                     }
@@ -65,7 +67,7 @@ class MyBoxViewModel @Inject constructor(
                 else contentRepository.removeContentBookmark(content.id)
 
             call.collect {
-                contents.remove(content)
+                _contents.remove(content)
                 messenger.deliver(Message.success(it))
             }
         }

@@ -30,7 +30,7 @@ import com.whereismymotivation.ui.theme.AppTheme
 
 @Composable
 fun ExploreMentors(modifier: Modifier, viewModel: ExploreMentorsViewModel) {
-    val mentors = viewModel.mentors.toList()
+    val mentors = viewModel.mentors
 
     LoadingPlaceholder(loading = mentors.isEmpty())
 
@@ -89,7 +89,7 @@ private fun ExploreMentorsView(
                 .fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp)
-        ){
+        ) {
             items(mentors, key = { it.id }) { mentor ->
                 MentorChip(
                     mentor = mentor,

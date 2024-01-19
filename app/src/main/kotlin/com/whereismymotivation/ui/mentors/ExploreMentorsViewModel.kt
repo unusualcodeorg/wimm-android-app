@@ -25,7 +25,9 @@ class ExploreMentorsViewModel @Inject constructor(
         const val TAG = "ExploreMentorsViewModel"
     }
 
-    val mentors = mutableStateListOf<Mentor>()
+    private val _mentors = mutableStateListOf<Mentor>()
+
+    val mentors: List<Mentor> = _mentors
 
     private val pageItemCount = 20
     private var currentPageNumber = 1
@@ -44,7 +46,7 @@ class ExploreMentorsViewModel @Inject constructor(
                 .fetchRecommendedMentors(pageNumber, pageItemCount)
                 .collect {
                     if (it.isNotEmpty()) {
-                        mentors.addAll(it.sortedBy { t -> t.subscribed == true })
+                        _mentors.addAll(it.sortedBy { t -> t.subscribed == true })
                         currentPageNumber++
                         loading = false
                     }
@@ -57,17 +59,17 @@ class ExploreMentorsViewModel @Inject constructor(
     }
 
     fun mentorSelect(mentor: Mentor) {
-        val index = mentors.indexOf((mentor))
-        if (index > -1) mentors[index] = mentor.copy(subscribed = true)
+        val index = _mentors.indexOf((mentor))
+        if (index > -1) _mentors[index] = mentor.copy(subscribed = true)
     }
 
     fun mentorUnselect(mentor: Mentor) {
-        val index = mentors.indexOf((mentor))
-        if (index > -1) mentors[index] = mentor.copy(subscribed = false)
+        val index = _mentors.indexOf((mentor))
+        if (index > -1) _mentors[index] = mentor.copy(subscribed = false)
     }
 
     fun complete() {
-        val subscribedMentors = mentors.filter { it.subscribed == true }
+        val subscribedMentors = _mentors.filter { it.subscribed == true }
 
         if (subscribedMentors.isNotEmpty()) {
             loading = true
