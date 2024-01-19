@@ -83,7 +83,7 @@ private fun JournalsView(
                     textChange = textChange,
                     record = record
                 )
-                Divider()
+                if (journals.isNotEmpty()) Divider()
             }
             items(journals, key = { it.id }) { journal ->
                 JournalItem(
