@@ -56,7 +56,6 @@
 
     <string name="permission_not_available">You do not have the required permission!</string>
 
-    <string name="notification_new">New Notification!</string>
     <string name="notification_default_channel_name">App General Notification</string>
     <string name="notification_happiness_channel_name">Happiness Record</string>
     <string name="notification_default_channel_description">This is the default notification channel to receive all the
@@ -94,9 +93,6 @@
     <string name="journal_recorded_message">Your journal is saved</string>
     <string name="record">Record</string>
     <string name="record_can_not_empty">Record can not be empty.</string>
-    <string name="notification_mood_title">Keep track of your happiness level.</string>
-    <string name="notification_mood_text">Recording your one good thing daily is the best way to remain motivated.
-    </string>
 
     <string name="motivation_box_share_title">Add to Motivation Box</string>
 
