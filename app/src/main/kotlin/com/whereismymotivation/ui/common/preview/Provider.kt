@@ -1,11 +1,13 @@
 package com.whereismymotivation.ui.common.preview
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import com.whereismymotivation.data.local.db.entity.Journal
 import com.whereismymotivation.data.model.Content
 import com.whereismymotivation.data.model.Mentor
 import com.whereismymotivation.data.model.Topic
 import com.whereismymotivation.data.model.UniversalSearchResult
 import com.whereismymotivation.data.model.User
+import com.whereismymotivation.utils.common.CalendarUtils
 
 class MentorPreviewParameterProvider : PreviewParameterProvider<Mentor> {
     override val values = sequenceOf(
@@ -102,6 +104,20 @@ class UserParameterProvider : PreviewParameterProvider<User> {
             email = "hello@janisharali.com",
             profilePicUrl = "https://avatars.githubusercontent.com/u/11065002?v=4",
             roles = emptyList(),
+        )
+    )
+}
+
+class JournalParameterProvider : PreviewParameterProvider<Journal> {
+    override val values = sequenceOf(
+        Journal(
+            id = 0,
+            _id = "abc",
+            text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget lorem dolor sed viverra ipsum nunc aliquet bibendum. Et netus et malesuada fames ac turpis egestas maecenas pharetra. Facilisis gravida neque convallis a cras semper. \n\n Maecenas ultricies mi eget mauris pharetra et ultrices neque. Et odio pellentesque diam volutpat",
+            createdBy = "Janishar Ali",
+            createdAt = CalendarUtils.now(),
+            updatedAt = CalendarUtils.now(),
+            synced = false
         )
     )
 }

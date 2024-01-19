@@ -38,6 +38,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.whereismymotivation.data.model.User
 import com.whereismymotivation.ui.common.image.NetworkImage
 import com.whereismymotivation.ui.common.preview.UserParameterProvider
+import com.whereismymotivation.ui.journal.Journals
+import com.whereismymotivation.ui.journal.JournalsViewModel
 import com.whereismymotivation.ui.moods.Moods
 import com.whereismymotivation.ui.moods.MoodsViewModel
 import com.whereismymotivation.ui.theme.AppTheme
@@ -46,7 +48,8 @@ import com.whereismymotivation.ui.theme.AppTheme
 fun Profile(
     modifier: Modifier,
     profileViewModel: ProfileViewModel,
-    moodViewModel: MoodsViewModel
+    moodViewModel: MoodsViewModel,
+    journalsViewModel: JournalsViewModel
 ) {
     val user = profileViewModel.user.collectAsStateWithLifecycle().value
 
@@ -61,7 +64,8 @@ fun Profile(
     ) { innerPadding ->
         Tabs(
             modifier = Modifier.padding(innerPadding),
-            moodsViewModel = moodViewModel
+            moodsViewModel = moodViewModel,
+            journalsViewModel = journalsViewModel
         )
     }
 }
@@ -134,7 +138,8 @@ private fun Header(
 @Composable
 private fun Tabs(
     modifier: Modifier = Modifier,
-    moodsViewModel: MoodsViewModel
+    moodsViewModel: MoodsViewModel,
+    journalsViewModel: JournalsViewModel
 ) {
     var tabIndex by remember { mutableIntStateOf(0) }
 
@@ -151,7 +156,7 @@ private fun Tabs(
         }
         when (tabIndex) {
             0 -> Moods(viewModel = moodsViewModel)
-            1 -> Column {}
+            1 -> Journals(viewModel = journalsViewModel)
         }
     }
 }
