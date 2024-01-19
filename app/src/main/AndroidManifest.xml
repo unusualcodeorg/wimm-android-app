@@ -42,8 +42,6 @@
             </intent-filter>
         </service>
 
-        <service android:name=".fcm.NotificationCallbackService" />
-
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.whereismymotivation.fileprovider"
