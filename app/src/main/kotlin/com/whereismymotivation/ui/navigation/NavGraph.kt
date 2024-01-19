@@ -21,6 +21,7 @@ import com.whereismymotivation.ui.mentors.ExploreMentors
 import com.whereismymotivation.ui.mentors.ExploreMentorsViewModel
 import com.whereismymotivation.ui.mentors.Mentors
 import com.whereismymotivation.ui.mentors.MentorsViewModel
+import com.whereismymotivation.ui.moods.MoodsViewModel
 import com.whereismymotivation.ui.mybox.MyBox
 import com.whereismymotivation.ui.mybox.MyBoxViewModel
 import com.whereismymotivation.ui.onboarding.Onboarding
@@ -87,8 +88,9 @@ fun NavGraph(
                 Search(modifier, viewModel, sViewModel)
             }
             composable(Destination.Home.Profile.route) {
-                val viewModel: ProfileViewModel = hiltViewModel(key = ProfileViewModel.TAG)
-                Profile(modifier, viewModel)
+                val profileViewModel: ProfileViewModel = hiltViewModel(key = ProfileViewModel.TAG)
+                val moodsViewModel: MoodsViewModel = hiltViewModel(key = MoodsViewModel.TAG)
+                Profile(modifier, profileViewModel, moodsViewModel)
             }
             composable(Destination.Home.MyBox.route) {
                 val viewModel: MyBoxViewModel = hiltViewModel(key = MyBoxViewModel.TAG)
