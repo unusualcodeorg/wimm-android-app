@@ -48,6 +48,15 @@
 
     <string name="ok">OK</string>
 
+    <string name="motivation_box">My Motivation Box</string>
+
+    <string name="not_valid_motivation_box_object">This item can not be added.</string>
+    <string name="motivation_box_addition_complete">Added to your Motivation Box.</string>
+    <string name="motivation_box_addition_failed">Storage failure! Please try again.</string>
+    <string name="motivation_box_deletion_failed">Deletion failure! Please try again.</string>
+    <string name="motivation_box_deletion_success">Deleted from your Motivation Box.</string>
+    <string name="motivation_box_addition_message">Adding to your Motivation Box.</string>
+
     <string name="motivation_box_empty_state_title">Just Share Into Motivation Box.</string>
 
     <string name="motivation_box_empty_state_message">Add your favourite YouTube videos and
@@ -94,6 +103,6 @@
     <string name="record">Record</string>
     <string name="record_can_not_empty">Record can not be empty.</string>
 
-    <string name="motivation_box_share_title">Add to Motivation Box</string>
+    <string name="save">Save</string>
 
 </resources>

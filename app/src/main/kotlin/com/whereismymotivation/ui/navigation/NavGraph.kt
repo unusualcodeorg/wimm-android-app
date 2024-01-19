@@ -6,6 +6,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navDeepLink
 import androidx.navigation.navigation
 import com.whereismymotivation.ui.content.ContentViewModel
 import com.whereismymotivation.ui.content.YouTubeContent
@@ -91,10 +92,14 @@ fun NavGraph(
             composable(Destination.Home.Profile.route) {
                 val profileViewModel: ProfileViewModel = hiltViewModel(key = ProfileViewModel.TAG)
                 val moodsViewModel: MoodsViewModel = hiltViewModel(key = MoodsViewModel.TAG)
-                val journalsViewModel: JournalsViewModel = hiltViewModel(key = JournalsViewModel.TAG)
+                val journalsViewModel: JournalsViewModel =
+                    hiltViewModel(key = JournalsViewModel.TAG)
                 Profile(modifier, profileViewModel, moodsViewModel, journalsViewModel)
             }
-            composable(Destination.Home.MyBox.route) {
+            composable(
+                Destination.Home.MyBox.route,
+                deepLinks = listOf(navDeepLink { uriPattern = "app://wimm/my-box" }),
+            ) {
                 val viewModel: MyBoxViewModel = hiltViewModel(key = MyBoxViewModel.TAG)
                 MyBox(modifier, viewModel)
             }
