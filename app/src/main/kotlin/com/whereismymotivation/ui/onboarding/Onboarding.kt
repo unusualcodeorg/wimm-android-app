@@ -168,16 +168,15 @@ private fun TopicsGrid(
         rows = StaggeredGridCells.Fixed(2),
         horizontalItemSpacing = 2.dp,
         verticalArrangement = Arrangement.spacedBy(2.dp),
-        content = {
-            items(topics, key = { it.id }) { topic ->
-                TopicChip(topic) {
-                    if (it) select(topic)
-                    else unselect(topic)
-                }
-            }
-        },
         contentPadding = PaddingValues(horizontal = 4.dp, vertical = 4.dp)
-    )
+    ) {
+        items(topics, key = { it.id }) { topic ->
+            TopicChip(topic) {
+                if (it) select(topic)
+                else unselect(topic)
+            }
+        }
+    }
 }
 
 @Composable
@@ -197,16 +196,15 @@ private fun MentorsGrid(
         rows = StaggeredGridCells.Fixed(2),
         horizontalItemSpacing = 2.dp,
         verticalArrangement = Arrangement.spacedBy(2.dp),
-        content = {
-            items(mentors, key = { it.id }) { mentor ->
-                MentorChip(mentor) {
-                    if (it) select(mentor)
-                    else unselect(mentor)
-                }
-            }
-        },
         contentPadding = PaddingValues(horizontal = 4.dp, vertical = 4.dp)
-    )
+    ){
+        items(mentors, key = { it.id }) { mentor ->
+            MentorChip(mentor) {
+                if (it) select(mentor)
+                else unselect(mentor)
+            }
+        }
+    }
 }
 
 @Composable
