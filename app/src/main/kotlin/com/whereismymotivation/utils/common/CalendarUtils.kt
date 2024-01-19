@@ -2,12 +2,16 @@ package com.whereismymotivation.utils.common
 
 import com.whereismymotivation.utils.log.Logger
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 
 object CalendarUtils {
 
     private const val TAG = "CalendarUtils"
+
+    fun now(): Date = Calendar.getInstance().time
 
     fun getTodayFormattedDate(): String =
         try {
@@ -21,7 +25,7 @@ object CalendarUtils {
         try {
             SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(Date())
         } catch (e: Exception) {
-             Logger.e(TAG, e.toString())
+            Logger.e(TAG, e.toString())
             "Current Time"
         }
 
@@ -29,7 +33,7 @@ object CalendarUtils {
         try {
             SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH).format(date)
         } catch (e: Exception) {
-             Logger.e(TAG, e.toString())
+            Logger.e(TAG, e.toString())
             null
         }
 
@@ -37,7 +41,7 @@ object CalendarUtils {
         try {
             SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(date)
         } catch (e: Exception) {
-             Logger.e(TAG, e.toString())
+            Logger.e(TAG, e.toString())
             null
         }
 
@@ -45,7 +49,7 @@ object CalendarUtils {
         try {
             SimpleDateFormat("dd MMM", Locale.ENGLISH).format(date)
         } catch (e: Exception) {
-             Logger.e(TAG, e.toString())
+            Logger.e(TAG, e.toString())
             ""
         }
 
@@ -60,7 +64,7 @@ object CalendarUtils {
 
             Triple(day, month, year)
         } catch (e: Exception) {
-             Logger.e(TAG, e.toString())
+            Logger.e(TAG, e.toString())
             null
         }
 
@@ -68,7 +72,7 @@ object CalendarUtils {
         try {
             SimpleDateFormat("dd", Locale.ENGLISH).format(date)
         } catch (e: Exception) {
-             Logger.e(TAG, e.toString())
+            Logger.e(TAG, e.toString())
             null
         }
 
@@ -76,7 +80,7 @@ object CalendarUtils {
         try {
             SimpleDateFormat("MMMM", Locale.ENGLISH).format(date)
         } catch (e: Exception) {
-             Logger.e(TAG, e.toString())
+            Logger.e(TAG, e.toString())
             null
         }
 
@@ -84,7 +88,7 @@ object CalendarUtils {
         try {
             SimpleDateFormat("YYYY", Locale.ENGLISH).format(date)
         } catch (e: Exception) {
-             Logger.e(TAG, e.toString())
+            Logger.e(TAG, e.toString())
             null
         }
 
@@ -92,7 +96,7 @@ object CalendarUtils {
         try {
             SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(date)
         } catch (e: Exception) {
-             Logger.e(TAG, e.toString())
+            Logger.e(TAG, e.toString())
             null
         }
 }

@@ -93,6 +93,7 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.8.2")
 
     implementation("androidx.browser:browser:1.7.0")
+    implementation("com.himanshoe:charty:2.0.0-alpha01")
 
     // Coroutine
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")

@@ -27,6 +27,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.himanshoe.charty.bar.BarChart
+import com.himanshoe.charty.bar.model.BarData
+import com.himanshoe.charty.common.ChartDataCollection
 import com.whereismymotivation.R
 import com.whereismymotivation.data.local.db.entity.Mood
 import com.whereismymotivation.ui.theme.AppTheme
@@ -35,14 +38,16 @@ import com.whereismymotivation.ui.theme.AppTheme
 fun Moods(modifier: Modifier = Modifier, viewModel: MoodsViewModel) {
     MoodsView(
         modifier = modifier,
-        selectMood = { viewModel.selectMood(it) }
+        selectMood = { viewModel.selectMood(it) },
+        chart = { HappinessLevel() }
     )
 }
 
 @Composable
 private fun MoodsView(
     modifier: Modifier,
-    selectMood: (Mood.Code) -> Unit
+    selectMood: (Mood.Code) -> Unit,
+    chart: @Composable () -> Unit
 ) {
     Column(
         modifier = modifier
@@ -80,6 +85,7 @@ private fun MoodsView(
             )
         }
         MoodSelection(selectMood = selectMood)
+        chart()
     }
 
 }
@@ -168,11 +174,49 @@ private fun MoodType(code: Mood.Code, selectMood: (Mood.Code) -> Unit) {
     }
 }
 
+@Composable
+fun HappinessLevel() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+
+        Text(
+            modifier = Modifier
+                .padding(top = 16.dp)
+                .align(Alignment.CenterHorizontally),
+            text = stringResource(id = R.string.your_happiness_level),
+            style = MaterialTheme.typography.titleSmall,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+        )
+        BarChart(
+            dataCollection = ChartDataCollection(
+                listOf(
+                    BarData(10f, "Category A", color = Color(0xffed625d)),
+                    BarData(20f, "Category B", color = Color(0xffed125d)),
+                    BarData(50f, "Category C", color = Color(0xffed225d)),
+                    BarData(40f, "Category D", color = Color(0xffed325d)),
+                    BarData(23f, "Category E", color = Color(0xffed425d)),
+                    BarData(35F, "Category F", color = Color(0xffed525d)),
+                    BarData(20f, "Category K", color = Color(0xffed615d)),
+                    BarData(50f, "Category L", color = Color(0xffed625d)),
+                )
+            )
+        )
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 private fun MoodsPreview() {
     AppTheme {
-        MoodsView(modifier = Modifier, selectMood = {})
+        MoodsView(
+            modifier = Modifier,
+            selectMood = {},
+            chart = {}
+        )
     }
 }
 
