@@ -1,6 +1,7 @@
 package com.whereismymotivation.ui.mentors
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material.icons.Icons
@@ -62,32 +62,29 @@ fun MentorsView(
     explore: () -> Unit
 ) {
     val state = rememberLazyStaggeredGridState()
-
-    LazyVerticalStaggeredGrid(
-        state = state,
+    Column(
         modifier = modifier.fillMaxSize(),
-        columns = StaggeredGridCells.Fixed(2),
-        verticalItemSpacing = 2.dp,
-        contentPadding = PaddingValues(horizontal = 4.dp, vertical = 4.dp)
-    ){
-        item(
-            key = "LogoAppBar",
-            span = StaggeredGridItemSpan.FullLine
+    ) {
+        LogoAppBar(
+            title = stringResource(R.string.my_mentors),
+            actions = {
+                IconButton(onClick = explore) {
+                    Icon(
+                        tint = MaterialTheme.colorScheme.primary,
+                        imageVector = Icons.Filled.GroupAdd,
+                        contentDescription = null
+                    )
+                }
+            })
+        LazyVerticalStaggeredGrid(
+            state = state,
+            columns = StaggeredGridCells.Fixed(2),
+            verticalItemSpacing = 2.dp,
+            contentPadding = PaddingValues(horizontal = 4.dp, vertical = 4.dp)
         ) {
-            LogoAppBar(
-                title = stringResource(R.string.my_mentors),
-                actions = {
-                    IconButton(onClick = explore) {
-                        Icon(
-                            tint = MaterialTheme.colorScheme.primary,
-                            imageVector = Icons.Filled.GroupAdd,
-                            contentDescription = null
-                        )
-                    }
-                })
-        }
-        items(mentors, key = { it.id }) { mentor ->
-            MentorView(mentor, selectMentor)
+            items(mentors, key = { it.id }) { mentor ->
+                MentorView(mentor, selectMentor)
+            }
         }
     }
 }
