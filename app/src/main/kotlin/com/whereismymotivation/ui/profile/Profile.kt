@@ -132,7 +132,7 @@ private fun Header(
 }
 
 @Composable
-fun Tabs(modifier: Modifier = Modifier) {
+private fun Tabs(modifier: Modifier = Modifier) {
     var tabIndex by remember { mutableIntStateOf(0) }
 
     val tabs = listOf("Moods", "Journals")
