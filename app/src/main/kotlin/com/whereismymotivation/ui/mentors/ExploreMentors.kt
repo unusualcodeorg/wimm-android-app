@@ -88,19 +88,18 @@ private fun ExploreMentorsView(
                 .padding(innerPadding)
                 .fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(8.dp),
-            content = {
-                items(mentors, key = { it.id }) { mentor ->
-                    MentorChip(
-                        mentor = mentor,
-                        fullWidth = true
-                    ) {
-                        if (it) select(mentor)
-                        else unselect(mentor)
-                    }
-                }
-            },
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp)
-        )
+        ){
+            items(mentors, key = { it.id }) { mentor ->
+                MentorChip(
+                    mentor = mentor,
+                    fullWidth = true
+                ) {
+                    if (it) select(mentor)
+                    else unselect(mentor)
+                }
+            }
+        }
     }
 }
 

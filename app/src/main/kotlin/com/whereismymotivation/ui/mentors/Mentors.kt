@@ -68,29 +68,28 @@ fun MentorsView(
         modifier = modifier.fillMaxSize(),
         columns = StaggeredGridCells.Fixed(2),
         verticalItemSpacing = 2.dp,
-        content = {
-            item(
-                key = "LogoAppBar",
-                span = StaggeredGridItemSpan.FullLine
-            ) {
-                LogoAppBar(
-                    title = stringResource(R.string.my_mentors),
-                    actions = {
-                        IconButton(onClick = explore) {
-                            Icon(
-                                tint = MaterialTheme.colorScheme.primary,
-                                imageVector = Icons.Filled.GroupAdd,
-                                contentDescription = null
-                            )
-                        }
-                    })
-            }
-            items(mentors, key = { it.id }) { mentor ->
-                MentorView(mentor, selectMentor)
-            }
-        },
         contentPadding = PaddingValues(horizontal = 4.dp, vertical = 4.dp)
-    )
+    ){
+        item(
+            key = "LogoAppBar",
+            span = StaggeredGridItemSpan.FullLine
+        ) {
+            LogoAppBar(
+                title = stringResource(R.string.my_mentors),
+                actions = {
+                    IconButton(onClick = explore) {
+                        Icon(
+                            tint = MaterialTheme.colorScheme.primary,
+                            imageVector = Icons.Filled.GroupAdd,
+                            contentDescription = null
+                        )
+                    }
+                })
+        }
+        items(mentors, key = { it.id }) { mentor ->
+            MentorView(mentor, selectMentor)
+        }
+    }
 }
 
 @Composable
