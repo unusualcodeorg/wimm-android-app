@@ -5,19 +5,6 @@ import com.whereismymotivation.data.model.User
 
 object ContentUtils {
 
-    fun getDeeplinkDataMap(content: Content): HashMap<String, String> {
-        val dataMap = HashMap<String, String>()
-        content.run {
-            dataMap[Constants.DEEPLINK_KEY_ID] = id
-            dataMap[Constants.DEEPLINK_KEY_TYPE] = category.name
-            dataMap[Constants.DEEPLINK_KEY_PRIMARY] = title
-            dataMap[Constants.DEEPLINK_KEY_SECONDARY] = subtitle
-            dataMap[Constants.DEEPLINK_KEY_EXTRA] = extra
-            dataMap[Constants.DEEPLINK_KEY_TERTIARY] = thumbnail
-        }
-        return dataMap
-    }
-
     private fun parse(type: String): Content.Category =
         when (type) {
             Content.Category.AUDIO.type -> Content.Category.AUDIO

@@ -100,15 +100,6 @@ class UserRepository @Inject constructor(
 
     fun getDeviceId() = userPreferences.getDeviceId()
 
-    fun saveUserRatingMessage(rate: Int, message: String): Flow<String> =
-        flow {
-            emit(
-                userApi.message(
-                    MessageRequest("USER_ANDROID_RATING", "Rating: $rate | Message: $message")
-                )
-            )
-        }.map { it.message }
-
 
     fun sendFirebaseToken(token: String): Flow<String> =
         flow {
