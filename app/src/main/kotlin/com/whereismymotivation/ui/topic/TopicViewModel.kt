@@ -5,9 +5,9 @@ import com.whereismymotivation.data.model.Content
 import com.whereismymotivation.data.model.Topic
 import com.whereismymotivation.data.repository.TopicRepository
 import com.whereismymotivation.ui.base.BaseViewModel
+import com.whereismymotivation.ui.common.browser.ContentBrowser
 import com.whereismymotivation.ui.common.progress.Loader
 import com.whereismymotivation.ui.common.snackbar.Messenger
-import com.whereismymotivation.ui.content.ContentBrowser
 import com.whereismymotivation.ui.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

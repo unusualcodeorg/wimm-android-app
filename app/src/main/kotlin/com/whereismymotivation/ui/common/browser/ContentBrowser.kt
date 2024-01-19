@@ -1,4 +1,4 @@
-package com.whereismymotivation.ui.content
+package com.whereismymotivation.ui.common.browser
 
 import android.net.Uri
 import com.whereismymotivation.data.model.Content
