@@ -101,7 +101,8 @@ class JournalsViewModel @Inject constructor(
                     messenger.deliverRes(Message.error(R.string.something_went_wrong))
                 }
                 .collect {
-                    _journals.add(0, journal)
+                    val create = journal.copy(id = it)
+                    _journals.add(0, create)
                     _journalText.value = ""
                     messenger.deliverRes(Message.success(R.string.journal_recorded_message))
                 }

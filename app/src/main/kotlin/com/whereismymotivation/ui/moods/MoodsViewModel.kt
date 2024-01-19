@@ -77,14 +77,16 @@ class MoodsViewModel @Inject constructor(
     fun selectMood(code: Mood.Code) {
         viewModelScope.launch {
             val now = CalendarUtils.now()
+            val mood = Mood(0, String.Null(), code, user.id, now, now)
+            val dateStr = CalendarUtils.getFormattedDate(now) ?: "Unknown"
             moodRepository
-                .saveMood(Mood(0, String.Null(), code, user.id, now, now))
+                .saveMood(mood)
                 .catch {
                     messenger.deliverRes(Message.error(R.string.something_went_wrong))
                 }
                 .collect {
-                    val dateStr = CalendarUtils.getFormattedDate(now) ?: "Unknown"
-                    val graphData = _moodGraph.find { it.x == dateStr }
+                    moods.add(mood.copy(id = it))
+                    val graphData = _moodGraph.find { data -> data.x == dateStr }
                     if (graphData != null) {
                         val index = _moodGraph.indexOf(graphData)
                         if (index > -1) {
@@ -96,6 +98,13 @@ class MoodsViewModel @Inject constructor(
                                 y = values.average().toFloat()
                             )
                         }
+                    } else {
+                        val newGraphData = MoodGraphData(
+                            dateStr,
+                            mood.getValue().toFloat(),
+                            values = listOf(mood.getValue())
+                        )
+                        _moodGraph.add(newGraphData)
                     }
                     messenger.deliverRes(Message.success(R.string.mood_recorded_message))
                 }
