@@ -32,7 +32,9 @@ class FeedViewModel @Inject constructor(
         const val TAG = "FeedViewModel"
     }
 
-    val contents = mutableStateListOf<Content>()
+    private val _contents = mutableStateListOf<Content>()
+
+    val contents: List<Content> = _contents
 
     private var loading = false
     private var pageItemCount = remoteConfigRepository.getHomePageContentCount()
@@ -69,14 +71,14 @@ class FeedViewModel @Inject constructor(
         loading = true
 
         launchNetwork(error = { loading = false }) {
-            contentRepository.fetchHomeFeedContents(pageNumber, pageItemCount, contents.isEmpty())
+            contentRepository.fetchHomeFeedContents(pageNumber, pageItemCount, _contents.isEmpty())
                 .collect {
                     if (it.isEmpty()) {
                         rotateFeedList()
                     } else {
                         currentPageNumber++
                         contentRepository.setFeedNextPageNumber(currentPageNumber)
-                        contents.addAll(it)
+                        _contents.addAll(it)
                     }
                     loading = false
                 }
@@ -91,9 +93,9 @@ class FeedViewModel @Inject constructor(
                     content.id
                 )
             call.collect {
-                val index = contents.indexOf(content)
+                val index = _contents.indexOf(content)
                 if (index > -1) {
-                    contents[index] = content.copy(
+                    _contents[index] = content.copy(
                         liked = liked,
                         likes = if (liked) content.likes?.plus(1) else content.likes?.minus(1)
                     )

@@ -37,8 +37,11 @@ class ContentViewModel @Inject constructor(
     private var noMoreToLoad = false
     private var loadingSimilarContent = false
     private var currentPageNumber = 1
+
     private val _content = MutableStateFlow<Content?>(null)
-    val similarContents = mutableStateListOf<Content>()
+    private val _similarContents = mutableStateListOf<Content>()
+
+    val similarContents: List<Content> = _similarContents
 
     val content = _content.asStateFlow()
 
@@ -79,7 +82,7 @@ class ContentViewModel @Inject constructor(
                     if (it.isEmpty()) {
                         noMoreToLoad = true
                     } else {
-                        similarContents.addAll(it)
+                        _similarContents.addAll(it)
                         currentPageNumber++
                     }
                 }
@@ -101,7 +104,7 @@ class ContentViewModel @Inject constructor(
                     if (it.isEmpty()) {
                         noMoreToLoad = true
                     } else {
-                        similarContents.addAll(it)
+                        _similarContents.addAll(it)
                         currentPageNumber++
                     }
                 }

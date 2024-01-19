@@ -48,7 +48,7 @@ import com.whereismymotivation.ui.theme.AppTheme
 
 @Composable
 fun MyBox(modifier: Modifier, viewModel: MyBoxViewModel) {
-    val contents = viewModel.contents.toList()
+    val contents = viewModel.contents
 
     if (contents.isEmpty()) {
         EmptyView(modifier)

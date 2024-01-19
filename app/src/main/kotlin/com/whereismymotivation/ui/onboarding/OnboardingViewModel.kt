@@ -42,8 +42,12 @@ class OnboardingViewModel @Inject constructor(
         checkAndLoadSuggestions()
     }
 
-    val mentors = mutableStateListOf<Mentor>()
-    val topics = mutableStateListOf<Topic>()
+    private val _mentors = mutableStateListOf<Mentor>()
+    private val _topics = mutableStateListOf<Topic>()
+
+    val mentors: List<Mentor> =_mentors
+    val topics: List<Topic> =_topics
+
 
     private var loading = false
 
@@ -52,10 +56,10 @@ class OnboardingViewModel @Inject constructor(
         launchNetwork(silent = true, error = { loadSuggestions() }) {
             mentorRepository
                 .fetchSubscriptionMentors()
-                .flatMapLatest { mentors ->
-                    if (mentors.isNotEmpty()) return@flatMapLatest flowOf(true)
+                .flatMapLatest { m ->
+                    if (m.isNotEmpty()) return@flatMapLatest flowOf(true)
                     else return@flatMapLatest topicRepository.fetchSubscriptionTopics()
-                        .map { topics -> topics.isNotEmpty() }
+                        .map { t -> t.isNotEmpty() }
                 }
                 .collect {
                     if (it) {
@@ -76,39 +80,39 @@ class OnboardingViewModel @Inject constructor(
                 mentorRepository
                     .fetchRecommendedMentors(1, 50),
             ) { t, m ->
-                topics.addAll(t)
-                mentors.addAll(m)
+                _topics.addAll(t)
+                _mentors.addAll(m)
             }.collect()
         }
     }
 
     fun topicSelect(topic: Topic) {
-        val index = topics.indexOf((topic))
-        if (index > -1) topics[index] = topic.copy(subscribed = true)
+        val index = _topics.indexOf((topic))
+        if (index > -1) _topics[index] = topic.copy(subscribed = true)
     }
 
     fun topicUnselect(topic: Topic) {
-        val index = topics.indexOf((topic))
-        if (index > -1) topics[index] = topic.copy(subscribed = false)
+        val index = _topics.indexOf((topic))
+        if (index > -1) _topics[index] = topic.copy(subscribed = false)
 
     }
 
     fun mentorSelect(mentor: Mentor) {
-        val index = mentors.indexOf((mentor))
-        if (index > -1) mentors[index] = mentor.copy(subscribed = true)
+        val index = _mentors.indexOf((mentor))
+        if (index > -1) _mentors[index] = mentor.copy(subscribed = true)
     }
 
     fun mentorUnselect(mentor: Mentor) {
-        val index = mentors.indexOf((mentor))
-        if (index > -1) mentors[index] = mentor.copy(subscribed = false)
+        val index = _mentors.indexOf((mentor))
+        if (index > -1) _mentors[index] = mentor.copy(subscribed = false)
     }
 
     fun complete() {
         if (loading) return
         loading = true
 
-        val selectedMentors = mentors.filter { it.subscribed == true }
-        val selectedTopic = topics.filter { it.subscribed == true }
+        val selectedMentors = _mentors.filter { it.subscribed == true }
+        val selectedTopic = _topics.filter { it.subscribed == true }
         if (selectedTopic.isEmpty()) {
             return messenger.deliverRes(Message.warning(R.string.select_few_topics))
         }
