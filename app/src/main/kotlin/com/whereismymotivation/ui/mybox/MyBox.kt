@@ -196,7 +196,7 @@ private fun MyContent(
                     url = content.thumbnail,
                     contentDescription = null,
                     modifier = Modifier
-                        .size(width = 86.dp, height = 86.dp)
+                        .size(86.dp)
                         .aspectRatio(1f)
                 )
             }

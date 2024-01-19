@@ -206,7 +206,7 @@
     <string name="normal">Normal</string>
     <string name="happy">Happy</string>
     <string name="delighted">Delighted</string>
-    <string name="node_down_your_best_thing_for_today_here">Do you want to record your today\'s one good thing?</string>
+    <string name="note_down_your_best_thing_for_today_here">Do you want to record your today\'s one good thing?</string>
     <string name="hint_node_down_your_best_thing_for_today_here">Write down here…</string>
 
     <string name="your_happiness_level">Your Happiness Level</string>

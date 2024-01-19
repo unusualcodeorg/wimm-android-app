@@ -13,6 +13,7 @@ import com.whereismymotivation.ui.feed.Feed
 import com.whereismymotivation.ui.feed.FeedViewModel
 import com.whereismymotivation.ui.info.InfoViewModel
 import com.whereismymotivation.ui.info.ServerUnreachableInfo
+import com.whereismymotivation.ui.journal.JournalsViewModel
 import com.whereismymotivation.ui.login.Login
 import com.whereismymotivation.ui.login.LoginViewModel
 import com.whereismymotivation.ui.mentor.Mentor
@@ -90,7 +91,8 @@ fun NavGraph(
             composable(Destination.Home.Profile.route) {
                 val profileViewModel: ProfileViewModel = hiltViewModel(key = ProfileViewModel.TAG)
                 val moodsViewModel: MoodsViewModel = hiltViewModel(key = MoodsViewModel.TAG)
-                Profile(modifier, profileViewModel, moodsViewModel)
+                val journalsViewModel: JournalsViewModel = hiltViewModel(key = JournalsViewModel.TAG)
+                Profile(modifier, profileViewModel, moodsViewModel, journalsViewModel)
             }
             composable(Destination.Home.MyBox.route) {
                 val viewModel: MyBoxViewModel = hiltViewModel(key = MyBoxViewModel.TAG)
