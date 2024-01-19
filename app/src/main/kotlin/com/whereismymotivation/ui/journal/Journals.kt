@@ -83,6 +83,7 @@ private fun JournalsView(
                     textChange = textChange,
                     record = record
                 )
+                Divider()
             }
             items(journals, key = { it.id }) { journal ->
                 JournalItem(
@@ -107,7 +108,6 @@ private fun WriteJournal(
 
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        tonalElevation = 4.dp,
         shape = RoundedCornerShape(6.dp),
     ) {
         Column(
