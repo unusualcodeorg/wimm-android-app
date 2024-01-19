@@ -93,3 +93,15 @@ class TopicMentorPreviewParameterProvider : PreviewParameterProvider<Pair<Topic,
         )
     )
 }
+
+class UserParameterProvider : PreviewParameterProvider<User> {
+    override val values = sequenceOf(
+        User(
+            id = "5d3abb01d7e737505f6283a8",
+            name = "Janishar Ali",
+            email = "hello@janisharali.com",
+            profilePicUrl = "https://avatars.githubusercontent.com/u/11065002?v=4",
+            roles = emptyList(),
+        )
+    )
+}
