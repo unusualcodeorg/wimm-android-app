@@ -15,19 +15,21 @@ import com.whereismymotivation.utils.log.Logger
 
 class ImageNotification(
     private val provider: Provider,
-    private val payload: Payload
+    private val payload: Payload,
+    private val imageLoader: ImageLoader
 ) : Notification {
     override suspend fun send() {
         try {
             if (payload.thumbnail != null && payload.thumbnail.isValidUrl()) {
-                val loader = ImageLoader(provider.context)
                 val request = ImageRequest.Builder(provider.context)
                     .data(payload.thumbnail)
                     .allowHardware(true)
                     .build()
 
-                val result = (loader.execute(request) as SuccessResult).drawable
-                val bitmap = (result as BitmapDrawable).bitmap
+                val result = imageLoader.execute(request)
+                if (result !is SuccessResult) return
+
+                val bitmap = (result.drawable as BitmapDrawable).bitmap
 
                 val style = NotificationCompat.BigPictureStyle().bigPicture(bitmap)
 
@@ -40,7 +42,10 @@ class ImageNotification(
 
                 val notificationManager =
                     provider.context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-                notificationManager.notify(Notification.Type.TEXT.value, notificationBuilder.build())
+                notificationManager.notify(
+                    Notification.Type.TEXT.value,
+                    notificationBuilder.build()
+                )
 
             }
         } catch (e: Exception) {

@@ -1,5 +1,6 @@
 package com.whereismymotivation.fcm
 
+import coil.ImageLoader
 import com.whereismymotivation.di.ScopeMain
 import com.whereismymotivation.fcm.core.Notification
 import com.whereismymotivation.fcm.core.Payload
@@ -15,6 +16,7 @@ import javax.inject.Inject
 @ServiceScoped
 class NotificationBuilder @Inject constructor(
     @ScopeMain private val scope: CoroutineScope,
+    private val imageLoader: ImageLoader,
     private val provider: Provider,
 ) {
 
@@ -29,7 +31,7 @@ class NotificationBuilder @Inject constructor(
                     TextNotification(provider, payload).send()
 
                 Notification.Type.IMAGE ->
-                    ImageNotification(provider, payload).send()
+                    ImageNotification(provider, payload, imageLoader).send()
 
                 Notification.Type.TEXT_AND_IMAGE -> {}
                 Notification.Type.CONTENT -> {}
