@@ -21,7 +21,7 @@ class Provider @Inject constructor(@ApplicationContext val context: Context) {
         color = context.getColor(R.color.colorAccent),
         sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION),
         smallIcon = R.drawable.ic_wimm_notification,
-        largeIcon = (context.getDrawable(R.drawable.wimm_logo) as BitmapDrawable).bitmap,
+        largeIcon = R.drawable.wimm_logo,
         openAction = Action(
             R.drawable.ic_touch_app,
             context.getString(R.string.open),
@@ -32,7 +32,7 @@ class Provider @Inject constructor(@ApplicationContext val context: Context) {
     fun basicNotificationBuilder() =
         NotificationCompat.Builder(context, defaults.channel)
             .setSmallIcon(defaults.smallIcon)
-            .setLargeIcon(defaults.largeIcon)
+            .setLargeIcon((context.getDrawable(defaults.largeIcon) as BitmapDrawable).bitmap)
             .setTicker(defaults.ticker)
             .setSound(defaults.sound)
             .setContentIntent(pendingIntents.appOpen())

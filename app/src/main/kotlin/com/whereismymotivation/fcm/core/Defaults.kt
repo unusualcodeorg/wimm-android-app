@@ -1,6 +1,5 @@
 package com.whereismymotivation.fcm.core
 
-import android.graphics.Bitmap
 import android.net.Uri
 import androidx.core.app.NotificationCompat.Action
 
@@ -10,6 +9,6 @@ class Defaults(
     val color: Int,
     val sound: Uri,
     val smallIcon: Int,
-    val largeIcon: Bitmap,
+    val largeIcon: Int,
     val openAction: Action
 )
