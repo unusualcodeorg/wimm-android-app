@@ -19,14 +19,17 @@ class NotificationBuilder @Inject constructor(
 ) {
 
     fun showNotification(data: Map<String, String>) {
+        showNotification(data.toPayload())
+    }
+
+    fun showNotification(payload: Payload) {
         scope.launch {
-            val payload = data.toPayload()
             when (payload.type) {
                 Notification.Type.TEXT ->
-                    TextNotification(provider, data.toPayload()).send()
+                    TextNotification(provider, payload).send()
 
                 Notification.Type.IMAGE ->
-                    ImageNotification(provider, data.toPayload()).send()
+                    ImageNotification(provider, payload).send()
 
                 Notification.Type.TEXT_AND_IMAGE -> {}
                 Notification.Type.CONTENT -> {}
