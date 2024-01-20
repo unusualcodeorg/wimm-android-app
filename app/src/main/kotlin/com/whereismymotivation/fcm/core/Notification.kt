@@ -5,11 +5,11 @@ interface Notification {
 
     enum class Type(val value: Int) {
         UNKNOWN(0),
-        TEXT(1000),
-        IMAGE(2000),
-        TEXT_AND_IMAGE(3000),
-        CONTENT(4000),
-        MOOD(5000);
+        TEXT(1),
+        IMAGE(2),
+        TEXT_AND_IMAGE(3),
+        CONTENT(4),
+        MOOD(5);
 
         companion object {
             fun parse(name: String) =
@@ -25,9 +25,9 @@ interface Notification {
     }
 
     enum class Action(val requestCode: Int) {
-        APP_OPEN(1),
-        CONTENT_VIEW(2),
-        MOOD_RECORD(3),
-        JOURNAL_RECORD(4);
+        APP_OPEN(100),
+        CONTENT_VIEW(200),
+        MOOD_RECORD(300),
+        JOURNAL_RECORD(400);
     }
 }

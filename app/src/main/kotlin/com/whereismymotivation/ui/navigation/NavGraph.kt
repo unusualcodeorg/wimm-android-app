@@ -98,7 +98,7 @@ fun NavGraph(
             }
             composable(
                 Destination.Home.MyBox.route,
-                deepLinks = listOf(navDeepLink { uriPattern = "app://wimm/my-box" }),
+                deepLinks = listOf(navDeepLink { uriPattern = Deeplink.MY_BOX.url }),
             ) {
                 val viewModel: MyBoxViewModel = hiltViewModel(key = MyBoxViewModel.TAG)
                 MyBox(modifier, viewModel)
