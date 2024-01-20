@@ -7,10 +7,8 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationCompat.Action
 import com.whereismymotivation.R
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.android.scopes.ServiceScoped
 import javax.inject.Inject
 
-@ServiceScoped
 class Provider @Inject constructor(@ApplicationContext val context: Context) {
 
     val pendingIntents = PendingIntents(context)

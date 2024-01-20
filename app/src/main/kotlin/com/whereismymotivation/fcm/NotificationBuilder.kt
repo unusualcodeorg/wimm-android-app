@@ -8,12 +8,10 @@ import com.whereismymotivation.fcm.core.Provider
 import com.whereismymotivation.fcm.core.toPayload
 import com.whereismymotivation.fcm.notifications.ImageNotification
 import com.whereismymotivation.fcm.notifications.TextNotification
-import dagger.hilt.android.scopes.ServiceScoped
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@ServiceScoped
 class NotificationBuilder @Inject constructor(
     @ScopeMain private val scope: CoroutineScope,
     private val imageLoader: ImageLoader,
