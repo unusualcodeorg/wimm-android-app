@@ -9,11 +9,15 @@ import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
+import com.whereismymotivation.BuildConfig
 import com.whereismymotivation.R
 import com.whereismymotivation.WimmApplication
 import com.whereismymotivation.data.repository.UserRepository
-import com.whereismymotivation.utils.common.Constants
 import com.whereismymotivation.utils.log.Logger
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.launch
 
 fun recordUser(userRepository: UserRepository) {
     userRepository.getCurrentUser()?.run {
@@ -24,19 +28,32 @@ fun recordUser(userRepository: UserRepository) {
     }
 }
 
-fun getFcmToken() {
-    FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-        if (!task.isSuccessful) {
-            Logger.e(
-                WimmApplication.TAG,
-                "Fetching FCM registration token failed",
-                task.exception.toString()
-            )
-            return@addOnCompleteListener
+@OptIn(DelicateCoroutinesApi::class)
+fun syncFcmToken(userRepository: UserRepository) {
+    if (!userRepository.getFirebaseTokenSent() && userRepository.userExists()) {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Logger.e(
+                    WimmApplication.TAG,
+                    "Fetching FCM registration token failed",
+                    task.exception.toString()
+                )
+                return@addOnCompleteListener
+            }
+            val token = task.result
+
+            GlobalScope.launch {
+                userRepository.sendFirebaseToken(token)
+                    .catch { }
+                    .collect {
+                        userRepository.setFirebaseTokenSent()
+                    }
+            }
+
+            if (BuildConfig.DEBUG) Logger.d(WimmApplication.TAG, token)
         }
-        val token = task.result
-        Logger.d(WimmApplication.TAG, token)
     }
+
 }
 
 fun createDefaultNotificationChannel(app: Application) {
@@ -48,7 +65,7 @@ fun createDefaultNotificationChannel(app: Application) {
                 app.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(
                 NotificationChannel(
-                    Constants.NOTIFICATION_DEFAULT_CHANNEL_ID,
+                    app.getString(R.string.default_notification_channel_id),
                     app.getString(R.string.notification_default_channel_name),
                     NotificationManager.IMPORTANCE_DEFAULT
                 ).apply {
@@ -57,7 +74,7 @@ fun createDefaultNotificationChannel(app: Application) {
 
             notificationManager.createNotificationChannel(
                 NotificationChannel(
-                    Constants.NOTIFICATION_HAPPINESS_CHANNEL_ID,
+                    app.getString(R.string.happiness_notification_channel_id),
                     app.getString(R.string.notification_happiness_channel_name),
                     NotificationManager.IMPORTANCE_DEFAULT
                 ).apply {

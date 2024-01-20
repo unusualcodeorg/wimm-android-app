@@ -9,6 +9,7 @@
     <string name="google_storage_bucket" translatable="false"> </string>
     <string name="project_id" translatable="false"> </string>
     <string name="default_notification_channel_id" translatable="false">general</string>
+    <string name="happiness_notification_channel_id" translatable="false">happiness</string>
 
     <string name="interest_selection_title">Choose the topics that interest you</string>
     <string name="mentor_selection_title">Choose the people you want to make your mentors</string>

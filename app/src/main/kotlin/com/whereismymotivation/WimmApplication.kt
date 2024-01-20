@@ -9,9 +9,9 @@ import com.whereismymotivation.analytics.Tracker
 import com.whereismymotivation.data.repository.AppMetricRepository
 import com.whereismymotivation.data.repository.UserRepository
 import com.whereismymotivation.init.createDefaultNotificationChannel
-import com.whereismymotivation.init.getFcmToken
 import com.whereismymotivation.init.recordUser
 import com.whereismymotivation.init.scheduleWorks
+import com.whereismymotivation.init.syncFcmToken
 import com.whereismymotivation.utils.common.SystemUtils
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
@@ -49,7 +49,7 @@ class WimmApplication : Application(), Configuration.Provider {
         appMetricRepository.setCurrentAppVersion(SystemUtils.getAppVersionCode(this))
         recordUser(userRepository)
         scheduleWorks(this)
-        getFcmToken()
+        syncFcmToken(userRepository)
         createDefaultNotificationChannel(this)
         Coil.setImageLoader(imageLoader)
     }

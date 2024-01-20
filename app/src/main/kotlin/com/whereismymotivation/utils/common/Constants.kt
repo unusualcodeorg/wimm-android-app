@@ -24,7 +24,4 @@ object Constants {
 
     const val NOTIFICATION_DIR = "notification"
     const val NOTIFICATION_IMG_NAME = "image"
-
-    const val NOTIFICATION_DEFAULT_CHANNEL_ID = "WIMM_NOTIF_DEFAULT_CHANNEL"
-    const val NOTIFICATION_HAPPINESS_CHANNEL_ID = "WIMM_HAPPINESS_CHANNEL"
 }

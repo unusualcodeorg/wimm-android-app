@@ -102,6 +102,9 @@ class UserPreferences @Inject constructor(private val prefs: SharedPreferences) 
     fun setFirebaseTokenSent() =
         prefs.edit().putBoolean(FIREBASE_TOKEN_SENT, true).apply()
 
+    fun removeFirebaseTokenSent() =
+        prefs.edit().remove(FIREBASE_TOKEN_SENT).apply()
+
     fun getUserRoles(): String? = prefs.getString(USER_ROLES, null)
 
     fun setUserRoles(roles: String) = prefs.edit().putString(USER_ROLES, roles).apply()

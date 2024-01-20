@@ -79,12 +79,15 @@ class NotificationService : FirebaseMessagingService() {
      */
     override fun onNewToken(token: String) {
         scope.launch {
-            Logger.d(TAG, "Refreshed token: $token")
-            token.let { userRepository.setFirebaseToken(it) }
             if (userRepository.userExists()) {
-                userRepository.sendFirebaseToken(token).catch { }.collect {}
+                userRepository.sendFirebaseToken(token)
+                    .catch { }
+                    .collect {
+                        userRepository.setFirebaseToken(it)
+                    }
             }
         }
+        Logger.d(TAG, "Refreshed token: $token")
     }
 
     override fun onDestroy() {
