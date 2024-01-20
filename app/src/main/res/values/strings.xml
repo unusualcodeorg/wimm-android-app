@@ -105,4 +105,7 @@
 
     <string name="save">Save</string>
 
+    <string name="notification_new">New!</string>
+    <string name="open">Open</string>
+
 </resources>

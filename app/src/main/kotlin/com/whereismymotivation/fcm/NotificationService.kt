@@ -9,6 +9,8 @@ import com.whereismymotivation.utils.log.Logger
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -57,15 +59,14 @@ class NotificationService : FirebaseMessagingService() {
                  * Handle message within 10 seconds
                  * handleNow()
                  */
-
-                notificationBuilder.showFcmNotification(it)
+                notificationBuilder.showNotification(it)
             }
         }
 
         // Check if message contains a notification payload.
         remoteMessage.notification?.body?.let {
             Logger.d(TAG, "Message Notification Body: $it")
-            notificationBuilder.showFcmNotification(it)
+            notificationBuilder.showMessage(it)
         }
 
         tracker.trackServerNotificationReceived()
@@ -77,8 +78,13 @@ class NotificationService : FirebaseMessagingService() {
      * is initially generated so this is where you would retrieve the token.
      */
     override fun onNewToken(token: String) {
-        Logger.d(TAG, "Refreshed token: $token")
-        token.let { userRepository.setFirebaseToken(it) }
+        scope.launch {
+            Logger.d(TAG, "Refreshed token: $token")
+            token.let { userRepository.setFirebaseToken(it) }
+            if (userRepository.userExists()) {
+                userRepository.sendFirebaseToken(token).catch { }.collect {}
+            }
+        }
     }
 
     override fun onDestroy() {

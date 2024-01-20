@@ -1,0 +1,44 @@
+package com.whereismymotivation.fcm.core
+
+import android.content.Context
+import android.graphics.drawable.BitmapDrawable
+import android.media.RingtoneManager
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationCompat.Action
+import com.whereismymotivation.R
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.ServiceScoped
+import javax.inject.Inject
+
+@ServiceScoped
+class Provider @Inject constructor(@ApplicationContext val context: Context) {
+
+    val pendingIntents = PendingIntents(context)
+
+    val defaults = Defaults(
+        channel = context.getString(R.string.default_notification_channel_id),
+        ticker = context.getString(R.string.notification_new),
+        color = context.getColor(R.color.colorAccent),
+        sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION),
+        smallIcon = R.drawable.ic_wimm_notification,
+        largeIcon = (context.getDrawable(R.drawable.wimm_logo) as BitmapDrawable).bitmap,
+        openAction = Action(
+            R.drawable.ic_touch_app,
+            context.getString(R.string.open),
+            pendingIntents.appOpen()
+        )
+    )
+
+    fun basicNotificationBuilder() =
+        NotificationCompat.Builder(context, defaults.channel)
+            .setSmallIcon(defaults.smallIcon)
+            .setLargeIcon(defaults.largeIcon)
+            .setTicker(defaults.ticker)
+            .setSound(defaults.sound)
+            .setContentIntent(pendingIntents.appOpen())
+            .addAction(defaults.openAction)
+            .setDefaults(android.app.Notification.DEFAULT_ALL)
+            .setColor(defaults.color)
+            .setAutoCancel(true)
+
+}
