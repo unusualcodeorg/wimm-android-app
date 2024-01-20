@@ -6,11 +6,11 @@ import android.content.Context
 import android.content.Intent
 import com.whereismymotivation.WimmApplication
 import com.whereismymotivation.utils.log.Logger
-import java.util.*
+import java.util.Calendar
 
 object AppAlarmManager {
 
-    const val DAILY_MOOD_REQUEST_CODE = 999
+    private const val DAILY_MOOD_REQUEST_CODE = 999
     const val ACTION_DAILY_MOOD_RECORD = "ACTION_DAILY_MOOD_RECORD"
 
     fun setDailyMoodAlarm(context: Context) {
@@ -26,7 +26,7 @@ object AppAlarmManager {
             val calendar8 = Calendar.getInstance().apply {
                 set(
                     get(Calendar.YEAR), get(Calendar.MONTH), get(Calendar.DAY_OF_MONTH),
-                    20, 30, 0
+                    5, 22, 0
                 )
             }
 
@@ -38,12 +38,21 @@ object AppAlarmManager {
 
             val pIntent = PendingIntent.getBroadcast(
                 context, DAILY_MOOD_REQUEST_CODE,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT
+                intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
 
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
                 val canSchedule = alarmManager.canScheduleExactAlarms()
-                if (canSchedule) scheduleAlarm(alarmManager, calendar8.timeInMillis, pIntent)
+                if (canSchedule) {
+                    scheduleAlarm(alarmManager, calendar8.timeInMillis, pIntent)
+                } else {
+                    // TODO: For Testing: Move it at appropriate place
+//                    val permissionIntent = Intent(ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
+//                        .apply {
+//                            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+//                        }
+//                    context.startActivity(permissionIntent)
+                }
             } else {
                 scheduleAlarm(alarmManager, calendar8.timeInMillis, pIntent)
             }

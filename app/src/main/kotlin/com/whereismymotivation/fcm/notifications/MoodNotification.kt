@@ -8,7 +8,7 @@ import com.whereismymotivation.fcm.core.Payload
 import com.whereismymotivation.fcm.core.Provider
 import com.whereismymotivation.utils.log.Logger
 
-class TextNotification(
+class MoodNotification(
     private val provider: Provider,
     private val payload: Payload
 ) : Notification {
@@ -24,7 +24,7 @@ class TextNotification(
                 .setContentTitle(payload.title)
                 .setContentText(payload.subtitle)
                 .setStyle(style)
-                .setContentIntent(provider.pendingIntents.appOpen())
+                .setContentIntent(provider.pendingIntents.moodRecord())
                 .addAction(provider.defaults.openAction)
 
             val notificationManager =

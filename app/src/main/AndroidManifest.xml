@@ -80,7 +80,7 @@
         <receiver
             android:name=".work.DailyMoodAlarmReceiver"
             android:enabled="true"
-            android:exported="false"
+            android:exported="true"
             android:permission="TODO" />
 
         <!-- Set custom default icon. This is used when no icon is set for incoming notification messages. -->

@@ -1,5 +1,8 @@
-package com.whereismymotivation.di
+package com.whereismymotivation.di.modules
 
+import com.whereismymotivation.di.ScopeDefault
+import com.whereismymotivation.di.ScopeIO
+import com.whereismymotivation.di.ScopeMain
 import com.whereismymotivation.utils.coroutine.Dispatcher
 import dagger.Module
 import dagger.Provides

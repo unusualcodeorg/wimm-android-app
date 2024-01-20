@@ -35,10 +35,12 @@ class ImageNotification(
 
                 val notificationBuilder = provider
                     .basicNotificationBuilder()
+                    .setTicker(payload.ticker)
                     .setContentTitle(payload.title)
                     .setContentText(payload.subtitle)
-                    .setAutoCancel(true)
                     .setStyle(style)
+                    .setContentIntent(provider.pendingIntents.appOpen())
+                    .addAction(provider.defaults.openAction)
 
                 val notificationManager =
                     provider.context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

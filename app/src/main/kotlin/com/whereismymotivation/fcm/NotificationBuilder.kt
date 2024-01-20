@@ -7,6 +7,7 @@ import com.whereismymotivation.fcm.core.Payload
 import com.whereismymotivation.fcm.core.Provider
 import com.whereismymotivation.fcm.core.toPayload
 import com.whereismymotivation.fcm.notifications.ImageNotification
+import com.whereismymotivation.fcm.notifications.MoodNotification
 import com.whereismymotivation.fcm.notifications.TextNotification
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -31,9 +32,12 @@ class NotificationBuilder @Inject constructor(
                 Notification.Type.IMAGE ->
                     ImageNotification(provider, payload, imageLoader).send()
 
+                Notification.Type.MOOD ->
+                    MoodNotification(provider, payload).send()
+
                 Notification.Type.TEXT_AND_IMAGE -> {}
                 Notification.Type.CONTENT -> {}
-                Notification.Type.MOOD -> {}
+
                 Notification.Type.UNKNOWN -> {}
             }
         }

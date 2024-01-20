@@ -109,4 +109,7 @@
     <string name="notification_new">New!</string>
     <string name="open">Open</string>
 
+    <string name="notification_mood_title">Keep track of your happiness level.</string>
+    <string name="notification_mood_text">Recording your one good thing daily is the best way to remain motivated.
+    </string>
 </resources>
