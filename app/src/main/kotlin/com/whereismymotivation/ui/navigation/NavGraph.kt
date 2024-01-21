@@ -56,34 +56,49 @@ fun NavGraph(
         navController = navController,
         startDestination = startDestination,
     ) {
+        // Splash
         composable(Destination.Splash.route) {
             val viewModel: SplashViewModel = hiltViewModel(key = SplashViewModel.TAG)
             Splash(modifier, viewModel)
         }
+
+        // ServerUnreachable
         composable(Destination.ServerUnreachable.route) {
             val viewModel: InfoViewModel = hiltViewModel(key = InfoViewModel.TAG)
             ServerUnreachableInfo(modifier, viewModel)
         }
+
+        // Onboarding
         composable(Destination.Onboarding.route) {
             val viewModel: OnboardingViewModel = hiltViewModel(key = OnboardingViewModel.TAG)
             Onboarding(modifier, viewModel)
         }
+
+        // Login
         composable(Destination.Login.route) {
             val viewModel: LoginViewModel = hiltViewModel(key = LoginViewModel.TAG)
             Login(modifier, viewModel)
         }
+
+        // Home
         navigation(
             route = Destination.Home.route,
             startDestination = Destination.Home.Feed.route
         ) {
+
+            // Home.Feed
             composable(Destination.Home.Feed.route) {
                 val viewModel: FeedViewModel = hiltViewModel(key = FeedViewModel.TAG)
                 Feed(modifier, viewModel)
             }
+
+            // Home.Mentors
             composable(Destination.Home.Mentors.route) {
                 val viewModel: MentorsViewModel = hiltViewModel(key = MentorsViewModel.TAG)
                 Mentors(modifier, viewModel)
             }
+
+            // Home.Search
             composable(
                 route = Destination.Home.Search.route,
                 arguments = Destination.Home.Search.navArguments
@@ -92,6 +107,8 @@ fun NavGraph(
                 val sViewModel: SuggestionViewModel = hiltViewModel(key = SuggestionViewModel.TAG)
                 Search(modifier, viewModel, sViewModel)
             }
+
+            // Home.Profile
             composable(
                 route = Destination.Home.Profile.route,
                 arguments = Destination.Home.Profile.navArguments,
@@ -105,6 +122,8 @@ fun NavGraph(
                     hiltViewModel(key = JournalsViewModel.TAG)
                 Profile(modifier, profileViewModel, moodsViewModel, journalsViewModel)
             }
+
+            // Home.MyBox
             composable(
                 Destination.Home.MyBox.route,
                 deepLinks = listOf(navDeepLink {
@@ -115,6 +134,8 @@ fun NavGraph(
                 MyBox(modifier, viewModel)
             }
         }
+
+        // Mentor
         composable(
             route = Destination.Mentor.route,
             arguments = Destination.Mentor.navArguments
@@ -122,11 +143,15 @@ fun NavGraph(
             val viewModel: MentorViewModel = hiltViewModel(key = MentorViewModel.TAG)
             Mentor(modifier, viewModel)
         }
+
+        // ExploreMentors
         composable(Destination.ExploreMentors.route) {
             val viewModel: ExploreMentorsViewModel =
                 hiltViewModel(key = ExploreMentorsViewModel.TAG)
             ExploreMentors(modifier, viewModel)
         }
+
+        // Topic
         composable(
             route = Destination.Topic.route,
             arguments = Destination.Topic.navArguments
@@ -134,6 +159,8 @@ fun NavGraph(
             val viewModel: TopicViewModel = hiltViewModel(key = TopicViewModel.TAG)
             Topic(modifier, viewModel)
         }
+
+        // YouTube
         composable(
             route = Destination.YouTube.route,
             arguments = Destination.YouTube.navArguments
