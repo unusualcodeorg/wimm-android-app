@@ -30,7 +30,7 @@ class TopicViewModel @Inject constructor(
     }
 
     init {
-        val topicId: String = savedStateHandle.get<String>(Destination.ARG_NAME_TOPIC)!!
+        val topicId: String = savedStateHandle.get<String>(Destination.Topic.routeArgName)!!
         loadTopic(topicId)
         loadTopicContents(topicId)
     }

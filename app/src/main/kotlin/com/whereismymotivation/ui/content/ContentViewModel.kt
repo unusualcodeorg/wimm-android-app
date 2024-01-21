@@ -46,7 +46,7 @@ class ContentViewModel @Inject constructor(
     val content = _content.asStateFlow()
 
     init {
-        initContent(savedStateHandle.get<String>(Destination.ARG_NAME_CONTENT)!!)
+        initContent(savedStateHandle.get<String>(Destination.YouTube.routeArgName)!!)
     }
 
     fun selectSimilarContent(content: Content) {

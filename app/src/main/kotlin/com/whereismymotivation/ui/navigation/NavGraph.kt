@@ -84,12 +84,21 @@ fun NavGraph(
                 val viewModel: MentorsViewModel = hiltViewModel(key = MentorsViewModel.TAG)
                 Mentors(modifier, viewModel)
             }
-            composable(Destination.Home.Search.route) {
+            composable(
+                route = Destination.Home.Search.route,
+                arguments = Destination.Home.Search.navArguments
+            ) {
                 val viewModel: SearchViewModel = hiltViewModel(key = SearchViewModel.TAG)
                 val sViewModel: SuggestionViewModel = hiltViewModel(key = SuggestionViewModel.TAG)
                 Search(modifier, viewModel, sViewModel)
             }
-            composable(Destination.Home.Profile.route) {
+            composable(
+                route = Destination.Home.Profile.route,
+                arguments = Destination.Home.Profile.navArguments,
+                deepLinks = listOf(navDeepLink {
+                    uriPattern = Destination.Home.Profile.deeplink
+                }),
+            ) {
                 val profileViewModel: ProfileViewModel = hiltViewModel(key = ProfileViewModel.TAG)
                 val moodsViewModel: MoodsViewModel = hiltViewModel(key = MoodsViewModel.TAG)
                 val journalsViewModel: JournalsViewModel =
@@ -98,7 +107,9 @@ fun NavGraph(
             }
             composable(
                 Destination.Home.MyBox.route,
-                deepLinks = listOf(navDeepLink { uriPattern = Deeplink.MY_BOX.url }),
+                deepLinks = listOf(navDeepLink {
+                    uriPattern = Destination.Home.MyBox.deeplink
+                }),
             ) {
                 val viewModel: MyBoxViewModel = hiltViewModel(key = MyBoxViewModel.TAG)
                 MyBox(modifier, viewModel)
@@ -129,14 +140,6 @@ fun NavGraph(
         ) {
             val viewModel: ContentViewModel = hiltViewModel(key = ContentViewModel.TAG)
             YouTubeContent(modifier, viewModel)
-        }
-        composable(
-            route = Destination.Search.route,
-            arguments = Destination.Search.navArguments
-        ) {
-            val viewModel: SearchViewModel = hiltViewModel(key = SearchViewModel.TAG)
-            val sViewModel: SuggestionViewModel = hiltViewModel(key = SuggestionViewModel.TAG)
-            Search(modifier, viewModel, sViewModel)
         }
     }
 }

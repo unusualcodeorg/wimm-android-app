@@ -1,63 +1,48 @@
 package com.whereismymotivation.ui.navigation
 
-import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
-import com.whereismymotivation.ui.search.SearchMode
 
-sealed class Destination private constructor(
-    val route: String,
-    val navArguments: List<NamedNavArgument> = emptyList()
-) {
+object Destination {
+    data object Splash : Screen("splash")
+    data object Login : Screen("login")
+    data object Onboarding : Screen("onboarding")
+    data object ServerUnreachable : Screen("server-unreachable")
+    data object ExploreMentors : Screen("explore-mentor")
+    data object Mentor : DynamicScreen("mentor", "mentorId")
+    data object Topic : DynamicScreen("topic", "topicId")
+    data object YouTube : DynamicScreen("youtube", "contentId")
 
-    data object Splash : Destination("splash")
-    data object Login : Destination("login")
-    data object Onboarding : Destination("onboarding")
-    data object ServerUnreachable : Destination("server-unreachable")
-    data object ExploreMentors : Destination("explore-mentor")
-
-    data object Home : Destination("home") {
-        data object Feed : Destination("home/feed")
-        data object Mentors : Destination("home/mentors")
-        data object MyBox : Destination("home/my_box")
-        data object Search : Destination("home/search")
-        data object Profile : Destination("home/profile")
+    data object Home : Screen("home") {
+        data object Feed : Screen("home/feed")
+        data object Mentors : Screen("home/mentors")
+        data object MyBox : Screen("home/my_box")
+        data object Search : DynamicScreen("home/search", "searchMode")
+        data object Profile : DynamicScreen("home/profile", "profileTab")
     }
 
-    data object Mentor : Destination(
-        route = "mentor/{mentorId}",
-        navArguments = listOf(navArgument("mentorId") {
-            type = NavType.StringType
-        })
-    ) {
-        fun createRoute(mentorId: String) = "mentor/${mentorId}"
+    abstract class Screen(baseRoute: String) {
+        companion object {
+            const val baseDeeplinkUrl = "app://wimm"
+        }
+
+        open val route = baseRoute
+        open val deeplink = "${baseDeeplinkUrl}/$baseRoute"
     }
 
-    data object Topic : Destination(
-        route = "topic/{topicId}",
-        navArguments = listOf(navArgument("topicId") {
-            type = NavType.StringType
-        })
-    ) {
-        fun createRoute(topicId: String) = "topic/${topicId}"
-    }
+    abstract class DynamicScreen(
+        private val baseRoute: String,
+        val routeArgName: String,
+    ) : Screen(baseRoute) {
 
-    data object YouTube : Destination(
-        route = "youtube/{contentId}",
-        navArguments = listOf(navArgument("contentId") {
-            type = NavType.StringType
-        })
-    ) {
-        fun createRoute(contentId: String) = "youtube/${contentId}"
-    }
+        val navArguments = listOf(navArgument(routeArgName) { type = NavType.StringType })
 
-    data object Search : Destination(
-        route = "search/{searchMode}",
-        navArguments = listOf(navArgument("searchMode") {
-            type = NavType.StringType
-        })
-    ) {
-        fun createRoute(searchMode: SearchMode) = "search/${searchMode.name}"
-    }
+        override val route = "$baseRoute/{$routeArgName}"
+        override val deeplink = "${baseDeeplinkUrl}/$baseRoute/{$routeArgName}"
 
+        fun dynamicRoute(param: String) = "$baseRoute/$param"
+
+        fun dynamicDeeplink(param: String) = "$baseDeeplinkUrl/$baseRoute/${param}"
+    }
 }
+

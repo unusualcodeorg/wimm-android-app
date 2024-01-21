@@ -23,6 +23,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.whereismymotivation.R
 import com.whereismymotivation.ui.navigation.Destination
+import com.whereismymotivation.ui.profile.ProfileTab
+import com.whereismymotivation.ui.search.SearchMode
 import com.whereismymotivation.ui.theme.AppTheme
 
 @Keep
@@ -30,37 +32,43 @@ enum class HomeTab(
     @StringRes val title: Int,
     @DrawableRes val unselectedIcon: Int,
     @DrawableRes val selectedIcon: Int,
-    val route: String
+    val route: String,
+    val destRoute: String,
 ) {
     FEED(
         R.string.menu_feed,
         R.drawable.ic_browse_unselected,
         R.drawable.ic_browse,
-        Destination.Home.Feed.route
+        Destination.Home.Feed.route,
+        Destination.Home.Feed.route,
     ),
     MENTORS(
         R.string.menu_mentors,
         R.drawable.ic_mentor_unselected,
         R.drawable.ic_mentor,
-        Destination.Home.Mentors.route
+        Destination.Home.Mentors.route,
+        Destination.Home.Mentors.route,
     ),
     MY_BOX(
         R.string.menu_box,
         R.drawable.ic_box_unselected,
         R.drawable.ic_box,
-        Destination.Home.MyBox.route
+        Destination.Home.MyBox.route,
+        Destination.Home.MyBox.route,
     ),
     SEARCH(
         R.string.menu_search,
         R.drawable.ic_search_unselected,
         R.drawable.ic_search,
-        Destination.Home.Search.route
+        Destination.Home.Search.route,
+        Destination.Home.Search.dynamicRoute(SearchMode.UNIVERSAL.name),
     ),
     PROFILE(
         R.string.menu_me,
         R.drawable.ic_me_unselected,
         R.drawable.ic_me_selected,
-        Destination.Home.Profile.route
+        Destination.Home.Profile.route,
+        Destination.Home.Profile.dynamicRoute(ProfileTab.MOOD.name),
     ),
 }
 
@@ -76,18 +84,19 @@ fun HomeBottomBar(navController: NavController) {
     HomeBottomBarView(
         tabs = tabs,
         routes = routes,
-        currentRoute = currentRoute
-    ) {
-        if (it.route != currentRoute) {
-            navController.navigate(it.route) {
-                popUpTo(navController.graph.startDestinationId) {
-                    saveState = true
+        currentRoute = currentRoute,
+        tabClick = {
+            if (it.route != currentRoute) {
+                navController.navigate(it.destRoute) {
+                    popUpTo(navController.graph.startDestinationId) {
+                        saveState = true
+                    }
+                    launchSingleTop = true
+                    restoreState = true
                 }
-                launchSingleTop = true
-                restoreState = true
             }
         }
-    }
+    )
 }
 
 @Composable

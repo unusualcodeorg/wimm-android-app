@@ -10,17 +10,28 @@ import com.whereismymotivation.ui.navigation.Deeplink
 class PendingIntents(private val context: Context) {
 
     fun appOpen(): PendingIntent =
-        buildDeeplinkPendingIntent(Notification.Action.APP_OPEN, Deeplink.MY_BOX)
+        buildDeeplinkPendingIntent(
+            Notification.Action.APP_OPEN,
+            Deeplink.APP.link()
+        )
 
     fun contentView(contentId: String): PendingIntent =
-        buildDeeplinkPendingIntent(Notification.Action.CONTENT_VIEW, Deeplink.APP)
+        buildDeeplinkPendingIntent(
+            Notification.Action.CONTENT_VIEW,
+            Deeplink.CONTENT.link(contentId)
+        )
 
     fun journalRecord(): PendingIntent =
-        buildDeeplinkPendingIntent(Notification.Action.JOURNAL_RECORD, Deeplink.APP)
+        buildDeeplinkPendingIntent(
+            Notification.Action.JOURNAL_RECORD,
+            Deeplink.PROFILE.link()
+        )
 
     fun moodRecord(): PendingIntent =
-        buildDeeplinkPendingIntent(Notification.Action.MOOD_RECORD, Deeplink.MY_BOX)
-
+        buildDeeplinkPendingIntent(
+            Notification.Action.MOOD_RECORD,
+            Deeplink.PROFILE.link()
+        )
 
     private fun buildBundlePendingIntent(
         action: Notification.Action,
@@ -38,12 +49,12 @@ class PendingIntents(private val context: Context) {
 
     private fun buildDeeplinkPendingIntent(
         action: Notification.Action,
-        deeplink: Deeplink
+        deeplink: String
     ): PendingIntent =
         PendingIntent.getActivity(
             context,
             action.requestCode,
-            Intent(Intent.ACTION_VIEW, Uri.parse(deeplink.url)),
+            Intent(Intent.ACTION_VIEW, Uri.parse(deeplink)),
             PendingIntent.FLAG_IMMUTABLE
         )
 

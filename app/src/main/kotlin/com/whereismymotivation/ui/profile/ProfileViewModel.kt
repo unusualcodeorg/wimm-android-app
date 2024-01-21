@@ -30,8 +30,8 @@ class ProfileViewModel @Inject constructor(
     }
 
     private var _selectedTab = MutableStateFlow(
-        ProfileTab.getByName(
-            savedStateHandle.get<String>(Destination.ARG_NAME_PROFILE_TAB) ?: ProfileTab.MOOD.name
+        ProfileTab.fromName(
+            savedStateHandle.get<String>(Destination.Home.Profile.routeArgName) ?: ProfileTab.MOOD.name
         )
     )
 

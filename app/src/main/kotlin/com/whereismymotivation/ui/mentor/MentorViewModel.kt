@@ -30,7 +30,7 @@ class MentorViewModel @Inject constructor(
     }
 
     init {
-        val mentorId: String = savedStateHandle.get<String>(Destination.ARG_NAME_MENTOR)!!
+        val mentorId: String = savedStateHandle.get<String>(Destination.Mentor.routeArgName)!!
         loadMentor(mentorId)
         loadMentorContents(mentorId)
     }

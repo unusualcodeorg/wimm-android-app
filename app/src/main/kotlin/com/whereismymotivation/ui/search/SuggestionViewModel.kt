@@ -42,7 +42,7 @@ class SuggestionViewModel @Inject constructor(
     }
 
     fun selectTopic(topic: Topic) {
-        navigator.navigateTo(Destination.Topic.createRoute(topic.id))
+        navigator.navigateTo(Destination.Topic.dynamicRoute(topic.id))
     }
 
 }

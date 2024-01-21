@@ -214,7 +214,7 @@ enum class ProfileTab(val title: String, val index: Int) {
     JOURNAL("Journal", 1);
 
     companion object {
-        fun getByName(name: String): ProfileTab =
+        fun fromName(name: String): ProfileTab =
             try {
                 valueOf(name)
             } catch (e: IllegalArgumentException) {

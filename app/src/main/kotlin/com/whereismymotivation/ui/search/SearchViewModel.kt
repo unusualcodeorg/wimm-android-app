@@ -41,8 +41,8 @@ class SearchViewModel @Inject constructor(
         const val TAG = "SearchViewModel"
     }
 
-    private val searchMode = SearchMode.valueOf(
-        savedStateHandle.get<String>(Destination.ARG_NAME_SEARCH_MODE) ?: SearchMode.UNIVERSAL.name
+    private val searchMode = SearchMode.fromName(
+        savedStateHandle.get<String>(Destination.Home.Search.routeArgName) ?: SearchMode.UNIVERSAL.name
     )
 
     private val _results = MutableStateFlow<List<UniversalSearchResult>>(emptyList())
