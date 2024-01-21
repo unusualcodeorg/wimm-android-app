@@ -1,7 +1,7 @@
 package com.whereismymotivation.fcm
 
 import coil.ImageLoader
-import com.whereismymotivation.di.qualifier.CoroutineScopeIO
+import com.whereismymotivation.di.qualifier.ServiceScopeIO
 import com.whereismymotivation.fcm.core.Notification
 import com.whereismymotivation.fcm.core.Payload
 import com.whereismymotivation.fcm.core.Provider
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class NotificationBuilder @Inject constructor(
-    @CoroutineScopeIO private val scope: CoroutineScope,
+    @ServiceScopeIO private val scope: CoroutineScope,
     private val imageLoader: ImageLoader,
     private val provider: Provider,
 ) {

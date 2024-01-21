@@ -1,6 +1,6 @@
 package com.whereismymotivation.di.module
 
-import com.whereismymotivation.di.qualifier.CoroutineScopeIO
+import com.whereismymotivation.di.qualifier.ServiceScopeIO
 import com.whereismymotivation.utils.coroutine.Dispatcher
 import dagger.Module
 import dagger.Provides
@@ -14,7 +14,7 @@ import kotlinx.coroutines.CoroutineScope
 object ServiceModule {
 
     @Provides
-    @CoroutineScopeIO
+    @ServiceScopeIO
     @ServiceScoped
     fun provideIOCoroutineScope(dispatcher: Dispatcher) = CoroutineScope(dispatcher.io())
 
