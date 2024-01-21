@@ -19,7 +19,7 @@ class PendingIntents(private val context: Context) {
     fun contentView(contentId: String): PendingIntent =
         buildDeeplinkPendingIntent(
             Notification.Action.CONTENT_VIEW,
-            Destination.Home.Feed.deeplink
+            Destination.Content.dynamicDeeplink(contentId)
         )
 
     fun journalRecord(): PendingIntent =

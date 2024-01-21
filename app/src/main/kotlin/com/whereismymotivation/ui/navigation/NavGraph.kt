@@ -8,6 +8,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
 import androidx.navigation.navigation
+import com.whereismymotivation.ui.content.ContentRedirection
+import com.whereismymotivation.ui.content.ContentViewModel
 import com.whereismymotivation.ui.content.YouTubeContent
 import com.whereismymotivation.ui.content.YoutubeViewModel
 import com.whereismymotivation.ui.feed.Feed
@@ -167,6 +169,18 @@ fun NavGraph(
         ) {
             val viewModel: YoutubeViewModel = hiltViewModel(key = YoutubeViewModel.TAG)
             YouTubeContent(modifier, viewModel)
+        }
+
+        // Content Redirection
+        composable(
+            route = Destination.Content.route,
+            arguments = Destination.Content.navArguments,
+            deepLinks = listOf(navDeepLink {
+                uriPattern = Destination.Content.deeplink
+            })
+        ) {
+            val viewModel: ContentViewModel = hiltViewModel(key = ContentViewModel.TAG)
+            ContentRedirection(modifier, viewModel)
         }
     }
 }

@@ -12,6 +12,7 @@ object Destination {
     data object Mentor : DynamicScreen("mentor", "mentorId")
     data object Topic : DynamicScreen("topic", "topicId")
     data object YouTube : DynamicScreen("youtube", "contentId")
+    data object Content : DynamicScreen("content", "contentId")
 
     data object Home : Screen("home") {
         data object Feed : Screen("home/feed")

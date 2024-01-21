@@ -33,9 +33,9 @@ class MainActivity : ComponentActivity() {
                 navigator = viewModel.navigator,
                 loader = viewModel.loader,
                 messenger = viewModel.messenger,
-                sharer = viewModel.sharer
+                sharer = viewModel.sharer,
+                finish = { finish() }
             )
-            { finish() }
         }
         handleIntent(intent)
     }
@@ -54,6 +54,7 @@ class MainActivity : ComponentActivity() {
                         viewModel.storeMotivation(text)
                     }
                 }
+
                 Intent.ACTION_VIEW -> {
                     viewModel.handleDeepLink(data)
                 }

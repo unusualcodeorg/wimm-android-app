@@ -13,7 +13,7 @@ class ContentBrowser @Inject constructor(
     private val navigator: Navigator,
     private val chromeTabHelper: ChromeTabHelper
 ) {
-    fun show(content: Content) =
+    fun show(content: Content, popBackStack: Boolean = false) =
         when (content.category) {
             Content.Category.AUDIO, Content.Category.VIDEO, Content.Category.ARTICLE ->
                 chromeTabHelper.openCustomTab(Uri.parse(content.extra))
@@ -22,17 +22,17 @@ class ContentBrowser @Inject constructor(
             Content.Category.FACEBOOK_VIDEO -> {}
             Content.Category.QUOTE -> {}
             Content.Category.MENTOR_INFO ->
-                navigator.navigateTo(Destination.Mentor.dynamicRoute(content.id))
+                navigator.navigateTo(Destination.Mentor.dynamicRoute(content.id), popBackStack)
 
             Content.Category.TOPIC_INFO ->
-                navigator.navigateTo(Destination.Topic.dynamicRoute(content.id))
+                navigator.navigateTo(Destination.Topic.dynamicRoute(content.id), popBackStack)
 
             Content.Category.YOUTUBE ->
-                navigator.navigateTo(Destination.YouTube.dynamicRoute(content.id))
+                navigator.navigateTo(Destination.YouTube.dynamicRoute(content.id), popBackStack)
 
         }
 
-    fun show(result: UniversalSearchResult) {
+    fun show(result: UniversalSearchResult, popBackStack: Boolean = false) {
         when (result.category) {
             Content.Category.AUDIO, Content.Category.VIDEO, Content.Category.ARTICLE ->
                 chromeTabHelper.openCustomTab(Uri.parse(result.extra))
@@ -41,13 +41,13 @@ class ContentBrowser @Inject constructor(
             Content.Category.FACEBOOK_VIDEO -> {}
             Content.Category.QUOTE -> {}
             Content.Category.YOUTUBE ->
-                navigator.navigateTo(Destination.YouTube.dynamicRoute(result.id))
+                navigator.navigateTo(Destination.YouTube.dynamicRoute(result.id), popBackStack)
 
             Content.Category.MENTOR_INFO ->
-                navigator.navigateTo(Destination.Mentor.dynamicRoute(result.id))
+                navigator.navigateTo(Destination.Mentor.dynamicRoute(result.id), popBackStack)
 
             Content.Category.TOPIC_INFO -> {
-                navigator.navigateTo(Destination.Topic.dynamicRoute(result.id))
+                navigator.navigateTo(Destination.Topic.dynamicRoute(result.id), popBackStack)
             }
         }
     }
