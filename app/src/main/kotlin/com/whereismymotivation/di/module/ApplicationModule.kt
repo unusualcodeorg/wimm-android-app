@@ -1,6 +1,7 @@
 package com.whereismymotivation.di.module
 
 import android.content.Context
+import androidx.work.WorkManager
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
@@ -16,6 +17,7 @@ import com.whereismymotivation.di.qualifier.DeviceIdInfo
 import com.whereismymotivation.utils.common.ResultFetcher
 import com.whereismymotivation.utils.config.RemoteKey
 import com.whereismymotivation.utils.log.Logger
+import com.whereismymotivation.work.AppWorkManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -76,4 +78,9 @@ object ApplicationModule {
         }
         return remoteConfig
     }
+
+    @Provides
+    @Singleton
+    fun provideAppWorkManager(@ApplicationContext context: Context): AppWorkManager =
+        AppWorkManager(WorkManager.getInstance(context))
 }

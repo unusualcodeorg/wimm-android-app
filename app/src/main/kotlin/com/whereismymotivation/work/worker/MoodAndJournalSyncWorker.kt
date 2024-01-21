@@ -1,4 +1,4 @@
-package com.whereismymotivation.work
+package com.whereismymotivation.work.worker
 
 import android.content.Context
 import androidx.hilt.work.HiltWorker

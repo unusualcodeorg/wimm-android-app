@@ -7,7 +7,30 @@ data class Payload(
     val subtitle: String,
     val message: String? = null,
     val thumbnail: String? = null
-)
+) {
+    fun toMap(): Map<String, String?> {
+        val map = mutableMapOf<String, String>()
+        map["type"] = type.name
+        map["ticker"] = ticker
+        map["title"] = title
+        map["subtitle"] = subtitle
+        message?.let { map["message"] = it }
+        thumbnail?.let { map["thumbnail"] = it }
+        return map
+    }
+}
+
+fun Map<String, Any>.toStringMap(): Map<String, String> {
+    val convertedMap = mutableMapOf<String, String>()
+    for ((key, value) in this) {
+        if (value is String) {
+            convertedMap[key] = value
+        } else {
+            convertedMap[key] = value.toString()
+        }
+    }
+    return convertedMap
+}
 
 fun Map<String, String>.toPayload(): Payload {
     return Payload(

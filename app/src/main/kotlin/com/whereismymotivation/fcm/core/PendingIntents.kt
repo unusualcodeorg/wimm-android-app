@@ -33,7 +33,7 @@ class PendingIntents(private val context: Context) {
                 putExtra(action.name, extra)
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             },
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            PendingIntent.FLAG_IMMUTABLE
         )
 
     private fun buildDeeplinkPendingIntent(
@@ -44,7 +44,7 @@ class PendingIntents(private val context: Context) {
             context,
             action.requestCode,
             Intent(Intent.ACTION_VIEW, Uri.parse(deeplink.url)),
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            PendingIntent.FLAG_IMMUTABLE
         )
 
 }

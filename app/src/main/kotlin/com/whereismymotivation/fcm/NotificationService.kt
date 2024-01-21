@@ -4,8 +4,10 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.whereismymotivation.analytics.Tracker
 import com.whereismymotivation.data.repository.UserRepository
-import com.whereismymotivation.di.qualifier.ServiceScopeIO
+import com.whereismymotivation.di.qualifier.ScopeIO
+import com.whereismymotivation.fcm.core.toPayload
 import com.whereismymotivation.utils.log.Logger
+import com.whereismymotivation.work.AppWorkManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
@@ -17,11 +19,14 @@ import javax.inject.Inject
 class NotificationService : FirebaseMessagingService() {
 
     @Inject
-    @ServiceScopeIO
+    @ScopeIO
     lateinit var scope: CoroutineScope
 
     @Inject
     lateinit var notificationBuilder: NotificationBuilder
+
+    @Inject
+    lateinit var appWorkManager: AppWorkManager
 
     companion object {
         private const val TAG = "NotificationService"
@@ -59,14 +64,16 @@ class NotificationService : FirebaseMessagingService() {
                  * Handle message within 10 seconds
                  * handleNow()
                  */
-                notificationBuilder.showNotification(it)
+                appWorkManager.addNotificationWork(it.toPayload())
             }
         }
 
         // Check if message contains a notification payload.
         remoteMessage.notification?.body?.let {
             Logger.d(TAG, "Message Notification Body: $it")
-            notificationBuilder.showMessage(it)
+            scope.launch {
+                notificationBuilder.showMessage(it)
+            }
         }
 
         tracker.trackServerNotificationReceived()

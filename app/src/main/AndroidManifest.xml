@@ -78,7 +78,7 @@
             tools:node="remove" />
 
         <receiver
-            android:name=".work.DailyMoodAlarmReceiver"
+            android:name=".work.receiver.DailyMoodAlarmReceiver"
             android:enabled="true"
             android:exported="true"
             android:permission="TODO" />

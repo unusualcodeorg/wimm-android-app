@@ -1,11 +1,22 @@
 package com.whereismymotivation.init
 
-import android.content.Context
 import com.whereismymotivation.work.AppAlarmManager
 import com.whereismymotivation.work.AppWorkManager
+import javax.inject.Inject
+import javax.inject.Singleton
 
-fun scheduleWorks(context: Context) {
-    AppWorkManager.scheduleDailyMoodNotifyWork(context)
-    AppAlarmManager.setDailyMoodAlarm(context)
-    AppWorkManager.runMoodAndJournalSyncWork(context)
+@Singleton
+class WorkInit @Inject constructor(
+    private val appWorkManager: AppWorkManager,
+    private val alarmManager: AppAlarmManager
+) : Initializer {
+    override fun init() {
+        scheduleWorks()
+    }
+
+    private fun scheduleWorks() {
+        appWorkManager.scheduleDailyMoodNotifyWork()
+        alarmManager.setDailyMoodAlarm()
+        appWorkManager.addMoodAndJournalSyncWork()
+    }
 }

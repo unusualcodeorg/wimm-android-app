@@ -3,16 +3,11 @@ package com.whereismymotivation
 import android.app.Application
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
-import coil.Coil
-import coil.ImageLoader
 import com.whereismymotivation.analytics.Tracker
-import com.whereismymotivation.data.repository.AppMetricRepository
-import com.whereismymotivation.data.repository.UserRepository
-import com.whereismymotivation.init.createDefaultNotificationChannel
-import com.whereismymotivation.init.recordUser
-import com.whereismymotivation.init.scheduleWorks
-import com.whereismymotivation.init.syncFcmToken
-import com.whereismymotivation.utils.common.SystemUtils
+import com.whereismymotivation.init.CoilInit
+import com.whereismymotivation.init.FirebaseInit
+import com.whereismymotivation.init.MetricInit
+import com.whereismymotivation.init.WorkInit
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
@@ -20,7 +15,7 @@ import javax.inject.Inject
 class WimmApplication : Application(), Configuration.Provider {
 
     companion object {
-        val TAG = "WimmApplication"
+        const val TAG = "WimmApplication"
     }
 
     @Inject
@@ -30,13 +25,17 @@ class WimmApplication : Application(), Configuration.Provider {
     lateinit var tracker: Tracker
 
     @Inject
-    lateinit var userRepository: UserRepository
+    lateinit var firebaseInit: FirebaseInit
 
     @Inject
-    lateinit var appMetricRepository: AppMetricRepository
+    lateinit var workInit: WorkInit
 
     @Inject
-    lateinit var imageLoader: ImageLoader
+    lateinit var metricInit: MetricInit
+
+    @Inject
+    lateinit var coilInit: CoilInit
+
 
     override val workManagerConfiguration: Configuration
         get() = Configuration.Builder()
@@ -46,11 +45,9 @@ class WimmApplication : Application(), Configuration.Provider {
     override fun onCreate() {
         super.onCreate()
         tracker.trackAppOpen()
-        appMetricRepository.setCurrentAppVersion(SystemUtils.getAppVersionCode(this))
-        recordUser(userRepository)
-        scheduleWorks(this)
-        syncFcmToken(userRepository)
-        createDefaultNotificationChannel(this)
-        Coil.setImageLoader(imageLoader)
+        metricInit.init()
+        workInit.init()
+        firebaseInit.init()
+        coilInit.init()
     }
 }
