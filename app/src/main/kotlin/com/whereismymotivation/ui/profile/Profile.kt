@@ -34,6 +34,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -48,6 +49,7 @@ import com.whereismymotivation.ui.journal.JournalsViewModel
 import com.whereismymotivation.ui.moods.Moods
 import com.whereismymotivation.ui.moods.MoodsViewModel
 import com.whereismymotivation.ui.theme.AppTheme
+import com.whereismymotivation.utils.common.PermissionUtils
 
 @Composable
 fun Profile(
@@ -147,12 +149,30 @@ private fun Header(
                     offset = DpOffset(0.dp, 0.dp),
                     onDismissRequest = { menuExpanded = false },
                 ) {
+                    val context = LocalContext.current
                     DropdownMenuItem(
-                        onClick = { logout() },
-                        text = {
-                            Text("Logout")
-                        }
+                        onClick = {
+                            menuExpanded = false
+                            logout()
+                        },
+                        text = { Text("Logout") }
                     )
+                    if (PermissionUtils.needNotificationPermission())
+                        DropdownMenuItem(
+                            onClick = {
+                                menuExpanded = false
+                                PermissionUtils.launchNotificationSettings(context)
+                            },
+                            text = { Text("Notification") }
+                        )
+                    if (PermissionUtils.needAlarmPermission())
+                        DropdownMenuItem(
+                            onClick = {
+                                menuExpanded = false
+                                PermissionUtils.launchAlarmSettings(context)
+                            },
+                            text = { Text("Alarm") }
+                        )
                 }
             }
         }
