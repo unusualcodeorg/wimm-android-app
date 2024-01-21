@@ -4,6 +4,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.whereismymotivation.data.local.db.entity.Journal
 import com.whereismymotivation.data.model.Content
 import com.whereismymotivation.data.model.Mentor
+import com.whereismymotivation.data.model.Role
 import com.whereismymotivation.data.model.Topic
 import com.whereismymotivation.data.model.UniversalSearchResult
 import com.whereismymotivation.data.model.User
@@ -118,6 +119,39 @@ class JournalParameterProvider : PreviewParameterProvider<Journal> {
             createdAt = CalendarUtils.now(),
             updatedAt = CalendarUtils.now(),
             synced = false
+        )
+    )
+}
+
+class ContentUserPreviewParameterProvider : PreviewParameterProvider<Pair<Content, User>> {
+    override val values: Sequence<Pair<Content, User>> = sequenceOf(
+        Content(
+            id = "5d3abb01d7e737505f6283a8",
+            title = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt",
+            subtitle = "Lorem",
+            thumbnail = "https://i3.ytimg.com/vi/hVLM0BSqx5o/hqdefault.jpg",
+            extra = "https://www.youtube.com/watch?v=9TCMHVmNc5w",
+            creator = User(
+                id = "6569996fb0013db6a35f2f84",
+                name = "Janishar Ali",
+                email = null,
+                profilePicUrl = "https://avatars.githubusercontent.com/u/11065002?v=4",
+            ),
+            views = 54,
+            category = Content.Category.YOUTUBE,
+            liked = false,
+            likes = 12456356,
+            shares = 974524
+        ) to User(
+            id = "5d3abb01d7e737505f6283a8",
+            name = "Janishar Ali",
+            email = "hello@janisharali.com",
+            profilePicUrl = "https://avatars.githubusercontent.com/u/11065002?v=4",
+            roles = listOf(
+                Role("1", Role.RoleCode.VIEWER),
+                Role("1", Role.RoleCode.ADMIN),
+                Role("1", Role.RoleCode.MANAGER),
+            ),
         )
     )
 }

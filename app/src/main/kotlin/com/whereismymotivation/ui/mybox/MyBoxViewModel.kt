@@ -11,6 +11,8 @@ import com.whereismymotivation.ui.common.snackbar.Message
 import com.whereismymotivation.ui.common.snackbar.Messenger
 import com.whereismymotivation.ui.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,9 +29,10 @@ class MyBoxViewModel @Inject constructor(
         const val TAG = "MyBoxViewModel"
     }
 
-    private val user = userRepository.getCurrentUser()
+    private val _user = MutableStateFlow(userRepository.getCurrentUser()!!)
     private val _contents = mutableStateListOf<Content>()
 
+    val user = _user.asStateFlow()
     val contents: List<Content> = _contents
 
     private val pageItemCount = 20
@@ -60,10 +63,72 @@ class MyBoxViewModel @Inject constructor(
         loadMyBoxContent(currentPageNumber)
     }
 
+    fun submit(content: Content) {
+        if (content.submit == true) return
+
+        launchNetwork {
+            contentRepository.submitPrivateContent(content.id)
+                .collect {
+                    val index = _contents.indexOf(content)
+                    if (index > -1)
+                        _contents[index] = content.copy(submit = true)
+
+                    messenger.deliver(Message.success(it))
+                }
+        }
+    }
+
+    fun unsubmit(content: Content) {
+        if (content.submit != true) return
+
+        launchNetwork {
+            contentRepository.unsubmitPrivateContent(content.id)
+                .collect {
+                    val index = _contents.indexOf(content)
+                    if (index > -1)
+                        _contents[index] = content.copy(submit = false)
+
+                    messenger.deliver(Message.success(it))
+                }
+        }
+    }
+
+    fun publish(content: Content) {
+        if (content.private != true) return
+
+        launchNetwork {
+            contentRepository.publishGeneralContent(content.id)
+                .collect {
+                    val index = _contents.indexOf(content)
+                    if (index > -1)
+                        _contents[index] = content.copy(private = false)
+
+                    messenger.deliver(Message.success(it))
+                }
+        }
+    }
+
+    fun unpublish(content: Content) {
+        if (content.private == true) return
+
+        launchNetwork {
+            contentRepository.unpublishGeneralContent(content.id)
+                .collect {
+                    val index = _contents.indexOf(content)
+                    if (index > -1)
+                        _contents[index] = content.copy(private = true)
+
+                    messenger.deliver(Message.success(it))
+                }
+        }
+    }
+
     fun delete(content: Content) {
         launchNetwork {
             val call =
-                if (user?.id == content.creator.id) contentRepository.removePrivateContent(content.id)
+                if (_user.value.id == content.creator.id) contentRepository.removePrivateContent(
+                    content.id
+                )
                 else contentRepository.removeContentBookmark(content.id)
 
             call.collect {

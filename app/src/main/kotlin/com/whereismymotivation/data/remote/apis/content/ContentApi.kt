@@ -79,21 +79,27 @@ interface ContentApi {
         @Path("id") contentId: String
     ): ApiGeneralResponse
 
-    @POST(Endpoints.SUBMIT_PRIVATE_CONTENT)
+    @PUT(Endpoints.SUBMIT_PRIVATE_CONTENT)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
     suspend fun submitPrivateContent(
         @Body request: ContentSubmissionRequest
     ): ApiGeneralResponse
 
-    @POST(Endpoints.UNSUBMIT_PRIVATE_CONTENT)
+    @PUT(Endpoints.UNSUBMIT_PRIVATE_CONTENT)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
     suspend fun unsubmitPrivateContent(
         @Body request: ContentSubmissionRequest
     ): ApiGeneralResponse
 
-    @POST(Endpoints.PUBLISH_GENERAL_CONTENT)
+    @PUT(Endpoints.PUBLISH_GENERAL_CONTENT)
     @Headers(RequestHeaders.Key.AUTH_PROTECTED)
     suspend fun publishGeneral(
+        @Body request: ContentSubmissionRequest
+    ): ApiGeneralResponse
+
+    @PUT(Endpoints.UNPUBLISH_GENERAL_CONTENT)
+    @Headers(RequestHeaders.Key.AUTH_PROTECTED)
+    suspend fun unpublishGeneral(
         @Body request: ContentSubmissionRequest
     ): ApiGeneralResponse
 

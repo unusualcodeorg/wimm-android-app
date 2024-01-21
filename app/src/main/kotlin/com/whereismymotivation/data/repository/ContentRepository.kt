@@ -84,6 +84,11 @@ class ContentRepository @Inject constructor(
             emit(contentApi.publishGeneral(ContentSubmissionRequest(contentId)))
         }.map { it.message }
 
+    fun unpublishGeneralContent(contentId: String): Flow<String> =
+        flow {
+            emit(contentApi.unpublishGeneral(ContentSubmissionRequest(contentId)))
+        }.map { it.message }
+
     fun getFeedNextPageNumber(): Int = contentPreferences.getFeedNextPageNumber()
 
     fun setFeedNextPageNumber(pageNumber: Int) =

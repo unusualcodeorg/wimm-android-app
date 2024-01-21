@@ -14,7 +14,8 @@ object Endpoints {
     const val REMOVE_CONTENT_BOOKMARK = "content/bookmark/{contentId}"
     const val SUBMIT_PRIVATE_CONTENT = "content/private/submit"
     const val UNSUBMIT_PRIVATE_CONTENT = "content/private/unsubmit"
-    const val PUBLISH_GENERAL_CONTENT = "content/modify/publish/general"
+    const val PUBLISH_GENERAL_CONTENT = "content/admin/publish/general"
+    const val UNPUBLISH_GENERAL_CONTENT = "content/admin/unpublish/general"
 
     const val CONTENT_DETAIL = "content/id/{id}"
     const val CONTENT_MARK_VIEW = "content/mark/view"

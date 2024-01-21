@@ -1,6 +1,7 @@
 package com.whereismymotivation.data.model
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import kotlinx.parcelize.Parcelize
@@ -13,6 +14,13 @@ data class Role(
     val id: String,
 
     @Json(name = "code")
-    val code: String
+    val code: RoleCode
 
-) : Parcelable
+) : Parcelable {
+    @Keep
+    enum class RoleCode(val value: String) {
+        VIEWER("VIEWER"),
+        ADMIN("ADMIN"),
+        MANAGER("MANAGER"),
+    }
+}

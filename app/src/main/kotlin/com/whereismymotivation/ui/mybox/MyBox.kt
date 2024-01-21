@@ -22,14 +22,18 @@ import androidx.compose.material.icons.filled.DeleteForever
 import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Divider
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -37,28 +41,38 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.whereismymotivation.R
 import com.whereismymotivation.data.model.Content
+import com.whereismymotivation.data.model.Role
+import com.whereismymotivation.data.model.User
 import com.whereismymotivation.ui.common.appbar.LogoAppBar
 import com.whereismymotivation.ui.common.image.NetworkImage
 import com.whereismymotivation.ui.common.list.InfiniteLazyColumn
-import com.whereismymotivation.ui.common.preview.ContentPreviewParameterProvider
+import com.whereismymotivation.ui.common.preview.ContentUserPreviewParameterProvider
 import com.whereismymotivation.ui.theme.AppTheme
 
 @Composable
 fun MyBox(modifier: Modifier, viewModel: MyBoxViewModel) {
     val contents = viewModel.contents
+    val user = viewModel.user.collectAsStateWithLifecycle().value
 
     if (contents.isEmpty()) {
         EmptyView(modifier)
     } else {
         MyBoxView(
             modifier = modifier,
+            user = user,
             contents = contents,
             loadMore = { viewModel.loadMore() },
             delete = { viewModel.delete(it) },
-            select = { viewModel.select(it) }
+            select = { viewModel.select(it) },
+            submit = { viewModel.submit(it) },
+            unsubmit = { viewModel.unsubmit(it) },
+            publish = { viewModel.publish(it) },
+            unpublish = { viewModel.unpublish(it) },
         )
     }
 }
@@ -66,10 +80,15 @@ fun MyBox(modifier: Modifier, viewModel: MyBoxViewModel) {
 @Composable
 fun MyBoxView(
     modifier: Modifier,
+    user: User,
     contents: List<Content>,
     loadMore: () -> Unit,
     delete: (Content) -> Unit,
-    select: (Content) -> Unit
+    select: (Content) -> Unit,
+    submit: (Content) -> Unit,
+    unsubmit: (Content) -> Unit,
+    publish: (Content) -> Unit,
+    unpublish: (Content) -> Unit,
 ) {
     InfiniteLazyColumn(
         loadMore = loadMore,
@@ -84,9 +103,14 @@ fun MyBoxView(
             }
             items(contents, key = { it.id }) { content ->
                 MyContent(
+                    user = user,
                     content = content,
                     delete = delete,
-                    select = select
+                    select = select,
+                    submit = submit,
+                    unsubmit = unsubmit,
+                    publish = publish,
+                    unpublish = unpublish,
                 )
                 Divider()
             }
@@ -135,11 +159,17 @@ private fun EmptyView(modifier: Modifier) {
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun MyContent(
+    user: User,
     content: Content,
     delete: (Content) -> Unit,
-    select: (Content) -> Unit
+    select: (Content) -> Unit,
+    submit: (Content) -> Unit,
+    unsubmit: (Content) -> Unit,
+    publish: (Content) -> Unit,
+    unpublish: (Content) -> Unit,
 ) {
     val isDelete = remember { mutableStateOf(false) }
+    val isAdmin = remember { user.roles.find { it.code == Role.RoleCode.ADMIN } != null }
 
     Row(
         modifier = Modifier
@@ -164,21 +194,20 @@ private fun MyContent(
                 overflow = TextOverflow.Ellipsis,
             )
             Row {
-                IconButton(
-                    onClick = { /* Handle popup menu button click */ },
-                    modifier = Modifier
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.MoreHoriz,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.primary
+                if (isAdmin) {
+                    AdminDropDownMenu(
+                        content = content,
+                        submit = submit,
+                        unsubmit = unsubmit,
+                        publish = publish,
+                        unpublish = unpublish,
                     )
                 }
                 Text(
                     modifier = Modifier
                         .weight(1f)
                         .align(Alignment.CenterVertically)
-                        .padding(horizontal = 8.dp),
+                        .padding(vertical = 8.dp),
                     text = content.subtitle,
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.primary,
@@ -222,17 +251,110 @@ private fun MyContent(
     }
 }
 
+@Composable
+private fun AdminDropDownMenu(
+    content: Content,
+    submit: (Content) -> Unit,
+    unsubmit: (Content) -> Unit,
+    publish: (Content) -> Unit,
+    unpublish: (Content) -> Unit,
+) {
+    var menuExpanded by remember { mutableStateOf(false) }
+    Box(
+        modifier = Modifier.padding(end = 8.dp)
+    ) {
+        IconButton(onClick = { menuExpanded = true }) {
+            Icon(
+                imageVector = Icons.Filled.MoreHoriz,
+                contentDescription = null
+            )
+        }
+        DropdownMenu(
+            modifier = Modifier,
+            expanded = menuExpanded,
+            offset = DpOffset(0.dp, 0.dp),
+            onDismissRequest = { menuExpanded = false },
+        ) {
+            if (content.submit == true) {
+                DropdownMenuItem(
+                    onClick = {
+                        menuExpanded = false
+                        unsubmit(content)
+                    },
+                    text = {
+                        Text(
+                            text = "Remove Submission",
+                            style = MaterialTheme.typography.labelSmall
+                        )
+                    }
+                )
+            } else {
+                DropdownMenuItem(
+                    onClick = {
+                        menuExpanded = false
+                        submit(content)
+                    },
+                    text = {
+                        Text(
+                            text = "Submit",
+                            style = MaterialTheme.typography.labelSmall
+                        )
+                    }
+                )
+            }
+            if (content.private == true) {
+                DropdownMenuItem(
+                    onClick = {
+                        menuExpanded = false
+                        publish(content)
+                    },
+                    text = {
+                        Text(
+                            text = "Publish",
+                            style = MaterialTheme.typography.labelSmall,
+                        )
+                    }
+                )
+            } else {
+                DropdownMenuItem(
+                    onClick = {
+                        menuExpanded = false
+                        unpublish(content)
+                    },
+                    text = {
+                        Text(
+                            text = "Remove Publish",
+                            style = MaterialTheme.typography.labelSmall,
+                        )
+                    }
+                )
+            }
+        }
+    }
+}
+
+
 @Preview(showBackground = true)
 @Composable
 private fun MyBoxViewPreview(
-    @PreviewParameter(ContentPreviewParameterProvider::class, limit = 1) content: Content
+    @PreviewParameter(
+        ContentUserPreviewParameterProvider::class,
+        limit = 1
+    ) contentAndUser: Pair<Content, User>,
 ) {
+    val content = contentAndUser.first
+    val user = contentAndUser.second
     AppTheme {
         MyBoxView(
             modifier = Modifier,
             loadMore = {},
             delete = {},
             select = {},
+            submit = {},
+            unsubmit = {},
+            publish = {},
+            unpublish = {},
+            user = user,
             contents = listOf(
                 content.copy(id = "1"),
                 content.copy(id = "2"),
@@ -256,14 +378,48 @@ private fun EmptyPreview() {
 
 @Preview(showBackground = true)
 @Composable
-private fun MyContentPreview(
-    @PreviewParameter(ContentPreviewParameterProvider::class, limit = 1) content: Content
+private fun MyContentAdminPreview(
+    @PreviewParameter(
+        ContentUserPreviewParameterProvider::class,
+        limit = 1
+    ) contentAndUser: Pair<Content, User>,
 ) {
+    val content = contentAndUser.first
+    val user = contentAndUser.second
     AppTheme {
         MyContent(
+            user = user,
             content = content,
             delete = {},
-            select = {}
+            select = {},
+            submit = {},
+            unsubmit = {},
+            publish = {},
+            unpublish = {},
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun MyContentPreview(
+    @PreviewParameter(
+        ContentUserPreviewParameterProvider::class,
+        limit = 1
+    ) contentAndUser: Pair<Content, User>,
+) {
+    val content = contentAndUser.first
+    val user = contentAndUser.second.copy(roles = emptyList())
+    AppTheme {
+        MyContent(
+            user = user,
+            content = content,
+            delete = {},
+            select = {},
+            submit = {},
+            unsubmit = {},
+            publish = {},
+            unpublish = {},
         )
     }
 }
