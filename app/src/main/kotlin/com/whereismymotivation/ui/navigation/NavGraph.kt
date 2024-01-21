@@ -8,8 +8,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
 import androidx.navigation.navigation
-import com.whereismymotivation.ui.content.ContentViewModel
 import com.whereismymotivation.ui.content.YouTubeContent
+import com.whereismymotivation.ui.content.YoutubeViewModel
 import com.whereismymotivation.ui.feed.Feed
 import com.whereismymotivation.ui.feed.FeedViewModel
 import com.whereismymotivation.ui.info.InfoViewModel
@@ -138,7 +138,7 @@ fun NavGraph(
             route = Destination.YouTube.route,
             arguments = Destination.YouTube.navArguments
         ) {
-            val viewModel: ContentViewModel = hiltViewModel(key = ContentViewModel.TAG)
+            val viewModel: YoutubeViewModel = hiltViewModel(key = YoutubeViewModel.TAG)
             YouTubeContent(modifier, viewModel)
         }
     }

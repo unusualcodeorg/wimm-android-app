@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import javax.inject.Inject
 
 @HiltViewModel
-class ContentViewModel @Inject constructor(
+class YoutubeViewModel @Inject constructor(
     loader: Loader,
     messenger: Messenger,
     savedStateHandle: SavedStateHandle,
@@ -30,7 +30,7 @@ class ContentViewModel @Inject constructor(
 ) : BaseViewModel(loader, messenger, navigator) {
 
     companion object {
-        const val TAG = "ContentViewModel"
+        const val TAG = "YoutubeViewModel"
         private const val pageItemCount = 10
     }
 
