@@ -5,32 +5,33 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import com.whereismymotivation.ui.MainActivity
-import com.whereismymotivation.ui.navigation.Deeplink
+import com.whereismymotivation.ui.navigation.Destination
+import com.whereismymotivation.ui.profile.ProfileTab
 
 class PendingIntents(private val context: Context) {
 
     fun appOpen(): PendingIntent =
         buildDeeplinkPendingIntent(
             Notification.Action.APP_OPEN,
-            Deeplink.APP.link()
+            Destination.Home.Feed.deeplink
         )
 
     fun contentView(contentId: String): PendingIntent =
         buildDeeplinkPendingIntent(
             Notification.Action.CONTENT_VIEW,
-            Deeplink.CONTENT.link(contentId)
+            Destination.Home.Feed.deeplink
         )
 
     fun journalRecord(): PendingIntent =
         buildDeeplinkPendingIntent(
             Notification.Action.JOURNAL_RECORD,
-            Deeplink.PROFILE.link()
+            Destination.Home.Profile.dynamicDeeplink(ProfileTab.JOURNAL.name)
         )
 
     fun moodRecord(): PendingIntent =
         buildDeeplinkPendingIntent(
             Notification.Action.MOOD_RECORD,
-            Deeplink.PROFILE.link()
+            Destination.Home.Profile.dynamicDeeplink(ProfileTab.MOOD.name)
         )
 
     private fun buildBundlePendingIntent(
