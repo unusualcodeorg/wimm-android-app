@@ -1,6 +1,5 @@
 package com.whereismymotivation.ui.profile
 
-import androidx.annotation.Keep
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -86,8 +85,6 @@ private fun Header(
     user: User,
     logout: () -> Unit
 ) {
-    var menuExpanded by remember { mutableStateOf(false) }
-
     Column(
         modifier
             .background(MaterialTheme.colorScheme.background)
@@ -137,47 +134,68 @@ private fun Header(
             }
 
             Spacer(modifier = Modifier.weight(1f))
-            Box(
-                modifier = Modifier
-            ) {
-                IconButton(onClick = { menuExpanded = true }) {
-                    Icon(
-                        imageVector = Icons.Filled.MoreVert,
-                        contentDescription = null
+            DropDownMenu(logout = logout)
+        }
+    }
+}
+
+@Composable
+private fun DropDownMenu(logout: () -> Unit) {
+    var menuExpanded by remember { mutableStateOf(false) }
+    Box(
+        modifier = Modifier
+    ) {
+        IconButton(onClick = { menuExpanded = true }) {
+            Icon(
+                imageVector = Icons.Filled.MoreVert,
+                contentDescription = null
+            )
+        }
+        DropdownMenu(
+            modifier = Modifier,
+            expanded = menuExpanded,
+            offset = DpOffset(0.dp, 0.dp),
+            onDismissRequest = { menuExpanded = false },
+        ) {
+            val context = LocalContext.current
+            DropdownMenuItem(
+                onClick = {
+                    menuExpanded = false
+                    logout()
+                },
+                text = {
+                    Text(
+                        text = "Logout",
+                        style = MaterialTheme.typography.labelSmall,
                     )
                 }
-                DropdownMenu(
-                    modifier = Modifier,
-                    expanded = menuExpanded,
-                    offset = DpOffset(0.dp, 0.dp),
-                    onDismissRequest = { menuExpanded = false },
-                ) {
-                    val context = LocalContext.current
-                    DropdownMenuItem(
-                        onClick = {
-                            menuExpanded = false
-                            logout()
-                        },
-                        text = { Text("Logout") }
-                    )
-                    if (PermissionUtils.needNotificationPermission())
-                        DropdownMenuItem(
-                            onClick = {
-                                menuExpanded = false
-                                PermissionUtils.launchNotificationSettings(context)
-                            },
-                            text = { Text("Notification") }
+            )
+            if (PermissionUtils.needNotificationPermission())
+                DropdownMenuItem(
+                    onClick = {
+                        menuExpanded = false
+                        PermissionUtils.launchNotificationSettings(context)
+                    },
+                    text = {
+                        Text(
+                            text = "Notification",
+                            style = MaterialTheme.typography.labelSmall
                         )
-                    if (PermissionUtils.needAlarmPermission())
-                        DropdownMenuItem(
-                            onClick = {
-                                menuExpanded = false
-                                PermissionUtils.launchAlarmSettings(context)
-                            },
-                            text = { Text("Alarm") }
+                    }
+                )
+            if (PermissionUtils.needAlarmPermission())
+                DropdownMenuItem(
+                    onClick = {
+                        menuExpanded = false
+                        PermissionUtils.launchAlarmSettings(context)
+                    },
+                    text = {
+                        Text(
+                            text = "Alarm",
+                            style = MaterialTheme.typography.labelSmall,
                         )
-                }
-            }
+                    }
+                )
         }
     }
 }
@@ -208,18 +226,11 @@ private fun Tabs(
     }
 }
 
-@Keep
-enum class ProfileTab(val title: String, val index: Int) {
-    MOOD("Mood", 0),
-    JOURNAL("Journal", 1);
-
-    companion object {
-        fun fromName(name: String): ProfileTab =
-            try {
-                valueOf(name)
-            } catch (e: IllegalArgumentException) {
-                MOOD
-            }
+@Preview(showBackground = true)
+@Composable
+private fun DropDownMenuPreview() {
+    AppTheme {
+        DropDownMenu(logout = {})
     }
 }
 
