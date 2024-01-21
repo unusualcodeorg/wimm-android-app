@@ -1,6 +1,7 @@
 package com.whereismymotivation.ui.home
 
 import androidx.annotation.DrawableRes
+import androidx.annotation.Keep
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.add
@@ -24,6 +25,7 @@ import com.whereismymotivation.R
 import com.whereismymotivation.ui.navigation.Destination
 import com.whereismymotivation.ui.theme.AppTheme
 
+@Keep
 enum class HomeTab(
     @StringRes val title: Int,
     @DrawableRes val unselectedIcon: Int,

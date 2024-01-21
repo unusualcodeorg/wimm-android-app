@@ -1,5 +1,6 @@
 package com.whereismymotivation.data.remote
 
+import androidx.annotation.Keep
 import com.whereismymotivation.di.qualifier.AccessTokenInfo
 import com.whereismymotivation.di.qualifier.ApiKeyInfo
 import com.whereismymotivation.di.qualifier.AppVersionCodeInfo
@@ -19,11 +20,13 @@ class RequestHeaders @Inject constructor(
         const val AUTH_PROTECTED = "$API_AUTH_TYPE: protected"
     }
 
+    @Keep
     enum class Type(val value: String) {
         PUBLIC("public"),
         PROTECTED("protected")
     }
 
+    @Keep
     enum class Param(val value: String) {
         API_KEY("x-api-key"),
         DEVICE_ID("x-device-id"),

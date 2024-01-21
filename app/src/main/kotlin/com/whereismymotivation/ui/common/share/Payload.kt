@@ -1,6 +1,7 @@
 package com.whereismymotivation.ui.common.share
 
 import android.graphics.Bitmap
+import androidx.annotation.Keep
 
 data class Payload<T> private constructor(
     val type: Type,
@@ -18,6 +19,7 @@ data class Payload<T> private constructor(
         fun <T> whatsappImage(data: T, bitmap: Bitmap) = Payload(Type.WHATSAPP_IMAGE, data, bitmap)
     }
 
+    @Keep
     enum class Type {
         TEXT,
         IMAGE,

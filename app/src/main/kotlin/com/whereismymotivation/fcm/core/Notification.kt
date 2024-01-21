@@ -1,10 +1,12 @@
 package com.whereismymotivation.fcm.core
 
+import androidx.annotation.Keep
 import kotlin.random.Random
 
 interface Notification {
     suspend fun send()
 
+    @Keep
     enum class Type(val value: Int) {
         UNKNOWN(0),
         TEXT(1),
@@ -30,6 +32,7 @@ interface Notification {
         }
     }
 
+    @Keep
     enum class Action(val requestCode: Int) {
         APP_OPEN(100),
         CONTENT_VIEW(200),
