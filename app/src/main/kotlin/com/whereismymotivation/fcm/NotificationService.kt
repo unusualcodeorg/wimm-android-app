@@ -4,7 +4,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.whereismymotivation.analytics.Tracker
 import com.whereismymotivation.data.repository.UserRepository
-import com.whereismymotivation.di.qualifier.ScopeIO
+import com.whereismymotivation.di.qualifier.CoroutineScopeIO
 import com.whereismymotivation.utils.log.Logger
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -17,7 +17,7 @@ import javax.inject.Inject
 class NotificationService : FirebaseMessagingService() {
 
     @Inject
-    @ScopeIO
+    @CoroutineScopeIO
     lateinit var scope: CoroutineScope
 
     @Inject
