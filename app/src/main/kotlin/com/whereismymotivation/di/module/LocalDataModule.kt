@@ -1,4 +1,4 @@
-package com.whereismymotivation.di.modules
+package com.whereismymotivation.di.module
 
 import android.content.Context
 import android.content.SharedPreferences

@@ -1,4 +1,4 @@
-package com.whereismymotivation.di.modules
+package com.whereismymotivation.di.module
 
 import com.whereismymotivation.di.qualifier.ScopeDefault
 import com.whereismymotivation.di.qualifier.ScopeIO
