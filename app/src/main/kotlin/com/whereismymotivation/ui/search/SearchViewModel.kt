@@ -8,6 +8,7 @@ import com.whereismymotivation.ui.base.BaseViewModel
 import com.whereismymotivation.ui.common.browser.ContentBrowser
 import com.whereismymotivation.ui.common.progress.Loader
 import com.whereismymotivation.ui.common.snackbar.Messenger
+import com.whereismymotivation.ui.navigation.Destination
 import com.whereismymotivation.ui.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -38,11 +39,10 @@ class SearchViewModel @Inject constructor(
 
     companion object {
         const val TAG = "SearchViewModel"
-        private const val SEARCH_MODE_SAVED_STATE_KEY = "searchMode"
     }
 
     private val searchMode = SearchMode.valueOf(
-        savedStateHandle.get<String>(SEARCH_MODE_SAVED_STATE_KEY) ?: SearchMode.UNIVERSAL.name
+        savedStateHandle.get<String>(Destination.ARG_NAME_SEARCH_MODE) ?: SearchMode.UNIVERSAL.name
     )
 
     private val _results = MutableStateFlow<List<UniversalSearchResult>>(emptyList())
