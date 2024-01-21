@@ -14,6 +14,8 @@ class MoodNotification(
 ) : Notification {
     override suspend fun send() {
         try {
+            val openPendingIntent = provider.pendingIntents.moodRecord()
+
             val style = NotificationCompat.BigTextStyle()
                 .bigText(payload.message)
                 .setBigContentTitle(payload.title)
@@ -24,14 +26,14 @@ class MoodNotification(
                 .setContentTitle(payload.title)
                 .setContentText(payload.subtitle)
                 .setStyle(style)
-                .setContentIntent(provider.pendingIntents.moodRecord())
-                .addAction(provider.buildOpenAction(provider.pendingIntents.moodRecord()))
+                .setContentIntent(openPendingIntent)
+                .addAction(provider.buildOpenAction(openPendingIntent))
 
             val notificationManager =
                 provider.context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
             notificationManager.notify(
-                Notification.Type.TEXT.unique(),
+                Notification.Type.MOOD.unique(),
                 notificationBuilder.build()
             )
 

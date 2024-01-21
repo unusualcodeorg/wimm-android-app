@@ -6,7 +6,8 @@ data class Payload(
     val title: String,
     val subtitle: String,
     val message: String? = null,
-    val thumbnail: String? = null
+    val thumbnail: String? = null,
+    val extra: String? = null,
 ) {
     fun toMap(): Map<String, String?> {
         val map = mutableMapOf<String, String>()
@@ -16,6 +17,7 @@ data class Payload(
         map["subtitle"] = subtitle
         message?.let { map["message"] = it }
         thumbnail?.let { map["thumbnail"] = it }
+        extra?.let { map["extra"] = it }
         return map
     }
 }
@@ -40,5 +42,6 @@ fun Map<String, String>.toPayload(): Payload {
         subtitle = this["subtitle"] ?: "",
         message = this["message"],
         thumbnail = this["thumbnail"],
+        extra = this["extra"],
     )
 }

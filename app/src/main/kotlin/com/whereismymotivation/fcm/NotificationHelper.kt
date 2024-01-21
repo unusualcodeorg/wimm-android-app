@@ -4,6 +4,7 @@ import coil.ImageLoader
 import com.whereismymotivation.fcm.core.Notification
 import com.whereismymotivation.fcm.core.Payload
 import com.whereismymotivation.fcm.core.Provider
+import com.whereismymotivation.fcm.notifications.ContentNotification
 import com.whereismymotivation.fcm.notifications.ImageNotification
 import com.whereismymotivation.fcm.notifications.MoodNotification
 import com.whereismymotivation.fcm.notifications.TextNotification
@@ -25,8 +26,11 @@ class NotificationHelper @Inject constructor(
             Notification.Type.MOOD ->
                 MoodNotification(provider, payload).send()
 
+            Notification.Type.CONTENT -> {
+                ContentNotification(provider, payload, imageLoader).send()
+            }
+
             Notification.Type.TEXT_AND_IMAGE -> {}
-            Notification.Type.CONTENT -> {}
 
             Notification.Type.UNKNOWN -> {}
         }
