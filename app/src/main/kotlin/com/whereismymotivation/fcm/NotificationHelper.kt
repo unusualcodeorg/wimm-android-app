@@ -9,7 +9,7 @@ import com.whereismymotivation.fcm.notifications.MoodNotification
 import com.whereismymotivation.fcm.notifications.TextNotification
 import javax.inject.Inject
 
-class NotificationBuilder @Inject constructor(
+class NotificationHelper @Inject constructor(
     private val imageLoader: ImageLoader,
     private val provider: Provider,
 ) {

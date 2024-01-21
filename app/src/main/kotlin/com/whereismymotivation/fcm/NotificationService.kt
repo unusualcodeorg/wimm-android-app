@@ -23,7 +23,7 @@ class NotificationService : FirebaseMessagingService() {
     lateinit var scope: CoroutineScope
 
     @Inject
-    lateinit var notificationBuilder: NotificationBuilder
+    lateinit var notificationHelper: NotificationHelper
 
     @Inject
     lateinit var appWorkManager: AppWorkManager
@@ -72,7 +72,7 @@ class NotificationService : FirebaseMessagingService() {
         remoteMessage.notification?.body?.let {
             Logger.d(TAG, "Message Notification Body: $it")
             scope.launch {
-                notificationBuilder.showMessage(it)
+                notificationHelper.showMessage(it)
             }
         }
 
