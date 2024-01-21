@@ -42,7 +42,7 @@ class MentorsViewModel @Inject constructor(
     }
 
     fun selectMentor(mentor: Mentor) {
-        navigator.navigateTo(Destination.Mentor.createRoute(mentor.id))
+        navigator.navigateTo(Destination.Mentor.dynamicRoute(mentor.id))
     }
 
     fun explore() {

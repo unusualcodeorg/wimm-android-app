@@ -1,5 +1,6 @@
 package com.whereismymotivation.ui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
@@ -8,6 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import com.whereismymotivation.R
+import com.whereismymotivation.utils.common.Constants
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -34,6 +36,28 @@ class MainActivity : ComponentActivity() {
                 sharer = viewModel.sharer
             )
             { finish() }
+        }
+        handleIntent(intent)
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        handleIntent(intent)
+    }
+
+    private fun handleIntent(intent: Intent?) {
+        intent?.run {
+            when (action) {
+                Intent.ACTION_SEND -> {
+                    if (type == Constants.MIME_TYPE_TEXT_PLAIN) {
+                        val text = getStringExtra(Intent.EXTRA_TEXT)
+                        viewModel.storeMotivation(text)
+                    }
+                }
+                Intent.ACTION_VIEW -> {
+                    viewModel.handleDeepLink(data)
+                }
+            }
         }
     }
 }

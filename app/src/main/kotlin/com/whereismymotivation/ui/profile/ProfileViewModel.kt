@@ -1,5 +1,6 @@
 package com.whereismymotivation.ui.profile
 
+import androidx.lifecycle.SavedStateHandle
 import com.whereismymotivation.R
 import com.whereismymotivation.data.repository.AuthRepository
 import com.whereismymotivation.data.repository.UserRepository
@@ -17,6 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     loader: Loader,
+    savedStateHandle: SavedStateHandle,
     private val userRepository: UserRepository,
     private val authRepository: AuthRepository,
     val navigator: Navigator,
@@ -27,8 +29,20 @@ class ProfileViewModel @Inject constructor(
         const val TAG = "ProfileViewModel"
     }
 
+    private var _selectedTab = MutableStateFlow(
+        ProfileTab.fromName(
+            savedStateHandle.get<String>(Destination.Home.Profile.routeArgName) ?: ProfileTab.MOOD.name
+        )
+    )
+
     private val _user = MutableStateFlow(userRepository.getCurrentUser()!!)
+
     val user = _user.asStateFlow()
+    val selectedTab = _selectedTab.asStateFlow()
+
+    fun selectTab(tab: ProfileTab) {
+        _selectedTab.value = tab
+    }
 
     fun logout() {
         val exists = userRepository.userExists()

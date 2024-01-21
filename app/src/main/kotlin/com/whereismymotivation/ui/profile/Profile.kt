@@ -1,5 +1,6 @@
 package com.whereismymotivation.ui.profile
 
+import androidx.annotation.Keep
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,13 +28,13 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -48,6 +49,7 @@ import com.whereismymotivation.ui.journal.JournalsViewModel
 import com.whereismymotivation.ui.moods.Moods
 import com.whereismymotivation.ui.moods.MoodsViewModel
 import com.whereismymotivation.ui.theme.AppTheme
+import com.whereismymotivation.utils.common.PermissionUtils
 
 @Composable
 fun Profile(
@@ -57,6 +59,7 @@ fun Profile(
     journalsViewModel: JournalsViewModel
 ) {
     val user = profileViewModel.user.collectAsStateWithLifecycle().value
+    val selectedTab = profileViewModel.selectedTab.collectAsStateWithLifecycle().value
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
@@ -70,7 +73,9 @@ fun Profile(
         Tabs(
             modifier = Modifier.padding(innerPadding),
             moodsViewModel = moodViewModel,
-            journalsViewModel = journalsViewModel
+            journalsViewModel = journalsViewModel,
+            selectedTab = selectedTab,
+            selectTab = { profileViewModel.selectTab(it) }
         )
     }
 }
@@ -147,12 +152,30 @@ private fun Header(
                     offset = DpOffset(0.dp, 0.dp),
                     onDismissRequest = { menuExpanded = false },
                 ) {
+                    val context = LocalContext.current
                     DropdownMenuItem(
-                        onClick = { logout() },
-                        text = {
-                            Text("Logout")
-                        }
+                        onClick = {
+                            menuExpanded = false
+                            logout()
+                        },
+                        text = { Text("Logout") }
                     )
+                    if (PermissionUtils.needNotificationPermission())
+                        DropdownMenuItem(
+                            onClick = {
+                                menuExpanded = false
+                                PermissionUtils.launchNotificationSettings(context)
+                            },
+                            text = { Text("Notification") }
+                        )
+                    if (PermissionUtils.needAlarmPermission())
+                        DropdownMenuItem(
+                            onClick = {
+                                menuExpanded = false
+                                PermissionUtils.launchAlarmSettings(context)
+                            },
+                            text = { Text("Alarm") }
+                        )
                 }
             }
         }
@@ -163,25 +186,40 @@ private fun Header(
 private fun Tabs(
     modifier: Modifier = Modifier,
     moodsViewModel: MoodsViewModel,
-    journalsViewModel: JournalsViewModel
+    journalsViewModel: JournalsViewModel,
+    selectedTab: ProfileTab = ProfileTab.MOOD,
+    selectTab: (ProfileTab) -> Unit
 ) {
-    var tabIndex by remember { mutableIntStateOf(0) }
-
-    val tabs = listOf("Moods", "Journals")
 
     Column(modifier = modifier.fillMaxWidth()) {
-        TabRow(selectedTabIndex = tabIndex) {
-            tabs.forEachIndexed { index, title ->
-                Tab(text = { Text(title) },
-                    selected = tabIndex == index,
-                    onClick = { tabIndex = index }
+        TabRow(selectedTabIndex = selectedTab.index) {
+            ProfileTab.entries.map {
+                Tab(
+                    text = { Text(it.title) },
+                    selected = it == selectedTab,
+                    onClick = { selectTab(it) }
                 )
             }
         }
-        when (tabIndex) {
-            0 -> Moods(viewModel = moodsViewModel)
-            1 -> Journals(viewModel = journalsViewModel)
+        when (selectedTab) {
+            ProfileTab.MOOD -> Moods(viewModel = moodsViewModel)
+            ProfileTab.JOURNAL -> Journals(viewModel = journalsViewModel)
         }
+    }
+}
+
+@Keep
+enum class ProfileTab(val title: String, val index: Int) {
+    MOOD("Mood", 0),
+    JOURNAL("Journal", 1);
+
+    companion object {
+        fun fromName(name: String): ProfileTab =
+            try {
+                valueOf(name)
+            } catch (e: IllegalArgumentException) {
+                MOOD
+            }
     }
 }
 

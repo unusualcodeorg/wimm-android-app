@@ -1,9 +1,11 @@
-package com.whereismymotivation.di
+package com.whereismymotivation.di.module
 
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
 import com.whereismymotivation.data.local.db.DatabaseService
+import com.whereismymotivation.di.qualifier.DatabaseInfo
+import com.whereismymotivation.di.qualifier.PrefsInfo
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

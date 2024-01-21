@@ -2,16 +2,7 @@
 <resources>
     <color name="immersive_sys_ui">#33000000</color>
 
-    <color name="black">#FF000000</color>
-
     <color name="colorPrimary">#FFFFFF</color>
     <color name="colorAccent">#1da1f2</color>
 
-    <color name="semi_black">#99000000</color>
-    <color name="pinkish_red">#FFB2BC</color>
-    <color name="yellow">#f8e71c</color>
-    <color name="quote">#f2f2f2</color>
-
-    <color name="gradient_start_color">@color/colorPrimary</color>
-    <color name="gradient_end_color">@color/colorPrimary</color>
 </resources>

@@ -22,13 +22,13 @@ class ContentBrowser @Inject constructor(
             Content.Category.FACEBOOK_VIDEO -> {}
             Content.Category.QUOTE -> {}
             Content.Category.MENTOR_INFO ->
-                navigator.navigateTo(Destination.Mentor.createRoute(content.id))
+                navigator.navigateTo(Destination.Mentor.dynamicRoute(content.id))
 
             Content.Category.TOPIC_INFO ->
-                navigator.navigateTo(Destination.Topic.createRoute(content.id))
+                navigator.navigateTo(Destination.Topic.dynamicRoute(content.id))
 
             Content.Category.YOUTUBE ->
-                navigator.navigateTo(Destination.YouTube.createRoute(content.id))
+                navigator.navigateTo(Destination.YouTube.dynamicRoute(content.id))
 
         }
 
@@ -41,13 +41,13 @@ class ContentBrowser @Inject constructor(
             Content.Category.FACEBOOK_VIDEO -> {}
             Content.Category.QUOTE -> {}
             Content.Category.YOUTUBE ->
-                navigator.navigateTo(Destination.YouTube.createRoute(result.id))
+                navigator.navigateTo(Destination.YouTube.dynamicRoute(result.id))
 
             Content.Category.MENTOR_INFO ->
-                navigator.navigateTo(Destination.Mentor.createRoute(result.id))
+                navigator.navigateTo(Destination.Mentor.dynamicRoute(result.id))
 
             Content.Category.TOPIC_INFO -> {
-                navigator.navigateTo(Destination.Topic.createRoute(result.id))
+                navigator.navigateTo(Destination.Topic.dynamicRoute(result.id))
             }
         }
     }

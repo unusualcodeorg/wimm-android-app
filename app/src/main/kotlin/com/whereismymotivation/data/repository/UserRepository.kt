@@ -59,6 +59,7 @@ class UserRepository @Inject constructor(
         userPreferences.removeUserProfilePicUrl()
         userPreferences.removeOnBoardingComplete()
         userPreferences.removeUserRoles()
+        userPreferences.removeFirebaseTokenSent()
     }
 
     fun getCurrentUser(): User? {

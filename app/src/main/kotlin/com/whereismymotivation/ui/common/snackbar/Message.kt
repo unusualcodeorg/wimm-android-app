@@ -1,5 +1,6 @@
 package com.whereismymotivation.ui.common.snackbar
 
+import androidx.annotation.Keep
 import androidx.annotation.StringRes
 
 data class Message<out T> private constructor(val type: Type, val content: T) {
@@ -23,6 +24,7 @@ data class Message<out T> private constructor(val type: Type, val content: T) {
 
     }
 
+    @Keep
     enum class Type {
         SUCCESS,
         ERROR,

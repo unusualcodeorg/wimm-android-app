@@ -15,8 +15,11 @@ class LocalHostInterceptor @Inject constructor() :
         val builder = request.newBuilder()
 
         if (request.url.host == "localhost") {
-            val host = URI(BuildConfig.BASE_URL).host
-            val url = request.url.newBuilder().host(host).build()
+            val baseUrl = URI(BuildConfig.BASE_URL)
+            val url = request.url.newBuilder()
+                .host(baseUrl.host)
+                .port(baseUrl.port)
+                .build()
             builder.url(url)
         }
         return chain.proceed(builder.build())

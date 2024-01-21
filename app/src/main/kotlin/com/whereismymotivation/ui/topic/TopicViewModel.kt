@@ -8,6 +8,7 @@ import com.whereismymotivation.ui.base.BaseViewModel
 import com.whereismymotivation.ui.common.browser.ContentBrowser
 import com.whereismymotivation.ui.common.progress.Loader
 import com.whereismymotivation.ui.common.snackbar.Messenger
+import com.whereismymotivation.ui.navigation.Destination
 import com.whereismymotivation.ui.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,12 +27,10 @@ class TopicViewModel @Inject constructor(
 
     companion object {
         const val TAG = "TopicViewModel"
-        private const val TOPIC_ID_SAVED_STATE_KEY = "topicId"
     }
 
-
     init {
-        val topicId: String = savedStateHandle.get<String>(TOPIC_ID_SAVED_STATE_KEY)!!
+        val topicId: String = savedStateHandle.get<String>(Destination.Topic.routeArgName)!!
         loadTopic(topicId)
         loadTopicContents(topicId)
     }

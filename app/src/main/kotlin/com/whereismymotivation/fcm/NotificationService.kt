@@ -4,11 +4,15 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.whereismymotivation.analytics.Tracker
 import com.whereismymotivation.data.repository.UserRepository
-import com.whereismymotivation.di.ScopeIO
+import com.whereismymotivation.di.qualifier.ScopeIO
+import com.whereismymotivation.fcm.core.toPayload
 import com.whereismymotivation.utils.log.Logger
+import com.whereismymotivation.work.AppWorkManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -19,7 +23,10 @@ class NotificationService : FirebaseMessagingService() {
     lateinit var scope: CoroutineScope
 
     @Inject
-    lateinit var notificationBuilder: NotificationBuilder
+    lateinit var notificationHelper: NotificationHelper
+
+    @Inject
+    lateinit var appWorkManager: AppWorkManager
 
     companion object {
         private const val TAG = "NotificationService"
@@ -57,15 +64,16 @@ class NotificationService : FirebaseMessagingService() {
                  * Handle message within 10 seconds
                  * handleNow()
                  */
-
-                notificationBuilder.showFcmNotification(it)
+                appWorkManager.addNotificationWork(it.toPayload())
             }
         }
 
         // Check if message contains a notification payload.
         remoteMessage.notification?.body?.let {
             Logger.d(TAG, "Message Notification Body: $it")
-            notificationBuilder.showFcmNotification(it)
+            scope.launch {
+                notificationHelper.showMessage(it)
+            }
         }
 
         tracker.trackServerNotificationReceived()
@@ -77,8 +85,16 @@ class NotificationService : FirebaseMessagingService() {
      * is initially generated so this is where you would retrieve the token.
      */
     override fun onNewToken(token: String) {
+        scope.launch {
+            if (userRepository.userExists()) {
+                userRepository.sendFirebaseToken(token)
+                    .catch { }
+                    .collect {
+                        userRepository.setFirebaseToken(it)
+                    }
+            }
+        }
         Logger.d(TAG, "Refreshed token: $token")
-        token.let { userRepository.setFirebaseToken(it) }
     }
 
     override fun onDestroy() {

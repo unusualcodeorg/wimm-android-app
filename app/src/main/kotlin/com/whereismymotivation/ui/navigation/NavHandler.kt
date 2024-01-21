@@ -18,6 +18,16 @@ internal fun NavHandler(
             navController.navigate(it.route)
         }.launchIn(this)
 
+        navigator.deeplink.onEach {
+            if (navController.graph.hasDeepLink(it.uri)) {
+                val reached = navController.currentDestination?.hasDeepLink(it.uri) ?: false
+                if (!reached) {
+                    if (it.popBackstack) navController.popBackStack()
+                    navController.navigate(it.uri)
+                }
+            }
+        }.launchIn(this)
+
         navigator.back.onEach {
             if (it.recreate) {
                 navController.previousBackStackEntry?.destination?.route?.let { route ->

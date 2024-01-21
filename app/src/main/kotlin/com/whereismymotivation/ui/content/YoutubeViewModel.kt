@@ -9,6 +9,7 @@ import com.whereismymotivation.ui.common.progress.Loader
 import com.whereismymotivation.ui.common.share.Payload
 import com.whereismymotivation.ui.common.share.Sharer
 import com.whereismymotivation.ui.common.snackbar.Messenger
+import com.whereismymotivation.ui.navigation.Destination
 import com.whereismymotivation.ui.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -19,7 +20,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import javax.inject.Inject
 
 @HiltViewModel
-class ContentViewModel @Inject constructor(
+class YoutubeViewModel @Inject constructor(
     loader: Loader,
     messenger: Messenger,
     savedStateHandle: SavedStateHandle,
@@ -29,8 +30,7 @@ class ContentViewModel @Inject constructor(
 ) : BaseViewModel(loader, messenger, navigator) {
 
     companion object {
-        const val TAG = "ContentViewModel"
-        private const val CONTENT_ID_SAVED_STATE_KEY = "contentId"
+        const val TAG = "YoutubeViewModel"
         private const val pageItemCount = 10
     }
 
@@ -46,7 +46,7 @@ class ContentViewModel @Inject constructor(
     val content = _content.asStateFlow()
 
     init {
-        initContent(savedStateHandle.get<String>(CONTENT_ID_SAVED_STATE_KEY)!!)
+        initContent(savedStateHandle.get<String>(Destination.YouTube.routeArgName)!!)
     }
 
     fun selectSimilarContent(content: Content) {

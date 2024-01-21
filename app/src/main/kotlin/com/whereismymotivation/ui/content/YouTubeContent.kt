@@ -41,7 +41,7 @@ import com.whereismymotivation.ui.theme.black
 import com.whereismymotivation.ui.theme.white
 
 @Composable
-fun YouTubeContent(modifier: Modifier = Modifier, viewModel: ContentViewModel) {
+fun YouTubeContent(modifier: Modifier = Modifier, viewModel: YoutubeViewModel) {
     val content = viewModel.content.collectAsStateWithLifecycle().value
         ?: return LoadingPlaceholder(loading = true)
 

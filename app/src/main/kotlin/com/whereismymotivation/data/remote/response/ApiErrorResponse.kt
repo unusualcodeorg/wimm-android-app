@@ -1,5 +1,6 @@
 package com.whereismymotivation.data.remote.response
 
+import androidx.annotation.Keep
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import javax.net.ssl.HttpsURLConnection
@@ -14,6 +15,7 @@ data class ApiErrorResponse(
     @Json(name = "message")
     val message: String = "Something went wrong"
 ) {
+    @Keep
     enum class Status(val code: Int) {
         UNKNOWN(-100),
         REMOTE_CONNECTION_ERROR(-101),

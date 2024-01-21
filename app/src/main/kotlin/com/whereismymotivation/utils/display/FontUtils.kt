@@ -1,5 +1,6 @@
 package com.whereismymotivation.utils.display
 
+import androidx.annotation.Keep
 import kotlin.random.Random
 
 object FontUtils {
@@ -29,6 +30,7 @@ object FontUtils {
         }
     }
 
+    @Keep
     enum class FontName {
         SAIL,
         AMARANTH,

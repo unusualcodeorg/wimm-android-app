@@ -3,13 +3,4 @@
 
     <style name="AppTheme" parent="android:Theme.Material.Light.NoActionBar" />
 
-    <style name="AppTheme.Quote" parent="AppTheme">
-        <item name="android:fontFamily">@font/paytone_one_regular</item>
-        <item name="android:textColor">@color/quote</item>
-    </style>
-
-    <style name="AppTheme.Body1" parent="AppTheme">
-        <item name="android:fontFamily">@font/rubik_regular</item>
-        <item name="android:textColor">@color/black</item>
-    </style>
 </resources>

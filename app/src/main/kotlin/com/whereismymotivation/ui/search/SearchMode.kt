@@ -9,5 +9,14 @@ import kotlinx.parcelize.Parcelize
 enum class SearchMode : Parcelable {
     UNIVERSAL,
     MENTOR,
-    TOPIC,
+    TOPIC;
+
+    companion object {
+        fun fromName(name: String): SearchMode =
+            try {
+                SearchMode.valueOf(name)
+            } catch (e: IllegalArgumentException) {
+                UNIVERSAL
+            }
+    }
 }

@@ -23,14 +23,34 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="31">
+
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="wimm"
+                    android:pathPrefix="/"
+                    android:scheme="app" />
+            </intent-filter>
+
+            <intent-filter
+                android:icon="@drawable/ic_save_motivation"
+                android:label="@string/save">
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
 
@@ -41,8 +61,6 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
-        <service android:name=".fcm.NotificationCallbackService" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -60,9 +78,9 @@
             tools:node="remove" />
 
         <receiver
-            android:name=".work.DailyMoodAlarmReceiver"
+            android:name=".work.receiver.DailyMoodAlarmReceiver"
             android:enabled="true"
-            android:exported="false"
+            android:exported="true"
             android:permission="TODO" />
 
         <!-- Set custom default icon. This is used when no icon is set for incoming notification messages. -->
