@@ -1,5 +1,7 @@
 package com.whereismymotivation.fcm.core
 
+import kotlin.random.Random
+
 interface Notification {
     suspend fun send()
 
@@ -10,6 +12,10 @@ interface Notification {
         TEXT_AND_IMAGE(3),
         CONTENT(4),
         MOOD(5);
+
+        fun unique(): Int {
+            return this.value * Random.nextInt(1, 1001)
+        }
 
         companion object {
             fun parse(name: String) =

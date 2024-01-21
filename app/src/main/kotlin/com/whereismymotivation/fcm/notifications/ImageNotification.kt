@@ -44,8 +44,9 @@ class ImageNotification(
 
                 val notificationManager =
                     provider.context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
                 notificationManager.notify(
-                    Notification.Type.TEXT.value,
+                    Notification.Type.TEXT.unique(),
                     notificationBuilder.build()
                 )
 

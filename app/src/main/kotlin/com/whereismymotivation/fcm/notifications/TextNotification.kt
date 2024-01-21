@@ -29,7 +29,11 @@ class TextNotification(
 
             val notificationManager =
                 provider.context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.notify(Notification.Type.TEXT.value, notificationBuilder.build())
+
+            notificationManager.notify(
+                Notification.Type.TEXT.unique(),
+                notificationBuilder.build()
+            )
 
         } catch (e: Exception) {
             Logger.record(e)
