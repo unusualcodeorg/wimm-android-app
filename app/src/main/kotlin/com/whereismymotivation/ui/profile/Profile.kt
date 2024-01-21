@@ -1,5 +1,6 @@
 package com.whereismymotivation.ui.profile
 
+import androidx.annotation.Keep
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,7 +28,6 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -59,6 +59,7 @@ fun Profile(
     journalsViewModel: JournalsViewModel
 ) {
     val user = profileViewModel.user.collectAsStateWithLifecycle().value
+    val selectedTab = profileViewModel.selectedTab.collectAsStateWithLifecycle().value
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
@@ -72,7 +73,9 @@ fun Profile(
         Tabs(
             modifier = Modifier.padding(innerPadding),
             moodsViewModel = moodViewModel,
-            journalsViewModel = journalsViewModel
+            journalsViewModel = journalsViewModel,
+            selectedTab = selectedTab,
+            selectTab = { profileViewModel.selectTab(it) }
         )
     }
 }
@@ -183,25 +186,40 @@ private fun Header(
 private fun Tabs(
     modifier: Modifier = Modifier,
     moodsViewModel: MoodsViewModel,
-    journalsViewModel: JournalsViewModel
+    journalsViewModel: JournalsViewModel,
+    selectedTab: ProfileTab = ProfileTab.MOOD,
+    selectTab: (ProfileTab) -> Unit
 ) {
-    var tabIndex by remember { mutableIntStateOf(0) }
-
-    val tabs = listOf("Moods", "Journals")
 
     Column(modifier = modifier.fillMaxWidth()) {
-        TabRow(selectedTabIndex = tabIndex) {
-            tabs.forEachIndexed { index, title ->
-                Tab(text = { Text(title) },
-                    selected = tabIndex == index,
-                    onClick = { tabIndex = index }
+        TabRow(selectedTabIndex = selectedTab.index) {
+            ProfileTab.entries.map {
+                Tab(
+                    text = { Text(it.title) },
+                    selected = it == selectedTab,
+                    onClick = { selectTab(it) }
                 )
             }
         }
-        when (tabIndex) {
-            0 -> Moods(viewModel = moodsViewModel)
-            1 -> Journals(viewModel = journalsViewModel)
+        when (selectedTab) {
+            ProfileTab.MOOD -> Moods(viewModel = moodsViewModel)
+            ProfileTab.JOURNAL -> Journals(viewModel = journalsViewModel)
         }
+    }
+}
+
+@Keep
+enum class ProfileTab(val title: String, val index: Int) {
+    MOOD("Mood", 0),
+    JOURNAL("Journal", 1);
+
+    companion object {
+        fun getByName(name: String): ProfileTab =
+            try {
+                valueOf(name)
+            } catch (e: IllegalArgumentException) {
+                MOOD
+            }
     }
 }
 
