@@ -25,7 +25,7 @@ class MoodNotification(
                 .setContentText(payload.subtitle)
                 .setStyle(style)
                 .setContentIntent(provider.pendingIntents.moodRecord())
-                .addAction(provider.defaults.openAction)
+                .addAction(provider.buildOpenAction(provider.pendingIntents.moodRecord()))
 
             val notificationManager =
                 provider.context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

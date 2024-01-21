@@ -1,5 +1,6 @@
 package com.whereismymotivation.fcm.core
 
+import android.app.PendingIntent
 import android.content.Context
 import android.graphics.drawable.BitmapDrawable
 import android.media.RingtoneManager
@@ -26,6 +27,13 @@ class Provider @Inject constructor(@ApplicationContext val context: Context) {
             pendingIntents.appOpen()
         )
     )
+
+    fun buildOpenAction(pIntent: PendingIntent, label: String? = null): Action = Action(
+        R.drawable.ic_touch_app,
+        label ?: context.getString(R.string.open),
+        pIntent
+    )
+
 
     fun basicNotificationBuilder() =
         NotificationCompat.Builder(context, defaults.channel)
