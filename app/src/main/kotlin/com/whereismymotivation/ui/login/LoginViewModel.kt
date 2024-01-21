@@ -10,8 +10,12 @@ import com.whereismymotivation.ui.navigation.Destination
 import com.whereismymotivation.ui.navigation.Navigator
 import com.whereismymotivation.utils.common.isValidEmail
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -47,12 +51,30 @@ class LoginViewModel @Inject constructor(
         if (passwordError.value.isNotEmpty()) _passwordError.tryEmit("")
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     fun basicLogin() {
         if (validate()) {
             launchNetwork {
                 authRepository.basicLogin(email.value, password.value)
+                    .flatMapLatest { auth ->
+                        flow {
+                            userRepository.saveCurrentAuth(auth)
+                            val firebaseToken = userRepository.getFirebaseToken()
+                            if (firebaseToken != null && userRepository.userExists()) {
+                                userRepository.sendFirebaseToken(firebaseToken)
+                                    .catch {
+                                        emit(auth)
+                                    }
+                                    .collect {
+                                        userRepository.setFirebaseTokenSent()
+                                        emit(auth)
+                                    }
+                            } else {
+                                emit(auth)
+                            }
+                        }
+                    }
                     .collect {
-                        userRepository.saveCurrentAuth(it)
                         messenger.deliver(Message.success("Login Success"))
                         if (userRepository.isOnBoardingComplete()) {
                             navigator.navigateTo(Destination.Home.route, true)

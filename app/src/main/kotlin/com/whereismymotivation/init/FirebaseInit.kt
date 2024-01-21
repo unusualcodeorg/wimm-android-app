@@ -26,12 +26,13 @@ import javax.inject.Singleton
 class FirebaseInit @Inject constructor(
     @ApplicationContext private val context: Context,
     private val userRepository: UserRepository,
-): Initializer {
-    override fun init(){
+) : Initializer {
+    override fun init() {
         recordUser()
         syncFcmToken()
         createDefaultNotificationChannel()
     }
+
     private fun recordUser() {
         userRepository.getCurrentUser()?.run {
             Firebase.crashlytics.setUserId(id)
@@ -54,6 +55,8 @@ class FirebaseInit @Inject constructor(
                     return@addOnCompleteListener
                 }
                 val token = task.result
+
+                userRepository.setFirebaseToken(token)
 
                 GlobalScope.launch {
                     userRepository.sendFirebaseToken(token)
