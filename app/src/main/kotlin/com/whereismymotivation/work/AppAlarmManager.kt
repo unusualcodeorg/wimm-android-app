@@ -23,7 +23,7 @@ class AppAlarmManager @Inject constructor(
         const val ACTION_DAILY_MOOD_RECORD = "ACTION_DAILY_MOOD_RECORD"
     }
 
-    fun setDailyMoodAlarm() {
+    fun setDailyMoodAlarm(hour: Int, min: Int, sec: Int) {
         if (!appMetricRepository.isDailyMoodRecorderNotificationEnabled()) return
 
         try {
@@ -38,8 +38,12 @@ class AppAlarmManager @Inject constructor(
             val calendarNow = Calendar.getInstance()
             val calendarExact = Calendar.getInstance().apply {
                 set(
-                    get(Calendar.YEAR), get(Calendar.MONTH), get(Calendar.DAY_OF_MONTH),
-                    5, 22, 0
+                    get(Calendar.YEAR),
+                    get(Calendar.MONTH),
+                    get(Calendar.DAY_OF_MONTH),
+                    hour,
+                    min,
+                    sec
                 )
             }
 
@@ -55,7 +59,7 @@ class AppAlarmManager @Inject constructor(
                 intent,
                 PendingIntent.FLAG_IMMUTABLE
             )
-
+            alarmManager.cancel(pIntent)
             alarmManager.setExact(AlarmManager.RTC, calendarExact.timeInMillis, pIntent)
 
         } catch (e: Exception) {
