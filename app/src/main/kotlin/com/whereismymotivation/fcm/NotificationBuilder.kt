@@ -1,7 +1,7 @@
 package com.whereismymotivation.fcm
 
 import coil.ImageLoader
-import com.whereismymotivation.di.ScopeMain
+import com.whereismymotivation.di.qualifier.ScopeMain
 import com.whereismymotivation.fcm.core.Notification
 import com.whereismymotivation.fcm.core.Payload
 import com.whereismymotivation.fcm.core.Provider

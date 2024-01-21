@@ -4,8 +4,8 @@ import com.whereismymotivation.data.remote.RequestHeaders
 import com.whereismymotivation.data.remote.apis.auth.RefreshTokenApi
 import com.whereismymotivation.data.remote.apis.auth.request.RefreshTokenRequest
 import com.whereismymotivation.data.remote.utils.ForcedLogout
-import com.whereismymotivation.di.AccessTokenInfo
-import com.whereismymotivation.di.RefreshTokenInfo
+import com.whereismymotivation.di.qualifier.AccessTokenInfo
+import com.whereismymotivation.di.qualifier.RefreshTokenInfo
 import com.whereismymotivation.utils.common.ResultCallback
 import com.whereismymotivation.utils.common.ResultFetcher
 import okhttp3.Interceptor

@@ -11,8 +11,8 @@ import com.whereismymotivation.analytics.FirebaseTrackingClient
 import com.whereismymotivation.analytics.TrackingClient
 import com.whereismymotivation.data.local.prefs.AppMetricPreferences
 import com.whereismymotivation.data.local.prefs.UserPreferences
-import com.whereismymotivation.di.AppVersionCodeInfo
-import com.whereismymotivation.di.DeviceIdInfo
+import com.whereismymotivation.di.qualifier.AppVersionCodeInfo
+import com.whereismymotivation.di.qualifier.DeviceIdInfo
 import com.whereismymotivation.utils.common.ResultFetcher
 import com.whereismymotivation.utils.config.RemoteKey
 import com.whereismymotivation.utils.log.Logger

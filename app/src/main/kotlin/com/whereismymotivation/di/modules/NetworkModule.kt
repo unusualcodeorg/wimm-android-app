@@ -17,10 +17,10 @@ import com.whereismymotivation.data.remote.interceptors.LocalHostInterceptor
 import com.whereismymotivation.data.remote.interceptors.NetworkInterceptor
 import com.whereismymotivation.data.remote.interceptors.RefreshTokenInterceptor
 import com.whereismymotivation.data.remote.interceptors.RequestHeaderInterceptor
-import com.whereismymotivation.di.AccessTokenInfo
-import com.whereismymotivation.di.ApiKeyInfo
-import com.whereismymotivation.di.BaseUrl
-import com.whereismymotivation.di.RefreshTokenInfo
+import com.whereismymotivation.di.qualifier.AccessTokenInfo
+import com.whereismymotivation.di.qualifier.ApiKeyInfo
+import com.whereismymotivation.di.qualifier.BaseUrl
+import com.whereismymotivation.di.qualifier.RefreshTokenInfo
 import com.whereismymotivation.utils.common.ResultCallback
 import com.whereismymotivation.utils.common.ResultFetcher
 import dagger.Module
