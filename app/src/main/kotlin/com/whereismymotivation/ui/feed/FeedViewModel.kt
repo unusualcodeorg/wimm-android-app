@@ -52,10 +52,11 @@ class FeedViewModel @Inject constructor(
         }
     }
 
-    private fun rotateFeedList() {
+    private fun rotateFeedList(reload: Boolean = false) {
         contentRepository.setFeedNextPageNumber(1)
         startPageNumber = 1
         currentPageNumber = startPageNumber
+        if (reload) loadMoreContents()
     }
 
     fun loadMoreContents() {
@@ -74,7 +75,7 @@ class FeedViewModel @Inject constructor(
             contentRepository.fetchHomeFeedContents(pageNumber, pageItemCount, _contents.isEmpty())
                 .collect {
                     if (it.isEmpty()) {
-                        rotateFeedList()
+                        rotateFeedList(true)
                     } else {
                         currentPageNumber++
                         contentRepository.setFeedNextPageNumber(currentPageNumber)
