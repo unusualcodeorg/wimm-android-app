@@ -1,5 +1,6 @@
 package com.whereismymotivation.ui.login
 
+import com.whereismymotivation.BuildConfig
 import com.whereismymotivation.data.repository.AuthRepository
 import com.whereismymotivation.data.repository.UserRepository
 import com.whereismymotivation.ui.base.BaseViewModel
@@ -31,8 +32,8 @@ class LoginViewModel @Inject constructor(
         const val TAG = "LoginViewModel"
     }
 
-    private val _email = MutableStateFlow("admin@janisharali.com")
-    private val _password = MutableStateFlow("changeit")
+    private val _email = MutableStateFlow(if (BuildConfig.DEBUG) "admin@janisharali.com" else "")
+    private val _password = MutableStateFlow(if (BuildConfig.DEBUG) "changeit" else "")
     private val _emailError = MutableStateFlow("")
     private val _passwordError = MutableStateFlow("")
 
