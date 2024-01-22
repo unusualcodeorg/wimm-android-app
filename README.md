@@ -6,6 +6,11 @@ This is a complete production ready project to learn modern Android development.
 
 Google recommendations similar design
 
+# App Screenshots
+![Light](docs/screenshots/display-light.png)
+
+![Dark](docs/screenshots/display-dark.png)
+
 ## Framework
 - MVVM
 - Material Design 3
