@@ -11,6 +11,8 @@ Google recommendations similar design
 
 ![Dark](docs/screenshots/display-dark.png)
 
+See More Screenshots here [SCREEN_SHOTS.md](docs/SCREEN_SHOTS.md)
+
 ## Framework
 - MVVM
 - Material Design 3
@@ -48,7 +50,7 @@ Using this app can bring a little bit of happiness and energy to live an inspire
 
 
 # Supporting Backend Project
-The backend that powers this App is also open-sources. You can find it here:
+The backend that powers this App is also open-sourced. You can find it here:
 
 ### [Modern Backend Development - WhereIsMyMotivation](https://github.com/janishar/wimm-node-app)
 
