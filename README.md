@@ -67,7 +67,23 @@ git clone https://github.com/janishar/wimm-android-app.git
 echo "Enjoy learning Modern Android Development - WhereIsMyMotivation :D"
 
 ```
+### Important
+Change the `BASE_URL` in `app/build.gradle.kts` to your local IP address. You can find your local IP address from wifi info or run the following bash command in terminal.
 
+For Linux/macOS:
+```base
+ifconfig | grep 'inet '
+```
+For Windows:
+```bash
+ipconfig | findstr "IPv4" | findstr [0-9]
+```
+
+Example
+
+`buildConfigField("String", "BASE_URL", "\"http://192.168.1.6:3000/\"")`
+
+### Note
 - You may want to replace the `app/src/google-services.json` with your own firebase project to see the crashlytics and test notifications. Create a firebase project from here: [Firebase](https://firebase.google.com)
 - Run the Backend Project to power this App as mentioned below
 
