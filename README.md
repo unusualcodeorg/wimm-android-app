@@ -50,6 +50,24 @@ You can track your happiness level and write down daily journals. You can also s
 Using this app can bring a little bit of happiness and energy to live an inspired life.
 
 ## Instructions
+```bash
+# clone the backend project wimm-node-app used for this App
+git clone https://github.com/janishar/wimm-node-app.git --recursive
+
+# goto the wimm-node-app and run
+npm install
+
+# install and start docker containers (https://docs.docker.com/install)
+docker-compose up -d
+
+# clone the wimm-android-app
+git clone https://github.com/janishar/wimm-android-app.git
+
+# open wimm-android-app in Android Studio and run the app
+echo "Enjoy learning Modern Android Development - WhereIsMyMotivation :D"
+
+```
+
 - You may want to replace the `app/src/google-services.json` with your own firebase project to see the crashlytics and test notifications. Create a firebase project from here: [Firebase](https://firebase.google.com)
 - Run the Backend Project to power this App as mentioned below
 
