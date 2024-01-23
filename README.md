@@ -4,7 +4,7 @@
 
 This is a complete production ready project to learn modern Android development. It adopts the latest jetpack libraries and is based on MVVM architecture. 
 
-Google recommendations similar design
+Google recommends similar design
 
 # App Screenshots
 ![Light](docs/screenshots/display-light.png)
@@ -43,7 +43,7 @@ See More Screenshots here [SCREEN_SHOTS.md](docs/SCREEN_SHOTS.md)
 - 100% Kotlin
 
 # About Project
-WhereIsMyMotivation is a concept where you see videos and quotes that can inspire you everyday. You will get information on great personalities and make them your percieved mentors. You can also suscribe to topics of your interests. 
+WhereIsMyMotivation is a concept where you see videos and quotes that can inspire you everyday. You will get information on great personalities and make them your perceived mentors. You can also subscribe to topics of your interests. 
 
 You can track your happiness level and write down daily journals. You can also share things of interest from web to store in your motivation box.
 
