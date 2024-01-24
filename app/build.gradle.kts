@@ -140,7 +140,7 @@ dependencies {
     implementation("androidx.work:work-runtime-ktx:$work")
 
     // JSON
-    val moshi = "1.14.0"
+    val moshi = "1.15.0"
     implementation("com.squareup.moshi:moshi:$moshi")
     ksp("com.squareup.moshi:moshi-kotlin-codegen:$moshi")
 
@@ -165,7 +165,7 @@ dependencies {
     implementation("io.coil-kt:coil:$coil")
     implementation("io.coil-kt:coil-compose:$coil")
 
-    val lottie = "6.2.0"
+    val lottie = "6.3.0"
     implementation("com.airbnb.android:lottie-compose:$lottie")
 
     // Test
