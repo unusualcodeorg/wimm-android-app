@@ -151,7 +151,7 @@ dependencies {
     implementation("androidx.room:room-ktx:$room")
 
     // Dependency Management
-    val hilt = "2.48.1"
+    val hilt = "2.50"
     implementation("com.google.dagger:hilt-android:$hilt")
     kapt("com.google.dagger:hilt-android-compiler:$hilt")
 
