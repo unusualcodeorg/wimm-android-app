@@ -1,7 +1,6 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    kotlin("kapt")
     id("com.google.dagger.hilt.android")
     id("kotlin-parcelize")
     id("com.google.devtools.ksp")
@@ -60,6 +59,7 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "/META-INF/LICENSE.md"
         }
     }
 }
@@ -153,12 +153,12 @@ dependencies {
     // Dependency Management
     val hilt = "2.50"
     implementation("com.google.dagger:hilt-android:$hilt")
-    kapt("com.google.dagger:hilt-android-compiler:$hilt")
+    ksp("com.google.dagger:hilt-android-compiler:$hilt")
 
     val hiltKtx = "1.1.0"
     implementation("androidx.hilt:hilt-navigation-compose:$hiltKtx")
     implementation("androidx.hilt:hilt-work:$hiltKtx")
-    kapt("androidx.hilt:hilt-compiler:$hiltKtx")
+    ksp("androidx.hilt:hilt-compiler:$hiltKtx")
 
     // Image
     val coil = "2.5.0"
@@ -192,9 +192,4 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
-}
-
-// Allow references to generated code
-kapt {
-    correctErrorTypes = true
 }
