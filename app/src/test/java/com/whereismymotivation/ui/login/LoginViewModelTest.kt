@@ -61,6 +61,40 @@ class LoginViewModelTest {
     }
 
     @Test
+    fun `should fail if email is invalid`() = runTest {
+        // Data
+        val email = "email"
+        val password = "password"
+
+        viewModel.onEmailChange(email)
+        viewModel.onPasswordChange(password)
+
+        // Act
+        viewModel.basicLogin()
+
+        // Assert
+        assertEquals(viewModel.emailError.value, "Invalid Email")
+        coVerify(inverse = true) { authRepository.basicLogin(email, password) }
+    }
+
+    @Test
+    fun `should fail if password is less that 6 characters`() = runTest {
+        // Data
+        val email = "a@b.com"
+        val password = "pass"
+
+        viewModel.onEmailChange(email)
+        viewModel.onPasswordChange(password)
+
+        // Act
+        viewModel.basicLogin()
+
+        // Assert
+        assertEquals(viewModel.passwordError.value, "Password length should be at least 6")
+        coVerify(inverse = true) { authRepository.basicLogin(email, password) }
+    }
+
+    @Test
     fun `should succeed login with credentials`() = runTest {
         // Data
         val auth: Auth = mockk()
