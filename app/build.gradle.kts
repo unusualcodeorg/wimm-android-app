@@ -66,21 +66,23 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.12.0")
+    val core = "1.12.0"
+    implementation("androidx.core:core-ktx:$core")
 
     // Material Design 3
     val material3 = "1.1.2"
     implementation("androidx.compose.material3:material3:$material3")
 
     // lifecycle
-    val lifecycleVersion = "2.6.2"
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleVersion")
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:$lifecycleVersion")
+    val lifecycle = "2.7.0"
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:$lifecycle")
 
     // Compose
-    implementation(platform("androidx.compose:compose-bom:2023.03.00"))
+    val compose = "2023.03.00"
+    implementation(platform("androidx.compose:compose-bom:$compose"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.material3:material3")
@@ -88,34 +90,50 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.compose.material3:material3-window-size-class")
-    implementation("androidx.navigation:navigation-compose:2.7.6")
-    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
-    implementation("androidx.activity:activity-compose:1.8.2")
 
-    implementation("androidx.browser:browser:1.7.0")
-    implementation("com.himanshoe:charty:2.0.0-alpha01")
+    val navigation = "2.7.6"
+    implementation("androidx.navigation:navigation-compose:$navigation")
+
+    val constraintlayout = "1.0.1"
+    implementation("androidx.constraintlayout:constraintlayout-compose:$constraintlayout")
+
+    val activity = "1.8.2"
+    implementation("androidx.activity:activity-compose:$activity")
+
+    val browser = "1.7.0"
+    implementation("androidx.browser:browser:$browser")
+
+    val charty = "2.0.0-alpha01"
+    implementation("com.himanshoe:charty:$charty")
 
     // Coroutine
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    val coroutines = "1.7.3"
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines")
 
     // Log
-    implementation("com.jakewharton.timber:timber:5.0.1")
+    val timber = "5.0.1"
+    implementation("com.jakewharton.timber:timber:$timber")
 
     // Network
     val retrofit2 = "2.9.0"
     implementation("com.squareup.retrofit2:retrofit:$retrofit2")
     implementation("com.squareup.retrofit2:converter-moshi:${retrofit2}")
-    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.11.0"))
+
+    val okhttp3 = "4.11.0"
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:$okhttp3"))
     implementation("com.squareup.okhttp3:okhttp")
     implementation("com.squareup.okhttp3:logging-interceptor")
 
     // Firebase
-    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
+    val firebase = "32.7.0"
+    implementation(platform("com.google.firebase:firebase-bom:$firebase"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-messaging")
     implementation("com.google.firebase:firebase-crashlytics")
     implementation("com.google.firebase:firebase-config")
-    implementation("com.google.firebase:firebase-crashlytics-buildtools:2.9.9")
+
+    val crashlytics = "2.9.9"
+    implementation("com.google.firebase:firebase-crashlytics-buildtools:$crashlytics")
 
     // Work
     val work = "2.9.0"
@@ -135,9 +153,10 @@ dependencies {
 
     // Dependency Management
     val hilt = "2.48.1"
-    val hiltKtx = "1.1.0"
     implementation("com.google.dagger:hilt-android:$hilt")
     kapt("com.google.dagger:hilt-android-compiler:$hilt")
+
+    val hiltKtx = "1.1.0"
     implementation("androidx.hilt:hilt-navigation-compose:$hiltKtx")
     implementation("androidx.hilt:hilt-work:$hiltKtx")
     kapt("androidx.hilt:hilt-compiler:$hiltKtx")
@@ -147,14 +166,20 @@ dependencies {
     implementation("io.coil-kt:coil:$coil")
     implementation("io.coil-kt:coil-compose:$coil")
 
-    // Lotte
-    implementation("com.airbnb.android:lottie-compose:6.2.0")
+    val lottie = "6.2.0"
+    implementation("com.airbnb.android:lottie-compose:$lottie")
 
-    testImplementation("junit:junit:4.13.2")
+    // Test
+    val junit = "4.13.2"
+    testImplementation("junit:junit:$junit")
 
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
+    val junitExt = "1.1.5"
+    androidTestImplementation("androidx.test.ext:junit:$junitExt")
+
+    val espresso = "3.5.1"
+    androidTestImplementation("androidx.test.espresso:espresso-core:$espresso")
+
+    androidTestImplementation(platform("androidx.compose:compose-bom:$compose"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
