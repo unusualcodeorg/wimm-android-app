@@ -1,8 +1,7 @@
-package com.whereismymotivation.ui.login
+package com.whereismymotivation.ui.base
 
 import android.net.Uri
 import com.whereismymotivation.data.remote.response.ApiErrorResponse
-import com.whereismymotivation.ui.base.BaseViewModel
 import com.whereismymotivation.ui.common.progress.Loader
 import com.whereismymotivation.ui.common.snackbar.Messenger
 import com.whereismymotivation.ui.navigation.Navigator
