@@ -1,4 +1,5 @@
 # Modern Android Development - WhereIsMyMotivation
+[![Android Unit Test](https://github.com/janishar/wimm-android-app/actions/workflows/android-unit-test.yml/badge.svg)](https://github.com/janishar/wimm-android-app/actions/workflows/android-unit-test.yml)
 
 ![Cover](docs/assets/cover.jpg)
 
