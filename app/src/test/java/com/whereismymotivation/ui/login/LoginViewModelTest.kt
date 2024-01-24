@@ -72,7 +72,7 @@ class LoginViewModelTest {
         viewModel.onPasswordChange(password)
 
         // Arrange
-        every { authRepository.basicLogin(any(), any()) } returns flow { emit(auth) }
+        coEvery { authRepository.basicLogin(any(), any()) } returns flow { emit(auth) }
 
         every { userRepository.saveCurrentAuth(any()) } just runs
 

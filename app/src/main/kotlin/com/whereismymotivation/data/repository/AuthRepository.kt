@@ -13,27 +13,27 @@ import javax.inject.Inject
 class AuthRepository @Inject constructor(
     private val authApi: AuthApi,
 ) {
-    fun basicLogin(email: String, password: String): Flow<Auth> =
+    suspend fun basicLogin(email: String, password: String): Flow<Auth> =
         flow {
             emit(authApi.basicLogin(BasicAuthRequest(email, password)))
         }.map { it.data }
 
-    fun facebookLogin(userId: String, token: String): Flow<Auth> =
+    suspend fun facebookLogin(userId: String, token: String): Flow<Auth> =
         flow {
             emit(authApi.facebookLogin(FacebookAuthRequest(userId, token)))
         }.map { it.data }
 
-    fun googleLogin(userId: String, token: String): Flow<Auth> =
+    suspend fun googleLogin(userId: String, token: String): Flow<Auth> =
         flow {
             emit(authApi.googleLogin(GoogleAuthRequest(userId, token)))
         }.map { it.data }
 
-    fun logout(): Flow<String> =
+    suspend fun logout(): Flow<String> =
         flow {
             emit(authApi.logout())
         }.map { it.message }
 
-    fun serverHeartbeat(): Flow<String> =
+    suspend fun serverHeartbeat(): Flow<String> =
         flow {
             emit(authApi.serverHeartbeat())
         }.map { it.message }

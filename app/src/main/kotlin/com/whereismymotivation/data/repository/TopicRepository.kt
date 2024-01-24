@@ -15,19 +15,19 @@ class TopicRepository @Inject constructor(
     private val contentApi: ContentApi,
     private val subscriptionApi: SubscriptionApi
 ) {
-    fun fetchRecommendedTopics(pageNumber: Int, pageItemCount: Int): Flow<List<Topic>> =
+    suspend fun fetchRecommendedTopics(pageNumber: Int, pageItemCount: Int): Flow<List<Topic>> =
         flow {
             emit(subscriptionApi.recommendedTopics(pageNumber, pageItemCount))
         }.map { it.data }
 
-    fun fetchSubscriptionTopics(): Flow<List<Topic>> =
+    suspend fun fetchSubscriptionTopics(): Flow<List<Topic>> =
         flow {
             emit(subscriptionApi.subscriptionTopics())
         }.map {
             it.data
         }
 
-    fun fetchTopicContents(
+    suspend fun fetchTopicContents(
         topicId: String,
         pageNumber: Int,
         pageItemCount: Int
@@ -36,7 +36,7 @@ class TopicRepository @Inject constructor(
             emit(contentApi.topicContents(topicId, pageNumber, pageItemCount))
         }.map { it.data }
 
-    fun fetchTopicDetails(topicId: String): Flow<Topic> =
+    suspend fun fetchTopicDetails(topicId: String): Flow<Topic> =
         flow {
             emit(topicApi.topicDetails(topicId))
         }.map { it.data }

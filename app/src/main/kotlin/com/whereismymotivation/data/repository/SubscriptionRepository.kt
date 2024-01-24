@@ -14,7 +14,7 @@ class SubscriptionRepository @Inject constructor(
     private val subscriptionApi: SubscriptionApi,
 ) {
 
-    fun subscribe(mentors: List<Mentor>, topics: List<Topic>): Flow<String> =
+    suspend fun subscribe(mentors: List<Mentor>, topics: List<Topic>): Flow<String> =
         flow {
             val mentorsArray: Array<String> = Array(mentors.size) { "" }
             for (i in mentors.indices) mentorsArray[i] = mentors[i].id
@@ -28,7 +28,7 @@ class SubscriptionRepository @Inject constructor(
             )
         }.map { it.message }
 
-    fun unsubscribe(mentors: List<Mentor>, topics: List<Topic>): Flow<String> =
+    suspend fun unsubscribe(mentors: List<Mentor>, topics: List<Topic>): Flow<String> =
         flow {
             val mentorsArray: Array<String> = Array(mentors.size) { "" }
             for (i in mentors.indices) mentorsArray[i] = mentors[i].id
@@ -43,12 +43,12 @@ class SubscriptionRepository @Inject constructor(
 
         }.map { it.message }
 
-    fun fetchSubscriptionInfoMentor(mentorId: String): Flow<SubscriptionInfo> =
+    suspend fun fetchSubscriptionInfoMentor(mentorId: String): Flow<SubscriptionInfo> =
         flow {
             emit(subscriptionApi.subscriptionInfoMentor(mentorId))
         }.map { it.data }
 
-    fun fetchSubscriptionInfoTopic(topicId: String): Flow<SubscriptionInfo> =
+    suspend fun fetchSubscriptionInfoTopic(topicId: String): Flow<SubscriptionInfo> =
         flow {
             emit(subscriptionApi.subscriptionInfoTopic(topicId))
         }.map { it.data }

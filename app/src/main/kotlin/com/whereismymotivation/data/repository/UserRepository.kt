@@ -102,12 +102,12 @@ class UserRepository @Inject constructor(
     fun getDeviceId() = userPreferences.getDeviceId()
 
 
-    fun sendFirebaseToken(token: String): Flow<String> =
+    suspend fun sendFirebaseToken(token: String): Flow<String> =
         flow {
             emit(userApi.firebaseToken(FirebaseTokenRequest(token)))
         }.map { it.message }
 
-    fun sendFeedback(message: String): Flow<String> =
+    suspend fun sendFeedback(message: String): Flow<String> =
         flow {
             emit(userApi.message(MessageRequest("USER_ANDROID_FEEDBACK", message)))
         }.map { it.message }

@@ -17,27 +17,27 @@ class MoodRepository @Inject constructor(
     private val dispatcher: Dispatcher
 ) {
 
-    fun fetchMoods(userId: String): Flow<List<Mood>> =
+    suspend fun fetchMoods(userId: String): Flow<List<Mood>> =
         flow {
             emit(databaseService.moodDao().getAll(userId))
         }.flowOn(dispatcher.io())
 
-    fun fetchUnSyncMoods(userId: String): Flow<List<Mood>> =
+    suspend fun fetchUnSyncMoods(userId: String): Flow<List<Mood>> =
         flow {
             emit(databaseService.moodDao().getAllUnSync(userId))
         }.flowOn(dispatcher.io())
 
-    fun saveMood(mood: Mood): Flow<Long> =
+    suspend fun saveMood(mood: Mood): Flow<Long> =
         flow {
             emit(databaseService.moodDao().insert(mood))
         }.flowOn(dispatcher.io())
 
-    fun sendMoods(moods: List<Mood>): Flow<String> =
+    suspend fun sendMoods(moods: List<Mood>): Flow<String> =
         flow {
             emit(userApi.moodStorage(MoodsRequest(moods)))
         }.map { it.message }
 
-    fun markedSynced(moods: List<Mood>): Flow<Int> =
+    suspend fun markedSynced(moods: List<Mood>): Flow<Int> =
         flow {
             emit(databaseService.moodDao().setAsSynced(moods.map { it.id }))
         }.flowOn(dispatcher.io())

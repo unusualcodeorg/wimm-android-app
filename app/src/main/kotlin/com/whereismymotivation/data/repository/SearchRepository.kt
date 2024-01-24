@@ -12,17 +12,17 @@ class SearchRepository @Inject constructor(
     private val contentApi: ContentApi
 ) {
 
-    fun fetchSearchResults(query: String): Flow<List<UniversalSearchResult>> =
+    suspend fun fetchSearchResults(query: String): Flow<List<UniversalSearchResult>> =
         flow {
             emit(contentApi.search(query))
         }.map { it.data }
 
-    fun fetchMentorSearchResults(query: String): Flow<List<UniversalSearchResult>> =
+    suspend fun fetchMentorSearchResults(query: String): Flow<List<UniversalSearchResult>> =
         flow {
             emit(contentApi.filteredSearch(query, Content.Category.MENTOR_INFO.type))
         }.map { it.data }
 
-    fun fetchTopicSearchResults(query: String): Flow<List<UniversalSearchResult>> =
+    suspend fun fetchTopicSearchResults(query: String): Flow<List<UniversalSearchResult>> =
         flow {
             emit(contentApi.filteredSearch(query, Content.Category.TOPIC_INFO.type))
         }.map { it.data }

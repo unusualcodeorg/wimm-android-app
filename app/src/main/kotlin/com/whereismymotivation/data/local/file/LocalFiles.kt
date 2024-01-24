@@ -18,7 +18,7 @@ import javax.inject.Singleton
 @Singleton
 class LocalFiles @Inject constructor(@ApplicationContext val context: Context) {
 
-    fun getTopicsForSuggestion(): Flow<List<Topic>> =
+    suspend fun getTopicsForSuggestion(): Flow<List<Topic>> =
         flow {
             val data = FileUtils.readRawFile(context, R.raw.default_topics_suggestion)
                 .run {
@@ -33,7 +33,7 @@ class LocalFiles @Inject constructor(@ApplicationContext val context: Context) {
         }.catch { Logger.record(it) }
 
 
-    fun getMentorsForSuggestion(): Flow<List<Mentor>> =
+    suspend fun getMentorsForSuggestion(): Flow<List<Mentor>> =
         flow {
             val data = FileUtils.readRawFile(context, R.raw.default_mentors_suggestion)
                 .run {

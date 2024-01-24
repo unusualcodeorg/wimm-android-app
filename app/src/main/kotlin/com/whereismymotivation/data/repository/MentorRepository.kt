@@ -16,7 +16,7 @@ class MentorRepository @Inject constructor(
     private val subscriptionApi: SubscriptionApi
 ) {
 
-    fun fetchRecommendedMentors(
+    suspend fun fetchRecommendedMentors(
         pageNumber: Int,
         pageItemCount: Int
     ): Flow<List<Mentor>> =
@@ -24,12 +24,12 @@ class MentorRepository @Inject constructor(
             emit(subscriptionApi.recommendedMentors(pageNumber, pageItemCount))
         }.map { it.data }
 
-    fun fetchSubscriptionMentors(): Flow<List<Mentor>> =
+    suspend fun fetchSubscriptionMentors(): Flow<List<Mentor>> =
         flow {
             emit(subscriptionApi.subscriptionMentors())
         }.map { it.data }
 
-    fun fetchMentorContents(
+    suspend fun fetchMentorContents(
         mentorId: String,
         pageNumber: Int,
         pageItemCount: Int
@@ -38,7 +38,7 @@ class MentorRepository @Inject constructor(
             emit(contentApi.mentorContents(mentorId, pageNumber, pageItemCount))
         }.map { it.data }
 
-    fun fetchMentorDetails(mentorId: String): Flow<Mentor> =
+    suspend fun fetchMentorDetails(mentorId: String): Flow<Mentor> =
         flow {
             emit(mentorApi.mentorDetails(mentorId))
         }.map { it.data }
