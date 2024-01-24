@@ -14,6 +14,7 @@ import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.runs
+import io.mockk.unmockkAll
 import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -57,6 +58,7 @@ class LoginViewModelTest {
     @After
     @Throws(java.lang.Exception::class)
     fun tearDown() {
+        unmockkAll()
         Dispatchers.resetMain()
     }
 
