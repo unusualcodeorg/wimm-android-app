@@ -147,7 +147,6 @@ dependencies {
     // Database
     val room = "2.6.1"
     implementation("androidx.room:room-runtime:$room")
-    annotationProcessor("androidx.room:room-compiler:$room")
     ksp("androidx.room:room-compiler:$room")
     implementation("androidx.room:room-ktx:$room")
 
