@@ -55,7 +55,7 @@ android {
         buildConfig = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.6"
+        kotlinCompilerExtensionVersion = "1.5.8"
     }
     packaging {
         resources {
@@ -168,15 +168,24 @@ dependencies {
     val lottie = "6.3.0"
     implementation("com.airbnb.android:lottie-compose:$lottie")
 
-    // Test
+    // Unit Test
     val junit = "4.13.2"
     testImplementation("junit:junit:$junit")
 
+    val mockk = "1.13.9"
+    testImplementation("io.mockk:mockk:$mockk")
+
+    val coroutinesTest = "1.7.3"
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesTest")
+
+    // Android Test
     val junitExt = "1.1.5"
     androidTestImplementation("androidx.test.ext:junit:$junitExt")
 
     val espresso = "3.5.1"
     androidTestImplementation("androidx.test.espresso:espresso-core:$espresso")
+
+    androidTestImplementation("io.mockk:mockk-android:$mockk")
 
     androidTestImplementation(platform("androidx.compose:compose-bom:$compose"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
