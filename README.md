@@ -1,5 +1,5 @@
 # Modern Android Development - WhereIsMyMotivation
-[![Android Unit Test](https://github.com/janishar/wimm-android-app/actions/workflows/android-unit-test.yml/badge.svg)](https://github.com/janishar/wimm-android-app/actions/workflows/android-unit-test.yml)
+[![Android Unit Test](https://github.com/unusualcodeorg/wimm-android-app/actions/workflows/android-unit-test.yml/badge.svg)](https://github.com/unusualcodeorg/wimm-android-app/actions/workflows/android-unit-test.yml)
 
 ![Cover](docs/assets/cover.jpg)
 
@@ -53,7 +53,7 @@ Using this app can bring a little bit of happiness and energy to live an inspire
 ## Instructions
 ```bash
 # clone the backend project wimm-node-app used for this App
-git clone https://github.com/janishar/wimm-node-app.git --recursive
+git clone https://github.com/unusualcodeorg/wimm-node-app.git --recursive
 
 # goto the wimm-node-app and run
 npm install
@@ -62,7 +62,7 @@ npm install
 docker-compose up -d
 
 # clone the wimm-android-app
-git clone https://github.com/janishar/wimm-android-app.git
+git clone https://github.com/unusualcodeorg/wimm-android-app.git
 
 # open wimm-android-app in Android Studio and run the app
 echo "Enjoy learning Modern Android Development - WhereIsMyMotivation :D"
@@ -89,7 +89,7 @@ Example
 - Run the Backend Project to power this App as mentioned below
 
 ## Supporting Backend Project
-The backend that powers this App is also open-sourced. You can find it here: [Modern Backend Development - WhereIsMyMotivation](https://github.com/janishar/wimm-node-app)
+The backend that powers this App is also open-sourced. You can find it here: [Modern Backend Development - WhereIsMyMotivation](https://github.com/unusualcodeorg/wimm-node-app)
 
 ## Find this project useful ? :heart:
 * Support it by clicking the :star: button on the upper right of this page. :v:
