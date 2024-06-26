@@ -1,5 +1,7 @@
-# Modern Android Development - WhereIsMyMotivation
+# Android MVVM Architecture - Modern Approach
 [![Android Unit Test](https://github.com/unusualcodeorg/wimm-android-app/actions/workflows/android-unit-test.yml/badge.svg)](https://github.com/unusualcodeorg/wimm-android-app/actions/workflows/android-unit-test.yml)
+
+## WhereIsMyMotivation
 
 ![Cover](docs/assets/cover.jpg)
 
