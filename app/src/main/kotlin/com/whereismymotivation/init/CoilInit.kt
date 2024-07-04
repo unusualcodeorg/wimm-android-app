@@ -8,8 +8,8 @@ import javax.inject.Singleton
 @Singleton
 class CoilInit @Inject constructor(
     private val imageLoader: ImageLoader
-): Initializer {
-    override fun init() {
+) : Initializer {
+    override suspend fun init() {
         Coil.setImageLoader(imageLoader)
     }
 }

@@ -23,7 +23,7 @@ class AppAlarmManager @Inject constructor(
         const val ACTION_DAILY_MOOD_RECORD = "ACTION_DAILY_MOOD_RECORD"
     }
 
-    fun setDailyMoodAlarm(hour: Int, min: Int, sec: Int) {
+    suspend fun setDailyMoodAlarm(hour: Int, min: Int, sec: Int) {
         if (!appMetricRepository.isDailyMoodRecorderNotificationEnabled()) return
 
         try {

@@ -13,6 +13,7 @@ import com.whereismymotivation.ui.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,7 +30,7 @@ class MyBoxViewModel @Inject constructor(
         const val TAG = "MyBoxViewModel"
     }
 
-    private val _user = MutableStateFlow(userRepository.getCurrentUser()!!)
+    private val _user = MutableStateFlow(runBlocking { userRepository.mustGetCurrentUser() })
     private val _contents = mutableStateListOf<Content>()
 
     val user = _user.asStateFlow()

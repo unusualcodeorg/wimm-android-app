@@ -22,7 +22,7 @@ import javax.inject.Inject
 class MoodsViewModel @Inject constructor(
     loader: Loader,
     navigator: Navigator,
-    userRepository: UserRepository,
+    val userRepository: UserRepository,
     val messenger: Messenger,
     private val moodRepository: MoodRepository
 ) : BaseViewModel(loader, messenger, navigator) {
@@ -31,7 +31,6 @@ class MoodsViewModel @Inject constructor(
         const val TAG = "MoodsViewModel"
     }
 
-    private val user = userRepository.getCurrentUser()!!
     private val moods = mutableStateListOf<Mood>()
 
     private val _moodGraph = mutableStateListOf<MoodGraphData>()
@@ -44,6 +43,7 @@ class MoodsViewModel @Inject constructor(
 
     private fun loadMoods() {
         viewModelScope.launch {
+            val user = userRepository.mustGetCurrentUser()
             moodRepository.fetchMoods(user.id)
                 .catch {
                     messenger.deliverRes(Message.error(R.string.something_went_wrong))
@@ -76,6 +76,7 @@ class MoodsViewModel @Inject constructor(
 
     fun selectMood(code: Mood.Code) {
         viewModelScope.launch {
+            val user = userRepository.mustGetCurrentUser()
             val now = CalendarUtils.now()
             val mood = Mood(0, String.Null(), code, user.id, now, now)
             val dateStr = CalendarUtils.getFormattedDate(now) ?: "Unknown"

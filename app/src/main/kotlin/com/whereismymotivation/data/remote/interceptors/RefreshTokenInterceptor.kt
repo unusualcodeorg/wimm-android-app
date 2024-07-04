@@ -6,8 +6,8 @@ import com.whereismymotivation.data.remote.apis.auth.request.RefreshTokenRequest
 import com.whereismymotivation.data.remote.utils.ForcedLogout
 import com.whereismymotivation.di.qualifier.AccessTokenInfo
 import com.whereismymotivation.di.qualifier.RefreshTokenInfo
-import com.whereismymotivation.utils.common.ResultCallback
-import com.whereismymotivation.utils.common.ResultFetcher
+import com.whereismymotivation.utils.common.ResultCallbackBlocking
+import com.whereismymotivation.utils.common.ResultFetcherBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.io.IOException
@@ -17,10 +17,10 @@ import javax.inject.Singleton
 
 @Singleton
 class RefreshTokenInterceptor @Inject constructor(
-    @AccessTokenInfo private val accessTokenFetcher: ResultFetcher<String>,
-    @AccessTokenInfo private val accessTokenCallback: ResultCallback<String>,
-    @RefreshTokenInfo private val refreshTokenFetcher: ResultFetcher<String>,
-    @RefreshTokenInfo private val refreshTokenCallback: ResultCallback<String>,
+    @AccessTokenInfo private val accessTokenFetcher: ResultFetcherBlocking<String>,
+    @AccessTokenInfo private val accessTokenCallback: ResultCallbackBlocking<String>,
+    @RefreshTokenInfo private val refreshTokenFetcher: ResultFetcherBlocking<String>,
+    @RefreshTokenInfo private val refreshTokenCallback: ResultCallbackBlocking<String>,
     private val refreshTokenApi: RefreshTokenApi,
     private val forcedLogout: ForcedLogout,
 ) : Interceptor {

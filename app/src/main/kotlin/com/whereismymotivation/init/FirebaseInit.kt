@@ -27,13 +27,13 @@ class FirebaseInit @Inject constructor(
     @ApplicationContext private val context: Context,
     private val userRepository: UserRepository,
 ) : Initializer {
-    override fun init() {
+    override suspend fun init() {
         recordUser()
         syncFcmToken()
         createDefaultNotificationChannel()
     }
 
-    private fun recordUser() {
+    private suspend fun recordUser() {
         userRepository.getCurrentUser()?.run {
             Firebase.crashlytics.setUserId(id)
             Firebase.analytics.setUserId(id)
@@ -43,7 +43,7 @@ class FirebaseInit @Inject constructor(
     }
 
     @OptIn(DelicateCoroutinesApi::class)
-    private fun syncFcmToken() {
+    private suspend fun syncFcmToken() {
         if (!userRepository.getFirebaseTokenSent() && userRepository.userExists()) {
             FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
                 if (!task.isSuccessful) {
@@ -54,19 +54,18 @@ class FirebaseInit @Inject constructor(
                     )
                     return@addOnCompleteListener
                 }
-                val token = task.result
-
-                userRepository.setFirebaseToken(token)
-
-                GlobalScope.launch {
-                    userRepository.sendFirebaseToken(token)
-                        .catch { }
-                        .collect {
-                            userRepository.setFirebaseTokenSent()
-                        }
+                task.result?.let {
+                    GlobalScope.launch {
+                        userRepository.setFirebaseToken(it)
+                        userRepository.sendFirebaseToken(it)
+                            .catch { e ->
+                                Logger.record(e)
+                            }.collect {
+                                userRepository.setFirebaseTokenSent()
+                            }
+                    }
+                    if (BuildConfig.DEBUG) Logger.d(WimmApplication.TAG, it)
                 }
-
-                if (BuildConfig.DEBUG) Logger.d(WimmApplication.TAG, token)
             }
         }
     }
@@ -78,25 +77,23 @@ class FirebaseInit @Inject constructor(
                 // or other notification behaviors after this
                 val notificationManager =
                     context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-                notificationManager.createNotificationChannel(
-                    NotificationChannel(
-                        context.getString(R.string.default_notification_channel_id),
-                        context.getString(R.string.notification_default_channel_name),
-                        NotificationManager.IMPORTANCE_DEFAULT
-                    ).apply {
-                        description =
-                            context.getString(R.string.notification_default_channel_description)
-                    })
+                notificationManager.createNotificationChannel(NotificationChannel(
+                    context.getString(R.string.default_notification_channel_id),
+                    context.getString(R.string.notification_default_channel_name),
+                    NotificationManager.IMPORTANCE_DEFAULT
+                ).apply {
+                    description =
+                        context.getString(R.string.notification_default_channel_description)
+                })
 
-                notificationManager.createNotificationChannel(
-                    NotificationChannel(
-                        context.getString(R.string.happiness_notification_channel_id),
-                        context.getString(R.string.notification_happiness_channel_name),
-                        NotificationManager.IMPORTANCE_DEFAULT
-                    ).apply {
-                        description =
-                            context.getString(R.string.notification_happiness_channel_description)
-                    })
+                notificationManager.createNotificationChannel(NotificationChannel(
+                    context.getString(R.string.happiness_notification_channel_id),
+                    context.getString(R.string.notification_happiness_channel_name),
+                    NotificationManager.IMPORTANCE_DEFAULT
+                ).apply {
+                    description =
+                        context.getString(R.string.notification_happiness_channel_description)
+                })
             }
         } catch (e: Exception) {
             Logger.record(e)

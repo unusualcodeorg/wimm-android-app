@@ -1,24 +1,32 @@
 package com.whereismymotivation.data.local.prefs
 
-import android.content.SharedPreferences
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.longPreferencesKey
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class ContentPreferences @Inject constructor(private val prefs: SharedPreferences) {
+class ContentPreferences @Inject constructor(private val dataStore: DataStore<Preferences>) {
 
     companion object {
-        private const val FEED_NEXT_PAGE_NUMBER = "FEED_NEXT_PAGE_NUMBER"
-        private const val FEED_LAST_SEEN = "FEED_LAST_SEEN"
+        private val FEED_NEXT_PAGE_NUMBER = intPreferencesKey("FEED_NEXT_PAGE_NUMBER")
+        private val FEED_LAST_SEEN = longPreferencesKey("FEED_LAST_SEEN")
     }
 
-    fun getFeedNextPageNumber(): Int =
-        prefs.getInt(FEED_NEXT_PAGE_NUMBER, 1)
+    suspend fun getFeedNextPageNumber() =
+        dataStore.data.map { it[FEED_NEXT_PAGE_NUMBER] ?: 1 }.first()
 
-    fun setFeedNextPageNumber(pageNumber: Int) =
-        prefs.edit().putInt(FEED_NEXT_PAGE_NUMBER, pageNumber).apply()
+    suspend fun setFeedNextPageNumber(pageNumber: Int) {
+        dataStore.edit { it[FEED_NEXT_PAGE_NUMBER] = pageNumber }
+    }
 
-    fun getFeedLastSeen(): Long =
-        prefs.getLong(FEED_LAST_SEEN, System.currentTimeMillis())
+    suspend fun getFeedLastSeen() =
+        dataStore.data.map { it[FEED_LAST_SEEN] ?: System.currentTimeMillis() }.first()
 
-    fun setFeedLastSeen(time: Long) =
-        prefs.edit().putLong(FEED_LAST_SEEN, time).apply()
+    suspend fun setFeedLastSeen(time: Long) {
+        dataStore.edit { it[FEED_LAST_SEEN] = time }
+    }
 }

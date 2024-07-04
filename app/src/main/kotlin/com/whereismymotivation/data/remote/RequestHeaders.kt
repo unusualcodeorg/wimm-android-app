@@ -5,14 +5,14 @@ import com.whereismymotivation.di.qualifier.AccessTokenInfo
 import com.whereismymotivation.di.qualifier.ApiKeyInfo
 import com.whereismymotivation.di.qualifier.AppVersionCodeInfo
 import com.whereismymotivation.di.qualifier.DeviceIdInfo
-import com.whereismymotivation.utils.common.ResultFetcher
+import com.whereismymotivation.utils.common.ResultFetcherBlocking
 import javax.inject.Inject
 
 class RequestHeaders @Inject constructor(
     @ApiKeyInfo val apiKey: String,
-    @AccessTokenInfo val accessTokenFetcher: ResultFetcher<String>,
-    @DeviceIdInfo val deviceIdFetcher: ResultFetcher<String>,
-    @AppVersionCodeInfo val appVersionCodeFetcher: ResultFetcher<Long>,
+    @AccessTokenInfo val accessTokenFetcher: ResultFetcherBlocking<String>,
+    @DeviceIdInfo val deviceIdFetcher: ResultFetcherBlocking<String>,
+    @AppVersionCodeInfo val appVersionCodeFetcher: ResultFetcherBlocking<Long>,
 ) {
     object Key {
         const val API_AUTH_TYPE = "API_AUTH_TYPE"

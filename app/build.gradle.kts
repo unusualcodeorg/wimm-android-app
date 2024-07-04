@@ -139,6 +139,9 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.lottie.compose)
 
+    // Datastore
+    implementation(libs.datastore.preferences)
+
     // Unit Test
     testImplementation(libs.junit)
     testImplementation(libs.mockk)

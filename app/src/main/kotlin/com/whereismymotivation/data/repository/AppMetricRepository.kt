@@ -9,7 +9,7 @@ class AppMetricRepository @Inject constructor(
     private val appMetricPreferences: AppMetricPreferences
 ) {
 
-    fun setCurrentAppVersion(appVersion: Long) {
+    suspend fun setCurrentAppVersion(appVersion: Long) {
         val lastAppVersion = getCurrentAppVersion()
         if (lastAppVersion != appVersion) {
             // app updated or first launch
@@ -17,13 +17,13 @@ class AppMetricRepository @Inject constructor(
         }
     }
 
-    fun getCurrentAppVersion(): Long =
+    private suspend fun getCurrentAppVersion(): Long =
         appMetricPreferences.getCurrentAppVersion()
 
-    fun setDailyMoodRecorderNotificationEnable(enable: Boolean) =
+    suspend fun setDailyMoodRecorderNotificationEnable(enable: Boolean) =
         appMetricPreferences.setDailyMoodRecorderNotificationEnable(enable)
 
-    fun isDailyMoodRecorderNotificationEnabled() =
+    suspend fun isDailyMoodRecorderNotificationEnabled() =
         appMetricPreferences.getDailyMoodRecorderNotificationEnable()
 
 }
