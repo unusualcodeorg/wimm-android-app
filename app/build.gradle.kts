@@ -1,11 +1,11 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("com.google.dagger.hilt.android")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.hilt.android)
     id("kotlin-parcelize")
-    id("com.google.devtools.ksp")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
+    alias(libs.plugins.devtools.ksp)
+    alias(libs.plugins.google.services)
+    alias(libs.plugins.firebase.crashlytics)
 }
 
 android {
@@ -27,7 +27,7 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String", "BASE_URL", "\"http://192.168.1.6:3000/\"")
+            buildConfigField("String", "BASE_URL", "\"http://192.168.1.5:3000/\"")
             buildConfigField("String", "API_KEY", "\"1D3F2DD1A5DE725DD4DF1D82BBB37\"")
         }
         release {
@@ -65,131 +65,91 @@ android {
 }
 
 dependencies {
+    implementation(libs.core)
 
-    val core = "1.12.0"
-    implementation("androidx.core:core-ktx:$core")
-
-    // Material Design 3
-    val material3 = "1.1.2"
-    implementation("androidx.compose.material3:material3:$material3")
-
-    // lifecycle
-    val lifecycle = "2.7.0"
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle")
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:$lifecycle")
+    // Lifecycle
+    implementation(libs.lifecycle.runtime)
+    implementation(libs.lifecycle.viewmodel)
+    implementation(libs.lifecycle.viewmodel.compose)
+    implementation(libs.lifecycle.runtime.compose)
 
     // Compose
-    val compose = "2023.03.00"
-    implementation(platform("androidx.compose:compose-bom:$compose"))
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.material3:material3")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    implementation("androidx.compose.material:material-icons-extended")
-    implementation("androidx.compose.material3:material3-window-size-class")
+    implementation(platform(libs.compose.bom))
+    implementation(libs.compose.ui)
+    implementation(libs.compose.ui.graphics)
+    implementation(libs.compose.ui.tooling.preview)
+    debugImplementation(libs.compose.ui.tooling)
+    implementation(libs.compose.material3)
+    implementation(libs.compose.material.icons)
+    implementation(libs.compose.material3.windowsize)
 
-    val navigation = "2.7.6"
-    implementation("androidx.navigation:navigation-compose:$navigation")
+    implementation(libs.navigation.compose)
 
-    val constraintlayout = "1.0.1"
-    implementation("androidx.constraintlayout:constraintlayout-compose:$constraintlayout")
+    implementation(libs.constraintlayout.compose)
 
-    val activity = "1.8.2"
-    implementation("androidx.activity:activity-compose:$activity")
+    implementation(libs.activity.compose)
 
-    val browser = "1.7.0"
-    implementation("androidx.browser:browser:$browser")
+    implementation(libs.browser)
 
-    val charty = "2.0.0-alpha01"
-    implementation("com.himanshoe:charty:$charty")
+    implementation(libs.charty)
 
     // Coroutine
-    val coroutines = "1.7.3"
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines")
+    implementation(libs.coroutines.android)
 
     // Log
-    val timber = "5.0.1"
-    implementation("com.jakewharton.timber:timber:$timber")
+    implementation(libs.timber)
 
     // Network
-    val retrofit2 = "2.9.0"
-    implementation("com.squareup.retrofit2:retrofit:$retrofit2")
-    implementation("com.squareup.retrofit2:converter-moshi:${retrofit2}")
+    implementation(libs.retrofit2)
+    implementation(libs.retrofit2.moshi)
 
-    val okhttp3 = "4.11.0"
-    implementation(platform("com.squareup.okhttp3:okhttp-bom:$okhttp3"))
-    implementation("com.squareup.okhttp3:okhttp")
-    implementation("com.squareup.okhttp3:logging-interceptor")
+    implementation(platform(libs.okhttp.bom))
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging)
 
     // Firebase
-    val firebase = "32.7.0"
-    implementation(platform("com.google.firebase:firebase-bom:$firebase"))
-    implementation("com.google.firebase:firebase-analytics")
-    implementation("com.google.firebase:firebase-messaging")
-    implementation("com.google.firebase:firebase-crashlytics")
-    implementation("com.google.firebase:firebase-config")
-
-    val crashlytics = "2.9.9"
-    implementation("com.google.firebase:firebase-crashlytics-buildtools:$crashlytics")
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.messaging)
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.config)
+    implementation(libs.firebase.crashlytics.buildtools)
 
     // Work
-    val work = "2.9.0"
-    implementation("androidx.work:work-runtime-ktx:$work")
+    implementation(libs.work.runtime)
 
     // JSON
-    val moshi = "1.15.0"
-    implementation("com.squareup.moshi:moshi:$moshi")
-    ksp("com.squareup.moshi:moshi-kotlin-codegen:$moshi")
+    implementation(libs.moshi)
+    ksp(libs.moshi.codegen)
 
     // Database
-    val room = "2.6.1"
-    implementation("androidx.room:room-runtime:$room")
-    ksp("androidx.room:room-compiler:$room")
-    implementation("androidx.room:room-ktx:$room")
+    implementation(libs.room.runtime)
+    ksp(libs.room.compiler)
+    implementation(libs.room)
 
     // Dependency Management
-    val hilt = "2.50"
-    implementation("com.google.dagger:hilt-android:$hilt")
-    ksp("com.google.dagger:hilt-android-compiler:$hilt")
-
-    val hiltKtx = "1.1.0"
-    implementation("androidx.hilt:hilt-navigation-compose:$hiltKtx")
-    implementation("androidx.hilt:hilt-work:$hiltKtx")
-    ksp("androidx.hilt:hilt-compiler:$hiltKtx")
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
+    implementation(libs.hilt.navigation.compose)
+    implementation(libs.hilt.work)
+    ksp(libs.hilt.compiler)
 
     // Image
-    val coil = "2.5.0"
-    implementation("io.coil-kt:coil:$coil")
-    implementation("io.coil-kt:coil-compose:$coil")
-
-    val lottie = "6.3.0"
-    implementation("com.airbnb.android:lottie-compose:$lottie")
+    implementation(libs.coil)
+    implementation(libs.coil.compose)
+    implementation(libs.lottie.compose)
 
     // Unit Test
-    val junit = "4.13.2"
-    testImplementation("junit:junit:$junit")
-
-    val mockk = "1.13.9"
-    testImplementation("io.mockk:mockk:$mockk")
-
-    val coroutinesTest = "1.7.3"
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesTest")
+    testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.coroutines.test)
 
     // Android Test
-    val junitExt = "1.1.5"
-    androidTestImplementation("androidx.test.ext:junit:$junitExt")
-
-    val espresso = "3.5.1"
-    androidTestImplementation("androidx.test.espresso:espresso-core:$espresso")
-
-    androidTestImplementation("io.mockk:mockk-android:$mockk")
-
-    androidTestImplementation(platform("androidx.compose:compose-bom:$compose"))
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
-
+    androidTestImplementation(libs.junit.ext)
+    androidTestImplementation(libs.espresso.core)
+    androidTestImplementation(libs.mockk.android)
+    androidTestImplementation(platform(libs.compose.bom))
+    androidTestImplementation(libs.compose.ui.test.junit4)
+    debugImplementation(libs.compose.ui.tooling)
+    debugImplementation(libs.compose.ui.test.manifest)
 }
