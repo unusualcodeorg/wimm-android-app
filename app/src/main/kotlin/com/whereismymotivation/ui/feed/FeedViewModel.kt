@@ -15,6 +15,7 @@ import com.whereismymotivation.ui.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel
@@ -38,11 +39,12 @@ class FeedViewModel @Inject constructor(
 
     private var loading = false
     private var pageItemCount = remoteConfigRepository.getHomePageContentCount()
-    private var startPageNumber = contentRepository.getFeedNextPageNumber()
+    private var startPageNumber = runBlocking { contentRepository.getFeedNextPageNumber() }
     private var currentPageNumber = startPageNumber
 
     init {
-        if ((System.currentTimeMillis() - contentRepository.getFeedLastSeen()) / 1000 / 60 / 60 > 3) {
+        val lastSeenTime = runBlocking { contentRepository.getFeedLastSeen() }
+        if ((System.currentTimeMillis() - lastSeenTime) / 1000 / 60 / 60 > 3) {
             rotateFeedList()
         }
 
@@ -53,7 +55,7 @@ class FeedViewModel @Inject constructor(
     }
 
     private fun rotateFeedList(reload: Boolean = false) {
-        contentRepository.setFeedNextPageNumber(1)
+        viewModelScope.launch { contentRepository.setFeedNextPageNumber(1) }
         startPageNumber = 1
         currentPageNumber = startPageNumber
         if (reload) loadMoreContents()
@@ -114,7 +116,7 @@ class FeedViewModel @Inject constructor(
     }
 
     override fun onCleared() {
-        contentRepository.markFeedLastSeen()
+        viewModelScope.launch { contentRepository.markFeedLastSeen() }
         super.onCleared()
     }
 }

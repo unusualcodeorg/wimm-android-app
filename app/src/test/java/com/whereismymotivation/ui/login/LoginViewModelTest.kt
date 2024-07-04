@@ -10,7 +10,6 @@ import com.whereismymotivation.ui.navigation.Destination
 import com.whereismymotivation.ui.navigation.Navigator
 import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.runs
@@ -63,7 +62,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun `should fail if email is invalid`() = runTest {
+    fun `should fail if email is invalid`(): Unit = runTest {
         // Data
         val email = "email"
         val password = "password"
@@ -80,7 +79,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun `should fail if password is less that 6 characters`() = runTest {
+    fun `should fail if password is less that 6 characters`(): Unit = runTest {
         // Data
         val email = "a@b.com"
         val password = "pass"
@@ -97,7 +96,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun `should succeed login with credentials`() = runTest {
+    fun `should succeed login with credentials`(): Unit = runTest {
         // Data
         val auth: Auth = mockk()
 
@@ -110,17 +109,17 @@ class LoginViewModelTest {
         // Arrange
         coEvery { authRepository.basicLogin(any(), any()) } returns flow { emit(auth) }
 
-        every { userRepository.saveCurrentAuth(any()) } just runs
+        coEvery { userRepository.saveCurrentAuth(any()) } just runs
 
-        every { userRepository.getFirebaseToken() } returns "token"
+        coEvery { userRepository.getFirebaseToken() } returns "token"
 
-        every { userRepository.userExists() } returns true
+        coEvery { userRepository.userExists() } returns true
 
         coEvery { userRepository.sendFirebaseToken(any()) } returns flow { emit("") }
 
-        every { userRepository.setFirebaseTokenSent() } just runs
+        coEvery { userRepository.setFirebaseTokenSent() } just runs
 
-        every { userRepository.isOnBoardingComplete() } returns true
+        coEvery { userRepository.isOnBoardingComplete() } returns true
 
         // Act
         viewModel.basicLogin()

@@ -21,13 +21,14 @@ import com.whereismymotivation.di.qualifier.AccessTokenInfo
 import com.whereismymotivation.di.qualifier.ApiKeyInfo
 import com.whereismymotivation.di.qualifier.BaseUrl
 import com.whereismymotivation.di.qualifier.RefreshTokenInfo
-import com.whereismymotivation.utils.common.ResultCallback
-import com.whereismymotivation.utils.common.ResultFetcher
+import com.whereismymotivation.utils.common.ResultCallbackBlocking
+import com.whereismymotivation.utils.common.ResultFetcherBlocking
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
 import javax.inject.Singleton
 
@@ -163,8 +164,8 @@ object NetworkModule {
     @AccessTokenInfo
     fun provideAccessToken(
         userPreferences: UserPreferences
-    ): ResultFetcher<String> = object : ResultFetcher<String> {
-        override fun fetch(): String? = userPreferences.getAccessToken()
+    ): ResultFetcherBlocking<String> = object : ResultFetcherBlocking<String> {
+        override fun fetch(): String? = runBlocking { userPreferences.getAccessToken() }
     }
 
     @Provides
@@ -172,8 +173,8 @@ object NetworkModule {
     @RefreshTokenInfo
     fun provideRefreshToken(
         userPreferences: UserPreferences
-    ): ResultFetcher<String> = object : ResultFetcher<String> {
-        override fun fetch(): String? = userPreferences.getRefreshToken()
+    ): ResultFetcherBlocking<String> = object : ResultFetcherBlocking<String> {
+        override fun fetch(): String? = runBlocking { userPreferences.getRefreshToken() }
     }
 
     @Provides
@@ -181,8 +182,9 @@ object NetworkModule {
     @AccessTokenInfo
     fun provideAccessTokenSaveLambda(
         userPreferences: UserPreferences
-    ): ResultCallback<String> = object : ResultCallback<String> {
-        override fun onResult(result: String) = userPreferences.setAccessToken(result)
+    ): ResultCallbackBlocking<String> = object : ResultCallbackBlocking<String> {
+        override fun onResult(result: String) =
+            runBlocking { userPreferences.setAccessToken(result) }
     }
 
     @Provides
@@ -190,7 +192,8 @@ object NetworkModule {
     @RefreshTokenInfo
     fun provideRefreshTokenSaveLambda(
         userPreferences: UserPreferences
-    ): ResultCallback<String> = object : ResultCallback<String> {
-        override fun onResult(result: String) = userPreferences.setRefreshToken(result)
+    ): ResultCallbackBlocking<String> = object : ResultCallbackBlocking<String> {
+        override fun onResult(result: String) =
+            runBlocking { userPreferences.setRefreshToken(result) }
     }
 }

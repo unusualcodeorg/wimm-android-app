@@ -12,11 +12,11 @@ class WorkInit @Inject constructor(
     private val alarmManager: AppAlarmManager,
     private val appMetricPreferences: AppMetricPreferences
 ) : Initializer {
-    override fun init() {
+    override suspend fun init() {
         scheduleWorks()
     }
 
-    private fun scheduleWorks() {
+    private suspend fun scheduleWorks() {
         val time = appMetricPreferences.getDailyRecordAlarmTime()
         alarmManager.setDailyMoodAlarm(time.first, time.second, time.third)
 

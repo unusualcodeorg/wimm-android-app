@@ -1,114 +1,136 @@
 package com.whereismymotivation.data.local.prefs
 
-import android.content.SharedPreferences
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class UserPreferences @Inject constructor(private val prefs: SharedPreferences) {
+class UserPreferences @Inject constructor(private val dataStore: DataStore<Preferences>) {
 
     companion object {
-        private const val ON_BOARDING_COMPLETED = "PREF_KEY_USER_ON_BOARDING_COMPLETED"
-        private const val USER_ID = "PREF_KEY_USER_ID"
-        private const val USER_NAME = "PREF_KEY_USER_NAME"
-        private const val USER_EMAIL = "PREF_KEY_USER_EMAIL"
-        private const val USER_PROFILE_PIC_URL = "USER_PROFILE_PIC_URL"
-        private const val ACCESS_TOKEN = "PREF_KEY_ACCESS_TOKEN"
-        private const val REFRESH_TOKEN = "PREF_KEY_REFRESH_TOKEN"
-        private const val DEVICE_ID = "PREF_KEY_DEVICE_ID"
-        private const val USER_ROLES = "PREF_KEY_USER_ROLES"
-        private const val FIREBASE_TOKEN = "FIREBASE_TOKEN"
-        private const val FIREBASE_TOKEN_SENT = "FIREBASE_TOKEN_SENT"
+        private val ON_BOARDING_COMPLETED = booleanPreferencesKey("ON_BOARDING_COMPLETED")
+        private val USER_ID = stringPreferencesKey("USER_ID")
+        private val USER_NAME = stringPreferencesKey("USER_NAME")
+        private val USER_EMAIL = stringPreferencesKey("USER_EMAIL")
+        private val USER_PROFILE_PIC_URL = stringPreferencesKey("USER_PROFILE_PIC_URL")
+        private val ACCESS_TOKEN = stringPreferencesKey("ACCESS_TOKEN")
+        private val REFRESH_TOKEN = stringPreferencesKey("REFRESH_TOKEN")
+        private val DEVICE_ID = stringPreferencesKey("DEVICE_ID")
+        private val USER_ROLES = stringPreferencesKey("USER_ROLES")
+        private val FIREBASE_TOKEN = stringPreferencesKey("FIREBASE_TOKEN")
+        private val FIREBASE_TOKEN_SENT = booleanPreferencesKey("FIREBASE_TOKEN_SENT")
     }
 
-    fun getUserId(): String? =
-        prefs.getString(USER_ID, null)
+    suspend fun getUserId() = dataStore.data.map { it[USER_ID] }.first()
 
-    fun setUserId(userId: String) =
-        prefs.edit().putString(USER_ID, userId).apply()
+    suspend fun setUserId(userId: String) {
+        dataStore.edit { it[USER_ID] = userId }
+    }
 
-    fun removeUserId() =
-        prefs.edit().remove(USER_ID).apply()
+    suspend fun removeUserId() {
+        dataStore.edit { it.remove(USER_ID) }
+    }
 
-    fun getUserName(): String? =
-        prefs.getString(USER_NAME, null)
+    suspend fun getUserName() = dataStore.data.map { it[USER_NAME] }.first()
 
-    fun setUserName(userName: String) =
-        prefs.edit().putString(USER_NAME, userName).apply()
+    suspend fun setUserName(userName: String) {
+        dataStore.edit { it[USER_NAME] = userName }
+    }
 
-    fun removeUserName() =
-        prefs.edit().remove(USER_NAME).apply()
+    suspend fun removeUserName() {
+        dataStore.edit { it.remove(USER_NAME) }
+    }
 
-    fun getUserEmail(): String? =
-        prefs.getString(USER_EMAIL, null)
+    suspend fun getUserEmail() = dataStore.data.map { it[USER_EMAIL] }.first()
 
-    fun setUserEmail(email: String) =
-        prefs.edit().putString(USER_EMAIL, email).apply()
+    suspend fun setUserEmail(email: String) {
+        dataStore.edit { it[USER_EMAIL] = email }
+    }
 
-    fun removeUserEmail() =
-        prefs.edit().remove(USER_EMAIL).apply()
+    suspend fun removeUserEmail() {
+        dataStore.edit { it.remove(USER_EMAIL) }
+    }
 
-    fun getUserProfilePicUrlUrl(): String? =
-        prefs.getString(USER_PROFILE_PIC_URL, null)
+    suspend fun getUserProfilePicUrlUrl() = dataStore.data.map { it[USER_PROFILE_PIC_URL] }.first()
 
-    fun setUserProfileProfilePicUrl(url: String?) =
-        prefs.edit().putString(USER_PROFILE_PIC_URL, url).apply()
+    suspend fun setUserProfileProfilePicUrl(url: String?) {
+        url?.let {
+            dataStore.edit { it[USER_PROFILE_PIC_URL] = url }
+        } ?: removeUserProfilePicUrl()
+    }
 
-    fun removeUserProfilePicUrl() =
-        prefs.edit().remove(USER_PROFILE_PIC_URL).apply()
+    suspend fun removeUserProfilePicUrl() {
+        dataStore.edit { it.remove(USER_PROFILE_PIC_URL) }
+    }
 
-    fun getAccessToken(): String? =
-        prefs.getString(ACCESS_TOKEN, null)
+    suspend fun getAccessToken() = dataStore.data.map { it[ACCESS_TOKEN] }.first()
 
-    fun setAccessToken(token: String) =
-        prefs.edit().putString(ACCESS_TOKEN, token).apply()
+    suspend fun setAccessToken(token: String) {
+        dataStore.edit { it[ACCESS_TOKEN] = token }
+    }
 
-    fun removeAccessToken() =
-        prefs.edit().remove(ACCESS_TOKEN).apply()
+    suspend fun removeAccessToken() {
+        dataStore.edit { it.remove(ACCESS_TOKEN) }
+    }
 
-    fun getRefreshToken(): String? =
-        prefs.getString(REFRESH_TOKEN, null)
+    suspend fun getRefreshToken() = dataStore.data.map { it[REFRESH_TOKEN] }.first()
 
-    fun setRefreshToken(token: String) =
-        prefs.edit().putString(REFRESH_TOKEN, token).apply()
+    suspend fun setRefreshToken(token: String) {
+        dataStore.edit { it[REFRESH_TOKEN] = token }
+    }
 
-    fun removeRefreshToken() =
-        prefs.edit().remove(REFRESH_TOKEN).apply()
+    suspend fun removeRefreshToken() {
+        dataStore.edit { it.remove(REFRESH_TOKEN) }
+    }
 
-    fun getOnBoardingComplete(): Boolean =
-        prefs.getBoolean(ON_BOARDING_COMPLETED, false)
+    suspend fun getOnBoardingComplete() =
+        dataStore.data.map { it[ON_BOARDING_COMPLETED] }.first() ?: false
 
-    fun setOnBoardingComplete(complete: Boolean) =
-        prefs.edit().putBoolean(ON_BOARDING_COMPLETED, complete).apply()
+    suspend fun setOnBoardingComplete(complete: Boolean) {
+        dataStore.edit { it[ON_BOARDING_COMPLETED] = complete }
+    }
 
-    fun removeOnBoardingComplete() =
-        prefs.edit().remove(ON_BOARDING_COMPLETED).apply()
+    suspend fun removeOnBoardingComplete() {
+        dataStore.edit { it.remove(ON_BOARDING_COMPLETED) }
+    }
 
-    fun getDeviceId(): String? =
-        prefs.getString(DEVICE_ID, null)
+    suspend fun getDeviceId() = dataStore.data.map { it[DEVICE_ID] }.first()
 
-    fun setDeviceId(deviceId: String) =
-        prefs.edit().putString(DEVICE_ID, deviceId).apply()
+    suspend fun setDeviceId(deviceId: String) {
+        dataStore.edit { it[DEVICE_ID] = deviceId }
+    }
 
-    fun setFirebaseToken(token: String) =
-        prefs.edit().putString(FIREBASE_TOKEN, token).apply()
+    suspend fun setFirebaseToken(token: String) {
+        dataStore.edit { it[FIREBASE_TOKEN] = token }
+    }
 
-    fun getFirebaseToken(): String? =
-        prefs.getString(FIREBASE_TOKEN, null)
+    suspend fun getFirebaseToken() = dataStore.data.map { it[FIREBASE_TOKEN] }.first()
 
-    fun getFirebaseTokenSent(): Boolean =
-        prefs.getBoolean(FIREBASE_TOKEN_SENT, false)
+    suspend fun getFirebaseTokenSent() =
+        dataStore.data.map { it[FIREBASE_TOKEN_SENT] }.first() ?: false
 
-    fun setFirebaseTokenSent() =
-        prefs.edit().putBoolean(FIREBASE_TOKEN_SENT, true).apply()
+    suspend fun setFirebaseTokenSent() {
+        dataStore.edit { it[FIREBASE_TOKEN_SENT] = true }
+    }
 
-    fun removeFirebaseTokenSent() =
-        prefs.edit().remove(FIREBASE_TOKEN_SENT).apply()
+    suspend fun removeFirebaseTokenSent() {
+        dataStore.edit { it.remove(FIREBASE_TOKEN_SENT) }
+    }
 
-    fun getUserRoles(): String? = prefs.getString(USER_ROLES, null)
+    suspend fun getUserRoles() = dataStore.data.map { it[USER_ROLES] }.first()
 
-    fun setUserRoles(roles: String) = prefs.edit().putString(USER_ROLES, roles).apply()
+    suspend fun setUserRoles(roles: String) {
+        dataStore.edit { it[USER_ROLES] = roles }
+    }
 
-    fun removeUserRoles() = prefs.edit().remove(USER_ROLES).apply()
+    suspend fun removeUserRoles() {
+        dataStore.edit { it.remove(USER_ROLES) }
+    }
 
 }

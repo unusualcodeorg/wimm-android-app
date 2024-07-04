@@ -89,14 +89,14 @@ class ContentRepository @Inject constructor(
             emit(contentApi.unpublishGeneral(ContentSubmissionRequest(contentId)))
         }.map { it.message }
 
-    fun getFeedNextPageNumber(): Int = contentPreferences.getFeedNextPageNumber()
+    suspend fun getFeedNextPageNumber(): Int = contentPreferences.getFeedNextPageNumber()
 
-    fun setFeedNextPageNumber(pageNumber: Int) =
+    suspend fun setFeedNextPageNumber(pageNumber: Int) =
         contentPreferences.setFeedNextPageNumber(pageNumber)
 
-    fun getFeedLastSeen(): Long = contentPreferences.getFeedLastSeen()
+    suspend fun getFeedLastSeen(): Long = contentPreferences.getFeedLastSeen()
 
-    fun markFeedLastSeen() = contentPreferences.setFeedLastSeen(System.currentTimeMillis())
+    suspend fun markFeedLastSeen() = contentPreferences.setFeedLastSeen(System.currentTimeMillis())
 
     suspend fun getContentDetails(contentId: String): Flow<Content> =
         flow {

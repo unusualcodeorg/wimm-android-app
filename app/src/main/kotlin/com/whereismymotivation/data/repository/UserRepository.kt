@@ -22,9 +22,9 @@ class UserRepository @Inject constructor(
     private val userPreferences: UserPreferences
 ) {
 
-    fun userExists() = userPreferences.getUserId() != null
+    suspend fun userExists() = userPreferences.getUserId() != null
 
-    fun saveCurrentAuth(auth: Auth) {
+    suspend fun saveCurrentAuth(auth: Auth) {
         removeCurrentUser()
         val user = auth.user
         userPreferences.setUserId(user.id)
@@ -50,7 +50,7 @@ class UserRepository @Inject constructor(
         userPreferences.setUserProfileProfilePicUrl(user.profilePicUrl)
     }
 
-    fun removeCurrentUser() {
+    suspend fun removeCurrentUser() {
         userPreferences.removeUserId()
         userPreferences.removeUserName()
         userPreferences.removeUserEmail()
@@ -62,8 +62,9 @@ class UserRepository @Inject constructor(
         userPreferences.removeFirebaseTokenSent()
     }
 
-    fun getCurrentUser(): User? {
+    suspend fun mustGetCurrentUser() = getCurrentUser()!!
 
+    suspend fun getCurrentUser(): User? {
         val userId = userPreferences.getUserId()
         val userName = userPreferences.getUserName()
         val userEmail = userPreferences.getUserEmail()
@@ -91,16 +92,15 @@ class UserRepository @Inject constructor(
         return null
     }
 
-    fun markUserOnBoardingComplete() {
+    suspend fun markUserOnBoardingComplete() {
         userPreferences.setOnBoardingComplete(true)
     }
 
-    fun isOnBoardingComplete() = userPreferences.getOnBoardingComplete()
+    suspend fun isOnBoardingComplete() = userPreferences.getOnBoardingComplete()
 
-    fun saveDeviceId(deviceId: String) = userPreferences.setDeviceId(deviceId)
+    suspend fun saveDeviceId(deviceId: String) = userPreferences.setDeviceId(deviceId)
 
-    fun getDeviceId() = userPreferences.getDeviceId()
-
+    suspend fun getDeviceId() = userPreferences.getDeviceId()
 
     suspend fun sendFirebaseToken(token: String): Flow<String> =
         flow {
@@ -112,11 +112,11 @@ class UserRepository @Inject constructor(
             emit(userApi.message(MessageRequest("USER_ANDROID_FEEDBACK", message)))
         }.map { it.message }
 
-    fun getFirebaseToken(): String? = userPreferences.getFirebaseToken()
+    suspend fun getFirebaseToken(): String? = userPreferences.getFirebaseToken()
 
-    fun setFirebaseToken(token: String) = userPreferences.setFirebaseToken(token)
+    suspend fun setFirebaseToken(token: String) = userPreferences.setFirebaseToken(token)
 
-    fun getFirebaseTokenSent(): Boolean = userPreferences.getFirebaseTokenSent()
+    suspend fun getFirebaseTokenSent(): Boolean = userPreferences.getFirebaseTokenSent()
 
-    fun setFirebaseTokenSent() = userPreferences.setFirebaseTokenSent()
+    suspend fun setFirebaseTokenSent() = userPreferences.setFirebaseTokenSent()
 }

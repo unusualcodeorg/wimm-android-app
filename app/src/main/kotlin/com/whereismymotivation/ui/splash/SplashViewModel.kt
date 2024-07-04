@@ -1,5 +1,6 @@
 package com.whereismymotivation.ui.splash
 
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.whereismymotivation.data.repository.UserRepository
 import com.whereismymotivation.ui.base.BaseViewModel
@@ -8,6 +9,7 @@ import com.whereismymotivation.ui.common.snackbar.Messenger
 import com.whereismymotivation.ui.navigation.Destination
 import com.whereismymotivation.ui.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,15 +28,17 @@ class SplashViewModel @Inject constructor(
     init {
         // TODO: think of this for open source use case
         firebaseRemote.ensureInitialized().addOnCompleteListener {
-            val exists = userRepository.userExists()
-            if (exists) {
-                if (userRepository.isOnBoardingComplete()) {
-                    navigator.navigateTo(Destination.Home.route, true)
+            viewModelScope.launch {
+                val exists = userRepository.userExists()
+                if (exists) {
+                    if (userRepository.isOnBoardingComplete()) {
+                        navigator.navigateTo(Destination.Home.route, true)
+                    } else {
+                        navigator.navigateTo(Destination.Onboarding.route, true)
+                    }
                 } else {
-                    navigator.navigateTo(Destination.Onboarding.route, true)
+                    navigator.navigateTo(Destination.Login.route, true)
                 }
-            } else {
-                navigator.navigateTo(Destination.Login.route, true)
             }
         }
     }

@@ -9,6 +9,9 @@ import com.whereismymotivation.init.FirebaseInit
 import com.whereismymotivation.init.MetricInit
 import com.whereismymotivation.init.WorkInit
 import dagger.hilt.android.HiltAndroidApp
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltAndroidApp
@@ -42,12 +45,15 @@ class WimmApplication : Application(), Configuration.Provider {
             .setWorkerFactory(workerFactory)
             .build()
 
+    @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate() {
         super.onCreate()
         tracker.trackAppOpen()
-        metricInit.init()
-        workInit.init()
-        firebaseInit.init()
-        coilInit.init()
+        GlobalScope.launch {
+            metricInit.init()
+            workInit.init()
+            firebaseInit.init()
+            coilInit.init()
+        }
     }
 }

@@ -24,7 +24,7 @@ import javax.inject.Inject
 class JournalsViewModel @Inject constructor(
     loader: Loader,
     navigator: Navigator,
-    userRepository: UserRepository,
+    val userRepository: UserRepository,
     val messenger: Messenger,
     private val journalRepository: JournalRepository
 ) : BaseViewModel(loader, messenger, navigator) {
@@ -32,8 +32,6 @@ class JournalsViewModel @Inject constructor(
     companion object {
         const val TAG = "JournalsViewModel"
     }
-
-    private val user = userRepository.getCurrentUser()!!
 
     private val pageItemCount = 10
     private var loading = false
@@ -49,6 +47,7 @@ class JournalsViewModel @Inject constructor(
         if (loading) return
         loading = true
         viewModelScope.launch {
+            val user = userRepository.mustGetCurrentUser()
             journalRepository
                 .fetchJournals(user.id, pageNumber, pageItemCount)
                 .catch {
@@ -93,6 +92,7 @@ class JournalsViewModel @Inject constructor(
             return messenger.deliverRes(Message.error(R.string.record_can_not_empty))
 
         viewModelScope.launch {
+            val user = userRepository.mustGetCurrentUser()
             val now = CalendarUtils.now()
             val journal = Journal(0, String.Null(), text, user.id, now, now)
             journalRepository

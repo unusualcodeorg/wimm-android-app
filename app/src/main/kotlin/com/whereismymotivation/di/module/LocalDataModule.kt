@@ -1,17 +1,20 @@
 package com.whereismymotivation.di.module
 
 import android.content.Context
-import android.content.SharedPreferences
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room
 import com.whereismymotivation.data.local.db.DatabaseService
 import com.whereismymotivation.di.qualifier.DatabaseInfo
-import com.whereismymotivation.di.qualifier.PrefsInfo
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
+
+val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "wimm-prefs")
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -24,15 +27,9 @@ object LocalDataModule {
 
     @Provides
     @Singleton
-    @PrefsInfo
-    fun providePreferenceName(): String = "wimm-prefs"
-
-    @Provides
-    @Singleton
-    fun provideSharedPreferences(
+    fun provideDataStorePreferences(
         @ApplicationContext context: Context,
-        @PrefsInfo prefName: String
-    ): SharedPreferences = context.getSharedPreferences(prefName, Context.MODE_PRIVATE)
+    ): DataStore<Preferences> = context.dataStore
 
     @Provides
     @Singleton

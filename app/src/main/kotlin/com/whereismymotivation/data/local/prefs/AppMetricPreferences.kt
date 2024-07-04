@@ -1,48 +1,52 @@
 package com.whereismymotivation.data.local.prefs
 
-import android.content.SharedPreferences
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.longPreferencesKey
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AppMetricPreferences @Inject constructor(private val prefs: SharedPreferences) {
+class AppMetricPreferences @Inject constructor(private val dataStore: DataStore<Preferences>) {
 
     companion object {
-
-        private const val CURRENT_APP_VERSION = "PREF_KEY_CURRENT_APP_VERSION"
-
-        private const val DAILY_RECORD_ALARM_TIME_HOUR = "PREF_KEY_DAILY_RECORD_ALARM_TIME_HOUR"
-        private const val DAILY_RECORD_ALARM_TIME_MIN = "PREF_KEY_DAILY_RECORD_ALARM_TIME_MIN"
-        private const val DAILY_RECORD_ALARM_TIME_SEC = "PREF_KEY_DAILY_RECORD_ALARM_TIME_SEC"
-
-        private const val DAILY_MOOD_RECORDER_NOTIFICATION =
-            "PREF_KEY_DAILY_MOOD_RECORDER_NOTIFICATION"
-
+        private val CURRENT_APP_VERSION = longPreferencesKey("CURRENT_APP_VERSION")
+        private val DAILY_RECORD_ALARM_TIME_HOUR = intPreferencesKey("DAILY_RECORD_ALARM_TIME_HOUR")
+        private val DAILY_RECORD_ALARM_TIME_MIN = intPreferencesKey("DAILY_RECORD_ALARM_TIME_MIN")
+        private val DAILY_RECORD_ALARM_TIME_SEC = intPreferencesKey("DAILY_RECORD_ALARM_TIME_SEC")
+        private val DAILY_MOOD_RECORDER_NOTIFICATION =
+            booleanPreferencesKey("DAILY_MOOD_RECORDER_NOTIFICATION")
     }
 
-    fun setCurrentAppVersion(appVersion: Long) =
-        prefs.edit().putLong(CURRENT_APP_VERSION, appVersion).apply()
-
-    fun getCurrentAppVersion(): Long =
-        prefs.getLong(CURRENT_APP_VERSION, 0)
-
-    fun setDailyRecordAlarmTime(hour: Int, min: Int, sec: Int) {
-        prefs.edit().putInt(DAILY_RECORD_ALARM_TIME_HOUR, hour).apply()
-        prefs.edit().putInt(DAILY_RECORD_ALARM_TIME_MIN, min).apply()
-        prefs.edit().putInt(DAILY_RECORD_ALARM_TIME_SEC, sec).apply()
+    suspend fun setCurrentAppVersion(appVersion: Long) {
+        dataStore.edit { it[CURRENT_APP_VERSION] = appVersion }
     }
 
-    fun getDailyRecordAlarmTime(): Triple<Int, Int, Int> {
-        val hour = prefs.getInt(DAILY_RECORD_ALARM_TIME_HOUR, 20) // 8PM
-        val min = prefs.getInt(DAILY_RECORD_ALARM_TIME_MIN, 0)
-        val sec = prefs.getInt(DAILY_RECORD_ALARM_TIME_SEC, 0)
+    suspend fun getCurrentAppVersion() =
+        dataStore.data.map { it[CURRENT_APP_VERSION] ?: 0 }.first()
+
+    suspend fun setDailyRecordAlarmTime(hour: Int, min: Int, sec: Int) {
+        dataStore.edit { it[DAILY_RECORD_ALARM_TIME_HOUR] = hour }
+        dataStore.edit { it[DAILY_RECORD_ALARM_TIME_MIN] = min }
+        dataStore.edit { it[DAILY_RECORD_ALARM_TIME_SEC] = sec }
+    }
+
+    suspend fun getDailyRecordAlarmTime(): Triple<Int, Int, Int> {
+        val hour = dataStore.data.map { it[DAILY_RECORD_ALARM_TIME_HOUR] ?: 22 }.first() // 8PM
+        val min = dataStore.data.map { it[DAILY_RECORD_ALARM_TIME_MIN] ?: 34 }.first()
+        val sec = dataStore.data.map { it[DAILY_RECORD_ALARM_TIME_SEC] ?: 0 }.first()
         return Triple(hour, min, sec)
     }
 
-    fun setDailyMoodRecorderNotificationEnable(enable: Boolean) =
-        prefs.edit().putBoolean(DAILY_MOOD_RECORDER_NOTIFICATION, enable).apply()
+    suspend fun setDailyMoodRecorderNotificationEnable(enable: Boolean) {
+        dataStore.edit { it[DAILY_MOOD_RECORDER_NOTIFICATION] = enable }
+    }
 
-    fun getDailyMoodRecorderNotificationEnable() =
-        prefs.getBoolean(DAILY_MOOD_RECORDER_NOTIFICATION, true)
-
+    suspend fun getDailyMoodRecorderNotificationEnable() =
+        dataStore.data.map { it[DAILY_MOOD_RECORDER_NOTIFICATION] ?: true }.first()
 }

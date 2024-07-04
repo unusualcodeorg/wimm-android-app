@@ -24,6 +24,7 @@ room = "2.6.1"
 hiltKtx = "1.2.0"
 coil = "2.5.0"
 lottie = "6.3.0"
+datastore = "1.1.1"
 junit = "4.13.2"
 mockk = "1.13.9"
 coroutines-test = "1.7.3"
@@ -107,6 +108,9 @@ hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hiltKtx
 coil = { module = "io.coil-kt:coil", version.ref = "coil"}
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil"}
 lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottie"}
+
+# Data Store
+datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore"}
 
 # Unit Test
 junit = { module = "junit:junit", version.ref = "junit"}

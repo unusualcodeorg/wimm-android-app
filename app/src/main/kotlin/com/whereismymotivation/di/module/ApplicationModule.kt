@@ -14,7 +14,7 @@ import com.whereismymotivation.data.local.prefs.AppMetricPreferences
 import com.whereismymotivation.data.local.prefs.UserPreferences
 import com.whereismymotivation.di.qualifier.AppVersionCodeInfo
 import com.whereismymotivation.di.qualifier.DeviceIdInfo
-import com.whereismymotivation.utils.common.ResultFetcher
+import com.whereismymotivation.utils.common.ResultFetcherBlocking
 import com.whereismymotivation.utils.config.RemoteKey
 import com.whereismymotivation.utils.log.Logger
 import com.whereismymotivation.work.AppWorkManager
@@ -23,6 +23,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.runBlocking
 import javax.inject.Singleton
 
 @Module
@@ -34,8 +35,8 @@ object ApplicationModule {
     @DeviceIdInfo
     fun provideDeviceId(
         userPreferences: UserPreferences
-    ): ResultFetcher<String> = object : ResultFetcher<String> {
-        override fun fetch(): String? = userPreferences.getDeviceId()
+    ): ResultFetcherBlocking<String> = object : ResultFetcherBlocking<String> {
+        override fun fetch(): String? = runBlocking { userPreferences.getDeviceId() }
     }
 
     @Provides
@@ -43,8 +44,8 @@ object ApplicationModule {
     @AppVersionCodeInfo
     fun provideAppVersionCode(
         appMetricPreferences: AppMetricPreferences
-    ): ResultFetcher<Long> = object : ResultFetcher<Long> {
-        override fun fetch(): Long = appMetricPreferences.getCurrentAppVersion()
+    ): ResultFetcherBlocking<Long> = object : ResultFetcherBlocking<Long> {
+        override fun fetch(): Long = runBlocking { appMetricPreferences.getCurrentAppVersion() }
     }
 
     @Provides

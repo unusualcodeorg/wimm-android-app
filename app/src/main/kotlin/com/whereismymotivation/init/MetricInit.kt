@@ -12,7 +12,7 @@ class MetricInit @Inject constructor(
     @ApplicationContext private val context: Context,
     private var appMetricRepository: AppMetricRepository
 ) : Initializer {
-    override fun init() {
+    override suspend fun init() {
         appMetricRepository.setCurrentAppVersion(SystemUtils.getAppVersionCode(context))
     }
 }
