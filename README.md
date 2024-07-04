@@ -29,6 +29,7 @@ See More Screenshots here [SCREEN_SHOTS.md](docs/SCREEN_SHOTS.md)
 - OkHttp
 - Coil
 - Room
+- DataStore
 - Firebase
 - Work Manager
 - Crashlytics
