@@ -56,6 +56,9 @@ Using this app can bring a little bit of happiness and energy to live an inspire
 ## Architecture
 ![Architecture](docs/assets/arch-comp.svg)
 
+## UI Screens
+![UI-Screens](docs/assets/screen-flow.svg)
+
 ## Installation Instructions
 ```bash
 # clone the backend project wimm-node-app used for this App
