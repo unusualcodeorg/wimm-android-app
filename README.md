@@ -53,6 +53,10 @@ You can track your happiness level and write down daily journals. You can also s
 
 Using this app can bring a little bit of happiness and energy to live an inspired life.
 
+## Detailed Article on this project 
+Read this article to understand the project structure and concepts used:
+[Android MVVM Architecture for A Production Ready App](https://medium.com/@janishar.ali/android-mvvm-architecture-for-a-production-ready-app-2892b6dca02f)
+
 ## Architecture
 ![Architecture](docs/assets/arch-comp.svg)
 
