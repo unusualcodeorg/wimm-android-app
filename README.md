@@ -53,7 +53,10 @@ You can track your happiness level and write down daily journals. You can also s
 
 Using this app can bring a little bit of happiness and energy to live an inspired life.
 
-## Instructions
+## Architecture
+![Architecture](docs/assets/arch-comp.svg)
+
+## Installation Instructions
 ```bash
 # clone the backend project wimm-node-app used for this App
 git clone https://github.com/unusualcodeorg/wimm-node-app.git --recursive
